@@ -8,7 +8,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>Usuario</p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -77,11 +77,13 @@
                                          'items' => [
                                             ['label' => 'Institución educativa',
 											'icon' => 'circle-o',
-											'url' => '#',
+											'url' => '',
 											'items' => [
-												['label' => 'Sedes','icon' => 'circle-o','url' => '#',],
-												['label' => 'Aulas','icon' => 'circle-o','url' => '#',],
-												['label' => 'Jornadas','icon' => 'circle-o','url' => '#',],
+												['label' => 'Instituciones','icon' => 'circle-o','url' => ['instituciones/index'],],
+												['label' => 'Sedes','icon' => 'circle-o','url' => ['sedes/index'],],
+												['label' => 'Aulas','icon' => 'circle-o','url' => ['aulas/index'],],
+												['label' => 'Jornadas','icon' => 'circle-o','url' => ['jornadas/index'],],
+												['label' => 'Sedes - Jornadas','icon' => 'circle-o','url' => ['sedes-jornadas/index'],],
 												['label' => 'Grados','icon' => 'circle-o','url' => '#',],
 												['label' => 'Periodos','icon' => 'circle-o','url' => '#',],
 												['label' => 'Asignaturas','icon' => 'circle-o','url' => '#',],
@@ -106,17 +108,10 @@
                                             ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
                                         ],
                                     ],
-									
-									
-									
-									
-									
-									
                                 ],
                             ],
 							
-					
-					
+
                     ['label' => 'Personas', 'options' => ['class' => 'header']],
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
