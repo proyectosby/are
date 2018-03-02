@@ -239,8 +239,8 @@ use yii\helpers\Html;
                                  alt="User Image"/>
 
                             <p>
-                                Usuario - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                Usuario 
+                                <small></small>
                             </p>
                         </li>
                         <!-- Menu Body -->
