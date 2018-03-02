@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\URL;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -14,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', ['create', 'id_instituciones'=>$id_instituciones ], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'descripcion',
             'telefonos',
             'direccion',
-            'area',
+            // 'area',
             //'id_instituciones',
             //'latitud',
             //'longitud',
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_calendarios',
             //'id_estratos',
             //'id_barrios_veredas',
-            //'codigo_dane',
+            'codigo_dane',
             //'sede_principal',
             //'comuna',
             //'estado',

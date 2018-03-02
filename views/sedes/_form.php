@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_modalidades')->dropDownList( $modalidades, [ 'prompt' => 'Seleccione...' ] ) ?>
 
-    <?= $form->field($model, 'id_municipios')->textInput() ?>
+    <?= $form->field($model, 'id_municipios')->dropDownList( $municipios, [ 'prompt' => 'Seleccione...' ]) ?>
 
     <?= $form->field($model, 'id_generos_sedes' )->dropDownList( $generosSedes, [ 'prompt' => 'Seleccione...' ] ) ?>
 
@@ -44,7 +44,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'sede_principal')->textInput() ?>
+    <?= $form->field($model, 'sede_principal')->checkbox() ?>
 
     <?= $form->field($model, 'comuna')->textInput() ?>
 

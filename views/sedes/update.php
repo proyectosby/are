@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'tenencias'	 	 => $tenencias,
         'zonificaciones' => $zonificaciones,
         'estados' 		 => $estados,
+        'municipios'	 => $municipios,
     ]) ?>
 
 </div>
