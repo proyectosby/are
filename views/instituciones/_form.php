@@ -20,7 +20,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nit')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estado')->dropDownList( $estados ) ?> 
 
     <?= $form->field($model, 'caracter')->textInput(['maxlength' => true]) ?>
 
@@ -35,6 +34,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'pagina_web')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true]) ?>
+    
+	<?= $form->field($model, 'estado')->dropDownList( $estados ) ?> 
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
