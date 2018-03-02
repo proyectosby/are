@@ -18,6 +18,7 @@ use app\models\Instituciones;
 use app\models\Modalidades;
 use app\models\Tenencias;
 use app\models\Zonificaciones;
+use app\models\Municipios;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -39,19 +40,44 @@ class SedesController extends Controller
             ],
         ];
     }
+	
+	
+	 /**
+     * Lists all Sedes models.
+     * @return mixed
+     */
+    public function actionListarInstituciones()
+    {
+        return $this->render( "listarInstituciones" );
+    }
+	
 
     /**
      * Lists all Sedes models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id = 0 )
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Sedes::find(),
-        ]);
+		
+		$id_instituciones = 0;
+		
+		if( $_POST && $_POST[ 'Instituciones' ] && $_POST[ 'Instituciones' ]['id'] )
+			$id_instituciones = $_POST[ 'Instituciones' ]['id'];
+		
+		if( $id_instituciones > 0 ){
+			$dataProvider = new ActiveDataProvider([
+				'query' => Sedes::find()->where( 'id_instituciones='.$id_instituciones ),
+			]);			
+		}
+		else{
+			$dataProvider = new ActiveDataProvider([
+				'query' => Sedes::find(),
+			]);
+		}
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'dataProvider' 		=> $dataProvider,
+            'id_instituciones' 	=> $id_instituciones,
         ]);
     }
 
@@ -73,9 +99,8 @@ class SedesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id_instituciones = '' )
     {
-		
 		$barriosVeredasTable = new BarriosVeredas();
 		$dataBarriosVeredas	 = $barriosVeredasTable->find()->where('estado=1')->orderby('descripcion')->all();
 		$barriosVeredas		 = ArrayHelper::map( $dataBarriosVeredas, 'id', 'descripcion' );
@@ -93,7 +118,10 @@ class SedesController extends Controller
 		$generosSedes		 = ArrayHelper::map( $dataGenerosSede, 'id', 'descripcion' );
 		
 		$institucionesTable	 = new Instituciones();
-		$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->all();
+		if( !empty($id_instituciones) )
+			$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->andWhere( 'id='.$id_instituciones )->all();
+		else
+			$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->all();
 		$instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		
 		$modalidadesTable	 = new Modalidades();
@@ -112,6 +140,10 @@ class SedesController extends Controller
 		$dataEstados		 = $estadosTable->find()->orderby('descripcion')->where( 'id=1' )->all();
 		$estados	 	 	 = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
+		$municipiosTable	 = new Municipios();
+		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos=24' )->all();
+		$municipios	 	 	 = ArrayHelper::map( $dataMunicipios, 'id', 'descripcion' );
+		
 		$model = new Sedes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -129,6 +161,7 @@ class SedesController extends Controller
             'tenencias'	 	 => $tenencias,
             'zonificaciones' => $zonificaciones,
             'estados' 		 => $estados,
+            'municipios'	 => $municipios,
         ]);
     }
 
