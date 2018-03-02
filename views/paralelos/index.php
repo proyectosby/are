@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Agregar Paralelos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
