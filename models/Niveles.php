@@ -35,6 +35,7 @@ class Niveles extends \yii\db\ActiveRecord
             [['id_niveles_academicos'], 'integer'],
             [['descripcion'], 'string', 'max' => 60],
             [['id_niveles_academicos'], 'exist', 'skipOnError' => true, 'targetClass' => NivelesAcademicos::className(), 'targetAttribute' => ['id_niveles_academicos' => 'id']],
+			[['descripcion'], 'integer', 'max' => 60],
         ];
     }
 
@@ -47,6 +48,7 @@ class Niveles extends \yii\db\ActiveRecord
             'id' => 'ID',
             'descripcion' => 'Descripción',
             'id_niveles_academicos' => 'Niveles Académicos',
+			'estado'=>'estado'
         ];
     }
 

@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $NivelesAcademicos ? $NivelesAcademicos->descripcion : '';
 				}
 			],
+			'estado',
             
 
             ['class' => 'yii\grid\ActionColumn'],
