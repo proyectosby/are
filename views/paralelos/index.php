@@ -4,9 +4,11 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 use app\models\SedesJornadas;
+use app\models\SedesNiveles;
 use yii\helpers\ArrayHelper;
 use app\models\Sedes;
 use app\models\Jornadas;
+use app\models\Niveles;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Paralelos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar Paralelos', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -52,8 +54,36 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				
 			],
+            [
+			
+				'attribute'=>'id_sedes_niveles',
+				'value' => function( $model ){
+					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
+					//sedes
+					
+					$idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
+					$idSede =(int) $idSede;
+					$sedes = Sedes::findOne($model->id=$idSede);
+					$sedes= $sedes ? $sedes->descripcion : '';
+					//sedes	
+						
+						
+						
+					$sedesNiveles = SedesNiveles::findOne($model->id_sedes_niveles);
+					
+					//Jornadas
+					$idNiveles = $sedesNiveles ? $sedesNiveles->id_niveles : '';
+					$idNiveles = (int)$idNiveles;
+					$niveles = Niveles::findOne($model->id= $idNiveles);
+					$niveles= $niveles ? $niveles->descripcion : '';
+					//Jornadas
+					
+					
+					return  $sedes." - ".$niveles;	
+				},
+				
+			],
             
-            'id_sedes_niveles',
             'ano_lectivo',
             //'fecha_ingreso',
             //'estado',
