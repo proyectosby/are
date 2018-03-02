@@ -84,6 +84,7 @@ class Sedes extends \yii\db\ActiveRecord
             [['id_tenencias'], 'required'],
             [['id_zonificaciones'], 'required'],
             [['estado'], 'required'],
+            [['id_municipios'], 'required'],
         ];
     }
 
