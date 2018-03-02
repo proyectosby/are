@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Paralelos */
+/* @var $model app\models\Periodos */
 
-$this->title ="Detalle";
-$this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
+$this->title = "";
+$this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="paralelos-view">
+<div class="periodos-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,10 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'descripcion',
-            'id_sedes_jornadas',
-            'id_sedes_niveles',
-            'ano_lectivo',
-            'fecha_ingreso',
             'estado',
         ],
     ]) ?>

@@ -95,10 +95,10 @@ class Sedes extends \yii\db\ActiveRecord
     {
         return [
             'id' 				=> 'ID',
-            'descripcion' 		=> 'Descripcion',
-            'telefonos' 		=> 'Telefonos',
-            'direccion' 		=> 'Direccion',
-            'area' 				=> 'Area',
+            'descripcion' 		=> 'Descripción',
+            'telefonos' 		=> 'Teléfonos',
+            'direccion' 		=> 'Dirección',
+            'area' 				=> 'Área',
             'id_instituciones' 	=> 'Instituciones',
             'latitud' 			=> 'Latitud',
             'longitud' 			=> 'Longitud',
@@ -106,15 +106,16 @@ class Sedes extends \yii\db\ActiveRecord
             'id_tenencias' 		=> 'Tenencias',
             'id_modalidades' 	=> 'Modalidades',
             'id_municipios' 	=> 'Municipios',
-            'id_generos_sedes' 	=> 'Generos Sedes',
+            'id_generos_sedes' 	=> 'Géneros Sedes',
             'id_calendarios' 	=> 'Calendarios',
             'id_estratos' 		=> 'Estratos',
             'id_barrios_veredas'=> 'Barrios y/o Veredas',
-            'codigo_dane' 		=> 'Codigo Dane',
+            'codigo_dane' 		=> 'Código Dane',
             'sede_principal' 	=> 'Sede Principal',
             'comuna' 			=> 'Comuna',
             'estado' 			=> 'Estado',
         ];
+
     }
 
     /**

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Paralelos */
+/* @var $model app\models\Niveles */
 
 $this->title = 'Agregar';
-$this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Niveles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="paralelos-create">
+<div class="niveles-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

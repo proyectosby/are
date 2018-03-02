@@ -45,8 +45,8 @@ class Niveles extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion' => 'Descripcion',
-            'id_niveles_academicos' => 'Id Niveles Academicos',
+            'descripcion' => 'Descripción',
+            'id_niveles_academicos' => 'Niveles Académicos',
         ];
     }
 

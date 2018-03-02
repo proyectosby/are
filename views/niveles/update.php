@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Paralelos */
+/* @var $model app\models\Niveles */
 
-$this->title = 'Modificar: {nameAttribute}';
-$this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
+$this->title = 'Actualizar: ';
+$this->params['breadcrumbs'][] = ['label' => 'Niveles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="paralelos-update">
+<div class="niveles-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

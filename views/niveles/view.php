@@ -2,15 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\NivelesAcademicos;
 /* @var $this yii\web\View */
-/* @var $model app\models\Paralelos */
+/* @var $model app\models\Niveles */
 
-$this->title ="Detalle";
-$this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
+$this->title = "";
+$this->params['breadcrumbs'][] = ['label' => 'Niveles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="paralelos-view">
+<div class="niveles-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,11 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'descripcion',
-            'id_sedes_jornadas',
-            'id_sedes_niveles',
-            'ano_lectivo',
-            'fecha_ingreso',
-            'estado',
+			
+			[
+				'attribute'=>'id_niveles_academicos',
+				'value' => function( $model )
+				{
+					$NivelesAcademicos = NivelesAcademicos::findOne($model->id_niveles_academicos);
+					return $NivelesAcademicos ? $NivelesAcademicos->descripcion : '';
+				}
+			],
         ],
     ]) ?>
 
