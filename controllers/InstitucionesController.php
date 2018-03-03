@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 03-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de instituciones
+---------------------------------------
+Modificaciones:
+Fecha: 03-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: No se muestran las instituciones inactivas
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -43,7 +56,7 @@ class InstitucionesController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Instituciones::find(),
+            'query' => Instituciones::find()->where( 'estado=1' ),
         ]);
 
         return $this->render('index', [
