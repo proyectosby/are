@@ -3,48 +3,56 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-use app\models\Sedes;
-use app\models\TiposAulas;
+
+use app\models\Estados;
+use app\models\Sectores;
+use app\models\TiposInstituciones;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Aulas';
+$this->title = 'Instituciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="aulas-index">
+<div class="instituciones-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Aulas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'descripcion',
-            'capacidad',
-           [
-				'attribute' => 'id_sedes',
+            [
+				'attribute' => 'id_tipos_instituciones',
 				'value' => function( $model ){
-					$sedes = Sedes::findOne($model->id_sedes);
-					return $sedes ? $sedes->descripcion : '';
+					$tiposInstituciones = TiposInstituciones::findOne($model->id_tipos_instituciones);
+					return $tiposInstituciones ? $tiposInstituciones->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(TiposInstituciones::find()->all(), 'id', 'descripcion' ),
 			],
-			[
-				'attribute' => 'id_tipos_aulas',
+            [
+				'attribute' => 'id_sectores',
 				'value' => function( $model ){
-					$tiposAulas = TiposAulas::findOne($model->id_tipos_aulas);
-					return $tiposAulas ? $tiposAulas->descripcion : '';
+					$sectores = Sectores::findOne($model->id_sectores);
+					return $sectores ? $sectores->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sectores::find()->all(), 'id', 'descripcion' ),
 			],
+            'nit',
+            //'estado',
+            //'caracter',
+            //'especialidad',
+            //'rector',
+            //'contacto_rector',
+            //'correo_electronico_institucional',
+            //'pagina_web',
+            //'codigo_dane',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
