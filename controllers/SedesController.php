@@ -1,5 +1,20 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se muestra un select con las instituciones, y una vez seleccionada se muestra las
+					sedes correspondientes a la institución seleccionada
+---------------------------------------
+**********/
+
+
 namespace app\controllers;
 
 use Yii;
@@ -56,29 +71,27 @@ class SedesController extends Controller
      * Lists all Sedes models.
      * @return mixed
      */
-    public function actionIndex($id = 0 )
+    public function actionIndex($idInstitucion = 0 )
     {
 		
-		$id_instituciones = 0;
+		$querySedes = Sedes::find();
 		
-		if( $_POST && $_POST[ 'Instituciones' ] && $_POST[ 'Instituciones' ]['id'] )
-			$id_instituciones = $_POST[ 'Instituciones' ]['id'];
-		
-		if( $id_instituciones > 0 ){
+		if( $idInstitucion > 0 )
+		{
+			$querySedes = $querySedes->where( 'id_instituciones='.$idInstitucion )->andWhere('estado=1');
+			
 			$dataProvider = new ActiveDataProvider([
-				'query' => Sedes::find()->where( 'id_instituciones='.$id_instituciones ),
-			]);			
-		}
-		else{
-			$dataProvider = new ActiveDataProvider([
-				'query' => Sedes::find(),
+				'query' => $querySedes,
+			]);
+			
+			return $this->render('index', [
+				'dataProvider' 		=> $dataProvider,
+				'idInstitucion' 	=> $idInstitucion,
 			]);
 		}
-
-        return $this->render('index', [
-            'dataProvider' 		=> $dataProvider,
-            'id_instituciones' 	=> $id_instituciones,
-        ]);
+		else{
+			return $this->render( "listarInstituciones" );
+		}
     }
 
     /**
@@ -99,7 +112,7 @@ class SedesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id_instituciones = '' )
+    public function actionCreate($idInstitucion = '' )
     {
 		$barriosVeredasTable = new BarriosVeredas();
 		$dataBarriosVeredas	 = $barriosVeredasTable->find()->where('estado=1')->orderby('descripcion')->all();
@@ -118,8 +131,8 @@ class SedesController extends Controller
 		$generosSedes		 = ArrayHelper::map( $dataGenerosSede, 'id', 'descripcion' );
 		
 		$institucionesTable	 = new Instituciones();
-		if( !empty($id_instituciones) )
-			$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->andWhere( 'id='.$id_instituciones )->all();
+		if( !empty($idInstitucion) )
+			$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->andWhere( 'id='.$idInstitucion )->all();
 		else
 			$dataInstituciones	 = $institucionesTable->find()->orderby('descripcion')->where('estado=1')->all();
 		$instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
@@ -162,6 +175,7 @@ class SedesController extends Controller
             'zonificaciones' => $zonificaciones,
             'estados' 		 => $estados,
             'municipios'	 => $municipios,
+            'idInstitucion'	 => $idInstitucion,
         ]);
     }
 
@@ -211,6 +225,10 @@ class SedesController extends Controller
 		$dataEstados		 = $estadosTable->find()->orderby('descripcion')->all();
 		$estados	 	 	 = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
+		$municipiosTable	 = new Municipios();
+		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos=24' )->all();
+		$municipios	 	 	 = ArrayHelper::map( $dataMunicipios, 'id', 'descripcion' );
+		
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -228,6 +246,8 @@ class SedesController extends Controller
             'tenencias'	 	 => $tenencias,
             'zonificaciones' => $zonificaciones,
             'estados' 		 => $estados,
+            'municipios' 	 => $municipios,
+            'idInstitucion'	 => $model->id_instituciones,
         ]);
     }
 
@@ -240,12 +260,14 @@ class SedesController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->findModel($id)->delete();
+		$idInstitucion = 0;
+		
 		$model = Sedes::findOne($id);
 		$model->estado = 2;
+		$idInstitucion = $model->id_instituciones;
 		$model->update(false);
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'idInstitucion' => $idInstitucion ]);
     }
 
     /**
