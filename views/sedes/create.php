@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se envía la vista _form el id de la institución seleccionada desde la lista de sedes 
+					y a la url del breadcrumbs también
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 
 
@@ -7,7 +21,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Sedes */
 
 $this->title = 'Agregar Sede';
-$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index', 'idInstitucion' =>$idInstitucion ] ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sedes-create">
@@ -26,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'zonificaciones' => $zonificaciones,
         'estados' 		 => $estados,
         'municipios'	 => $municipios,
+        'idInstitucion'	 => $idInstitucion,
     ]) ?>
 
 </div>

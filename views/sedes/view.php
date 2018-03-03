@@ -1,4 +1,17 @@
 <?php
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se modifican los botones para que queden con el nombre Modificar y Eliminar. Adicionalmente se agrega el id de la instución 
+					a la url del breadcrumbs
+---------------------------------------
+**********/
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -13,13 +26,14 @@ use app\models\Instituciones;
 use app\models\Modalidades;
 use app\models\Tenencias;
 use app\models\Zonificaciones;
+use app\models\Municipios;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Sedes */
 
 $this->title = $model->id." - ".$model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index','idInstitucion'=>$model->id_instituciones]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sedes-view">
@@ -27,8 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Inactivar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Estas seguro que quieres eliminar la sede '.$model->descripcion.'?',
@@ -79,7 +93,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				'filter' => ArrayHelper::map(Modalidades::find()->all(), 'id', 'descripcion' ),
 			],
-            'id_municipios',
+			[
+				'attribute' => 'id_municipios',
+				'value' => function( $model ){
+					$municipios = Municipios::findOne($model->id_municipios);
+					return $municipios ? $municipios->descripcion: '';
+				},
+				'filter' => ArrayHelper::map(GenerosSedes::find()->all(), 'id', 'descripcion' ),
+			],
 			[
 				'attribute' => 'id_generos_sedes',
 				'value' => function( $model ){

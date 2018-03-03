@@ -1,4 +1,16 @@
 <?php
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Lista las instituciones activas y despues de seleccionar la institucion redirecciona la la lista de sedes de dicha institucion
+---------------------------------------
+**********/
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -26,10 +38,10 @@ $instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 	
 	<?php $form = ActiveForm::begin([
 		'action' => 'index.php?r=sedes/index', 
-		'method' => 'post',
+		'method' => 'get',
 	]); ?>
 	
-	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'id_instituciones' ] ) ?>
+	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'idInstitucion', 'name'=>'idInstitucion' ] ) ?>
 	
 	 <div class="form-group">
 		<?= Html::submitButton('Ver Sedes', ['class' => 'btn btn-success']) ?>

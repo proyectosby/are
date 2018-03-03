@@ -1,4 +1,17 @@
 <?php
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se envía a la vista _form los municipios y el id de la institución seleccionada desde la lista de sedes 
+					y a la url del breadcrumbs también
+---------------------------------------
+**********/
 
 use yii\helpers\Html;
 
@@ -6,7 +19,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Sedes */
 
 $this->title = 'Actualizar Sede:';
-$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sedes', 'url' => ['index', 'idInstitucion' => $idInstitucion] ];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -26,6 +39,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'zonificaciones' => $zonificaciones,
         'estados' 		 => $estados,
         'municipios'	 => $municipios,
+        'idInstitucion'	 => $idInstitucion,
     ]) ?>
 
 </div>

@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja seleccionado por defecto la institución seleccionada que viene de la lista de sedes
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -20,7 +33,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'area')->textInput() ?>
 
-    <?= $form->field($model, 'id_instituciones' )->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...' ] ) ?>
+    <?= $form->field($model, 'id_instituciones' )->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'value' => $idInstitucion ] ) ?>
 
     <?= $form->field($model, 'latitud')->textInput() ?>
 
