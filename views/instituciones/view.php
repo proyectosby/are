@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 03-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de Instituciones
+---------------------------------------
+Modificaciones:
+Fecha: 03-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se cambia el boton Inactivar por Eliminar
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -21,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Inactivar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Está seguro que quiere eliminar la institución '.$model->descripcion.'?',
