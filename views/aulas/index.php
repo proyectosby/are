@@ -1,21 +1,32 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 02-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de aulas
+---------------------------------------
+Modificaciones:
+Fecha: 03-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se cambia boton Create aulas por Agregar
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-
-use app\models\Estados;
-use app\models\Sectores;
-use app\models\TiposInstituciones;
+use app\models\Sedes;
+use app\models\TiposAulas;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Instituciones';
+$this->title = 'Aulas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instituciones-index">
+<div class="aulas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -27,32 +38,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
             'descripcion',
-            [
-				'attribute' => 'id_tipos_instituciones',
+            'capacidad',
+           [
+				'attribute' => 'id_sedes',
 				'value' => function( $model ){
-					$tiposInstituciones = TiposInstituciones::findOne($model->id_tipos_instituciones);
-					return $tiposInstituciones ? $tiposInstituciones->descripcion : '';
+					$sedes = Sedes::findOne($model->id_sedes);
+					return $sedes ? $sedes->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(TiposInstituciones::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
 			],
-            [
-				'attribute' => 'id_sectores',
+			[
+				'attribute' => 'id_tipos_aulas',
 				'value' => function( $model ){
-					$sectores = Sectores::findOne($model->id_sectores);
-					return $sectores ? $sectores->descripcion : '';
+					$tiposAulas = TiposAulas::findOne($model->id_tipos_aulas);
+					return $tiposAulas ? $tiposAulas->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sectores::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
 			],
-            'nit',
-            //'estado',
-            //'caracter',
-            //'especialidad',
-            //'rector',
-            //'contacto_rector',
-            //'correo_electronico_institucional',
-            //'pagina_web',
-            //'codigo_dane',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
