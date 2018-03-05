@@ -11,7 +11,18 @@ use yii\filters\VerbFilter;
 
 /**
  * NivelesController implements the CRUD actions for Niveles model.
+ 
+Modificaciones:
+Fecha: 09-02-2018
+Persona encargada: Oscar David Lopez 
+Cambios realizados: modificacion funcion actionDelete
+ 
+ 
  */
+ 
+
+ 
+ 
 class NivelesController extends Controller
 {
     /**
@@ -104,8 +115,15 @@ class NivelesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        
+		//$this->findModel($id)->delete();
 
+		// se cambia el borrar por inactivar modificando el campo esta en la tabla niveles
+        $model = Niveles::findOne($id);
+		$model->estado = 2;
+		$model->update(false);
+
+       
         return $this->redirect(['index']);
     }
 
