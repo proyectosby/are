@@ -4,21 +4,20 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Instituciones */
+/* @var $model app\models\Aulas */
 
-$this->title = 'Agregar Institución';
-$this->params['breadcrumbs'][] = ['label' => 'Instituciones', 'url' => ['index']];
+$this->title = 'Agregar Aula';
+$this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instituciones-create">
+<div class="aulas-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-			'model'				=> $model,
-			'estados' 			=> $estados,
-			'sectores' 			=> $sectores,
-			'tipoInstituciones' => $tipoInstituciones,
+        'model' 	 => $model,
+		'sedes' 	 => $sedes,
+		'tiposAulas' => $tiposAulas,
     ]) ?>
 
 </div>

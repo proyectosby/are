@@ -1,34 +1,32 @@
 <?php
-
 /**********
 Versión: 001
 Fecha: 03-03-2018
 Desarrollador: Edwin Molina Grisales
-Descripción: CRUD de Instituciones
+Descripción: CRUD de aulas
 ---------------------------------------
 Modificaciones:
 Fecha: 03-03-2018
 Persona encargada: Edwin Molina Grisales
-Cambios realizados: Se cambia el boton Inactivar por Eliminar
+Cambios realizados: Se cambia botones Update y Delete por Actualizar y Eliminar respectivamente
 ---------------------------------------
 **********/
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-use app\models\Estados;
-use app\models\Sectores;
-use app\models\TiposInstituciones;
+use app\models\Sedes;
+use app\models\TiposAulas;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Instituciones */
+/* @var $model app\models\Aulas */
 
-$this->title = $model->id." - ".$model->descripcion ;
-$this->params['breadcrumbs'][] = ['label' => 'Instituciones', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instituciones-view">
+<div class="aulas-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -37,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Está seguro que quiere eliminar la institución '.$model->descripcion.'?',
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -48,38 +46,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'descripcion',
+            'capacidad',
 			[
-				'attribute' => 'id_tipos_instituciones',
+				'attribute' => 'id_sedes',
 				'value' => function( $model ){
-					$tiposInstituciones = TiposInstituciones::findOne($model->id_tipos_instituciones);
-					return $tiposInstituciones ? $tiposInstituciones->descripcion : '';
+					$sedes = Sedes::findOne($model->id_sedes);
+					return $sedes ? $sedes->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(TiposInstituciones::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
 			],
 			[
-				'attribute' => 'id_sectores',
+				'attribute' => 'id_tipos_aulas',
 				'value' => function( $model ){
-					$sectores = Sectores::findOne($model->id_sectores);
-					return $sectores ? $sectores->descripcion : '';
+					$tiposAulas = TiposAulas::findOne($model->id_tipos_aulas);
+					return $tiposAulas ? $tiposAulas->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sectores::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
 			],
-            'nit',
-            [
-				'attribute' => 'estado',
-				'value' => function( $model ){
-					$estados = Estados::findOne($model->estado);
-					return $estados ? $estados->descripcion : '';
-				},
-				'filter' => ArrayHelper::map(Estados::find()->all(), 'id', 'descripcion' ),
-			],
-            'caracter',
-            'especialidad',
-            'rector',
-            'contacto_rector',
-            'correo_electronico_institucional',
-            'pagina_web',
-            'codigo_dane',
         ],
     ]) ?>
 
