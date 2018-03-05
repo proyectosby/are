@@ -2,27 +2,36 @@
 
 namespace app\controllers;
 
+
 use Yii;
-use app\models\Niveles;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+
+
+use app\models\Niveles;
+use app\models\Estados;
 
 /**
  * NivelesController implements the CRUD actions for Niveles model.
- 
-Modificaciones:
-Fecha: 09-02-2018
-Persona encargada: Oscar David Lopez 
-Cambios realizados: modificacion funcion actionDelete
- 
- 
  */
  
-
  
- 
+/**********
+Versión: 001
+Fecha: 05-03-2018
+Desarrollador: Oscar David Lopez Villa
+Descripción: CRUD de Niveles
+---------------------------------------
+Modificaciones:
+Fecha: 05-03-2018
+Persona encargada: Oscar David Lopez Villa
+Cambios realizados: Se muestran los niveles con estado activo - Funcion actionIndex()
+Cambios realizados: 
+------------
+**********/
 class NivelesController extends Controller
 {
     /**
@@ -44,10 +53,10 @@ class NivelesController extends Controller
      * Lists all Niveles models.
      * @return mixed
      */
-    public function actionIndex()
+     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Niveles::find(),
+            'query' => Niveles::find()->where('estado=1'),
         ]);
 
         return $this->render('index', [
@@ -75,6 +84,11 @@ class NivelesController extends Controller
      */
     public function actionCreate()
     {
+		
+		$estados = new Estados();
+		$estados = $estados->find()->where( 'id=1' )->all();
+		$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
+		
         $model = new Niveles();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -83,6 +97,7 @@ class NivelesController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'estado'=>$estados,
         ]);
     }
 
