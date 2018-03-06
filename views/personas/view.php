@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Esta seguro que desea eliminar este elemento?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,10 +28,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'tipoDocumento',
-            'nombre',
-            'Dir',
             'id',
+            'usuario',
+            'psw',
+            'identificacion',
+            'nombres',
+            'apellidos',
+            'telefonos',
+            'fecha_nacimiento',
+            'fecha_registro',
+            'correo',
+            'domicilio',
+            'fecha_ultimo_ingreso',
+            'envio_correo:boolean',
+            'id_municipios',
+            'id_tipos_identificaciones',
+            'latitud',
+            'longitud',
+            'id_estados_civiles',
+            'id_generos',
+            'hobbies',
+            'id_barrios_veredas',
+            'estado',
         ],
     ]) ?>
 

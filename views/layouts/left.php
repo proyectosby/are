@@ -103,7 +103,7 @@
                                         'icon' => 'circle-o',
                                         'url' => '#',
                                         'items' => [
-                                            ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#',],
+                                            ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#'],
                                             ['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => '#',],
                                             ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
                                         ],
@@ -112,7 +112,19 @@
                             ],
 							
 
-                    ['label' => 'Personas', 'options' => ['class' => 'header']],
+                   [
+						'label' => 'Personas',
+						'icon' => 'circle-o',
+						'url' => '#',
+						'items' => [
+							['label' => 'Personas', 'icon' => 'circle-o', 'url' => ['personas/index'],],
+							['label' => 'Docentes', 'icon' => 'circle-o', 'url' => '#',],
+							['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => '#',],
+						],
+					],
+					
+					
+					
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],

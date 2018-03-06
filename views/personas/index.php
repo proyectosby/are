@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Personas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -22,10 +22,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tipoDocumento',
-            'nombre',
-            'Dir',
-            'id',
+            // 'id',
+            // 'usuario',
+            // 'psw',
+            'identificacion',
+            'nombres',
+            'apellidos',
+            //'telefonos',
+            //'fecha_nacimiento',
+            //'fecha_registro',
+            'correo',
+            //'domicilio',
+            //'fecha_ultimo_ingreso',
+            //'envio_correo:boolean',
+            //'id_municipios',
+            //'id_tipos_identificaciones',
+            //'latitud',
+            //'longitud',
+            //'id_estados_civiles',
+            'id_generos',
+            //'hobbies',
+            //'id_barrios_veredas',
+            //'estado',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
