@@ -10,7 +10,6 @@ use app\models\Estados;
 $this->title = "";
 $this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-Yii::$app->response->redirect(Yii::$app->urlManager->createAbsoluteUrl(['periodos']));
 ?>
 <div class="periodos-view">
 
