@@ -6,6 +6,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 05-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se borra ID que aparecía sobre el select de instituciones
+---------------------------------------
 Fecha: 02-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Lista las instituciones activas y despues de seleccionar la institucion redirecciona la la lista de sedes de dicha institucion
@@ -41,7 +45,7 @@ $instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		'method' => 'get',
 	]); ?>
 	
-	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'idInstitucion', 'name'=>'idInstitucion' ] ) ?>
+	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'idInstitucion', 'name'=>'idInstitucion' ] )->label('') ?> <!-- Cambio la palabra ID por '' para que no se vea --!>
 	
 	 <div class="form-group">
 		<?= Html::submitButton('Ver Sedes', ['class' => 'btn btn-success']) ?>
