@@ -33,6 +33,7 @@ class Periodos extends \yii\db\ActiveRecord
             [['estado'], 'default', 'value' => null],
             [['estado'], 'integer'],
             [['descripcion'], 'string', 'max' => 60],
+			[['descripcion'], 'required' ],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
         ];
     }
