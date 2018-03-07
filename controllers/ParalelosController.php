@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 use app\models\Jornadas;
 use app\models\Niveles;
@@ -69,6 +70,15 @@ class ParalelosController extends Controller
      */
     public function actionCreate()
     {
+		$niveles 		 	= new Niveles();
+		$niveles		 	= $niveles->find()->all();
+		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
+		
+		$jornadas 		 	= new Jornadas();
+		$jornadas		 	= $jornadas->find()->all();
+		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+		
+		
         $model = new Paralelos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -77,6 +87,8 @@ class ParalelosController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'jornadas'=> $jornadas,
+			'niveles'=>$niveles,
         ]);
     }
 
@@ -89,6 +101,16 @@ class ParalelosController extends Controller
      */
     public function actionUpdate($id)
     {
+		
+		$niveles 		 	= new Niveles();
+		$niveles		 	= $niveles->find()->all();
+		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
+		
+		$jornadas 		 	= new Jornadas();
+		$jornadas		 	= $jornadas->find()->all();
+		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+		
+		
 		
 		$query = (new \yii\db\Query())
 		->select('id_sedes_jornadas,id_sedes_niveles')
@@ -117,6 +139,8 @@ class ParalelosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'jornadas'=> $jornadas,
+			'niveles'=>$jornadas,
         ]);
     }
 

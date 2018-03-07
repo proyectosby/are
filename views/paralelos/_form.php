@@ -14,26 +14,14 @@ use app\models\SedesJornadas;
 ?>
 
 <div class="paralelos-form">
-<?php
-
-
-$jornadasTable	 = new Jornadas();
-$dataJornadas	 = $jornadasTable->find()->orderby('descripcion')->all();
-$jornadas		 = ArrayHelper::map( $dataJornadas, 'id', 'descripcion' );
-
-
-$nivelesTable	 = new Niveles();
-$dataNiveles	 = $nivelesTable->find()->orderby('descripcion')->all();
-$niveles		 = ArrayHelper::map( $dataNiveles, 'id', 'descripcion' );
-
-
-?>
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_sedes_jornadas')->dropDownList($jornadas, [ 'prompt' => 'Seleccione...']) ?>
+    <?= $form->field($model, 'id_sedes_jornadas')->textInput(['maxlength' => true]) ?>
+    
+	<!-- <?= $form->field($model, 'id_sedes_jornadas')->dropDownList($jornadas, [ 'prompt' => 'Seleccione...']) ?> -->
 
     <?= $form->field($model, 'id_sedes_niveles')->dropDownList($niveles, [ 'prompt' => 'Seleccione...']) ?>
 
