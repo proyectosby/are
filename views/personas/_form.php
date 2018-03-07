@@ -101,9 +101,9 @@ use dosamigos\datepicker\DatePicker;
 	
 
 	
-    <!--<?= $form->field($model, 'fecha_ultimo_ingreso')->textInput() ?>
+    <?= $form->field($model, 'fecha_ultimo_ingreso')->textInput() ?>
 
-    <?= $form->field($model, 'fecha_registro')->textInput() ?>-->
+    <?= $form->field($model, 'fecha_registro')->textInput() ?>
 
    
 

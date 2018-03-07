@@ -99,7 +99,7 @@ class PersonasController extends Controller
 		//se crea una instancia del modelo estados
 		$estadosTable 		 	= new Estados();
 		//se traen los datos de estados
-		$dataestados		 	= $estadosTable->find()->all();
+		$dataestados		 	= $estadosTable->find()->where( 'id=1' )->all();
 		//se guardan los datos en un array
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
