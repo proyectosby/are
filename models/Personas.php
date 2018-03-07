@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (05-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Modelo de personas, permite hacer el crud
+---------------------------------------
+*/
 
 namespace app\models;
 
@@ -92,24 +99,24 @@ class Personas extends \yii\db\ActiveRecord
             'id' => 'ID',
             'usuario' => 'Usuario',
             'psw' => 'Psw',
-            'identificacion' => 'Identificacion',
+            'identificacion' => 'Identificación',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
-            'telefonos' => 'Telefonos',
+            'telefonos' => 'Teléfonos',
             'fecha_nacimiento' => 'Fecha Nacimiento',
             'fecha_registro' => 'Fecha Registro',
             'correo' => 'Correo',
             'domicilio' => 'Domicilio',
             'fecha_ultimo_ingreso' => 'Fecha Ultimo Ingreso',
             'envio_correo' => 'Envio Correo',
-            'id_municipios' => 'Id Municipios',
-            'id_tipos_identificaciones' => 'Id Tipos Identificaciones',
+            'id_municipios' => 'Municipio',
+            'id_tipos_identificaciones' => 'Tipo Identificación',
             'latitud' => 'Latitud',
             'longitud' => 'Longitud',
-            'id_estados_civiles' => 'Id Estados Civiles',
-            'id_generos' => 'Id Generos',
+            'id_estados_civiles' => 'Estado Civil',
+            'id_generos' => 'Género',
             'hobbies' => 'Hobbies',
-            'id_barrios_veredas' => 'Id Barrios Veredas',
+            'id_barrios_veredas' => 'Barrio - Vereda',
             'estado' => 'Estado',
         ];
     }

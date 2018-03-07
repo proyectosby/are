@@ -9,6 +9,15 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
+use app\models\TiposIdentificaciones;
+use app\models\EstadosCiviles;
+use app\models\Generos;
+use app\models\Estados;
+use app\models\Municipios;
+use app\models\BarriosVeredas;
+use yii\helpers\ArrayHelper;
+
 /**
  * PersonasController implements the CRUD actions for Personas model.
  */
@@ -64,7 +73,51 @@ class PersonasController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Personas();
+        //se crea una instancia del modelo tipoIdentificaciones
+		$identificacionesTable 		 	= new TiposIdentificaciones();
+		//se traen los datos de identificaciones
+		$dataIdentificaciones		 	= $identificacionesTable->find()->all();
+		//se guardan los datos en un array
+		$identificaciones	 	 	 	= ArrayHelper::map( $dataIdentificaciones, 'id', 'descripcion' );
+		
+		
+		//se crea una instancia del modelo estados civiles
+		$estadosCivilesTable 		 	= new EstadosCiviles();
+		//se traen los datos de identificaciones
+		$dataestadosCiviles		 	= $estadosCivilesTable->find()->all();
+		//se guardan los datos en un array
+		$estadosCiviles	 	 	 	= ArrayHelper::map( $dataestadosCiviles, 'id', 'descripcion' );
+		
+		
+		//se crea una instancia del modelo generos
+		$generosTable 		 	= new Generos();
+		//se traen los datos de generos
+		$datageneros		 	= $generosTable->find()->all();
+		//se guardan los datos en un array
+		$generos	 	 	 	= ArrayHelper::map( $datageneros, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de estados
+		$dataestados		 	= $estadosTable->find()->all();
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo municipios
+		$municipiosTable 		 	= new Municipios();
+		//se traen los datos de municipios
+		$datamunicipios		 	= $municipiosTable->find()->all();
+		//se guardan los datos en un array
+		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo barriosVeredas
+		$barriosVeredasTable 		 	= new BarriosVeredas();
+		//se traen los datos de barriosVeredas
+		$databarriosVeredas		 	= $barriosVeredasTable->find()->all();
+		//se guardan los datos en un array
+		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
+		
+		$model = new Personas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +125,12 @@ class PersonasController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'identificaciones'=>$identificaciones,
+			'estadosCiviles'=>$estadosCiviles,
+			'generos'=>$generos,
+			'estados'=>$estados,
+			'municipios'=>$municipios,
+			'barriosVeredas'=>$barriosVeredas,
         ]);
     }
 
@@ -84,7 +143,38 @@ class PersonasController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        
+		//se crea una instancia del modelo tipoIdentificaciones
+		$identificacionesTable 		 	= new TiposIdentificaciones();
+		//se traen los datos de identificaciones
+		$dataIdentificaciones		 	= $identificacionesTable->find()->all();
+		//se guardan los datos en un array
+		$identificaciones	 	 	 	= ArrayHelper::map( $dataIdentificaciones, 'id', 'descripcion' );
+		
+		
+		//se crea una instancia del modelo estados civiles
+		$estadosCivilesTable 		 	= new EstadosCiviles();
+		//se traen los datos de estadosCiviles
+		$dataestadosCiviles		 	= $estadosCivilesTable->find()->all();
+		//se guardan los datos en un array
+		$estadosCiviles	 	 	 	= ArrayHelper::map( $dataEstadosCiviles, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo generos
+		$generosTable 		 	= new Generos();
+		//se traen los datos de estadosCiviles
+		$datageneros		 	= $generosTable->find()->all();
+		//se guardan los datos en un array
+		$generos	 	 	 	= ArrayHelper::map( $datageneros, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de estadosCiviles
+		$dataestados		 	= $estadosTable->find()->all();
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
+		
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
