@@ -105,16 +105,12 @@ class ParalelosController extends Controller
 		
 		$_POST['Paralelos']['id_sedes_jornadas']	=$id_sedes_jornadas;
 		$_POST['Paralelos']['id_sedes_niveles' ]	=$id_sedes_niveles;
-
-		
+	
 		$command->update('sedes_jorndas', array('id_jornadas'=>$idJornadas,),array('id'=>$id_sedes_jornadas));
 		$command->update('sedes_niveles', array('id_niveles'=>$idJornadas,),array('id'=>$id_sedes_niveles));
-		
-		
-		
+	
 	    $model = $this->findModel($id);
 
-		print_r(Yii::$app->request->post());
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
