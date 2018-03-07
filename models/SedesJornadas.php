@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 06-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes-jornadas
+---------------------------------------
+Modificaciones:
+Fecha: 06-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Los atributos labels se dejan como Jornadas y Sedes y se dejan los campos is_sedes e id_jornadas como obligatorios
+---------------------------------------
+**********/
+
+
 namespace app\models;
 
 use Yii;
@@ -35,6 +49,8 @@ class SedesJornadas extends \yii\db\ActiveRecord
             [['id_jornadas', 'id_sedes'], 'integer'],
             [['id_jornadas'], 'exist', 'skipOnError' => true, 'targetClass' => Jornadas::className(), 'targetAttribute' => ['id_jornadas' => 'id']],
             [['id_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sedes' => 'id']],
+            [['id_sedes'], 'required' ],
+            [['id_jornadas'], 'required' ],
         ];
     }
 
@@ -45,8 +61,8 @@ class SedesJornadas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_jornadas' => 'Id Jornadas',
-            'id_sedes' => 'Id Sedes',
+            'id_jornadas' => 'Jornadas',
+            'id_sedes' => 'Sedes',
         ];
     }
 

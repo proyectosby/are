@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 06-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes-jornadas
+---------------------------------------
+Modificaciones:
+Fecha: 06-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se crea filtro de sedes por instituciones y a todas las vistas(create, update, view e index) se envían el id de sedes e instituciones
+					para que siempre muestre los datos correspondientes a estos
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -12,6 +26,7 @@ use yii\filters\VerbFilter;
 
 use app\models\Sedes;
 use app\models\Jornadas;
+use app\models\Instituciones;
 use yii\helpers\ArrayHelper;
 /**
  * SedesJornadasController implements the CRUD actions for SedesJornadas model.
@@ -37,15 +52,37 @@ class SedesJornadasController extends Controller
      * Lists all SedesJornadas models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => SedesJornadas::find(),
-        ]);
+        return $this->render('listarInstituciones',[
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
+		] );
+    }
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+
+	public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    {
+		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
+		if( $idInstitucion != 0 && $idSedes != 0 ){
+			
+			$dataProvider = new ActiveDataProvider([
+				'query' => SedesJornadas::find()->where( 'id_sedes='.$idSedes ),
+			]);
+			
+			return $this->render('index', [
+				'dataProvider'  => $dataProvider,
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+			]);
+		}
+		else{
+			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
+			 return $this->render('listarInstituciones',[
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+			] );
+		}
     }
 
     /**
@@ -66,15 +103,17 @@ class SedesJornadasController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idSedes, $idInstitucion)
     {
 		
+		//Busco todas las jornadas disponibles
 		$jornadasTable 	= new Jornadas();
 		$dataJornadas	= $jornadasTable->find()->all();
 		$jornadas		= ArrayHelper::map( $dataJornadas, 'id', 'descripcion' );
 		
+		//listo solo la sede que ya ha sido seleccionada desde la vista listarInstituciones
 		$sedesTable 	= new Sedes();
-		$dataSedes	 	= $sedesTable->find()->all();
+		$dataSedes	 	= $sedesTable->find()->where( 'id='.$idSedes )->all();
 		$sedes		 	= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 		
         $model = new SedesJornadas();
@@ -84,9 +123,11 @@ class SedesJornadasController extends Controller
         }
 
         return $this->render('create', [
-            'model'		=> $model,
-            'jornadas' 	=> $jornadas,
-            'sedes' 	=> $sedes,
+            'model'			=> $model,
+            'jornadas' 		=> $jornadas,
+            'sedes' 		=> $sedes,
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
         ]);
     }
 
@@ -99,23 +140,26 @@ class SedesJornadasController extends Controller
      */
     public function actionUpdate($id)
     {
+        
+		$model = $this->findModel($id);
 		
+		//Se busca todas las jornadas disponibles
 		$jornadasTable 	= new Jornadas();
 		$dataJornadas	= $jornadasTable->find()->all();
 		$jornadas		= ArrayHelper::map( $dataJornadas, 'id', 'descripcion' );
 		
+		//Consulto la sede seleccionada desde la vista listarInstituciones
 		$sedesTable 	= new Sedes();
-		$dataSedes	 	= $sedesTable->find()->all();
+		$dataSedes	 	= $sedesTable->find()->where( 'id='.$model->id_sedes )->all();
 		$sedes		 	= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 		
-        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' 	=> $model,
             'jornadas' 	=> $jornadas,
             'sedes' 	=> $sedes,
         ]);
@@ -130,9 +174,20 @@ class SedesJornadasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+		
+		//Tomo los datos del modelo para enviar a la vista el id de sedes y de instituciones
+		
+		//Creo modelo sedes para encontrar el id de instituciones
+		$modelSedes = Sedes::findOne( $model->id_sedes );
+		
+		//creo modelo instituciones con el id correspondiente tomado de sedes para encontrar el id de instituciones
+		$modelInstitucion = Instituciones::findOne( $modelSedes->id_instituciones );
+		
+        $model = $model->delete();
 
-        return $this->redirect(['index']);
+		//A la vista index le envia el id de sedes y de instituciones
+        return $this->redirect(['index', 'idInstitucion' => $modelInstitucion->id, 'idSedes' => $modelSedes->id ]);
     }
 
     /**
