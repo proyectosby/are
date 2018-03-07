@@ -154,10 +154,10 @@ class PersonasController extends Controller
 		
 		//se crea una instancia del modelo estados civiles
 		$estadosCivilesTable 		 	= new EstadosCiviles();
-		//se traen los datos de estadosCiviles
+		//se traen los datos de identificaciones
 		$dataestadosCiviles		 	= $estadosCivilesTable->find()->all();
 		//se guardan los datos en un array
-		$estadosCiviles	 	 	 	= ArrayHelper::map( $dataEstadosCiviles, 'id', 'descripcion' );
+		$estadosCiviles	 	 	 	= ArrayHelper::map( $dataestadosCiviles, 'id', 'descripcion' );
 		
 		//se crea una instancia del modelo generos
 		$generosTable 		 	= new Generos();
@@ -173,6 +173,19 @@ class PersonasController extends Controller
 		//se guardan los datos en un array
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
+		//se crea una instancia del modelo municipios
+		$municipiosTable 		 	= new Municipios();
+		//se traen los datos de municipios
+		$datamunicipios		 	= $municipiosTable->find()->all();
+		//se guardan los datos en un array
+		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo barriosVeredas
+		$barriosVeredasTable 		 	= new BarriosVeredas();
+		//se traen los datos de barriosVeredas
+		$databarriosVeredas		 	= $barriosVeredasTable->find()->all();
+		//se guardan los datos en un array
+		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
 		
 		$model = $this->findModel($id);
 
@@ -182,6 +195,12 @@ class PersonasController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'identificaciones'=>$identificaciones,
+			'estadosCiviles'=>$estadosCiviles,
+			'generos'=>$generos,
+			'estados'=>$estados,
+			'municipios'=>$municipios,
+			'barriosVeredas'=>$barriosVeredas,
         ]);
     }
 

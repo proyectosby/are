@@ -22,5 +22,5 @@ $this->params['breadcrumbs'][] = 'Modificar';
 		'estadosCiviles'=>$estadosCiviles,
 		'municipios'=>$municipios,
 		'barriosVeredas'=>$barriosVeredas,
-
+	]) ?>
 </div>
