@@ -62,10 +62,11 @@ if( $idInstitucion > 0 ){
 
 //opciones para el select sedes
 $optionsSedes = array( 
-					'prompt' => 'Seleccione...', 
-					'id'	 => 'idSedes', 
-					'name'	 => 'idSedes',
-					'value'	 => $idSedes == 0 ? '' : $idSedes,
+					'prompt' 	=> 'Seleccione...', 
+					'id'	 	=> 'idSedes', 
+					'name'	 	=> 'idSedes',
+					'value'	 	=> $idSedes == 0 ? '' : $idSedes,
+					'onchange'	=> 'this.form.submit();'
 				);
 
 ?>
@@ -81,10 +82,6 @@ $optionsSedes = array(
 	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, $optionsInstituciones )->label('Instituciones') ?>
 	
 	<?= $form->field($institucionesTable, 'id')->dropDownList( $sedes, $optionsSedes )->label('Sedes') ?>
-	
-	 <div class="form-group">
-		<?= Html::submitButton('Ver Sedes', ['class' => 'btn btn-success']) ?>
-    </div>
 	
 	<?php $form = ActiveForm::end(); ?>
 	
