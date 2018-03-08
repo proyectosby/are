@@ -2,12 +2,16 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Periodos;
+use app\models\Estados;
+
+
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * PeriodosController implements the CRUD actions for Periodos model.
@@ -35,8 +39,8 @@ class PeriodosController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Periodos::find(),
+         $dataProvider = new ActiveDataProvider([
+            'query' => Periodos::find()->where('estado=1'),
         ]);
 
         return $this->render('index', [
@@ -64,14 +68,19 @@ class PeriodosController extends Controller
      */
     public function actionCreate()
     {
+		
+		$estados		 = new Estados();
+		$estados		 = $estados->find()->orderby('descripcion')->where( 'id=1' )->all();
+		$estados	 	 = ArrayHelper::map( $estados, 'id', 'descripcion' );
+		
         $model = new Periodos();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+			'estados'=>$estados,
         ]);
     }
 
@@ -84,15 +93,22 @@ class PeriodosController extends Controller
      */
     public function actionUpdate($id)
     {
+		
+		$estados		 = new Estados();
+		$estados		 = $estados->find()->orderby('descripcion')->all();
+		$estados	 	 = ArrayHelper::map( $estados, 'id', 'descripcion' );
+		
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
+			'estados'=>$estados,
         ]);
+		
+		
     }
 
     /**
@@ -104,7 +120,9 @@ class PeriodosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = Periodos::findOne($id);
+		$model->estado = 2;
+		$model->update(false);
 
         return $this->redirect(['index']);
     }
@@ -125,3 +143,16 @@ class PeriodosController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
+
+
+  
+
+
+
+
+
+
+
+
+
+

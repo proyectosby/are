@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+use app\models\Estados;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -23,7 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'descripcion',
-            'estado',
+            [
+				'attribute'=>'estado',
+				'value' => function( $model )
+				{
+					$estados = Estados::findOne($model->estado);
+					return $estados ? $estados->descripcion : '';
+				},
+				
+			], 
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

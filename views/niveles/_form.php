@@ -30,7 +30,7 @@ $estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
     <?= $form->field($model, 'id_niveles_academicos')->dropDownList( $NivelesAcademicosTabla, [ 'prompt' => 'Seleccione...', 'id' ] ) ?>
     <?= $form->field($model, 'estado')->dropDownList($estados) ?>
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

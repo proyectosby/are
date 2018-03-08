@@ -36,6 +36,7 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
         ),
         'd' => 
         array (
+            'dosamigos\\datepicker\\' => 21,
             'dmstr\\' => 6,
         ),
         'c' => 
@@ -120,6 +121,10 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'dosamigos\\datepicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-date-picker-widget/src',
         ),
         'dmstr\\' => 
         array (

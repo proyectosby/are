@@ -3,11 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Paralelos;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+
+use app\models\Jornadas;
+use app\models\Niveles;
+use app\models\Paralelos;
+use app\models\Sedes;
+use app\models\SedesJornadas;
 
 /**
  * ParalelosController implements the CRUD actions for Paralelos model.
@@ -64,6 +70,15 @@ class ParalelosController extends Controller
      */
     public function actionCreate()
     {
+		$niveles 		 	= new Niveles();
+		$niveles		 	= $niveles->find()->all();
+		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
+		
+		$jornadas 		 	= new Jornadas();
+		$jornadas		 	= $jornadas->find()->all();
+		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+		
+		
         $model = new Paralelos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -72,6 +87,8 @@ class ParalelosController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'jornadas'=> $jornadas,
+			'niveles'=>$niveles,
         ]);
     }
 
@@ -84,7 +101,37 @@ class ParalelosController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		
+		$niveles 		 	= new Niveles();
+		$niveles		 	= $niveles->find()->all();
+		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
+		
+		$jornadas 		 	= new Jornadas();
+		$jornadas		 	= $jornadas->find()->all();
+		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+		
+		
+		
+		$query = (new \yii\db\Query())
+		->select('id_sedes_jornadas,id_sedes_niveles')
+		->from('paralelos')
+		->where('id='.$id);
+		$command = $query->createCommand();
+		$rows = $command->queryAll();
+		
+		$idJornadas	= @$_POST['Paralelos']['id_sedes_jornadas'];
+		$idNiveles	= @$_POST['Paralelos']['id_sedes_niveles'];	
+			
+		$id_sedes_jornadas = $rows[0]['id_sedes_jornadas'];
+		$id_sedes_niveles  = $rows[0]['id_sedes_niveles'];
+		
+		$_POST['Paralelos']['id_sedes_jornadas']	=$id_sedes_jornadas;
+		$_POST['Paralelos']['id_sedes_niveles' ]	=$id_sedes_niveles;
+	
+		$command->update('sedes_jorndas', array('id_jornadas'=>$idJornadas,),array('id'=>$id_sedes_jornadas));
+		$command->update('sedes_niveles', array('id_niveles'=>$idJornadas,),array('id'=>$id_sedes_niveles));
+	
+	    $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,6 +139,8 @@ class ParalelosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'jornadas'=> $jornadas,
+			'niveles'=>$jornadas,
         ]);
     }
 

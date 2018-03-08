@@ -42,29 +42,46 @@ $this->params['breadcrumbs'][] = $this->title;
 					$sedes= $sedes ? $sedes->descripcion : '';
 					//sedes
 					
+					return  $sedes ;	
+				},
+				'label'=>'Sedes'
+				
+			],
+			[
+				'attribute'=>'id_sedes_jornadas',
+				'value' => function( $model ){
+					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
+					//sedes
+					
+					// $idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
+					// $idSede =(int) $idSede;
+					// $sedes = Sedes::findOne($model->id=$idSede);
+					// $sedes= $sedes ? $sedes->descripcion : '';
+					//sedes
+					
 					//Jornadas
 					$idJornada = $sedesJornadas ? $sedesJornadas->id_jornadas : '';
 					$idJornada = (int)$idJornada;
 					$jornadas = Jornadas::findOne($model->id= $idJornada);
 					$jornadas= $jornadas ? $jornadas->descripcion : '';
-					//Jornadas
+					//Jornadas	
 					
-					
-					return  $sedes." - ".$jornadas;	
+					return  $jornadas;	
 				},
+				'label'=>'Jornadas'
 				
 			],
             [
 			
 				'attribute'=>'id_sedes_niveles',
 				'value' => function( $model ){
-					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
+					// $sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
 					//sedes
 					
-					$idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
-					$idSede =(int) $idSede;
-					$sedes = Sedes::findOne($model->id=$idSede);
-					$sedes= $sedes ? $sedes->descripcion : '';
+					// $idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
+					// $idSede =(int) $idSede;
+					// $sedes = Sedes::findOne($model->id=$idSede);
+					// $sedes= $sedes ? $sedes->descripcion : '';
 					//sedes	
 						
 						
@@ -79,8 +96,9 @@ $this->params['breadcrumbs'][] = $this->title;
 					//Jornadas
 					
 					
-					return  $sedes." - ".$niveles;	
+					return  $niveles;	
 				},
+				'label'=>'Niveles'
 				
 			],
             

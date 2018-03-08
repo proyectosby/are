@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Estados;
 /* @var $this yii\web\View */
 /* @var $model app\models\Periodos */
 
@@ -29,7 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'descripcion',
-            'estado',
+			[
+				'attribute'=>'estado',
+				'value' => function( $model )
+				{
+					$estados = Estados::findOne($model->estado);
+					return $estados ? $estados->descripcion : '';
+				},
+				
+			], 
+            
         ],
     ]) ?>
 
