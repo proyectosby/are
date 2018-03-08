@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 07-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes-jornadas
+---------------------------------------
+Modificaciones:
+Fecha: 07-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se quita la columna ID
+----------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -22,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'descripcion',
 
             ['class' => 'yii\grid\ActionColumn'],
