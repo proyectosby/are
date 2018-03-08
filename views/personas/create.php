@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="personas-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+	<?php $clave= true; ?>
     <?= $this->render('_form', [
         'model' => $model,
 		'identificaciones'=>$identificaciones,
@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'estadosCiviles'=>$estadosCiviles,
 		'municipios'=>$municipios,
 		'barriosVeredas'=>$barriosVeredas,
+		'clave'=>$clave,
     ]) ?>
 
 </div>

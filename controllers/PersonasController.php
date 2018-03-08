@@ -45,7 +45,7 @@ class PersonasController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Personas::find(),
+            'query' => Personas::find()->where( 'estado=1' ),
         ]);
 
         return $this->render('index', [
@@ -106,7 +106,7 @@ class PersonasController extends Controller
 		//se crea una instancia del modelo municipios
 		$municipiosTable 		 	= new Municipios();
 		//se traen los datos de municipios
-		$datamunicipios		 	= $municipiosTable->find()->all();
+		$datamunicipios		 	= $municipiosTable->find()->where( 'id_departamentos = 24' )->all();
 		//se guardan los datos en un array
 		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
 		
@@ -119,10 +119,22 @@ class PersonasController extends Controller
 		
 		$model = new Personas();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
+		
+		//el campo psw se encripta con sha256 y se agrega a post que se envia a guardar
+		if (isset($_POST['Personas']['psw'])){
+			$psw = hash('sha256', @$_POST['Personas']['psw']);
+			$_POST['Personas']['psw'] = $psw;
+		}
+		
+		
+		// if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // return $this->redirect(['view', 'id' => $model->id]);
+        // }
+		
+		if ($model->load($_POST) && $model->save()) {
+					return $this->redirect(['view', 'id' => $model->id]);
+				}
+		
         return $this->render('create', [
             'model' => $model,
 			'identificaciones'=>$identificaciones,
@@ -176,7 +188,7 @@ class PersonasController extends Controller
 		//se crea una instancia del modelo municipios
 		$municipiosTable 		 	= new Municipios();
 		//se traen los datos de municipios
-		$datamunicipios		 	= $municipiosTable->find()->all();
+		$datamunicipios		 	= $municipiosTable->find()->where( 'id_departamentos = 24' )->all();
 		//se guardan los datos en un array
 		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
 		
@@ -213,7 +225,12 @@ class PersonasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
+
+        // return $this->redirect(['index']);
+		$model = Personas::findOne($id);
+		$model->estado = 2;
+		$model->update(false);
 
         return $this->redirect(['index']);
     }
