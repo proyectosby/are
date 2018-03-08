@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'caracter')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el caracter']) ?>
 
-    <?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la espacialidad']) ?>
+    <?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la especialidad']) ?>
 
     <?= $form->field($model, 'rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el nombre del rector']) ?>
 
