@@ -29,19 +29,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la descripción' ]) ?>
 
-    <?= $form->field($model, 'telefonos')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'telefonos')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el teléfono' ]) ?>
 
-    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la dirección']) ?>
 
-    <?= $form->field($model, 'area')->textInput() ?>
+    <?= $form->field($model, 'area')->textInput(['placeHolder' => 'Digite el área']) ?>
 
     <?= $form->field($model, 'id_instituciones' )->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'value' => $idInstitucion ] ) ?>
 
-    <?= $form->field($model, 'latitud')->textInput() ?>
+    <?= $form->field($model, 'latitud')->textInput(['placeHolder' => 'Digite la latitud']) ?>
 
-    <?= $form->field($model, 'longitud')->textInput() ?>
+    <?= $form->field($model, 'longitud')->textInput(['placeHolder' => 'Digite la longitud']) ?>
 
     <?= $form->field($model, 'id_zonificaciones')->dropDownList( $zonificaciones, [ 'prompt' => 'Seleccione...' ] ) ?>
 
@@ -59,7 +59,7 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'id_barrios_veredas' )->dropDownList( $barriosVeredas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
-    <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el Codigo Dane']) ?>
 
     <?= $form->field($model, 'sede_principal')->checkbox() ?>
 
