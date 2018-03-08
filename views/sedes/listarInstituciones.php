@@ -45,11 +45,8 @@ $instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		'method' => 'get',
 	]); ?>
 	
-	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'idInstitucion', 'name'=>'idInstitucion' ] )->label('') ?> <!-- Cambio la palabra ID por '' para que no se vea --!>
+	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, [ 'prompt' => 'Seleccione...', 'id'=>'idInstitucion', 'name'=>'idInstitucion', 'onchange' => 'this.form.submit();' ] )->label('') ?> <!-- Cambio la palabra ID por '' para que no se vea --!>
 	
-	 <div class="form-group">
-		<?= Html::submitButton('Ver Sedes', ['class' => 'btn btn-success']) ?>
-    </div>
 	
 	<?php $form = ActiveForm::end(); ?>
 	
