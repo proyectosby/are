@@ -36,7 +36,7 @@ $modelSedes 		= Sedes::findOne( $idSedes );
 <div class="sedes-jornadas-index">
     
     <h1><?= Html::encode($modelInstitucion->descripcion) ?></h1>
-	<h1><?= Html::encode( "SEDE: ".$modelSedes->descripcion) ?></h1>
+	<h3><?= Html::encode( "SEDE: ".$modelSedes->descripcion) ?></h3>
 
     <p>
         <?= Html::a('Agregar', [
