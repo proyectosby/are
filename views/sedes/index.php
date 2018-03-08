@@ -6,6 +6,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 07-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se quita columna ID
+---------------------------------------
 Fecha: 02-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se envía la vista _form los municipios y el id de la institución seleccionada desde la lista de sedes 
@@ -49,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'descripcion',
             'telefonos',
             'direccion',

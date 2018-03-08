@@ -8,6 +8,10 @@ Descripción: CRUD de sedes
 Modificaciones:
 Fecha: 02-03-2018
 Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se muestra el nombre de la comuna
+---------------------------------------
+Fecha: 02-03-2018
+Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se modifican los botones para que queden con el nombre Modificar y Eliminar. Adicionalmente se agrega el id de la instución 
 					a la url del breadcrumbs
 ---------------------------------------
@@ -27,6 +31,7 @@ use app\models\Modalidades;
 use app\models\Tenencias;
 use app\models\Zonificaciones;
 use app\models\Municipios;
+use app\models\ComunasCorregimientos;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -135,7 +140,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             'codigo_dane',
             'sede_principal',
-            'comuna',
+			[
+				'attribute' => 'comuna',
+				'value' => function( $model ){
+					$comunas = ComunasCorregimientos::findOne( $model->comuna );
+					return $comunas ? $comunas->descripcion : '';
+				},
+				'filter' => ArrayHelper::map(Estados::find()->all(), 'id', 'descripcion' ),
+			],
 			[
 				'attribute' => 'estado',
 				'value' => function( $model ){

@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'zonificaciones' => $zonificaciones,
         'estados' 		 => $estados,
         'municipios'	 => $municipios,
+        'comunas'	 	 => $comunas,
         'idInstitucion'	 => $idInstitucion,
     ]) ?>
 

@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 07-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega select para el campo comunas
+---------------------------------------
 Fecha: 02-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se deja seleccionado por defecto la institución seleccionada que viene de la lista de sedes
@@ -59,7 +63,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'sede_principal')->checkbox() ?>
 
-    <?= $form->field($model, 'comuna')->textInput() ?>
+    <?= $form->field($model, 'comuna')->dropDownList( $comunas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
 	<?= $form->field($model, 'estado' )->dropDownList( $estados ) ?>
 

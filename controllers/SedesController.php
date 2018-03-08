@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 07-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se muestra el select para las comunas
+---------------------------------------
 Fecha: 02-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se muestra un select con las instituciones, y una vez seleccionada se muestra las
@@ -34,6 +38,7 @@ use app\models\Modalidades;
 use app\models\Tenencias;
 use app\models\Zonificaciones;
 use app\models\Municipios;
+use app\models\ComunasCorregimientos;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -153,9 +158,22 @@ class SedesController extends Controller
 		$dataEstados		 = $estadosTable->find()->orderby('descripcion')->where( 'id=1' )->all();
 		$estados	 	 	 = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
+		$idDepartamento		 = 24;
+		
 		$municipiosTable	 = new Municipios();
-		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos=24' )->all();
+		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos='.$idDepartamento )->all();
 		$municipios	 	 	 = ArrayHelper::map( $dataMunicipios, 'id', 'descripcion' );
+		
+		$comunasTable	 	 = new ComunasCorregimientos();
+		$dataComunas		 = $comunasTable->find()
+									->select( 'comunas_corregimientos.*' )
+									->innerJoin( 'municipios', 'municipios.id=comunas_corregimientos.id_municipios' )
+									->with( 'municipios' )
+									->where( 'comunas_corregimientos.estado=1' )
+									->andWhere( 'municipios.id_departamentos='.$idDepartamento )
+									->orderby('comunas_corregimientos.descripcion')
+									->all();
+		$comunas	 	 	 = ArrayHelper::map( $dataComunas, 'id', 'descripcion' );
 		
 		$model = new Sedes();
 
@@ -175,6 +193,7 @@ class SedesController extends Controller
             'zonificaciones' => $zonificaciones,
             'estados' 		 => $estados,
             'municipios'	 => $municipios,
+            'comunas'	 	 => $comunas,
             'idInstitucion'	 => $idInstitucion,
         ]);
     }
@@ -225,9 +244,22 @@ class SedesController extends Controller
 		$dataEstados		 = $estadosTable->find()->orderby('descripcion')->all();
 		$estados	 	 	 = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
+		$idDepartamento		 = 24;
+		
 		$municipiosTable	 = new Municipios();
-		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos=24' )->all();
+		$dataMunicipios		 = $municipiosTable->find()->orderby('descripcion')->where( 'estado=1' )->andWhere( 'id_departamentos='.$idDepartamento )->all();
 		$municipios	 	 	 = ArrayHelper::map( $dataMunicipios, 'id', 'descripcion' );
+		
+		$comunasTable	 	 = new ComunasCorregimientos();
+		$dataComunas		 = $comunasTable->find()
+									->select( 'comunas_corregimientos.*' )
+									->innerJoin( 'municipios', 'municipios.id=comunas_corregimientos.id_municipios' )
+									->with( 'municipios' )
+									->where( 'comunas_corregimientos.estado=1' )
+									->andWhere( 'municipios.id_departamentos='.$idDepartamento )
+									->orderby('comunas_corregimientos.descripcion')
+									->all();
+		$comunas	 	 	 = ArrayHelper::map( $dataComunas, 'id', 'descripcion' );
 		
         $model = $this->findModel($id);
 
@@ -247,6 +279,7 @@ class SedesController extends Controller
             'zonificaciones' => $zonificaciones,
             'estados' 		 => $estados,
             'municipios' 	 => $municipios,
+            'comunas' 	 	 => $comunas,
             'idInstitucion'	 => $model->id_instituciones,
         ]);
     }
