@@ -19,11 +19,20 @@ use app\models\Sedes;
 use app\models\TiposAulas;
 use yii\helpers\ArrayHelper;
 
+$modelSedes = Sedes::findOne($model->id_sedes);
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Aulas */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+									'label' => 'Aulas', 
+									'url' => [
+												'index',
+												'idInstitucion'	=> $modelSedes->id_instituciones,
+												'idSedes' 		=> $modelSedes->id,
+											 ]
+								 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="aulas-view">
@@ -31,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [

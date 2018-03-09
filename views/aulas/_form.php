@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'capacidad')->textInput() ?>
 
-    <?= $form->field($model, 'id_sedes')->dropDownList( $sedes, [ 'prompt' => 'Seleccione...'] ) ?>
+    <?= $form->field($model, 'id_sedes')->dropDownList( $sedes ) ?>
 
     <?= $form->field($model, 'id_tipos_aulas')->dropDownList( $tiposAulas, [ 'prompt' => 'Seleccione...' ]) ?>
 

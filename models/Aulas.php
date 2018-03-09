@@ -51,10 +51,10 @@ class Aulas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'capacidad' => 'Capacidad',
-            'id_sedes' => 'Id Sedes',
-            'id_tipos_aulas' => 'Id Tipos Aulas',
+            'id_sedes' => 'Sedes',
+            'id_tipos_aulas' => 'Tipos de Aula',
         ];
     }
 
