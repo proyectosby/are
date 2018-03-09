@@ -19,6 +19,18 @@ use app\models\SedesNiveles;
 use app\models\Estados;
 
 
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Paralelos
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Cambios en todas las funciones excepto "behaviors()" y se agrega la actionListarInstituciones()
+---------------------------------------
+**********/
 
 /**
  * ParalelosController implements the CRUD actions for Paralelos model.
@@ -45,6 +57,8 @@ class ParalelosController extends Controller
      * Muestra los paralelos 
      * @return mixed
      */	
+	 
+	// se encargar de renderisar la vista listarInstituciones, la cual se encarga de selecionar la institucion y la sede
 	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
     {
         return $this->render('listarInstituciones',[
@@ -57,19 +71,27 @@ class ParalelosController extends Controller
      * Lists all Paralelos models.
      * @return mixed
      */
+	 
+	//lista los paralelos que le corresponen a la sede ($idSedes)
+	//la funcion cambia de no tener parametros a tener 2
     public function actionIndex($idInstitucion = 0, $idSedes = 0)
     {
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{	
 	
-			
+			//sirve obtener los estados en un array dado id vs descripcion
 			$estados = new Estados();
 			$estados = $estados->find()->all();
 			$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
 	
+			//se obtiene los ids de los paralelos que tenga la sede seleccionada o dada por $idSedes
+			
+			//en caso de no existir paralelos en la consulta siempre tenga un 0 el array
 			$idParalelos[]=0;
+			//variable de conexion
 			$connection = Yii::$app->getDb();
+			
 			$command = $connection->createCommand("
 			SELECT p.id
 			FROM public.sedes_jornadas as sj, public.jornadas as j, public.sedes as s,public.paralelos as p, public.niveles as n, public.sedes_niveles as sn
@@ -82,6 +104,8 @@ class ParalelosController extends Controller
 			and n.id  = sn.id_niveles");
 			$result = $command->queryAll();
 			
+			// la consulta se debe formatear 
+			//
 			
 			foreach( $result as $j)
 			{
@@ -89,9 +113,13 @@ class ParalelosController extends Controller
 
 			}
 			
+			//buscar 
 			$searchModel = new ParalelosBuscar();
+			
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			//se pasan los ids de los paralelos para que solo muestre estos en lista
 			$dataProvider->query->andWhere('id IN ('.implode(',',$idParalelos).')');
+			//solo los paralelos activos o estado =1
 			$dataProvider->query->andWhere('estado=1');
 			
 			return $this->render('index', [
@@ -121,11 +149,16 @@ class ParalelosController extends Controller
     public function actionView($id)
     {
 		
+		//sirve obtener los estados en un array dado id vs descripcion
 		$estados = new Estados();
 		$estados = $estados->find()->all();
 		$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
 	
+		//variable de conexion
 		$connection = Yii::$app->getDb();
+		
+		//consulta para seleccionar la descricion de la jornada para mostrarla en la vista View
+		//consulta para seleccionar el id de la sedes para enviarla a la vista View y ser usada en la miga de pan
 		$command = $connection->createCommand("
 		SELECT j.descripcion, sj.id_sedes
 		FROM public.paralelos as p, public.sedes_jornadas as sj, public.jornadas as j
@@ -136,7 +169,7 @@ class ParalelosController extends Controller
 		$jornadas = $result[0]['descripcion'];
 		$idSedes = $result[0]['id_sedes'];
 		
-		
+		//consulta para seleccionar el id de la institucion para enviarla a la vista View y ser usada en la miga de pan
 		$command = $connection->createCommand("
 		SELECT i.id
 		FROM instituciones as i,sedes as s
@@ -146,7 +179,7 @@ class ParalelosController extends Controller
 		$result = $command->queryAll();
 		$idInstituciones = $result[0]['id'];		
 	
-		
+		//consulta para seleccionar la descricion del nivel para mostrarla en la vista View
 		$command = $connection->createCommand("
 		SELECT n.descripcion
 		FROM public.paralelos as p, public.sedes_niveles as sn, public.niveles as n
@@ -218,9 +251,7 @@ class ParalelosController extends Controller
 		{
 			$niveles[$r['id']]=$r['descripcion'];
 		}
-		
-		//breadcrumbs
-		
+				
 			
         $model = new Paralelos();
 
@@ -247,7 +278,6 @@ class ParalelosController extends Controller
      */
     public function actionUpdate($id)
     {
-		
 		
 		$estados = new Estados();
 		$estados = $estados->find()->all();
@@ -303,7 +333,7 @@ class ParalelosController extends Controller
 			
 	    $model = $this->findModel($id);
 		
-		//breadcrumbs
+		//se selecciona el id de la sede para pasarlo a la vista update y ser usado en la miga de pan
 		$command = $connection->createCommand("
 		SELECT i.id
 		FROM instituciones as i,sedes as s
@@ -339,6 +369,8 @@ class ParalelosController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+	 
+	 //se modifica para que no borre sino para que actualize el campo estado 
     public function actionDelete($id)
     {
 		
@@ -359,12 +391,14 @@ class ParalelosController extends Controller
      * @return Paralelos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+	 
+	 //cambio para que muestre otro texto cuando la pagina no este disponibles
     protected function findModel($id)
     {
         if (($model = Paralelos::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('La página que está solicitando no existe .');
     }
 }

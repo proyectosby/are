@@ -6,9 +6,22 @@ use yii\helpers\Html;
 /* @var $model app\models\Paralelos */
 
 $this->title = $model->descripcion;
-// $this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-// $this->params['breadcrumbs'][] = 'Modificar';
+
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Paralelos
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - cambio en la miga de pan para que regrese a la lista de la sede que le corresponde
+este cambio se hace debido a que se debe pasar por selccionar institucion y sede
+Cambios realizados: se agregan las variables que se le pasan a la vista _form
+-------------
+**********/
+
 
 $this->params['breadcrumbs'][] = [
 									'label' => 'Paralelos', 

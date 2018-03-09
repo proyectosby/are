@@ -10,10 +10,21 @@ use app\models\Estados;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Paralelos */
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Paralelos
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - cambio en la miga de pan para que regrese a la lista de la sede que le corresponde
+este cambio se hace debido a que se debe pasar por selccionar institucion y sede
+Cambios realizados: modificacion de los datos en DetailView para mostrar los datos que corresponde con los Ids
 
-// $this->title ="Detalle";
-// $this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
+-------------
+**********/
 
 
 
@@ -61,9 +72,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'fecha_ingreso',            
 			[
 				'attribute' => 'estado',
-				'value' => function( $model ){
-				$estados = Estados::findOne( $model->estado );
-				return $estados ? $estados->descripcion : '';
+				'value' => function( $model )
+				{
+					$estados = Estados::findOne( $model->estado );
+					return $estados ? $estados->descripcion : '';
 				},
 			],
         ],

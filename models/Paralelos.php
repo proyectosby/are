@@ -21,6 +21,22 @@ use Yii;
  * @property SedesJornadas $sedesJornadas
  * @property SedesNiveles $sedesNiveles
  */
+ 
+ /**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Paralelos
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Modificaciones de la funcion attributeLabels(), para cambiar la etiquetas de los campos y ortografia
+Cambios realizados: - Se agrega una regla en la funcion rules() del campo ano_lectivo NOTA: si no existe alguna regla
+del campo este no se inserta en la base de datos 
+---------------------------------------
+**********/
+ 
 class Paralelos extends \yii\db\ActiveRecord
 {
     /**

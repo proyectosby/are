@@ -4,12 +4,13 @@
 Versión: 001
 Fecha: 06-03-2018
 Desarrollador: Edwin Molina Grisales
-Descripción: CRUD de sedes-jornadas
+Descripción: CRUD de Paralelos
 ---------------------------------------
 Modificaciones:
-Fecha: 06-03-2018
-Persona encargada: Edwin Molina Grisales
-Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la 
+vista index por el controlador
 ---------------------------------------
 **********/
 

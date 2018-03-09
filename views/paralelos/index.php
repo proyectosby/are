@@ -13,6 +13,22 @@ use app\models\Instituciones;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Paralelos
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - modificacion de los datos en GridView para mostrar los datos correctos donde corresponde el Id
+de la tabla
+---------------------------------------
+**********/
+
+
 $this->title = 'Paralelos';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -45,15 +61,18 @@ $modelSedes 		= Sedes::findOne( $idSedes );
             'descripcion',
 			[
 				'attribute'=>'id_sedes_jornadas',
+				/*
+				se consulta el nombre de la sede pasando por la tabla sedes_jornadas usando 
+				*/
 				'value' => function( $model ){
 					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
-					//sedes
+					
 					
 					$idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
 					$idSede =(int) $idSede;
 					$sedes = Sedes::findOne($model->id=$idSede);
 					$sedes= $sedes ? $sedes->descripcion : '';
-					//sedes
+					
 					
 					return  $sedes ;	
 				},
@@ -62,15 +81,18 @@ $modelSedes 		= Sedes::findOne( $idSedes );
 			],
 			[
 				'attribute'=>'id_sedes_jornadas',
+				/*
+				se consulta el nombre de la jornada pasando por la tabla sedes_jornadas
+				*/
 				'value' => function( $model ){
 					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
 										
-					//Jornadas
+					
 					$idJornada = $sedesJornadas ? $sedesJornadas->id_jornadas : '';
 					$idJornada = (int)$idJornada;
 					$jornadas = Jornadas::findOne($model->id= $idJornada);
 					$jornadas= $jornadas ? $jornadas->descripcion : '';
-					//Jornadas	
+						
 					
 					return  $jornadas;	
 				},
@@ -80,8 +102,11 @@ $modelSedes 		= Sedes::findOne( $idSedes );
             [
 			
 				'attribute'=>'id_sedes_niveles',
-				'value' => function( $model ){
-					
+				/*
+				se consulta el nombre del nivel pasando por la tabla sedes_niveles
+				*/
+				'value' => function( $model )
+				{					
 						
 					$sedesNiveles = SedesNiveles::findOne($model->id_sedes_niveles);
 					
