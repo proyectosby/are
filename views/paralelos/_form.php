@@ -8,6 +8,8 @@ use app\models\Jornadas;
 use app\models\Niveles;
 use app\models\Sedes;
 use app\models\SedesJornadas;
+
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Paralelos */
 /* @var $form yii\widgets\ActiveForm */
@@ -19,9 +21,7 @@ use app\models\SedesJornadas;
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_sedes_jornadas')->textInput(['maxlength' => true]) ?>
-    
-	<!-- <?= $form->field($model, 'id_sedes_jornadas')->dropDownList($jornadas, [ 'prompt' => 'Seleccione...']) ?> -->
+    <?= $form->field($model, 'id_sedes_jornadas')->dropDownList($jornadas, [ 'prompt' => 'Seleccione...']) ?>
 
     <?= $form->field($model, 'id_sedes_niveles')->dropDownList($niveles, [ 'prompt' => 'Seleccione...']) ?>
 
@@ -29,7 +29,7 @@ use app\models\SedesJornadas;
 
     <?= $form->field($model, 'fecha_ingreso')->textInput() ?>
 
-    <?= $form->field($model, 'estado')->textInput() ?>
+    <?= $form->field($model, 'estado')->dropDownList($estados) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

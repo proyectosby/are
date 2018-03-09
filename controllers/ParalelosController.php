@@ -14,12 +14,19 @@ use app\models\Niveles;
 use app\models\Paralelos;
 use app\models\Sedes;
 use app\models\SedesJornadas;
+use app\models\SedesNiveles;
+use app\models\Estados;
+
+
 
 /**
  * ParalelosController implements the CRUD actions for Paralelos model.
  */
 class ParalelosController extends Controller
 {
+			
+	
+	
     /**
      * @inheritdoc
      */
@@ -34,20 +41,74 @@ class ParalelosController extends Controller
             ],
         ];
     }
-
+	
+	 /**
+     * Muestra los paralelos 
+     * @return mixed
+     */	
+	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
+    {
+        return $this->render('listarInstituciones',[
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
+		] );
+    }
+	
     /**
      * Lists all Paralelos models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($idInstitucion = 0, $idSedes = 0)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Paralelos::find(),
-        ]);
+		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
+		if( $idInstitucion != 0 && $idSedes != 0 )
+		{	
+			$estados = new Estados();
+			$estados = $estados->find()->all();
+			$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
+	
+	
+	
+			$idParalelos[]=0;
+			$connection = Yii::$app->getDb();
+			$command = $connection->createCommand("
+			SELECT p.id
+			FROM public.sedes_jornadas as sj, public.jornadas as j, public.sedes as s,public.paralelos as p, public.niveles as n, public.sedes_niveles as sn
+			where sj.id_jornadas = j.id
+			and sj.id_sedes = s.id
+			and s.id  = $idSedes
+			and sj.id = p.id_sedes_jornadas
+			and s.id  = sn.id_sedes
+			and sn.id = p.id_sedes_niveles
+			and n.id  = sn.id_niveles");
+			$result = $command->queryAll();
+			
+			
+			foreach( $result as $j)
+			{
+				$idParalelos[] = $j['id'];
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+			}
+
+			$dataProvider = new ActiveDataProvider([
+				'query' => Paralelos::find()->where('id IN ('.implode(',',$idParalelos).')')->andwhere('estado=1'),
+			]);
+
+			return $this->render('index', [
+				'dataProvider' 	=> $dataProvider,
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+				'estados'		=> $estados,
+			]);
+		}
+		else
+		{
+			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
+			 return $this->render('listarInstituciones',[
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+			] );
+		}
     }
 
     /**
@@ -58,8 +119,36 @@ class ParalelosController extends Controller
      */
     public function actionView($id)
     {
+		$estados = new Estados();
+		$estados = $estados->find()->all();
+		$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
+	
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("
+		SELECT j.descripcion
+		FROM public.paralelos as p, public.sedes_jornadas as sj, public.jornadas as j
+		where p.id_sedes_jornadas = sj.id
+		and sj.id_jornadas = j.id
+		and p.id=$id");
+		$result = $command->queryAll();
+		$jornadas = $result[0]['descripcion'];
+		
+		$command = $connection->createCommand("
+		SELECT n.descripcion
+		FROM public.paralelos as p, public.sedes_niveles as sn, public.niveles as n
+		where p.id_sedes_niveles = sn.id
+		and sn.id_niveles = n.id
+		and p.id=$id");
+		$result = $command->queryAll();
+		$niveles = $result[0]['descripcion'];
+		
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+			'jornadas' => $jornadas,
+			'niveles' => $niveles,
+			'estados' => $estados,
+
         ]);
     }
 
@@ -68,17 +157,52 @@ class ParalelosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idSedes, $idInstitucion)
     {
-		$niveles 		 	= new Niveles();
-		$niveles		 	= $niveles->find()->all();
-		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
-		
-		$jornadas 		 	= new Jornadas();
-		$jornadas		 	= $jornadas->find()->all();
-		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
 		
 		
+		$estados = new Estados();
+		$estados = $estados->find()->where('id=1')->all();
+		$estados = ArrayHelper::map($estados,'id','descripcion');
+		
+			//Busco todas las jornadas disponibles
+		$SedesJornadas 	= new SedesJornadas();
+		$SedesJornadas	= $SedesJornadas->find()->all();
+		$SedesJornadas	= ArrayHelper::map( $SedesJornadas, 'id', 'id_jornadas' );
+		
+		//listo solo la sede que ya ha sido seleccionada desde la vista listarInstituciones
+		$SedesNiveles 	= new SedesNiveles();
+		$SedesNiveles	= $SedesNiveles->find()->all();
+		$SedesNiveles	= ArrayHelper::map( $SedesNiveles, 'id', 'id_niveles' );
+		
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("
+			SELECT sj.id, j.descripcion
+			FROM public.sedes_jornadas as sj, public.jornadas as j, public.sedes as s
+			where sj.id_jornadas = j.id
+			and sj.id_sedes = s.id
+			and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+			foreach ($result as $r)
+		{
+			$jornadas[$r['id']]=$r['descripcion'];
+		}
+		
+		$command = $connection->createCommand("
+			SELECT sn.id, n.descripcion
+			FROM public.sedes_niveles as sn, public.niveles as n, public.sedes as s
+			where sn.id_niveles = n.id
+			and sn.id_sedes = s.id
+			and s.id = $idSedes");
+		$result = $command->queryAll();
+				
+		
+		foreach ($result as $r)
+		{
+			$niveles[$r['id']]=$r['descripcion'];
+		}
+			
         $model = new Paralelos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -89,6 +213,7 @@ class ParalelosController extends Controller
             'model' => $model,
 			'jornadas'=> $jornadas,
 			'niveles'=>$niveles,
+			'estados'=>$estados,
         ]);
     }
 
@@ -102,45 +227,73 @@ class ParalelosController extends Controller
     public function actionUpdate($id)
     {
 		
-		$niveles 		 	= new Niveles();
-		$niveles		 	= $niveles->find()->all();
-		$niveles	 	 	= ArrayHelper::map( $niveles, 'id', 'descripcion' );
 		
-		$jornadas 		 	= new Jornadas();
-		$jornadas		 	= $jornadas->find()->all();
-		$jornadas	 	 	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+		$estados = new Estados();
+		$estados = $estados->find()->all();
+		$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
 		
+		$SedeJornadas 		 	= new SedesJornadas();
+		$SedeJornadas		 	= $SedeJornadas->find()->all();
+		$SedeJornadas	 	 	= ArrayHelper::map( $SedeJornadas, 'id','id_jornadas');
 		
+		$SedesNiveles 		 	= new SedesNiveles();
+		$SedesNiveles		 	= $SedesNiveles->find()->all();
+		$SedesNiveles	 	 	= ArrayHelper::map( $SedesNiveles, 'id','id_niveles');
 		
-		$query = (new \yii\db\Query())
-		->select('id_sedes_jornadas,id_sedes_niveles')
-		->from('paralelos')
-		->where('id='.$id);
-		$command = $query->createCommand();
-		$rows = $command->queryAll();
+		$connection = Yii::$app->getDb();
 		
-		$idJornadas	= @$_POST['Paralelos']['id_sedes_jornadas'];
-		$idNiveles	= @$_POST['Paralelos']['id_sedes_niveles'];	
+		$command = $connection->createCommand
+		("
+			SELECT sj.id_sedes
+			FROM public.paralelos as p, public.sedes_jornadas as sj
+			WHERE p.id_sedes_jornadas = sj.id
+			and p.id=$id
+		");		
+		$result = $command->queryAll();
+		
+		$idSedes = $result[0]['id_sedes'];
+		
+		$command = $connection->createCommand("
+			SELECT sj.id, j.descripcion
+			FROM public.sedes_jornadas as sj, public.jornadas as j, public.sedes as s
+			where sj.id_jornadas = j.id
+			and sj.id_sedes = s.id
+			and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+			foreach ($result as $r)
+		{
+			$jornadas[$r['id']]=$r['descripcion'];
+		}
+		
+		$command = $connection->createCommand("
+			SELECT sn.id, n.descripcion
+			FROM public.sedes_niveles as sn, public.niveles as n, public.sedes as s
+			where sn.id_niveles = n.id
+			and sn.id_sedes = s.id
+			and s.id = $idSedes");
+		$result = $command->queryAll();
+				
+		
+		foreach ($result as $r)
+		{
+			$niveles[$r['id']]=$r['descripcion'];
+		}
 			
-		$id_sedes_jornadas = $rows[0]['id_sedes_jornadas'];
-		$id_sedes_niveles  = $rows[0]['id_sedes_niveles'];
-		
-		$_POST['Paralelos']['id_sedes_jornadas']	=$id_sedes_jornadas;
-		$_POST['Paralelos']['id_sedes_niveles' ]	=$id_sedes_niveles;
-	
-		$command->update('sedes_jorndas', array('id_jornadas'=>$idJornadas,),array('id'=>$id_sedes_jornadas));
-		$command->update('sedes_niveles', array('id_niveles'=>$idJornadas,),array('id'=>$id_sedes_niveles));
-	
 	    $model = $this->findModel($id);
-
+				
+				
+			
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+		
 
         return $this->render('update', [
             'model' => $model,
 			'jornadas'=> $jornadas,
-			'niveles'=>$jornadas,
+			'niveles'=> $niveles,
+			'estados'=> $estados,
         ]);
     }
 
@@ -153,9 +306,23 @@ class ParalelosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		
+		$idInstitucion = 0;
+		
+		$model = Paralelos::findOne($id);
+		$model->estado = 2;
+		$idInstitucion = $model->id;
+		$model->update(false);
 
-        return $this->redirect(['index']);
+		// $this->findModel($id)->estado=2;
+		return $this->redirect(['index', 'idInstitucion' => $idInstitucion ]);
+        
+		
+        
+        // $this->findModel($id)->delete();
+		// return $this->redirect(['index']);
+		
+		
     }
 
     /**

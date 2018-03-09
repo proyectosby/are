@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
+use app\models\Sedes;
+use app\models\SedesJornadas;
+use app\models\Jornadas;
+use app\models\Estados;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Paralelos */
@@ -25,15 +30,27 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+	<?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'descripcion',
-            'id_sedes_jornadas',
-            'id_sedes_niveles',
+            'descripcion',            
+			[
+				'attribute'=>'id_sedes_jornadas',
+				'value'=> $jornadas,
+			],
+			[
+				'attribute'=>'id_sedes_niveles',
+				'value'=> $niveles,
+			],
             'ano_lectivo',
-            'fecha_ingreso',
-            'estado',
+            'fecha_ingreso',            
+			[
+				'attribute' => 'estado',
+				'value' => function( $model ){
+				$estados = Estados::findOne( $model->estado );
+				return $estados ? $estados->descripcion : '';
+				},
+			],
         ],
     ]) ?>
 

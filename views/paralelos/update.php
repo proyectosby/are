@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'model' => $model,
 		'jornadas'=>$jornadas,
 		'niveles'=>$niveles,
+		'estados'=>$estados,
     ]) ?>
 
 </div>

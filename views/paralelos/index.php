@@ -9,20 +9,31 @@ use yii\helpers\ArrayHelper;
 use app\models\Sedes;
 use app\models\Jornadas;
 use app\models\Niveles;
-
+use app\models\Instituciones;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Paralelos';
 $this->params['breadcrumbs'][] = $this->title;
+
+$modelInstitucion 	= Instituciones::findOne( $idInstitucion );
+$modelSedes 		= Sedes::findOne( $idSedes );
 ?>
 <div class="paralelos-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h1><?= Html::encode($modelInstitucion->descripcion) ?></h1>
+	<h3><?= Html::encode( "SEDE: ".$modelSedes->descripcion) ?></h3>
 
     <p>
-        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', [
+									'create',
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
     </p>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -51,14 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute'=>'id_sedes_jornadas',
 				'value' => function( $model ){
 					$sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
-					//sedes
-					
-					// $idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
-					// $idSede =(int) $idSede;
-					// $sedes = Sedes::findOne($model->id=$idSede);
-					// $sedes= $sedes ? $sedes->descripcion : '';
-					//sedes
-					
+										
 					//Jornadas
 					$idJornada = $sedesJornadas ? $sedesJornadas->id_jornadas : '';
 					$idJornada = (int)$idJornada;
@@ -75,22 +79,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 				'attribute'=>'id_sedes_niveles',
 				'value' => function( $model ){
-					// $sedesJornadas = SedesJornadas::findOne($model->id_sedes_jornadas);
-					//sedes
 					
-					// $idSede = $sedesJornadas ? $sedesJornadas->id_sedes : '';
-					// $idSede =(int) $idSede;
-					// $sedes = Sedes::findOne($model->id=$idSede);
-					// $sedes= $sedes ? $sedes->descripcion : '';
-					//sedes	
-						
-						
 						
 					$sedesNiveles = SedesNiveles::findOne($model->id_sedes_niveles);
 					
 					//Jornadas
 					$idNiveles = $sedesNiveles ? $sedesNiveles->id_niveles : '';
 					$idNiveles = (int)$idNiveles;
+					
 					$niveles = Niveles::findOne($model->id= $idNiveles);
 					$niveles= $niveles ? $niveles->descripcion : '';
 					//Jornadas

@@ -39,6 +39,7 @@ class Paralelos extends \yii\db\ActiveRecord
         return [
             [['fecha_ingreso'], 'safe'],
             [['descripcion'], 'string', 'max' => 60],
+            [['ano_lectivo'], 'string', 'max' => 20000],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_sedes_jornadas'], 'exist', 'skipOnError' => true, 'targetClass' => SedesJornadas::className(), 'targetAttribute' => ['id_sedes_jornadas' => 'id']],
             [['id_sedes_niveles'], 'exist', 'skipOnError' => true, 'targetClass' => SedesNiveles::className(), 'targetAttribute' => ['id_sedes_niveles' => 'id']],
