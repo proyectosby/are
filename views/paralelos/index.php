@@ -22,6 +22,7 @@ $modelSedes 		= Sedes::findOne( $idSedes );
 <div class="paralelos-index">
 
 <h1><?= Html::encode($modelInstitucion->descripcion) ?></h1>
+  <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 	<h3><?= Html::encode( "SEDE: ".$modelSedes->descripcion) ?></h3>
 
     <p>
@@ -36,7 +37,8 @@ $modelSedes 		= Sedes::findOne( $idSedes );
 
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' 	=> $dataProvider,
+		'filterModel' 	=> $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

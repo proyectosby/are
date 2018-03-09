@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Jornadas;
 use app\models\Niveles;
 use app\models\Paralelos;
+use app\models\ParalelosBuscar;
 use app\models\Sedes;
 use app\models\SedesJornadas;
 use app\models\SedesNiveles;
@@ -24,8 +25,6 @@ use app\models\Estados;
  */
 class ParalelosController extends Controller
 {
-			
-	
 	
     /**
      * @inheritdoc
@@ -63,6 +62,8 @@ class ParalelosController extends Controller
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{	
+	
+			
 			$estados = new Estados();
 			$estados = $estados->find()->all();
 			$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
@@ -87,12 +88,14 @@ class ParalelosController extends Controller
 				$idParalelos[] = $j['id'];
 
 			}
-
-			$dataProvider = new ActiveDataProvider([
-				'query' => Paralelos::find()->where('id IN ('.implode(',',$idParalelos).')')->andwhere('estado=1'),
-			]);
-
+			
+			$searchModel = new ParalelosBuscar();
+			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$dataProvider->query->andWhere('id IN ('.implode(',',$idParalelos).')');
+			$dataProvider->query->andWhere('estado=1');
+			
 			return $this->render('index', [
+				'searchModel'	=> $searchModel,
 				'dataProvider' 	=> $dataProvider,
 				'idSedes' 		=> $idSedes,
 				'idInstitucion' => $idInstitucion,
@@ -312,15 +315,7 @@ class ParalelosController extends Controller
 		$idInstitucion = $model->id;
 		$model->update(false);
 
-		// $this->findModel($id)->estado=2;
-		return $this->redirect(['index', 'idInstitucion' => $idInstitucion ]);
-        
-		
-        
-        // $this->findModel($id)->delete();
-		// return $this->redirect(['index']);
-		
-		
+		return $this->redirect(['index', 'idInstitucion' => $idInstitucion ]);		
     }
 
     /**
