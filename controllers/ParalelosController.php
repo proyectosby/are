@@ -120,19 +120,32 @@ class ParalelosController extends Controller
      */
     public function actionView($id)
     {
+		
 		$estados = new Estados();
 		$estados = $estados->find()->all();
 		$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
 	
 		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand("
-		SELECT j.descripcion
+		SELECT j.descripcion, sj.id_sedes
 		FROM public.paralelos as p, public.sedes_jornadas as sj, public.jornadas as j
 		where p.id_sedes_jornadas = sj.id
 		and sj.id_jornadas = j.id
 		and p.id=$id");
 		$result = $command->queryAll();
 		$jornadas = $result[0]['descripcion'];
+		$idSedes = $result[0]['id_sedes'];
+		
+		
+		$command = $connection->createCommand("
+		SELECT i.id
+		FROM instituciones as i,sedes as s
+		WHERE s.id_instituciones = i.id
+		and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+		$idInstituciones = $result[0]['id'];		
+	
 		
 		$command = $connection->createCommand("
 		SELECT n.descripcion
@@ -149,6 +162,8 @@ class ParalelosController extends Controller
 			'jornadas' => $jornadas,
 			'niveles' => $niveles,
 			'estados' => $estados,
+			'idSedes' => $idSedes,
+			'idInstituciones' =>$idInstituciones,
 
         ]);
     }
@@ -203,6 +218,9 @@ class ParalelosController extends Controller
 		{
 			$niveles[$r['id']]=$r['descripcion'];
 		}
+		
+		//breadcrumbs
+		
 			
         $model = new Paralelos();
 
@@ -215,6 +233,8 @@ class ParalelosController extends Controller
 			'jornadas'=> $jornadas,
 			'niveles'=>$niveles,
 			'estados'=>$estados,
+			'idSedes'=>$idSedes,
+			'idInstitucion'=>$idInstitucion,
         ]);
     }
 
@@ -282,7 +302,18 @@ class ParalelosController extends Controller
 		}
 			
 	    $model = $this->findModel($id);
-				
+		
+		//breadcrumbs
+		$command = $connection->createCommand("
+		SELECT i.id
+		FROM instituciones as i,sedes as s
+		WHERE s.id_instituciones = i.id
+		and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+		$idInstituciones = $result[0]['id'];
+		
+		
 				
 			
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -295,6 +326,9 @@ class ParalelosController extends Controller
 			'jornadas'=> $jornadas,
 			'niveles'=> $niveles,
 			'estados'=> $estados,
+			'idSedes'=>$idSedes,
+			'idInstituciones'=>$idInstituciones,
+			
         ]);
     }
 

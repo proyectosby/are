@@ -7,7 +7,14 @@ use yii\helpers\Html;
 /* @var $model app\models\Paralelos */
 
 $this->title = 'Agregar';
-$this->params['breadcrumbs'][] = ['label' => 'Paralelos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+									'label' => 'Paralelos', 
+									'url' => [
+												'index',
+												'idInstitucion' => $idInstitucion, 
+												'idSedes' 		=> $idSedes,
+											 ]
+								 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="paralelos-create">
