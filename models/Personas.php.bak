@@ -1,23 +1,4 @@
 <?php
-/**********
-Versión: 001
-Fecha: Fecha en formato (05-03-2018)
-Desarrollador: Viviana Rodas
-Descripción: Modelo de personas, permite hacer el crud
----------------------------------------
-
-
-Modificaciones:
-Fecha: Fecha en formato(08-03-2018)
-Persona encargada: Vivina Rodas
-Cambios realizados: Se modifican las reglas de los campos
-
-Fecha: Fecha en formato(09-03-2018)
-Persona encargada: Vivina Rodas
-Cambios realizados: Se crea funcion para codificar en ut8 los campos con caracteres especiales
-*/
-
-
 
 namespace app\models;
 
@@ -83,7 +64,7 @@ class Personas extends \yii\db\ActiveRecord
             [['fecha_nacimiento', 'fecha_registro', 'fecha_ultimo_ingreso'], 'safe'],
             [['envio_correo'], 'boolean'],
             [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'default', 'value' => null],
-            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'string'],
+            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'integer'],
             [['latitud', 'longitud'], 'number'],
             [['usuario'], 'string', 'max' => 60],
             [['psw', 'domicilio'], 'string', 'max' => 200],
@@ -93,7 +74,6 @@ class Personas extends \yii\db\ActiveRecord
             [['hobbies'], 'string', 'max' => 500],
             [['correo'], 'unique'],
             [['identificacion'], 'unique'],
-			[['identificacion', 'nombres','apellidos', 'correo','id_tipos_identificaciones','usuario','psw'],'required'],
             [['usuario'], 'unique'],
             [['id_barrios_veredas'], 'exist', 'skipOnError' => true, 'targetClass' => BarriosVeredas::className(), 'targetAttribute' => ['id_barrios_veredas' => 'id']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
@@ -102,57 +82,34 @@ class Personas extends \yii\db\ActiveRecord
             [['id_tipos_identificaciones'], 'exist', 'skipOnError' => true, 'targetClass' => TiposIdentificaciones::className(), 'targetAttribute' => ['id_tipos_identificaciones' => 'id']],
         ];
     }
-	
-	/**
- * Metodo para codificar en utf8.
- * 
- * param Parámetro: Recibe la cadena que se va a codificar
- * return Tipo de retorno: Retorna la cadena codificada
- * author : Viviana Rodas
- * exception : No tiene ninguna excepción
- */
-
-	function codificarEnUtf8($fila) {
-        $aux;
-        foreach ($fila as $value) {
-            $aux[] = utf8_encode($value);
-        }
-        return $aux;
-    }
 
     /**
      * @inheritdoc
      */
-	 
     public function attributeLabels()
     {
-		
-		$Identificacion = utf8_encode('Identificación');
-		$telefono = utf8_encode('Teléfonos');
-		$tipoIdentificacion = utf8_encode('Tipo Identificación');
-		$genero = utf8_encode('Género');
         return [
             'id' => 'ID',
             'usuario' => 'Usuario',
-            'psw' => 'Clave',
-            'identificacion' => $Identificacion,
+            'psw' => 'Psw',
+            'identificacion' => 'Identificacion',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
-            'telefonos' => $telefono,
+            'telefonos' => 'Telefonos',
             'fecha_nacimiento' => 'Fecha Nacimiento',
             'fecha_registro' => 'Fecha Registro',
             'correo' => 'Correo',
             'domicilio' => 'Domicilio',
             'fecha_ultimo_ingreso' => 'Fecha Ultimo Ingreso',
             'envio_correo' => 'Envio Correo',
-            'id_municipios' => 'Municipio',
-            'id_tipos_identificaciones' => $tipoIdentificacion,
+            'id_municipios' => 'Id Municipios',
+            'id_tipos_identificaciones' => 'Id Tipos Identificaciones',
             'latitud' => 'Latitud',
             'longitud' => 'Longitud',
-            'id_estados_civiles' => 'Estado Civil',
-            'id_generos' => $genero,
+            'id_estados_civiles' => 'Id Estados Civiles',
+            'id_generos' => 'Id Generos',
             'hobbies' => 'Hobbies',
-            'id_barrios_veredas' => 'Barrio - Vereda',
+            'id_barrios_veredas' => 'Id Barrios Veredas',
             'estado' => 'Estado',
         ];
     }

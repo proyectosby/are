@@ -4,11 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Personas;
-use app\models\PersonasBuscar;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 use app\models\TiposIdentificaciones;
 use app\models\EstadosCiviles;
@@ -44,12 +44,11 @@ class PersonasController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PersonasBuscar();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider ->query->andWhere('estado=1'); 
+        $dataProvider = new ActiveDataProvider([
+            'query' => Personas::find()->where( 'estado=1' ),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -84,7 +83,7 @@ class PersonasController extends Controller
 		
 		//se crea una instancia del modelo estados civiles
 		$estadosCivilesTable 		 	= new EstadosCiviles();
-		//se traen los datos de estados civiles
+		//se traen los datos de identificaciones
 		$dataestadosCiviles		 	= $estadosCivilesTable->find()->all();
 		//se guardan los datos en un array
 		$estadosCiviles	 	 	 	= ArrayHelper::map( $dataestadosCiviles, 'id', 'descripcion' );

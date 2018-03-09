@@ -34,37 +34,15 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 <div class="personas-form">
 
     <?php $form = ActiveForm::begin(); ?>
-	
-	<?php 
-			/**
- * Metodo para codificar en utf8.
- * 
- * param Parámetro: Recibe la cadena que se va a codificar
- * return Tipo de retorno: Retorna la cadena codificada
- * author : Viviana Rodas
- * exception : No tiene ninguna excepción
- */
-
-	function codificarEnUtf8($fila) {
-        $aux;
-        foreach ($fila as $value) {
-            $aux[] = utf8_encode($value);
-        }
-        return $aux;
-    }
-	
-	$Identificacion = utf8_encode('Identificación');
-	$telefono = utf8_encode('teléfono');
-	$ubicacion = utf8_encode('Ubicación');
-	?>
 
 <!-- tabs de boostrarp para orden del formulario-->
+
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link" id="datosGenerales-tab" data-toggle="tab" href="#datosGenerales" role="tab" aria-controls="datosGenerales" aria-selected="true" onclick="">Datos generales</a>
  </li>
   <li class="nav-item">
-    <a class="nav-link" id="ubicacion-tab" data-toggle="tab" href="#ubicacion" role="tab" aria-controls="ubicacion" aria-selected="false" onclick=""><?php echo $ubicacion ?></a>
+    <a class="nav-link" id="ubicacion-tab" data-toggle="tab" href="#ubicacion" role="tab" aria-controls="ubicacion" aria-selected="false" onclick="">Ubicación</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="hobbies-tab" data-toggle="tab" href="#hobbies" role="tab" aria-controls="hobbies" aria-selected="false" onclick="">Hobbies</a>
@@ -76,7 +54,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade" id="datosGenerales" role="tabpanel" aria-labelledby="datosGenerales-tab">
 		<br>
-		<?= $form->field($model, 'identificacion')->textInput(['maxlength' => true,'placeholder'=> 'Digite la '.$Identificacion.'', 'id' =>'txtIdent']) ?>
+		<?= $form->field($model, 'identificacion')->textInput(['maxlength' => true,'placeholder'=> 'Digite la identificación', 'id' =>'txtIdent']) ?>
 		
 		<?= $form->field($model, 'id_tipos_identificaciones')->dropDownList($identificaciones, ['prompt'=>'Seleccione...']) ?>
 
@@ -104,7 +82,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 
 		<?= $form->field($model, 'id_generos')->dropDownList($generos, ['prompt'=>'Seleccione...']) ?>
 		
-		<?= $form->field($model, 'telefonos')->textInput(['maxlength' => true,'placeholder'=> 'Digite el '.$telefono.'', 'id' =>'txtTele']) ?>
+		<?= $form->field($model, 'telefonos')->textInput(['maxlength' => true,'placeholder'=> 'Digite el telefono', 'id' =>'txtTele']) ?>
 		
 		<?= $form->field($model, 'envio_correo')->checkbox() ?>
 		
@@ -115,7 +93,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 			<?= $form->field($model, 'usuario')->textInput(['maxlength' => true,'placeholder'=> 'Digite el nombre de usuario', 'id' =>'txtUsu']) ?>
 
 			<?php  if ($clave == true) {?>
-			<?= $form->field($model, 'psw')->passwordInput(['maxlength' => true,'placeholder'=> 'Digite clave', 'id' =>'txtClave']) ?>
+			<?= $form->field($model, 'psw')->passwordInput(['maxlength' => true,'placeholder'=> 'Digite contraseña', 'id' =>'txtClave']) ?>
 			<?php  } ?>
 		</fieldset>
 	
@@ -138,7 +116,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 	<?= $form->field($model, 'hobbies')->textarea(array('rows'=>10,'cols'=>10),['placeholder'=> 'Digite los hobbies', 'id' =>'txtHobb'] ) ?>
   </div>
   
-   
+   <div class="tab-pane fade" id="formaciones" role="tabpanel" aria-labelledby="formaciones-tab">
+	<br>
+	
+  </div>
 </div>
 	
 	
@@ -160,7 +141,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
        
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

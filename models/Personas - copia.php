@@ -1,23 +1,17 @@
 <?php
 /**********
-Versi髇: 001
+Versi贸n: 001
 Fecha: Fecha en formato (05-03-2018)
 Desarrollador: Viviana Rodas
-Descripci髇: Modelo de personas, permite hacer el crud
+Descripci贸n: Modelo de personas, permite hacer el crud
 ---------------------------------------
 
 
 Modificaciones:
-Fecha: Fecha en formato(08-03-2018)
-Persona encargada: Vivina Rodas
-Cambios realizados: Se modifican las reglas de los campos
-
-Fecha: Fecha en formato(09-03-2018)
-Persona encargada: Vivina Rodas
-Cambios realizados: Se crea funcion para codificar en ut8 los campos con caracteres especiales
+Fecha: Fecha en formato(dd-mm-yyyy)
+Persona encargada: Nombre del desarrollador
+Cambios realizados: Descripci贸n corta del cambio
 */
-
-
 
 namespace app\models;
 
@@ -83,13 +77,13 @@ class Personas extends \yii\db\ActiveRecord
             [['fecha_nacimiento', 'fecha_registro', 'fecha_ultimo_ingreso'], 'safe'],
             [['envio_correo'], 'boolean'],
             [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'default', 'value' => null],
-            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'string'],
+            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'integer'],
             [['latitud', 'longitud'], 'number'],
             [['usuario'], 'string', 'max' => 60],
             [['psw', 'domicilio'], 'string', 'max' => 200],
             [['identificacion'], 'string', 'max' => 45],
             [['nombres', 'apellidos', 'correo'], 'string', 'max' => 100],
-            [['telefonos'], 'string', 'max' => 50],
+            [['telefonos'], 'integer', 'max' => 200000000000000],
             [['hobbies'], 'string', 'max' => 500],
             [['correo'], 'unique'],
             [['identificacion'], 'unique'],
@@ -102,43 +96,20 @@ class Personas extends \yii\db\ActiveRecord
             [['id_tipos_identificaciones'], 'exist', 'skipOnError' => true, 'targetClass' => TiposIdentificaciones::className(), 'targetAttribute' => ['id_tipos_identificaciones' => 'id']],
         ];
     }
-	
-	/**
- * Metodo para codificar en utf8.
- * 
- * param Par醡etro: Recibe la cadena que se va a codificar
- * return Tipo de retorno: Retorna la cadena codificada
- * author : Viviana Rodas
- * exception : No tiene ninguna excepci髇
- */
-
-	function codificarEnUtf8($fila) {
-        $aux;
-        foreach ($fila as $value) {
-            $aux[] = utf8_encode($value);
-        }
-        return $aux;
-    }
 
     /**
      * @inheritdoc
      */
-	 
     public function attributeLabels()
     {
-		
-		$Identificacion = utf8_encode('Identificaci髇');
-		$telefono = utf8_encode('Tel閒onos');
-		$tipoIdentificacion = utf8_encode('Tipo Identificaci髇');
-		$genero = utf8_encode('G閚ero');
         return [
             'id' => 'ID',
             'usuario' => 'Usuario',
             'psw' => 'Clave',
-            'identificacion' => $Identificacion,
+            'identificacion' => 'Identificaci贸n',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
-            'telefonos' => $telefono,
+            'telefonos' => 'Tel茅fonos',
             'fecha_nacimiento' => 'Fecha Nacimiento',
             'fecha_registro' => 'Fecha Registro',
             'correo' => 'Correo',
@@ -146,11 +117,11 @@ class Personas extends \yii\db\ActiveRecord
             'fecha_ultimo_ingreso' => 'Fecha Ultimo Ingreso',
             'envio_correo' => 'Envio Correo',
             'id_municipios' => 'Municipio',
-            'id_tipos_identificaciones' => $tipoIdentificacion,
+            'id_tipos_identificaciones' => 'Tipo Identificaci贸n',
             'latitud' => 'Latitud',
             'longitud' => 'Longitud',
             'id_estados_civiles' => 'Estado Civil',
-            'id_generos' => $genero,
+            'id_generos' => 'G茅nero',
             'hobbies' => 'Hobbies',
             'id_barrios_veredas' => 'Barrio - Vereda',
             'estado' => 'Estado',

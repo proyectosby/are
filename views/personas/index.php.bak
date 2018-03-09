@@ -1,16 +1,7 @@
 <?php
 
-/**********
-Versión: 001
-Fecha: (06-03-2018)
-Desarrollador: Viviana Rodas
-Descripción: Vista de personas
----------------------------------------
-*/
-
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Generos;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PersonasBuscar */
@@ -22,10 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="personas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Personas', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -34,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
+            'id',
             // 'usuario',
             // 'psw',
             'identificacion',
@@ -43,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'telefonos',
             //'fecha_nacimiento',
             //'fecha_registro',
-            'correo',
+            //'correo',
             //'domicilio',
             //'fecha_ultimo_ingreso',
             //'envio_correo:boolean',
@@ -52,16 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'latitud',
             //'longitud',
             //'id_estados_civiles',
-			//este es el llamado al modelo generos para poder listar la descricion del genero
-            // [
-				// 'attribute'=>'id_generos',
-				// 'value' => function( $model )
-				// {
-					// $descripcionGeneros = Generos::findOne($model->id_generos);
-					// return $descripcionGeneros ? $descripcionGeneros->descripcion : '';
-				// },
-				
-			// ], 
+            //'id_generos',
             //'hobbies',
             //'id_barrios_veredas',
             //'estado',

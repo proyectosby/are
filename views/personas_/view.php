@@ -1,9 +1,9 @@
 <?php
 /**********
-Versión: 001
+VersiÃ³n: 001
 Fecha: (06-03-2018)
 Desarrollador: Viviana Rodas
-Descripción: Vista de personas
+DescripciÃ³n: Vista de personas
 ---------------------------------------
 Modificaciones:
 Fecha: Fecha en formato(08-03-2018)

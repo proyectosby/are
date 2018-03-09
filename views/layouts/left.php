@@ -117,7 +117,21 @@
 						'icon' => 'circle-o',
 						'url' => '#',
 						'items' => [
-							['label' => 'Personas', 'icon' => 'circle-o', 'url' => ['personas/index'],],
+							[
+                                        'label' => 'Personas',
+                                        'icon' => 'circle-o',
+                                        'url' => '#',
+                                        'items' => [
+                                            ['label' => 'Datos generales', 'icon' => 'circle-o', 'url' => ['personas/index'],],
+                                            ['label' => 'Formaciones', 'icon' => 'circle-o', 'url' => ['personas-formaciones/index'],],
+                                            ['label' => 'Discapacidades', 'icon' => 'circle-o', 'url' => ['personas-discapacidades/index'],],
+                                            ['label' => 'Escolaridades', 'icon' => 'circle-o', 'url' => ['personas-escolaridades/index'],],
+                                            ['label' => 'Reconocimientos', 'icon' => 'circle-o', 'url' => ['reconocimientos/index'],],
+                                        ],
+                                    ],
+							
+							
+							
 							['label' => 'Docentes', 'icon' => 'circle-o', 'url' => '#',],
 							['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => '#',],
 						],

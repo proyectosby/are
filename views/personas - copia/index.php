@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="personas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
@@ -53,15 +53,15 @@ $this->params['breadcrumbs'][] = $this->title;
             //'longitud',
             //'id_estados_civiles',
 			//este es el llamado al modelo generos para poder listar la descricion del genero
-            // [
-				// 'attribute'=>'id_generos',
-				// 'value' => function( $model )
-				// {
-					// $descripcionGeneros = Generos::findOne($model->id_generos);
-					// return $descripcionGeneros ? $descripcionGeneros->descripcion : '';
-				// },
+            [
+				'attribute'=>'id_generos',
+				'value' => function( $model )
+				{
+					$descripcionGeneros = Generos::findOne($model->id_generos);
+					return $descripcionGeneros ? $descripcionGeneros->descripcion : '';
+				},
 				
-			// ], 
+			], 
             //'hobbies',
             //'id_barrios_veredas',
             //'estado',

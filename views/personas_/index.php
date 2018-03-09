@@ -1,10 +1,10 @@
 <?php
 
 /**********
-Versión: 001
+VersiÃ³n: 001
 Fecha: (06-03-2018)
 Desarrollador: Viviana Rodas
-Descripción: Vista de personas
+DescripciÃ³n: Vista de personas
 ---------------------------------------
 */
 
@@ -13,7 +13,6 @@ use yii\grid\GridView;
 use app\models\Generos;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PersonasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Personas';
@@ -22,7 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="personas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
@@ -30,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -53,15 +50,15 @@ $this->params['breadcrumbs'][] = $this->title;
             //'longitud',
             //'id_estados_civiles',
 			//este es el llamado al modelo generos para poder listar la descricion del genero
-            // [
-				// 'attribute'=>'id_generos',
-				// 'value' => function( $model )
-				// {
-					// $descripcionGeneros = Generos::findOne($model->id_generos);
-					// return $descripcionGeneros ? $descripcionGeneros->descripcion : '';
-				// },
+            [
+				'attribute'=>'id_generos',
+				'value' => function( $model )
+				{
+					$descripcionGeneros = Generos::findOne($model->id_generos);
+					return $descripcionGeneros ? $descripcionGeneros->descripcion : '';
+				},
 				
-			// ], 
+			], 
             //'hobbies',
             //'id_barrios_veredas',
             //'estado',
