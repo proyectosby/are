@@ -219,7 +219,7 @@ class ParalelosController extends Controller
 		$SedesJornadas	= $SedesJornadas->find()->all();
 		$SedesJornadas	= ArrayHelper::map( $SedesJornadas, 'id', 'id_jornadas' );
 		
-		//listo solo la sede que ya ha sido seleccionada desde la vista listarInstituciones
+		//lista solo la sede que ya ha sido seleccionada desde la vista listarInstituciones
 		$SedesNiveles 	= new SedesNiveles();
 		$SedesNiveles	= $SedesNiveles->find()->all();
 		$SedesNiveles	= ArrayHelper::map( $SedesNiveles, 'id', 'id_niveles' );
@@ -291,6 +291,7 @@ class ParalelosController extends Controller
 		$SedesNiveles		 	= $SedesNiveles->find()->all();
 		$SedesNiveles	 	 	= ArrayHelper::map( $SedesNiveles, 'id','id_niveles');
 		
+		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
 		
 		$command = $connection->createCommand
@@ -370,18 +371,45 @@ class ParalelosController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
 	 
+	 
 	 //se modifica para que no borre sino para que actualize el campo estado 
     public function actionDelete($id)
     {
+
+				
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+
+		//consultas para redireccionar a la vista con la institucion y la sede correspondiente
 		
-		$idInstitucion = 0;
+		//selecciona la sede desde sedes_jornadas que pertenece a ese paralelo
+		$command = $connection->createCommand
+		("
+			SELECT sj.id_sedes
+			FROM public.paralelos as p, public.sedes_jornadas as sj
+			WHERE p.id_sedes_jornadas = sj.id
+			and p.id=$id
+		");		
+		$result = $command->queryAll();
+		$idSedes = $result[0]['id_sedes'];
+		//se obtiene el de la institucion de esa sede
+		$command = $connection->createCommand("
+		SELECT i.id
+		FROM instituciones as i,sedes as s
+		WHERE s.id_instituciones = i.id
+		and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+		$idInstituciones = $result[0]['id'];	
+		
 		
 		$model = Paralelos::findOne($id);
 		$model->estado = 2;
 		$idInstitucion = $model->id;
 		$model->update(false);
 
-		return $this->redirect(['index', 'idInstitucion' => $idInstitucion ]);		
+		return $this->redirect(['index', 'idInstitucion' => $idInstituciones,'idSedes'=>$idSedes]);		
+		// return $this->redirect(['index']);		
     }
 
     /**
