@@ -1,4 +1,18 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (08-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Formulario de personas
+---------------------------------------
+
+Modificaciones:
+Fecha: Fecha en formato(08-03-2018)
+Persona encargada: Viviana Rodas
+Cambios realizados: Se modifican los campos del formulario, los campos requeridos y ajustes
+a otros campos como textarea y fechas
+**********/
+
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -75,8 +89,9 @@ use dosamigos\datepicker\DatePicker;
 			<legend align="right">Datos de acceso</legend>
 			<?= $form->field($model, 'usuario')->textInput(['maxlength' => true,'placeholder'=> 'Digite el nombre de usuario', 'id' =>'txtUsu']) ?>
 
+			<?php  if ($clave == true) {?>
 			<?= $form->field($model, 'psw')->passwordInput(['maxlength' => true,'placeholder'=> 'Digite contraseña', 'id' =>'txtClave']) ?>
-	
+			<?php  } ?>
 		</fieldset>
 	
   
@@ -95,15 +110,20 @@ use dosamigos\datepicker\DatePicker;
   </div>
   <div class="tab-pane fade" id="hobbies" role="tabpanel" aria-labelledby="hobbies-tab">
 	<br>
-	<?= $form->field($model, 'hobbies')->textarea(['maxlength' => true,'placeholder'=> 'Digite los hobbies', 'id' =>'txtHobb']) ?>
+	<?= $form->field($model, 'hobbies')->textarea(array('rows'=>10,'cols'=>10),['placeholder'=> 'Digite los hobbies', 'id' =>'txtHobb'] ) ?>
   </div>
 </div>
 	
 
+	<?php $date =  date ( 'Y-m-d H:m:s' )?>
 	
-    <?= $form->field($model, 'fecha_ultimo_ingreso')->textInput() ?>
+   <!-- <?= $form->field($model, 'fecha_ultimo_ingreso')->textInput() ?>
 
-    <?= $form->field($model, 'fecha_registro')->textInput() ?>
+    <?= $form->field($model, 'fecha_registro')->textInput() ?>-->
+	
+	<?= $form->field($model, 'fecha_ultimo_ingreso')->hiddenInput(['value'=> $date])->label(false)?>
+	
+	<?= $form->field($model, 'fecha_registro')->hiddenInput(['value'=> $date])->label(false)?>
 
    
 

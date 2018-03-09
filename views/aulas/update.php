@@ -15,11 +15,22 @@ Cambios realizados: Se corrige la varibales tiposAulas, estaba con sedes
 
 use yii\helpers\Html;
 
+use app\models\Sedes;
+
+$modelSedes = Sedes::findOne( $model->id_sedes );
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Aulas */
 
-$this->title = 'Actualizar aula';
-$this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
+$this->title = 'Modificar aula';
+$this->params['breadcrumbs'][] = [
+									'label' => 'Aulas', 
+									'url' 	=> [
+													'index',
+													'idInstitucion' => $modelSedes->id_instituciones,
+													'idSedes' 		=> $modelSedes->id,
+												]
+								];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

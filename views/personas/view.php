@@ -5,6 +5,13 @@ Fecha: (06-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Vista de personas
 ---------------------------------------
+Modificaciones:
+Fecha: Fecha en formato(08-03-2018)
+Persona encargada: Viviana Rodas
+Cambios realizados: No se muestra el campo psw en ver detalle
+
+
+
 */
 
 use yii\helpers\Html;
@@ -38,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'usuario',
-            'psw',
+            // 'psw',
             'identificacion',
             'nombres',
             'apellidos',

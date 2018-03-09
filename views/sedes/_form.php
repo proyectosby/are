@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 08-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: se agrega script js que crea los options para comunes una vez se seleccione un municipio
+---------------------------------------
 Fecha: 07-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se agrega select para el campo comunas
@@ -19,6 +23,8 @@ Cambios realizados: Se deja seleccionado por defecto la institución seleccionad
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/sedes.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Sedes */
@@ -74,3 +80,27 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script>
+	$( "#sedes-id_municipios" ).change( 
+		function()
+		{
+			$.get( "index.php?r=sedes/get-comunas&idMunicipio="+$( this ).val(), 
+				function( data )
+				{
+					console.log(data);
+					
+					if(data){
+						
+						var options = "<option value=''>Seleccione...</option>"
+						for( var id in data ){
+							options += "<option value='"+id+"'>"+data[id]+"</option>";
+						}
+						
+						$( "#sedes-comuna" ).html( options );
+					}
+				},
+			"json");
+		}
+	);
+</script>

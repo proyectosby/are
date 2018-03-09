@@ -5,6 +5,12 @@ Fecha: Fecha en formato (05-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Modelo de personas, permite hacer el crud
 ---------------------------------------
+
+
+Modificaciones:
+Fecha: Fecha en formato(dd-mm-yyyy)
+Persona encargada: Nombre del desarrollador
+Cambios realizados: Descripción corta del cambio
 */
 
 namespace app\models;
@@ -77,10 +83,11 @@ class Personas extends \yii\db\ActiveRecord
             [['psw', 'domicilio'], 'string', 'max' => 200],
             [['identificacion'], 'string', 'max' => 45],
             [['nombres', 'apellidos', 'correo'], 'string', 'max' => 100],
-            [['telefonos'], 'string', 'max' => 50],
+            [['telefonos'], 'integer', 'max' => 200000000000000],
             [['hobbies'], 'string', 'max' => 500],
             [['correo'], 'unique'],
             [['identificacion'], 'unique'],
+			[['identificacion', 'nombres','apellidos', 'correo','id_tipos_identificaciones','usuario','psw'],'required'],
             [['usuario'], 'unique'],
             [['id_barrios_veredas'], 'exist', 'skipOnError' => true, 'targetClass' => BarriosVeredas::className(), 'targetAttribute' => ['id_barrios_veredas' => 'id']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
@@ -98,7 +105,7 @@ class Personas extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'usuario' => 'Usuario',
-            'psw' => 'Psw',
+            'psw' => 'Clave',
             'identificacion' => 'Identificación',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',

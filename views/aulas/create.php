@@ -6,8 +6,19 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Aulas */
 
+use app\models\Sedes;
+
+$modelSedes = Sedes::findOne( $idSedes );
+
 $this->title = 'Agregar Aula';
-$this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+									'label' => 'Aulas', 
+									'url' 	=> [
+												'index',
+												'idInstitucion'	=> $modelSedes->id_instituciones,
+												'idSedes' 		=> $modelSedes->id,
+												]
+								];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="aulas-create">

@@ -37,15 +37,26 @@ class AulasController extends Controller
      * Lists all Aulas models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Aulas::find(),
-        ]);
+		if( $idInstitucion != 0 && $idSedes != 0 ){
+			
+			$dataProvider = new ActiveDataProvider([
+				'query' => Aulas::find()->where( 'id_sedes='.$idSedes ),
+			]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+			return $this->render('index', [
+				'dataProvider' 	=> $dataProvider,
+				'idInstitucion' => $idInstitucion,
+				'idSedes' 		=> $idSedes,
+			]);
+		}
+		else{
+			return $this->render('listarInstituciones', [
+				'idInstitucion' => $idInstitucion,
+				'idSedes' => $idSedes,
+			]);
+		}
     }
 
     /**
@@ -66,11 +77,11 @@ class AulasController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate( $idSedes = 0 )
     {
 		
 		$sedesTable 		= new Sedes();
-		$dataSedes	 		= $sedesTable->find()->all();
+		$dataSedes	 		= $sedesTable->find()->where( 'id='.$idSedes )->andWhere( 'estado=1' )->all();
 		$sedes				= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 		
 		$tiposAulasTable 	= new TiposAulas();
@@ -87,6 +98,7 @@ class AulasController extends Controller
             'model' 	 => $model,
             'sedes' 	 => $sedes,
             'tiposAulas' => $tiposAulas,
+            'idSedes' 	 => $idSedes,
         ]);
     }
 
@@ -99,15 +111,16 @@ class AulasController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
+		
 		$sedesTable 		= new Sedes();
-		$dataSedes	 		= $sedesTable->find()->all();
+		$dataSedes	 		= $sedesTable->find()->where( 'id='.$model->id_sedes )->all();
 		$sedes				= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 		
 		$tiposAulasTable 	= new TiposAulas();
 		$dataTiposAulas	 	= $tiposAulasTable->find()->all();
 		$tiposAulas			= ArrayHelper::map( $dataTiposAulas, 'id', 'descripcion' );
 		
-        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -129,9 +142,16 @@ class AulasController extends Controller
      */
     public function actionDelete($id)
     {
+		$model 			= $this->findModel($id);
+		
+		$modelSedes 	= Sedes::findOne( $model->id_sedes );
+		
+		$idInstitucion  = $modelSedes->id_instituciones;
+		$idSedes 		= $modelSedes->id;
+		
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes ]);
     }
 
     /**

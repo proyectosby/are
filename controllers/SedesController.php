@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 08-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se crea action GetComunas para buscar las comunas según el municipio, esta accion devuelve un json
+---------------------------------------
 Fecha: 07-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se muestra el select para las comunas
@@ -40,6 +44,7 @@ use app\models\Zonificaciones;
 use app\models\Municipios;
 use app\models\ComunasCorregimientos;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * SedesController implements the CRUD actions for Sedes model.
@@ -61,6 +66,23 @@ class SedesController extends Controller
         ];
     }
 	
+	/**
+	 * Devuelve todas las comunas según el municipio
+	 * retorna un json, esto para que se pueda usar más dinámicamente
+	 */
+	public function actionGetComunas( $idMunicipio )
+	{
+		
+		$comunasTable	 	 = new ComunasCorregimientos();
+		$dataComunas		 = $comunasTable->find()
+									->where( 'comunas_corregimientos.estado=1' )
+									->andWhere( 'comunas_corregimientos.id_municipios='.$idMunicipio )
+									->all();
+		$comunas	 	 	 = ArrayHelper::map( $dataComunas, 'id', 'descripcion' );
+		
+		return Json::encode( $comunas );
+		
+	}
 	
 	 /**
      * Lists all Sedes models.
