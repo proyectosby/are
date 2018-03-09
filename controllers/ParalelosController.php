@@ -67,8 +67,6 @@ class ParalelosController extends Controller
 			$estados = $estados->find()->all();
 			$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
 	
-	
-	
 			$idParalelos[]=0;
 			$connection = Yii::$app->getDb();
 			$command = $connection->createCommand("
