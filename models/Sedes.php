@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 08-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 07-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: No se obliga barrios y/o veredas ni comuna
+---------------------------------------
+**********/
+
 namespace app\models;
 
 use Yii;
@@ -75,7 +88,7 @@ class Sedes extends \yii\db\ActiveRecord
             [['id_modalidades'], 'exist', 'skipOnError' => true, 'targetClass' => Modalidades::className(), 'targetAttribute' => ['id_modalidades' => 'id']],
             [['id_tenencias'], 'exist', 'skipOnError' => true, 'targetClass' => Tenencias::className(), 'targetAttribute' => ['id_tenencias' => 'id']],
             [['id_zonificaciones'], 'exist', 'skipOnError' => true, 'targetClass' => Zonificaciones::className(), 'targetAttribute' => ['id_zonificaciones' => 'id']],
-            [['id_barrios_veredas'], 'required'],
+            // [['id_barrios_veredas'], 'required'],
             [['id_calendarios'], 'required'],
             [['id_estratos'], 'required'],
             [['id_generos_sedes'], 'required'],
@@ -85,7 +98,7 @@ class Sedes extends \yii\db\ActiveRecord
             [['id_zonificaciones'], 'required'],
             [['estado'], 'required'],
             [['id_municipios'], 'required'],
-            [['comuna'], 'required'],
+            // [['comuna'], 'required'],
         ];
     }
 
