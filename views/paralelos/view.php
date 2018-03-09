@@ -25,9 +25,6 @@ Cambios realizados: modificacion de los datos en DetailView para mostrar los dat
 
 -------------
 **********/
-
-
-
 $this->title = $model->descripcion;
 $this->params['breadcrumbs'][] = [
 									'label' => 'Paralelos', 

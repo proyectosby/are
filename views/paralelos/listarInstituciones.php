@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jornadas por sede';
+$this->title = 'Paralelos por Nivel';
 $this->params['breadcrumbs'][] = $this->title;
 
 

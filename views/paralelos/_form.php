@@ -25,24 +25,26 @@ Modificaciones:
 Fecha: 09-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Cambio a dropDownList en id_sedes_jornadas y en id_sedes_niveles los cuales 
-resiben como parametro las jornadas y los niveles que estan disponibles para la sede seleccionada.
+reciben como parametro las jornadas y los niveles que estan disponibles para la sede seleccionada.
 ---------------------------------------
 **********/
 ?>
 
 <div class="paralelos-form">
 
+<?php $fecha = date ( 'Y-m-d H:m:s' ); ?>
+
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true,'placeholder'=> 'Digite la descripcion']) ?>
 	
     <?= $form->field($model, 'id_sedes_jornadas')->dropDownList($jornadas, [ 'prompt' => 'Seleccione...']) ?>
 
     <?= $form->field($model, 'id_sedes_niveles')->dropDownList($niveles, [ 'prompt' => 'Seleccione...']) ?>
 
-    <?= $form->field($model, 'ano_lectivo')->textInput() ?>
+    <?= $form->field($model, 'ano_lectivo')->textInput(['placeholder'=> 'Digite el(los) año(s) lectivo(s)']) ?>
 
-    <?= $form->field($model, 'fecha_ingreso')->textInput() ?>
+    <?= $form->field($model, 'fecha_ingreso')->hiddenInput(['value'=> $fecha])->label(false)?>
 
     <?= $form->field($model, 'estado')->dropDownList($estados) ?>
 
