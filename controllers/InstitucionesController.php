@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de instituciones
 ---------------------------------------
 Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega buscador
+---------------------------------------
 Fecha: 03-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: No se muestran las instituciones inactivas
@@ -17,6 +21,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Instituciones;
+use app\models\InstitucionesBuscar;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -55,12 +60,17 @@ class InstitucionesController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Instituciones::find()->where( 'estado=1' ),
-        ]);
+		$searchModel = new InstitucionesBuscar();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider ->query->andWhere('estado=1');
+		
+        // $dataProvider = new ActiveDataProvider([
+            // 'query' => Instituciones::find()->where( 'estado=1' ),
+        // ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
         ]);
     }
 

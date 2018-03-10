@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de instituciones
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios Se agrega buscador
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -25,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
+        'filterModel'  => $searchModel,
+        'columns' 	   => [
             ['class' => 'yii\grid\SerialColumn'],
             'descripcion',
             [
