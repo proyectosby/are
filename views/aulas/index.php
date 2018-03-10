@@ -30,12 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+	 <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+	
     <p>
         <?= Html::a('Agregar', ['create', 'idSedes' => $idSedes ], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' 	=> $dataProvider,
+        'filterModel' 	=> $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 			
@@ -47,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$sedes = Sedes::findOne($model->id_sedes);
 					return $sedes ? $sedes->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(Sedes::find()->where( 'id='.$idSedes )->all(), 'id', 'descripcion' ),
 			],
 			[
 				'attribute' => 'id_tipos_aulas',
@@ -55,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$tiposAulas = TiposAulas::findOne($model->id_tipos_aulas);
 					return $tiposAulas ? $tiposAulas->descripcion : '';
 				},
-				'filter' => ArrayHelper::map(Sedes::find()->all(), 'id', 'descripcion' ),
+				'filter' => ArrayHelper::map(TiposAulas::find()->all(), 'id', 'descripcion' ),
 			],
 
             ['class' => 'yii\grid\ActionColumn'],

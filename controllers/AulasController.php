@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Aulas;
+use app\models\AulasBuscar;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -41,12 +42,17 @@ class AulasController extends Controller
     {
 		if( $idInstitucion != 0 && $idSedes != 0 ){
 			
-			$dataProvider = new ActiveDataProvider([
-				'query' => Aulas::find()->where( 'id_sedes='.$idSedes ),
-			]);
+			$aulasSearchModel= new AulasBuscar();
+			$dataProvider 	 = $aulasSearchModel->search(Yii::$app->request->queryParams);
+			$dataProvider->query->andWhere( 'id_sedes='.$idSedes ); 
+			
+			// $dataProvider = new ActiveDataProvider([
+				// 'query' => Aulas::find()->where( 'id_sedes='.$idSedes ),
+			// ]);
 
 			return $this->render('index', [
 				'dataProvider' 	=> $dataProvider,
+				'searchModel' 	=> $aulasSearchModel,
 				'idInstitucion' => $idInstitucion,
 				'idSedes' 		=> $idSedes,
 			]);
