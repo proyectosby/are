@@ -18,7 +18,7 @@ class ParalelosBuscar extends Paralelos
     public function rules()
     {
         return [
-            [['id', 'id_sedes_jornadas', 'id_sedes_niveles', 'estado'], 'integer'],
+            [['id', 'estado'], 'integer'],
             [['descripcion', 'ano_lectivo', 'fecha_ingreso'], 'safe'],
         ];
     }
