@@ -36,6 +36,8 @@ class SedesNiveles extends \yii\db\ActiveRecord
             [['id_niveles', 'id_sedes'], 'integer'],
             [['id_niveles'], 'exist', 'skipOnError' => true, 'targetClass' => Niveles::className(), 'targetAttribute' => ['id_niveles' => 'id']],
             [['id_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sedes' => 'id']],
+            [['id_sedes'], 'required' ],
+            [['id_niveles'], 'required' ],
         ];
     }
 
@@ -46,8 +48,8 @@ class SedesNiveles extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_niveles' => 'Id Niveles',
-            'id_sedes' => 'Id Sedes',
+            'id_niveles' => 'Niveles',
+            'id_sedes' => 'Sedes',
         ];
     }
 
