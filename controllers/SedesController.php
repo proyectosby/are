@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se crea buscador en el index
+---------------------------------------
 Fecha: 08-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se crea action GetComunas para buscar las comunas según el municipio, esta accion devuelve un json
@@ -27,6 +31,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Sedes;
+use app\models\SedesBuscar;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -105,13 +110,18 @@ class SedesController extends Controller
 		
 		if( $idInstitucion > 0 )
 		{
-			$querySedes = $querySedes->where( 'id_instituciones='.$idInstitucion )->andWhere('estado=1');
+			// $querySedes = $querySedes->where( 'id_instituciones='.$idInstitucion )->andWhere('estado=1');
 			
-			$dataProvider = new ActiveDataProvider([
-				'query' => $querySedes,
-			]);
+			// $dataProvider = new ActiveDataProvider([
+				// 'query' => $querySedes,
+			// ]);
+			
+			$searchModel = new SedesBuscar();
+			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$dataProvider ->query->andWhere( 'id_instituciones='.$idInstitucion );
 			
 			return $this->render('index', [
+				'searchModel' 		=> $searchModel,
 				'dataProvider' 		=> $dataProvider,
 				'idInstitucion' 	=> $idInstitucion,
 			]);

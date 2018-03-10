@@ -6,6 +6,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
 Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se crea buscador
+---------------------------------------
 Fecha: 07-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se quita columna ID
@@ -50,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel'  => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
