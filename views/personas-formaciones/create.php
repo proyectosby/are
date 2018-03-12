@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\PersonasFormaciones */
 
-$this->title = 'Create Personas Formaciones';
+$this->title = 'Agregar';
 $this->params['breadcrumbs'][] = ['label' => 'Personas Formaciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'personas' => $personas,
+        'formaciones' => $formaciones,
     ]) ?>
 
 </div>

@@ -18,6 +18,11 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 use app\models\Generos;
+use app\models\Estados;
+use app\models\EstadosCiviles;
+use app\models\BarriosVeredas;
+use app\models\Municipios;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Personas */
 
@@ -56,11 +61,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'domicilio',
             'fecha_ultimo_ingreso',
             'envio_correo:boolean',
-            'id_municipios',
+			[
+				'attribute'=>'id_municipios',
+				'value' => function( $model )
+				{
+					$municipios = Municipios::findOne($model->id_estados_civiles);
+					return $municipios ? $municipios->descripcion : '';
+				},
+				
+			],
             'id_tipos_identificaciones',
             'latitud',
             'longitud',
-            'id_estados_civiles',
+			[
+				'attribute'=>'id_estados_civiles',
+				'value' => function( $model )
+				{
+					$descripcionEstadosC = EstadosCiviles::findOne($model->id_estados_civiles);
+					return $descripcionEstadosC ? $descripcionEstadosC->descripcion : '';
+				},
+				
+			],
 			//este es el llamado al modelo generos para poder listar la descricion del genero
             [
 				'attribute'=>'id_generos',
@@ -72,8 +93,22 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 			],
             'hobbies',
-            'id_barrios_veredas',
-            'estado',
+            [
+				'attribute' => 'id_barrios_veredas',
+				'value' => function( $model )
+				{
+					$barriosVeredas = BarriosVeredas::findOne( $model->id_barrios_veredas );
+					return $barriosVeredas ? $barriosVeredas->descripcion : '';
+				},
+			],
+			[
+				'attribute' => 'estado',
+				'value' => function( $model )
+				{
+					$estados = Estados::findOne( $model->estado );
+					return $estados ? $estados->descripcion : '';
+				},
+			],
         ],
     ]) ?>
 
