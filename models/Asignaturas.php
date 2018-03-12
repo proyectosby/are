@@ -47,8 +47,8 @@ class Asignaturas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion' => 'Descripcion',
-            'id_sedes' => 'Id Sedes',
+            'descripcion' => 'Descripción',
+            'id_sedes' => 'Sedes',
             'estado' => 'Estado',
         ];
     }

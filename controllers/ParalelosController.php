@@ -80,11 +80,7 @@ class ParalelosController extends Controller
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{	
 	
-			//sirve obtener los estados en un array dado id vs descripcion
-			$estados = new Estados();
-			$estados = $estados->find()->all();
-			$estados = ArrayHelper::map( $estados, 'id', 'descripcion' );
-	
+			
 			//se obtiene los ids de los paralelos que tenga la sede seleccionada o dada por $idSedes
 			
 			//en caso de no existir paralelos en la consulta siempre tenga un 0 el array
@@ -127,7 +123,6 @@ class ParalelosController extends Controller
 				'dataProvider' 	=> $dataProvider,
 				'idSedes' 		=> $idSedes,
 				'idInstitucion' => $idInstitucion,
-				'estados'		=> $estados,
 			]);
 		}
 		else

@@ -1,21 +1,56 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 09-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 09-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Modificacion miga de pan
+---------------------------------------
+**********/
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Asignaturas */
 
-$this->title = 'Update Asignaturas: {nameAttribute}';
-$this->params['breadcrumbs'][] = ['label' => 'Asignaturas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update Asignaturas: ';
+use app\models\Estados;
+use app\models\Sedes;
+
+//datos para la miga de pan
+$sede = new Sedes();
+$sede = $sede->find()->where('id='.$model->id_sedes)->all();
+$sede = ArrayHelper::map($sede,'descripcion','id_instituciones');
+$nombreSede = key($sede);
+
+$idInstitucion = $sede[$nombreSede];
+/* @var $this yii\web\View */
+/* @var $model app\models\Asignaturas */
+
+$this->title = $nombreSede;
+$this->params['breadcrumbs'][] = [
+									'label' => 'Asignaturas', 
+									'url' => [
+												'index',
+												'idInstitucion' => $idInstitucion, 
+												'idSedes' 		=> $model->id_sedes,
+											 ]
+								 ];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="asignaturas-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<!--muestra como titulo la descripcion de la asignatura -->
+    <h1><?= Html::encode("Asignaturas") ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+		'estados'=>$estados,
+		'sedes'=>$sedes,
     ]) ?>
 
 </div>
