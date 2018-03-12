@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 12-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 12-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se incorcopar el buscar
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -20,20 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'descripcion',
-            [
-				'attribute'=>'estado',
-				'value' => function( $model )
-				{
-					$estados = Estados::findOne($model->estado);
-					return $estados ? $estados->descripcion : '';
-				},
-				
-			], 
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

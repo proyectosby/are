@@ -1,9 +1,25 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 12-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 12-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se incorpora la opcion de busqueda
+---------------------------------------
+**********/
+
+
+
 namespace app\controllers;
 
 use app\models\Periodos;
 use app\models\Estados;
+use app\models\PeriodosBuscar;
 
 
 use Yii;
@@ -39,12 +55,15 @@ class PeriodosController extends Controller
      */
     public function actionIndex()
     {
-         $dataProvider = new ActiveDataProvider([
-            'query' => Periodos::find()->where('estado=1'),
-        ]);
+		$searchModel = new PeriodosBuscar();
+        
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andwhere( 'estado=1');
+
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+			'searchModel' => $searchModel,			
         ]);
     }
 
