@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (09-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Formulario de formaciones
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -12,22 +19,22 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_personas')->textInput() ?>
+    <?= $form->field($model, 'id_personas')->dropDownList($personas, ['prompt'=>'Seleccione...']) ?>
 
-    <?= $form->field($model, 'id_tipos_formaciones')->textInput() ?>
+    <?= $form->field($model, 'id_tipos_formaciones')->dropDownList($formaciones, ['prompt'=>'Seleccione...']) ?>
 
-    <?= $form->field($model, 'horas_curso')->textInput() ?>
+    <?= $form->field($model, 'horas_curso')->textInput(['maxlength' => true,'placeholder'=> 'Digite las horas del curso', 'id' =>'txtHoras']) ?>
 
-    <?= $form->field($model, 'ano_curso')->textInput() ?>
+    <?= $form->field($model, 'ano_curso')->textInput(['maxlength' => true,'placeholder'=> 'Digite el año', 'id' =>'txtAno']) ?>
 
     <?= $form->field($model, 'titulacion')->checkbox() ?>
 
-    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true,'placeholder'=> 'Digite el título', 'id' =>'txtTitulo']) ?>
 
-    <?= $form->field($model, 'institucion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'institucion')->textInput(['maxlength' => true,'placeholder'=> 'Digite la institución', 'id' =>'txtInst']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

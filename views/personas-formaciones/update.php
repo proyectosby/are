@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\PersonasFormaciones */
 
-$this->title = 'Update Personas Formaciones: {nameAttribute}';
+$this->title = 'Modificar: ';
 $this->params['breadcrumbs'][] = ['label' => 'Personas Formaciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="personas-formaciones-update">
 
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+		'personas' => $personas,
+        'formaciones' => $formaciones,
     ]) ?>
 
 </div>

@@ -9,6 +9,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\Personas;
+use app\models\TiposFormaciones;
+
+use yii\helpers\ArrayHelper;
 /**
  * PersonasFormacionesController implements the CRUD actions for PersonasFormaciones model.
  */
@@ -64,7 +68,23 @@ class PersonasFormacionesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PersonasFormaciones();
+        //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos formaciones
+		$tiposFormacionesTable 		 	= new TiposFormaciones();
+		//se traen los datos de tipos formaciones										  
+		$datatiposFormaciones		 	= $tiposFormacionesTable->find()->all();										  
+		//se guardan los datos en un array
+		$formaciones	 	 	 	= ArrayHelper::map( $datatiposFormaciones, 'id', 'descripcion' );
+		
+		
+		$model = new PersonasFormaciones();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +92,8 @@ class PersonasFormacionesController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'personas' => $personas,
+            'formaciones' => $formaciones,
         ]);
     }
 
@@ -84,7 +106,23 @@ class PersonasFormacionesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+         //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos formaciones
+		$tiposFormacionesTable 		 	= new TiposFormaciones();
+		//se traen los datos de tipos formaciones										  
+		$datatiposFormaciones		 	= $tiposFormacionesTable->find()->all();										  
+		//se guardan los datos en un array
+		$formaciones	 	 	 	= ArrayHelper::map( $datatiposFormaciones, 'id', 'descripcion' );
+		
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,6 +130,8 @@ class PersonasFormacionesController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'personas' => $personas,
+            'formaciones' => $formaciones,
         ]);
     }
 

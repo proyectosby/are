@@ -39,6 +39,7 @@ class PersonasFormaciones extends \yii\db\ActiveRecord
             [['id_personas', 'id_tipos_formaciones', 'horas_curso', 'ano_curso'], 'integer'],
             [['titulacion'], 'boolean'],
             [['titulo', 'institucion'], 'string', 'max' => 80],
+			[['id_personas','titulo','horas_curso', 'id_tipos_formaciones','institucion'],'required'], // falta saca error
             [['id_personas'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_personas' => 'id']],
             [['id_tipos_formaciones'], 'exist', 'skipOnError' => true, 'targetClass' => TiposFormaciones::className(), 'targetAttribute' => ['id_tipos_formaciones' => 'id']],
         ];
@@ -50,13 +51,13 @@ class PersonasFormaciones extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_personas' => 'Id Personas',
-            'id_tipos_formaciones' => 'Id Tipos Formaciones',
+            'id_personas' => 'Persona',
+            'id_tipos_formaciones' => 'Tipos Formación',
             'horas_curso' => 'Horas Curso',
-            'ano_curso' => 'Ano Curso',
-            'titulacion' => 'Titulacion',
-            'titulo' => 'Titulo',
-            'institucion' => 'Institucion',
+            'ano_curso' => 'Año Curso',
+            'titulacion' => 'Titulación',
+            'titulo' => 'Título',
+            'institucion' => 'Institución',
             'id' => 'ID',
         ];
     }
