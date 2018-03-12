@@ -1,17 +1,4 @@
 <?php
-/**********
-Versión: 001
-Fecha: 12-03-2018
-Desarrollador: Oscar David Lopez
-Descripción: CRUD de Niveles
----------------------------------------
-Modificaciones:
-Fecha: 12-03-2018
-Persona encargada: Oscar David Lopez
-Cambios realizados: - se cambia el filtro de busqueda id_niveles_academicos por niveles_academicos
----------------------------------------
-**********/
-
 namespace app\models;
 
 use Yii;
