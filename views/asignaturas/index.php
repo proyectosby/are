@@ -59,14 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\SerialColumn'],
             'descripcion',
-			[
-				'attribute'=>'id_sedes',
-				//codigo para mostrar la descripcion de la sede segun el id_sede de la tabla asigaciones
-				'value'=>function( $model ){
-					$sedes = Sedes::findOne($model->id_sedes);
-					return $sedes ? $sedes->descripcion : '';
-				},			
-			],			
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
