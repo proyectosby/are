@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
 use app\models\Niveles;
 use app\models\Estados;
-
+use app\models\NivelesBuscar;
 /**
  * NivelesController implements the CRUD actions for Niveles model.
  */
@@ -29,7 +29,11 @@ Modificaciones:
 Fecha: 05-03-2018
 Persona encargada: Oscar David Lopez Villa
 Cambios realizados: Se muestran los niveles con estado activo - Funcion actionIndex()
-Cambios realizados: 
+---------------------------------------
+Modificaciones:
+Fecha: 12-03-2018
+Persona encargada: Oscar David Lopez Villa
+Cambios realizados: Se incorpora la opcion de buscar
 ------------
 **********/
 class NivelesController extends Controller
@@ -55,12 +59,13 @@ class NivelesController extends Controller
      */
      public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Niveles::find()->where('estado=1'),
-        ]);
+		$searchModel = new NivelesBuscar();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andwhere( 'estado=1');
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+			'searchModel' => $searchModel,
         ]);
     }
 

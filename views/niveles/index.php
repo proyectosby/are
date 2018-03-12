@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use	yii\helpers\ArrayHelper;
 
 use app\models\NivelesAcademicos;
 use app\models\Niveles;
@@ -23,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -34,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$NivelesAcademicos = NivelesAcademicos::findOne($model->id_niveles_academicos);
 					return $NivelesAcademicos ? $NivelesAcademicos->descripcion : '';
 				},
+				'filter' 	=> ArrayHelper::map(NivelesAcademicos::find()->all(), 'id', 'descripcion' ),
 				
 			],            
 
