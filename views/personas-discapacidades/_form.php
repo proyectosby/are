@@ -1,5 +1,13 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: Fecha en formato (12-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Formulario de discapacidades
+---------------------------------------
+*/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,14 +20,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_personas')->textInput() ?>
+    <?= $form->field($model, 'id_personas')->dropDownList($personas, ['prompt'=>'Seleccione...']) ?>
 
-    <?= $form->field($model, 'id_tipos_discapacidades')->textInput() ?>
+    <?= $form->field($model, 'id_tipos_discapacidades')->dropDownList($discapacidades, ['prompt'=>'Seleccione...']) ?>
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
