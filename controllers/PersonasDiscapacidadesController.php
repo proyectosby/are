@@ -9,6 +9,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\Personas;
+use app\models\TiposDiscapacidades;
+use yii\helpers\ArrayHelper;
+
 /**
  * PersonasDiscapacidadesController implements the CRUD actions for PersonasDiscapacidades model.
  */
@@ -65,7 +69,23 @@ class PersonasDiscapacidadesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PersonasDiscapacidades();
+        //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos discapacidades
+		$tiposDiscapacidadesTable 		 	= new TiposDiscapacidades();
+		//se traen los datos de tipos formaciones										  
+		$datatiposDiscapacidades		 	= $tiposDiscapacidadesTable->find()->all();										  
+		//se guardan los datos en un array
+		$discapacidades	 	 	 	= ArrayHelper::map( $datatiposDiscapacidades, 'id', 'descripcion' );
+		
+		
+		$model = new PersonasDiscapacidades();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades]);
@@ -73,6 +93,8 @@ class PersonasDiscapacidadesController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'personas' => $personas,
+            'discapacidades' => $discapacidades,
         ]);
     }
 
@@ -86,7 +108,24 @@ class PersonasDiscapacidadesController extends Controller
      */
     public function actionUpdate($id_personas, $id_tipos_discapacidades)
     {
-        $model = $this->findModel($id_personas, $id_tipos_discapacidades);
+        
+		//se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos discapacidades
+		$tiposDiscapacidadesTable 		 	= new TiposDiscapacidades();
+		//se traen los datos de tipos formaciones										  
+		$datatiposDiscapacidades		 	= $tiposDiscapacidadesTable->find()->all();										  
+		//se guardan los datos en un array
+		$discapacidades	 	 	 	= ArrayHelper::map( $datatiposDiscapacidades, 'id', 'descripcion' );
+		
+		
+		$model = $this->findModel($id_personas, $id_tipos_discapacidades);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades]);
@@ -94,6 +133,8 @@ class PersonasDiscapacidadesController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'personas' => $personas,
+            'discapacidades' => $discapacidades,
         ]);
     }
 

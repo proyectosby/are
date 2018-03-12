@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Personas;
+use app\models\TiposDiscapacidades;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\PersonasDiscapacidades */
 
@@ -15,11 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades], [
+        <?= Html::a('Modificar', ['update', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id_personas' => $model->id_personas, 'id_tipos_discapacidades' => $model->id_tipos_discapacidades], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Esta seguro de eleminar este ítem?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,8 +31,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_personas',
-            'id_tipos_discapacidades',
+            [
+				'attribute'=>'id_personas',
+				'value' => function( $model )
+				{
+					$personas = Personas::findOne($model->id_personas);
+					return $personas ? $personas->nombres : '';
+				},
+				
+			],
+            [
+				'attribute'=>'id_tipos_discapacidades',
+				'value' => function( $model )
+				{
+					$discapacidades = TiposDiscapacidades::findOne($model->id_tipos_discapacidades);
+					return $discapacidades ? $discapacidades->descripcion : '';
+				},
+				
+			],
             'descripcion:ntext',
         ],
     ]) ?>

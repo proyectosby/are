@@ -46,9 +46,9 @@ class PersonasDiscapacidades extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_personas' => 'Id Personas',
-            'id_tipos_discapacidades' => 'Id Tipos Discapacidades',
-            'descripcion' => 'Descripcion',
+            'id_personas' => 'Persona',
+            'id_tipos_discapacidades' => 'Tipos Discapacidad',
+            'descripcion' => 'Descripción',
         ];
     }
 
