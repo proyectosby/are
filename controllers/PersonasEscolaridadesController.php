@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (12-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Controlador de Escolaridades
+---------------------------------------
+*/
 
 namespace app\controllers;
 
@@ -8,6 +15,11 @@ use app\models\PersonasEscolaridadesBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Personas;
+use app\models\Escolaridades;
+
+use yii\helpers\ArrayHelper;
 
 /**
  * PersonasEscolaridadesController implements the CRUD actions for PersonasEscolaridades model.
@@ -64,7 +76,22 @@ class PersonasEscolaridadesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PersonasEscolaridades();
+        //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos escolaridades
+		$tiposEscolaridadesTable 		 	= new Escolaridades();
+		//se traen los datos de tipos formaciones										  
+		$datatiposEscolaridades		 	= $tiposEscolaridadesTable->find()->all();										  
+		//se guardan los datos en un array
+		$escolaridades	 	 	 	= ArrayHelper::map( $datatiposEscolaridades, 'id', 'descripcion' );
+		
+		$model = new PersonasEscolaridades();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +99,8 @@ class PersonasEscolaridadesController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'personas' => $personas,
+            'escolaridades' => $escolaridades,
         ]);
     }
 
@@ -84,7 +113,24 @@ class PersonasEscolaridadesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        
+		//se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo tipos escolaridades
+		$tiposEscolaridadesTable 		 	= new Escolaridades();
+		//se traen los datos de tipos formaciones										  
+		$datatiposEscolaridades		 	= $tiposEscolaridadesTable->find()->all();										  
+		//se guardan los datos en un array
+		$escolaridades	 	 	 	= ArrayHelper::map( $datatiposEscolaridades, 'id', 'descripcion' );
+		
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,6 +138,8 @@ class PersonasEscolaridadesController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'personas' => $personas,
+            'escolaridades' => $escolaridades,
         ]);
     }
 

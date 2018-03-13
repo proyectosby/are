@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (10-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Vista agregar de Formaciones
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 
@@ -6,7 +13,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Reconocimientos */
 
-$this->title = 'Create Reconocimientos';
+$this->title = 'Agregar';
 $this->params['breadcrumbs'][] = ['label' => 'Reconocimientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+		'personas' => $personas,
+        'estados' => $estados,
     ]) ?>
 
 </div>

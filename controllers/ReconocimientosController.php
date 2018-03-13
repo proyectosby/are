@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (12-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Controlador de Reconocimientos
+---------------------------------------
+*/
 
 namespace app\controllers;
 
@@ -8,6 +15,11 @@ use app\models\ReconocimientosBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Personas;
+use app\models\Estados;
+
+use yii\helpers\ArrayHelper;
 
 /**
  * ReconocimientosController implements the CRUD actions for Reconocimientos model.
@@ -37,6 +49,8 @@ class ReconocimientosController extends Controller
     {
         $searchModel = new ReconocimientosBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider ->query->andWhere('estado=1');
+		
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -64,7 +78,23 @@ class ReconocimientosController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Reconocimientos();
+        //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de tipos formaciones										  
+		$dataEstados		 	= $estadosTable->find()->where( 'id=1' )->all();										  
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
+		
+		
+		$model = new Reconocimientos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +102,8 @@ class ReconocimientosController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'personas' => $personas,
+            'estados' => $estados,
         ]);
     }
 
@@ -84,7 +116,24 @@ class ReconocimientosController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+         //se crea una instancia del modelo personas
+		$personasTable 		 	= new Personas();
+		//se traen los datos de personas
+		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		//se guardan los datos en un array
+		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de tipos formaciones										  
+		$dataEstados		 	= $estadosTable->find()->all();										  
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
+		
+		
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,6 +141,8 @@ class ReconocimientosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'personas' => $personas,
+            'estados' => $estados,
         ]);
     }
 
@@ -104,7 +155,12 @@ class ReconocimientosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
+
+        // return $this->redirect(['index']);
+		$model = Personas::findOne($id);
+		$model->estado = 2;
+		$model->update(false);
 
         return $this->redirect(['index']);
     }

@@ -18,8 +18,9 @@ class PersonasEscolaridadesBuscar extends PersonasEscolaridades
     public function rules()
     {
         return [
-            [['id_personas', 'id_escolaridades', 'ultimo_nivel_cursado', 'ano_curso', 'id'], 'integer'],
+            [['id_personas', 'id_escolaridades', 'ano_curso', 'id'], 'integer'],
             [['titulacion'], 'boolean'],
+			[['ultimo_nivel_cursado'], 'string', 'max' => 80],
             [['titulo', 'institucion'], 'safe'],
         ];
     }
@@ -62,14 +63,17 @@ class PersonasEscolaridadesBuscar extends PersonasEscolaridades
         $query->andFilterWhere([
             'id_personas' => $this->id_personas,
             'id_escolaridades' => $this->id_escolaridades,
-            'ultimo_nivel_cursado' => $this->ultimo_nivel_cursado,
+            // 'ultimo_nivel_cursado' => $this->ultimo_nivel_cursado,
             'ano_curso' => $this->ano_curso,
             'titulacion' => $this->titulacion,
             'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['ilike', 'titulo', $this->titulo])
-            ->andFilterWhere(['ilike', 'institucion', $this->institucion]);
+            ->andFilterWhere(['ilike', 'institucion', $this->institucion]) 
+			//se agrega ultimo_nivel_cursado a este where para que busque por like
+            ->andFilterWhere(['ilike', 'ultimo_nivel_cursado', $this->ultimo_nivel_cursado])
+			;
 
         return $dataProvider;
     }

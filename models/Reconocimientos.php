@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (12-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Modelo de Reconocimientos
+---------------------------------------
+*/
 
 namespace app\models;
 
@@ -34,6 +41,7 @@ class Reconocimientos extends \yii\db\ActiveRecord
             [['id_personas', 'estado'], 'default', 'value' => null],
             [['id_personas', 'estado'], 'integer'],
             [['descripcion'], 'string', 'max' => 200],
+			[['id_personas','descripcion','estado'],'required'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_personas'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_personas' => 'id']],
         ];
@@ -45,8 +53,8 @@ class Reconocimientos extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'descripcion' => 'Descripcion',
-            'id_personas' => 'Id Personas',
+            'descripcion' => 'Descripción',
+            'id_personas' => 'Persona',
             'estado' => 'Estado',
             'id' => 'ID',
         ];
