@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Paralelos por Nivel';
+$this->title = 'Grupos por nivel';
 $this->params['breadcrumbs'][] = $this->title;
 
 

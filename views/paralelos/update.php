@@ -24,7 +24,7 @@ Cambios realizados: se agregan las variables que se le pasan a la vista _form
 
 
 $this->params['breadcrumbs'][] = [
-									'label' => 'Paralelos', 
+									'label' => 'Grupos por nivel', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstituciones, 

@@ -23,7 +23,7 @@ use yii\helpers\Html;
 
 $this->title = 'Agregar';
 $this->params['breadcrumbs'][] = [
-									'label' => 'Paralelos', 
+									'label' => 'Grupos por nivel', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 

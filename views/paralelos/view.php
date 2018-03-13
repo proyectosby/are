@@ -27,7 +27,7 @@ Cambios realizados: modificacion de los datos en DetailView para mostrar los dat
 **********/
 $this->title = $model->descripcion;
 $this->params['breadcrumbs'][] = [
-									'label' => 'Paralelos', 
+									'label' => 'Grupos por nivel', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstituciones, 

@@ -29,7 +29,7 @@ de la tabla
 **********/
 
 
-$this->title = 'Paralelos';
+$this->title = 'Grupos por nivel';
 $this->params['breadcrumbs'][] = $this->title;
 
 $modelInstitucion 	= Instituciones::findOne( $idInstitucion );
