@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (10-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Vista agregar de Formaciones
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 

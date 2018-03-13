@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (12-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Modelo de Escolaridades
+---------------------------------------
+*/
 
 namespace app\models;
 
@@ -36,9 +43,10 @@ class PersonasEscolaridades extends \yii\db\ActiveRecord
     {
         return [
             [['id_personas', 'id_escolaridades', 'ultimo_nivel_cursado', 'ano_curso'], 'default', 'value' => null],
-            [['id_personas', 'id_escolaridades', 'ultimo_nivel_cursado', 'ano_curso'], 'integer'],
+            [['id_personas', 'id_escolaridades', 'ano_curso'], 'integer'],
             [['titulacion'], 'boolean'],
-            [['titulo', 'institucion'], 'string', 'max' => 80],
+            [['titulo', 'institucion','ultimo_nivel_cursado'], 'string', 'max' => 80],
+			[['id_personas','ultimo_nivel_cursado','titulo', 'id_escolaridades','ano_curso' ,'institucion'],'required'], 
             [['id_escolaridades'], 'exist', 'skipOnError' => true, 'targetClass' => Escolaridades::className(), 'targetAttribute' => ['id_escolaridades' => 'id']],
             [['id_personas'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_personas' => 'id']],
         ];
@@ -50,13 +58,13 @@ class PersonasEscolaridades extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_personas' => 'Id Personas',
-            'id_escolaridades' => 'Id Escolaridades',
-            'ultimo_nivel_cursado' => 'Ultimo Nivel Cursado',
-            'ano_curso' => 'Ano Curso',
-            'titulacion' => 'Titulacion',
-            'titulo' => 'Titulo',
-            'institucion' => 'Institucion',
+            'id_personas' => 'Persona',
+            'id_escolaridades' => 'Tipos Escolaridades',
+            'ultimo_nivel_cursado' => 'Nivel Cursado',
+            'ano_curso' => 'Año Curso',
+            'titulacion' => 'Titulación',
+            'titulo' => 'Título',
+            'institucion' => 'Institución',
             'id' => 'ID',
         ];
     }
