@@ -32,7 +32,7 @@ $this->title = $nombreSede;
 /* @var $model app\models\Asignaturas */
 
 $this->params['breadcrumbs'][] = [
-									'label' => 'Asignaturas', 
+									'label' => 'Sedes por Bloques', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 

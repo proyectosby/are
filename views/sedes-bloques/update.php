@@ -33,9 +33,9 @@ $this->title = $nombreSede;
 /* @var $model app\models\SedesBloques */
 
 
-$this->params['breadcrumbs'][] = ['label' => 'Sedes Bloques', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = ['label' => 'Sedes Bloques', 'url' => ['index']];
 $this->params['breadcrumbs'][] = [
-									'label' => 'Asignaturas', 
+									'label' => 'Sedes por Bloques', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 

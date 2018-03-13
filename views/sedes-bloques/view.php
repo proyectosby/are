@@ -21,7 +21,7 @@ $idInstitucion = $sedes[$nombreSede];
 
 $this->title = $nombreSede;
 $this->params['breadcrumbs'][] = [
-									'label' => 'Asignaturas', 
+									'label' => 'Sedes por Bloques', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 
