@@ -2,12 +2,32 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
+
+use app\models\Sedes;
+use app\models\Bloques;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\SedesBloques */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sedes Bloques', 'url' => ['index']];
+
+
+
+$sedes = new Sedes();
+$sedes = $sedes->find()->where('id='.$model->id_sedes)->all();
+$sedes = ArrayHelper::map($sedes,'descripcion','id_instituciones');
+$nombreSede = key($sedes);
+$idInstitucion = $sedes[$nombreSede];
+
+$this->title = $nombreSede;
+$this->params['breadcrumbs'][] = [
+									'label' => 'Asignaturas', 
+									'url' => [
+												'index',
+												'idInstitucion' => $idInstitucion, 
+												'idSedes' 		=> $model->id_sedes,
+											 ]
+								 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sedes-bloques-view">
@@ -15,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Está seguro de eliminar este elemento?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,9 +48,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'id_sedes',
-            'id_bloques',
+            [
+				'attribute'=>'id_bloques',
+				/*
+				se consulta la descripcion del bloques 
+				*/
+				'value' => function( $model ){
+					$bloques = Bloques::findOne($model->id_bloques);
+					return  $bloques ? $bloques->descripcion : '';
+						
+				},
+				
+			],
         ],
     ]) ?>
 

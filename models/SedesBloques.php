@@ -45,7 +45,7 @@ class SedesBloques extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_sedes' => 'Id Sedes',
-            'id_bloques' => 'Id Bloques',
+            'id_bloques' => 'Bloque',
         ];
     }
 

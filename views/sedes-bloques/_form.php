@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 12-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 12-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se oculta un campo y se le asigna el valor de la sedes
+se cambia el campo id_bloques a dropDownList 
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,12 +26,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_sedes')->textInput() ?>
+    <?= $form->field($model, 'id_sedes')->hiddenInput(['value'=>$idSedes])->label(false) ?>
 
-    <?= $form->field($model, 'id_bloques')->textInput() ?>
+    <?= $form->field($model, 'id_bloques')->dropDownList($bloques) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
