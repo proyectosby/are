@@ -23,11 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'valor_minimo')->textInput() ?>
+    <?= $form->field($model, 'valor_minimo')->textInput(['placeholder'=>'Digite un número separado por punto']) ?>
 
-    <?= $form->field($model, 'valor_maximo')->textInput() ?>
+    <?= $form->field($model, 'valor_maximo')->textInput(['placeholder'=>'Digite un número separado por punto']) ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true,'placeholder'=>'Digite la descripción']) ?>
 
     <?= $form->field($model, 'id_tipo_calificacion')->dropDownList($TiposCalificacion,['prompt' => 'Seleccione...' ]) ?>
 

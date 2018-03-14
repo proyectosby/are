@@ -74,7 +74,7 @@ class RangosCalificacionController extends Controller
 		{
 			$searchModel = new RangosCalificacionBuscar();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-			$dataProvider->query->andwhere( 'estado=1');
+			$dataProvider->query->andwhere('estado=1');
 			return $this->render('index', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
@@ -131,11 +131,42 @@ class RangosCalificacionController extends Controller
 		
 		
         $model = new RangosCalificacion();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		// echo "<pre>"; print_r($_POST); echo "</pre>";
+		// die;
+		
+		
+        if ($model->load(Yii::$app->request->post())) 
+		{
 			
-			
-			
-            return $this->redirect(['view', 'id' => $model->id]);
+			$valor_minimo	= $_POST['RangosCalificacion']['valor_minimo'];
+			$valor_maximo 	= $_POST['RangosCalificacion']['valor_maximo'];
+            $descripcion 	= $_POST['RangosCalificacion']['descripcion'];
+            
+			//variable con la conexion a la base de datos
+			$connection = Yii::$app->getDb();
+			//saber el id de la sede para redicionar al index correctamente
+			$command = $connection->createCommand("
+			SELECT valor_minimo, valor_maximo, descripcion
+			FROM public.rangos_calificacion
+			WHERE valor_minimo = $valor_minimo
+			and valor_maximo =$valor_maximo
+			and descripcion='$descripcion'
+			and estado = 1
+			");
+			$result = $command->queryAll();			
+			if (count($result) == 0)
+			{
+				$model->save();	
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
+			else
+			{				
+				echo "<script>alert('el rango Calificacion ya existe');</script>";
+				// die("<script>alert('el rango Calificacion ya existe');</script>");
+				
+			}
+						
+            
         }
 
         return $this->render('create', [

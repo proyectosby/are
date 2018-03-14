@@ -1,13 +1,23 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Instituciones;
+
+
+
+use yii\helpers\ArrayHelper;
+
+$nombreinstitucion = new Instituciones();
+$nombreinstitucion = $nombreinstitucion->find()->where('id='.$idInstitucion)->all();
+$nombreinstitucion = ArrayHelper::map($nombreinstitucion,'id','descripcion');
+$nombreinstitucion = $nombreinstitucion[$idInstitucion];
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RangosCalificacion */
 
 
-$this->title = 'Agregar';
+$this->title = $nombreinstitucion;
 $this->params['breadcrumbs'][] = [
 									'label' => 'Rangos Calificaciones', 
 									'url' => [
@@ -19,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rangos-calificacion-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode('Agregar') ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
