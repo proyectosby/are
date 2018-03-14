@@ -79,7 +79,7 @@ class PersonasFormacionesController extends Controller
 		$personasTable 		 	= new Personas();
 		//se traen los datos de personas
 		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
-		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"])->where('estado=1')->all();										  
 		//se guardan los datos en un array
 		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 		
@@ -117,7 +117,7 @@ class PersonasFormacionesController extends Controller
 		$personasTable 		 	= new Personas();
 		//se traen los datos de personas
 		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
-		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"])->where('estado=1')->all();										  
 		//se guardan los datos en un array
 		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 		

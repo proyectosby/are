@@ -82,7 +82,7 @@ class ReconocimientosController extends Controller
 		$personasTable 		 	= new Personas();
 		//se traen los datos de personas
 		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
-		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"])->where('estado=1')->all();										  
 		//se guardan los datos en un array
 		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 		
@@ -120,7 +120,7 @@ class ReconocimientosController extends Controller
 		$personasTable 		 	= new Personas();
 		//se traen los datos de personas
 		// $dataPersonas		 	= $personasTable->find()->where(['concat(nombre,apellidos) as name'])->all();										  
-		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"]) ->all();										  
+		$dataPersonas		 	= $personasTable->find()->select(["id, CONCAT(nombres, ' ', apellidos) AS nombres"])->where('estado=1')->all();										  
 		//se guardan los datos en un array
 		$personas	 	 	 	= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 		
@@ -158,7 +158,7 @@ class ReconocimientosController extends Controller
         // $this->findModel($id)->delete();
 
         // return $this->redirect(['index']);
-		$model = Personas::findOne($id);
+		$model = Reconocimientos::findOne($id);
 		$model->estado = 2;
 		$model->update(false);
 

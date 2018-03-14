@@ -45,9 +45,7 @@
 											'icon' => 'circle-o',
 											'url' => '#',
 											'items' => [
-												['label' => 'Paralelos','icon' => 'circle-o','url' => '#',],
 												['label' => 'Estudiantes(matrícula)','icon' => 'circle-o','url' => '#',],
-												['label' => 'Docentes','icon' => 'circle-o','url' => '#',],
 												['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
 												['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
 												['label' => 'Tipos calificación','icon' => 'circle-o','url' => '#',],
@@ -89,7 +87,7 @@
 												['label' => 'Asignaturas','icon' => 'circle-o','url' =>  ['asignaturas/index'],],
 												['label' => 'Áreas enseñanza','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
 												['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
-												['label' => 'Bloques por sede','icon' => 'circle-o','url' => '#',],
+												['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
 												['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
 												['label' => 'Distribución académica general','icon' => 'circle-o','url' => '#',],
 											],						

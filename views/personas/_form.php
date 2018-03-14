@@ -69,9 +69,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
   <li class="nav-item">
     <a class="nav-link" id="hobbies-tab" data-toggle="tab" href="#hobbies" role="tab" aria-controls="hobbies" aria-selected="false" onclick="">Hobbies</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" id="formaciones-tab" data-toggle="tab" href="#formaciones" role="tab" aria-controls="formaciones" aria-selected="false" onclick="">Formaciones</a>
-  </li>
+  
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade" id="datosGenerales" role="tabpanel" aria-labelledby="datosGenerales-tab">

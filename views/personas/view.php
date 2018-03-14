@@ -22,6 +22,7 @@ use app\models\Estados;
 use app\models\EstadosCiviles;
 use app\models\BarriosVeredas;
 use app\models\Municipios;
+use app\models\TiposIdentificaciones;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Personas */
@@ -65,12 +66,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute'=>'id_municipios',
 				'value' => function( $model )
 				{
-					$municipios = Municipios::findOne($model->id_estados_civiles);
+					$municipios = Municipios::findOne($model->id_municipios);
 					return $municipios ? $municipios->descripcion : '';
 				},
 				
 			],
-            'id_tipos_identificaciones',
+			[
+				'attribute'=>'id_tipos_identificaciones',
+				'value' => function( $model )
+				{
+					$identificaciones = TiposIdentificaciones::findOne($model->id_tipos_identificaciones);
+					return $identificaciones ? $identificaciones->descripcion : '';
+				},
+				
+			],
             'latitud',
             'longitud',
 			[
