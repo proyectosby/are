@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Periodos;
+use app\models\AsignaturasNivelesSedes;
 
 /**
- * PeridosBuscar represents the model behind the search form of `app\models\Periodos`.
+ * AsignaturasNivelesSedesBuscar represents the model behind the search form of `app\models\AsignaturasNivelesSedes`.
  */
-class PeriodosBuscar extends Periodos
+class AsignaturasNivelesSedesBuscar extends AsignaturasNivelesSedes
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class PeriodosBuscar extends Periodos
     public function rules()
     {
         return [
-            [['id', 'estado'], 'integer'],
-            [['descripcion'], 'safe'],
+            [['id', 'id_sedes_niveles', 'id_asignaturas', 'intensidad'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class PeriodosBuscar extends Periodos
      */
     public function search($params)
     {
-        $query = Periodos::find();
+        $query = AsignaturasNivelesSedes::find();
 
         // add conditions that should always apply here
 
@@ -60,10 +59,10 @@ class PeriodosBuscar extends Periodos
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'estado' => $this->estado,
+            'id_sedes_niveles' => $this->id_sedes_niveles,
+            'id_asignaturas' => $this->id_asignaturas,
+            'intensidad' => $this->intensidad,
         ]);
-
-        $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }

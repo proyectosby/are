@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Periodos */
+/* @var $model app\models\AsignaturasNivelesSedes */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Asignaturas Niveles Sedes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="periodos-view">
+<div class="asignaturas-niveles-sedes-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,10 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'descripcion',
-            'estado',
-            'fecha_inicio',
-            'fecha_fin',
+            'id_sedes_niveles',
+            'id_asignaturas',
+            'intensidad',
         ],
     ]) ?>
 

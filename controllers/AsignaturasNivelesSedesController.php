@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Periodos;
-use app\models\PeridosBuscar;
+use app\models\AsignaturasNivelesSedes;
+use app\models\AsignaturasNivelesSedesBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PeriodosController implements the CRUD actions for Periodos model.
+ * AsignaturasNivelesSedesController implements the CRUD actions for AsignaturasNivelesSedes model.
  */
-class PeriodosController extends Controller
+class AsignaturasNivelesSedesController extends Controller
 {
     /**
      * @inheritdoc
@@ -29,50 +29,23 @@ class PeriodosController extends Controller
         ];
     }
 
-	
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-		] );
-    }
-
-	
-	
     /**
-     * Lists all Periodos models.
+     * Lists all AsignaturasNivelesSedes models.
      * @return mixed
      */
-	
-	//se obliga siempre a seleccionara la institucion y la sede 
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
-		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
-		if( $idInstitucion != 0 && $idSedes != 0 )
-		{
-			$searchModel = new PeridosBuscar();
-			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new AsignaturasNivelesSedesBuscar();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-			return $this->render('index', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,
-				'idSedes' 	=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-			]);
-		}
-		else
-		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
-				'idSedes' 		=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-			] );
-		}
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
-     * Displays a single Periodos model.
+     * Displays a single AsignaturasNivelesSedes model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -85,13 +58,13 @@ class PeriodosController extends Controller
     }
 
     /**
-     * Creates a new Periodos model.
+     * Creates a new AsignaturasNivelesSedes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Periodos();
+        $model = new AsignaturasNivelesSedes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -103,7 +76,7 @@ class PeriodosController extends Controller
     }
 
     /**
-     * Updates an existing Periodos model.
+     * Updates an existing AsignaturasNivelesSedes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -123,7 +96,7 @@ class PeriodosController extends Controller
     }
 
     /**
-     * Deletes an existing Periodos model.
+     * Deletes an existing AsignaturasNivelesSedes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -137,15 +110,15 @@ class PeriodosController extends Controller
     }
 
     /**
-     * Finds the Periodos model based on its primary key value.
+     * Finds the AsignaturasNivelesSedes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Periodos the loaded model
+     * @return AsignaturasNivelesSedes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Periodos::findOne($id)) !== null) {
+        if (($model = AsignaturasNivelesSedes::findOne($id)) !== null) {
             return $model;
         }
 

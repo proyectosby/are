@@ -10,9 +10,13 @@ use Yii;
  * @property string $id
  * @property string $descripcion
  * @property string $estado
+ * @property string $fecha_inicio
+ * @property string $fecha_fin
  *
  * @property Asignaciones[] $asignaciones
  * @property Estados $estado0
+ * @property PlanDeAula[] $planDeAulas
+ * @property PonderacionResultados[] $ponderacionResultados
  */
 class Periodos extends \yii\db\ActiveRecord
 {
@@ -32,8 +36,8 @@ class Periodos extends \yii\db\ActiveRecord
         return [
             [['estado'], 'default', 'value' => null],
             [['estado'], 'integer'],
+            [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['descripcion'], 'string', 'max' => 60],
-			[['descripcion'], 'required' ],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
         ];
     }
@@ -45,8 +49,10 @@ class Periodos extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion' => 'Descripción',
+            'descripcion' => 'Descripcion',
             'estado' => 'Estado',
+            'fecha_inicio' => 'Fecha Inicio',
+            'fecha_fin' => 'Fecha Fin',
         ];
     }
 
@@ -64,5 +70,21 @@ class Periodos extends \yii\db\ActiveRecord
     public function getEstado0()
     {
         return $this->hasOne(Estados::className(), ['id' => 'estado']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPlanDeAulas()
+    {
+        return $this->hasMany(PlanDeAula::className(), ['id_periodo' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPonderacionResultados()
+    {
+        return $this->hasMany(PonderacionResultados::className(), ['id_periodo' => 'id']);
     }
 }

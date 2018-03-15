@@ -14,10 +14,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estado')->dropDownList($estados) ?>
+    <?= $form->field($model, 'estado')->textInput() ?>
+
+    <?= $form->field($model, 'fecha_inicio')->textInput() ?>
+
+    <?= $form->field($model, 'fecha_fin')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
