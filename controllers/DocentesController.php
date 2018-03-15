@@ -146,7 +146,10 @@ class DocentesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+		$model->estado = 2;
+		$model->update(false);
 
         return $this->redirect(['index']);
     }

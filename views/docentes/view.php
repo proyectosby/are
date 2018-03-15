@@ -52,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $escalafones? $escalafones->descripcion : '';
 				},
 			],
+			'Antiguedad',
 			[
 				'attribute' => 'estado',
 				'value' => function( $model ){

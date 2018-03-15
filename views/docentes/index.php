@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				'filter' => ArrayHelper::map(Escalafones::find()->all(), 'id', 'descripcion' ),
 			],
+			'Antiguedad',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

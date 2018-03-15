@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id_perfiles_x_personas')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
     <?= $form->field($model, 'id_escalafones')->dropDownList( $escalafones, [ 'prompt' => 'Seleccione...' ] ) ?>
+    
+	<?= $form->field($model, 'Antiguedad')->textInput( [ 'type' => 'number', 'placeholder' => 'Digite la antigüedad del docente' ] ) ?>
 
     <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
 	

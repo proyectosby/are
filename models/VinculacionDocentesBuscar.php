@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Docentes;
+use app\models\VinculacionDocentes;
 
 /**
- * DocentesBuscar represents the model behind the search form of `app\models\Docentes`.
+ * VinculacionDocentesBuscar represents the model behind the search form of `app\models\VinculacionDocentes`.
  */
-class DocentesBuscar extends Docentes
+class VinculacionDocentesBuscar extends VinculacionDocentes
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class DocentesBuscar extends Docentes
     public function rules()
     {
         return [
-            [['id_perfiles_x_personas', 'id_escalafones', 'estado'], 'integer'],
-            [['Antiguedad'], 'safe'],
+            [['id', 'id_perfiles_x_personas_docentes', 'id_tipos_contratos', 'estado'], 'integer'],
+            [['resolucion_numero', 'resolucion_desde', 'antiguedad'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class DocentesBuscar extends Docentes
      */
     public function search($params)
     {
-        $query = Docentes::find();
+        $query = VinculacionDocentes::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,15 @@ class DocentesBuscar extends Docentes
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_perfiles_x_personas' => $this->id_perfiles_x_personas,
-            'id_escalafones' => $this->id_escalafones,
+            'id' => $this->id,
+            'resolucion_desde' => $this->resolucion_desde,
+            'id_perfiles_x_personas_docentes' => $this->id_perfiles_x_personas_docentes,
+            'id_tipos_contratos' => $this->id_tipos_contratos,
             'estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['ilike', 'Antiguedad', $this->Antiguedad]);
+        $query->andFilterWhere(['ilike', 'resolucion_numero', $this->resolucion_numero])
+            ->andFilterWhere(['ilike', 'antiguedad', $this->antiguedad]);
 
         return $dataProvider;
     }

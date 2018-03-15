@@ -10,6 +10,7 @@ use Yii;
  * @property string $id_perfiles_x_personas
  * @property string $id_escalafones
  * @property int $estado
+ * @property string $Antiguedad
  *
  * @property Calificaciones[] $calificaciones
  * @property ContratosInstituciones[] $contratosInstituciones
@@ -19,9 +20,12 @@ use Yii;
  * @property PerfilesXPersonas $perfilesXPersonas
  * @property DocentesXAreasTrabajos[] $docentesXAreasTrabajos
  * @property AreasTrabajos[] $areasTrabajos
+ * @property EvaluacionDocentes[] $evaluacionDocentes
+ * @property PlanDeAula[] $planDeAulas
  * @property ProyectosPreAutor[] $proyectosPreAutors
  * @property ProyectosXDocentes[] $proyectosXDocentes
  * @property Proyectos[] $proyectos
+ * @property VinculacionDocentes[] $vinculacionDocentes
  */
 class Docentes extends \yii\db\ActiveRecord
 {
@@ -42,11 +46,11 @@ class Docentes extends \yii\db\ActiveRecord
             [['id_perfiles_x_personas'], 'required'],
             [['id_perfiles_x_personas', 'id_escalafones', 'estado'], 'default', 'value' => null],
             [['id_perfiles_x_personas', 'id_escalafones', 'estado'], 'integer'],
+            [['Antiguedad'], 'integer'],
             [['id_perfiles_x_personas'], 'unique'],
             [['id_escalafones'], 'exist', 'skipOnError' => true, 'targetClass' => Escalafones::className(), 'targetAttribute' => ['id_escalafones' => 'id']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_perfiles_x_personas'], 'exist', 'skipOnError' => true, 'targetClass' => PerfilesXPersonas::className(), 'targetAttribute' => ['id_perfiles_x_personas' => 'id']],
-            [['id_escalafones'], 'required' ],
         ];
     }
 
@@ -56,9 +60,10 @@ class Docentes extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_perfiles_x_personas' => 'Perfiles por Personas',
+            'id_perfiles_x_personas' => 'Perfiles por persona',
             'id_escalafones' => 'Escalafones',
             'estado' => 'Estado',
+            'Antiguedad' => 'Antigüedad',
         ];
     }
 
@@ -129,6 +134,22 @@ class Docentes extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getEvaluacionDocentes()
+    {
+        return $this->hasMany(EvaluacionDocentes::className(), ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPlanDeAulas()
+    {
+        return $this->hasMany(PlanDeAula::className(), ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProyectosPreAutors()
     {
         return $this->hasMany(ProyectosPreAutor::className(), ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']);
@@ -148,5 +169,13 @@ class Docentes extends \yii\db\ActiveRecord
     public function getProyectos()
     {
         return $this->hasMany(Proyectos::className(), ['id' => 'id_proyectos'])->viaTable('proyectos_x_docentes', ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVinculacionDocentes()
+    {
+        return $this->hasMany(VinculacionDocentes::className(), ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']);
     }
 }
