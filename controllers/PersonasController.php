@@ -1,5 +1,11 @@
 <?php
-
+/**********
+Versión: 001
+Fecha: Fecha en formato (09-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Controlador de personas
+---------------------------------------
+*/
 namespace app\controllers;
 
 use Yii;
