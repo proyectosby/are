@@ -89,9 +89,13 @@ class AsignaturasNivelesSedesController extends Controller
     {
         $model = $this->findModel($id);
 		
-		$idSedes = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->all();
-		$idSedes = ArrayHelper::getColumn($idSedes, 'id_sedes' );
-		$idSedes=$idSedes[0];		
+		$idSedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->all();
+		$idSedes = ArrayHelper::getColumn($idSedesNiveles, 'id_sedes' );
+		$idNiveles = ArrayHelper::getColumn($idSedesNiveles, 'id_niveles' );
+		$idSedes=$idSedes[0];
+		$idNiveles = $idNiveles[0];		
+		$idAsignaturas = $model->id_asignaturas;
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -99,6 +103,8 @@ class AsignaturasNivelesSedesController extends Controller
         return $this->render('update', [
             'model' => $model,
 			'idSedes' =>$idSedes,
+			'idNiveles'=>$idNiveles,
+			'idAsignaturas'=>$idAsignaturas,
         ]);
     }
 

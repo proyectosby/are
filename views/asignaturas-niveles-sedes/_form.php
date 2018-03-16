@@ -14,17 +14,6 @@ use	yii\helpers\ArrayHelper;
 
 <script>
 
-
-function parametroUrl(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 window.onload = llenarListasActualizar();
 
 function llenarListasActualizar() 
@@ -32,7 +21,13 @@ function llenarListasActualizar()
 	var url = window.location.href; 
 	if (url.indexOf('update')!=-1) 
 	{
-		setTimeout(function(){ llenarListas(); }, 2000);	
+		setTimeout(function(){ llenarListas(); 
+			setTimeout(function(){ 
+				$("#asignaturasnivelessedes-id_sedes_niveles").val(<?php echo $idNiveles;?>);
+				$("#asignaturasnivelessedes-id_asignaturas").val("<?php echo $idAsignaturas;?>");
+			}, 200);	
+		}, 1700);	
+		
 	}
 }
 
