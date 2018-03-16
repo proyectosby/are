@@ -51,16 +51,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => function( $model )
 				{
 					//se buscan los id de los niveles y las sedes para mostrarlos en el index
-					$sedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->all();
+					$sedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->orderBy('id_sedes')->all();
+					
 					$idNiveles = ArrayHelper::getColumn($sedesNiveles, 'id_niveles' );
 					$idSedes = ArrayHelper::getColumn($sedesNiveles, 'id_sedes' );
 					
 					//nombre de la sede segun $idSedes
-					$nombreSede = Sedes::find()->where('id='.$idNiveles[0])->all();
+					$nombreSede = Sedes::find()->where('id='.$idSedes[0])->all();
 					$nombreSede = ArrayHelper::getColumn($nombreSede, 'descripcion' );
 					
 					//nombre del nivel segun $idNiveles
-					$nombreNivel = Niveles::find()->where('id='.$idSedes[0])->all();
+					$nombreNivel = Niveles::find()->where('id='.$idNiveles[0])->all();
 					$nombreNivel = ArrayHelper::getColumn($nombreNivel, 'descripcion' );
 										
 					$nombreSede = implode(',',$nombreSede);

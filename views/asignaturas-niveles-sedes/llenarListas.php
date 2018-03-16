@@ -17,7 +17,6 @@ Persona encargada: Oscar David Lopez
 Cambios realizados: - Se consultan las asignaturas disponibles para la sede seleccionada
 
 ---------------------------------------
-C:\xampp\htdocs\ARE\vendor\yiisoft\yii2\helpers
 **********/
 //array con los datos de conexion
 $datosCon = require_once ('../../config/db.php');
@@ -31,7 +30,7 @@ $conn = new PDO($datos);
 $idSede =$_POST['idSede'];
 
 //consulta los niveles de la sede
-$sql = "SELECT n.id, n.descripcion
+$sql = "SELECT sn.id, n.descripcion
 FROM public.sedes_niveles as sn, public.niveles as n
 where sn.id_sedes=$idSede
 and sn.id_niveles = n.id";

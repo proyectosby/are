@@ -34,6 +34,7 @@ class AsignaturasNivelesSedes extends \yii\db\ActiveRecord
         return [
             [['id_sedes_niveles', 'id_asignaturas', 'intensidad'], 'default', 'value' => null],
             [['id_sedes_niveles', 'id_asignaturas', 'intensidad'], 'integer'],
+            [['intensidad'], 'required'],
             [['id_asignaturas'], 'exist', 'skipOnError' => true, 'targetClass' => Asignaturas::className(), 'targetAttribute' => ['id_asignaturas' => 'id']],
             [['id_sedes_niveles'], 'exist', 'skipOnError' => true, 'targetClass' => SedesNiveles::className(), 'targetAttribute' => ['id_sedes_niveles' => 'id']],
         ];

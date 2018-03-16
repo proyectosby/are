@@ -9,21 +9,31 @@ use	yii\helpers\ArrayHelper;
 /* @var $model app\models\AsignaturasNivelesSedes */
 /* @var $form yii\widgets\ActiveForm */
 
-
-
 ?>
 
 
 <script>
+
+
+function parametroUrl(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 window.onload = llenarListasActualizar();
 
 function llenarListasActualizar() 
 {
 	var url = window.location.href; 
-	if (url.indexOf('update')!=-1) {
-		alert('update');
+	if (url.indexOf('update')!=-1) 
+	{
+		setTimeout(function(){ llenarListas(); }, 2000);	
 	}
-	
 }
 
 function llenarListas()
@@ -59,15 +69,13 @@ function llenarListas()
 <div class="asignaturas-niveles-sedes-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    
     
 	<?php 
 		$model1 = new Sedes();
-		$sedes = Sedes::find()->orderby('id desc')->all();
-		$sedes = ArrayHelper::map($sedes,'id','descripcion');
-		echo $form->field($model1, 'descripcion')->dropDownList($sedes,['prompt'=>'Seleccione...','onchange'=>'llenarListas()'])->label('Sede'); 
-		
+		$model1->id=$idSedes;
+		$sedes = Sedes::find()->orderby('descripcion')->all();
+		$sedes = ArrayHelper::map($sedes,'id','descripcion');		
+		echo $form->field($model1, 'descripcion')->dropDownList( $sedes, ['prompt'=>'Seleccione...','onchange'=>'llenarListas()','options' => [$model1['id'] => ['selected' => 'selected']]] )->label('Sedes');
 		
     ?>
 		        
@@ -79,7 +87,7 @@ function llenarListas()
     <?= $form->field($model, 'intensidad')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
