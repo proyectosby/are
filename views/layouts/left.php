@@ -89,7 +89,12 @@
 												['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
 												['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
 												['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
-												['label' => 'Distribución académica general','icon' => 'circle-o','url' => '#',],
+												['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
+										        ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+												['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
+												['label' => 'Matricular estudiante', 'icon' => '', 'url' => '#',],
+													
+												
 											],						
 											
 											
