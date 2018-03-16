@@ -34,6 +34,10 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'f' => 
+        array (
+            'fedemotta\\datatables\\' => 21,
+        ),
         'd' => 
         array (
             'dosamigos\\datepicker\\' => 21,
@@ -121,6 +125,10 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'fedemotta\\datatables\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fedemotta/yii2-widget-datatables',
         ),
         'dosamigos\\datepicker\\' => 
         array (
