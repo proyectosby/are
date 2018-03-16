@@ -5,16 +5,16 @@ use yii\widgets\DetailView;
 
 use app\models\Personas;
 use app\models\Estados;
-use app\models\TiposContratos;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\VinculacionDocentes */
+/* @var $model app\models\EvaluacionDocentes */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Vinculacion Docentes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Evaluacion Docentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="vinculacion-docentes-view">
+<div class="evaluacion-docentes-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Está seguro que quiere eliminar este registro?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -33,9 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'resolucion_numero',
-            'resolucion_desde',
-            'antiguedad',
             [
 				'attribute' => 'id_perfiles_x_personas_docentes',
 				'label'		=> 'Docente',
@@ -50,18 +47,22 @@ $this->params['breadcrumbs'][] = $this->title;
 													->one();
 									return $personas ? $personas->nombres: '';
 								},
+				'filter' 	=> ArrayHelper::map( Personas::find()
+													->select( "d.id_perfiles_x_personas as id, ( personas.nombres || ' ' || personas.apellidos ) nombres" )
+													->innerJoin('perfiles_x_personas pf', 'pf.id_personas=personas.id' )
+													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
+													->where( 'personas.estado=1' )
+													->where( 'd.estado=1' )
+													->all(), 'id', 'nombres' ),
 			],
+            'fecha',
+            'descripcion',
+            'puntaje',
             [
-				'attribute' => 'id_tipos_contratos',
-				'value' 	=> function( $model ){
-									$tiposContrato = TiposContratos::findOne( $model->id_tipos_contratos);
-									return $tiposContrato ? $tiposContrato->descripcion: '';
-								},
-			],
-			[
 				'attribute' => 'estado',
+				'label'		=> 'Docente',
 				'value' 	=> function( $model ){
-									$estado = Estados::findOne( $model->estado);
+									$estado = Estados::findOne( $model->estado );
 									return $estado ? $estado->descripcion: '';
 								},
 			],
