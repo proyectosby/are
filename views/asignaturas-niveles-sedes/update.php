@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Actualizar Asignaturas Niveles Sedes:';
 $this->params['breadcrumbs'][] = ['label' => 'Asignaturas Niveles Sedes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="asignaturas-niveles-sedes-update">
 
@@ -17,6 +17,8 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
 		'idSedes' =>$idSedes,
+		'idNiveles'=>$idNiveles,
+		'idAsignaturas'=>$idAsignaturas,
     ]) ?>
 
 </div>

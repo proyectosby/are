@@ -1,21 +1,51 @@
 <?php
-
+/**********
+Versión: 001
+Fecha: 16-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de AsignaturasNivelesSedes
+---------------------------------------
+Modificaciones:
+Fecha: 16-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Miga de pan
+sale el nombre de la sede
+texto boton a Agregar
+---------------------------------------
+**********/
 use yii\helpers\Html;
-
+use app\models\Sedes;
+use	yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Periodos */
 
-$this->title = 'Create Periodos';
-$this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
+
+
+$nombreSede = new Sedes();
+$nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
+$nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
+$nombreSede = $nombreSede[$idSedes];
+
+$this->title = 'Agregar';
+$this->params['breadcrumbs'][] = [
+									'label' => 'Asignaturas', 
+									'url' => [
+												'index',
+												'idInstitucion' => $idInstitucion, 
+												'idSedes' 		=> $idSedes,
+											 ]
+								 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="periodos-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+		'idSedes'=>$idSedes,
+		'estados'=>$estados,
     ]) ?>
 
 </div>

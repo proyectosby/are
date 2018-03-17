@@ -1,4 +1,17 @@
 <?php
+/**********
+Versión: 001
+Fecha: 14-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de AsignaturasNivelesSedes
+---------------------------------------
+Modificaciones:
+Fecha: 14-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - xxxxxxx
+---------------------------------------
+**********/
+
 
 namespace app\models;
 
@@ -36,6 +49,7 @@ class Periodos extends \yii\db\ActiveRecord
         return [
             [['estado'], 'default', 'value' => null],
             [['estado'], 'integer'],
+            [['id_sedes'], 'integer'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['descripcion'], 'string', 'max' => 60],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
@@ -53,6 +67,8 @@ class Periodos extends \yii\db\ActiveRecord
             'estado' => 'Estado',
             'fecha_inicio' => 'Fecha Inicio',
             'fecha_fin' => 'Fecha Fin',
+            'fecha_fin' => 'Fecha Fin',
+			'id_sedes'=> 'Sede'
         ];
     }
 
