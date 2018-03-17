@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 16-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD de sedes
+---------------------------------------
+Modificaciones:
+Fecha: 16-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se valida que la sede y el nivel sean unicos en la tabla
+---------------------------------------
+**********/
+
 namespace app\models;
 
 use Yii;
@@ -37,7 +50,7 @@ class SedesNiveles extends \yii\db\ActiveRecord
             [['id_niveles'], 'exist', 'skipOnError' => true, 'targetClass' => Niveles::className(), 'targetAttribute' => ['id_niveles' => 'id']],
             [['id_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sedes' => 'id']],
             [['id_sedes'], 'required' ],
-            [['id_niveles'], 'required' ],
+            [['id_sedes','id_niveles'], 'unique', 'targetAttribute' => ['id_sedes','id_niveles'] ],
         ];
     }
 
