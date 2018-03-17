@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_perfiles_x_personas')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
+    <?= $form->field($modelPerfilesXPersonas, 'id_personas')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] )->label( 'Docente' ) ?>
 
     <?= $form->field($model, 'id_escalafones')->dropDownList( $escalafones, [ 'prompt' => 'Seleccione...' ] ) ?>
     
