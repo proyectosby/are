@@ -2,12 +2,12 @@
 
 /**********
 Versión: 001
-Fecha: 14-03-2018
+Fecha: 06-03-2018
 Desarrollador: Edwin Molina Grisales
-Descripción: CRUD de sedes-jornadas
+Descripción: CRUD periodos
 ---------------------------------------
 Modificaciones:
-Fecha: 14-03-2018
+Fecha: 16-03-2018
 Persona encargada: Oscar David Lopez Villa
 Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
 ---------------------------------------
@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jornadas por sede';
+$this->title = 'Periodos';
 $this->params['breadcrumbs'][] = $this->title;
 
 
