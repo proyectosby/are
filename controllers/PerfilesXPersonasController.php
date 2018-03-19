@@ -3,19 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\AsignaturasNivelesSedes;
-use app\models\Sedes;
-use app\models\SedesNiveles;
-use app\models\AsignaturasNivelesSedesBuscar;
+use app\models\PerfilesXPersonas;
+use app\models\PerfilesXPersonasBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use	yii\helpers\ArrayHelper;
 
 /**
- * AsignaturasNivelesSedesController implements the CRUD actions for AsignaturasNivelesSedes model.
+ * PerfilesXPersonasController implements the CRUD actions for PerfilesXPersonas model.
  */
-class AsignaturasNivelesSedesController extends Controller
+class PerfilesXPersonasController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +30,12 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Lists all AsignaturasNivelesSedes models.
+     * Lists all PerfilesXPersonas models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new AsignaturasNivelesSedesBuscar();
+        $searchModel = new PerfilesXPersonasBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +45,7 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Displays a single AsignaturasNivelesSedes model.
+     * Displays a single PerfilesXPersonas model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,13 +58,13 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Creates a new AsignaturasNivelesSedes model.
+     * Creates a new PerfilesXPersonas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new AsignaturasNivelesSedes();
+        $model = new PerfilesXPersonas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -79,7 +76,7 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Updates an existing AsignaturasNivelesSedes model.
+     * Updates an existing PerfilesXPersonas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -88,28 +85,18 @@ class AsignaturasNivelesSedesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		
-		$idSedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->all();
-		$idSedes = ArrayHelper::getColumn($idSedesNiveles, 'id_sedes' );
-		$idNiveles = ArrayHelper::getColumn($idSedesNiveles, 'id_niveles' );
-		$idSedes=$idSedes[0];
-		$idNiveles = $idNiveles[0];		
-		$idAsignaturas = $model->id_asignaturas;
-		
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-			'idSedes' =>$idSedes,
-			'idNiveles'=>$idNiveles,
-			'idAsignaturas'=>$idAsignaturas,
         ]);
     }
 
     /**
-     * Deletes an existing AsignaturasNivelesSedes model.
+     * Deletes an existing PerfilesXPersonas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -123,15 +110,15 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Finds the AsignaturasNivelesSedes model based on its primary key value.
+     * Finds the PerfilesXPersonas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return AsignaturasNivelesSedes the loaded model
+     * @return PerfilesXPersonas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = AsignaturasNivelesSedes::findOne($id)) !== null) {
+        if (($model = PerfilesXPersonas::findOne($id)) !== null) {
             return $model;
         }
 

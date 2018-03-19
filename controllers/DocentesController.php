@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use app\models\Estados;
 use app\models\Escalafones;
 use app\models\Personas;
+use app\models\PerfilesXPersonas;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -79,22 +80,32 @@ class DocentesController extends Controller
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find()->select( 'pf.id, personas.nombres' )
-										  ->innerJoin( 'perfiles_x_personas pf', 'personas.id=pf.id_personas' )
-										  ->where( 'personas.estado=1' )->all();
+		$personasData 	= Personas::find() ->where( 'personas.estado=1' )->all();
 		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
-        $model = new Docentes();
+        $model					= new Docentes();
+        $modelPerfilesXPersonas = new PerfilesXPersonas();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
+        // if($model->load(Yii::$app->request->post()) )
+        if($modelPerfilesXPersonas->load(Yii::$app->request->post()) )
+		{
+			$modelPerfilesXPersonas->id_perfiles = 10;	//ID del perfil docente
+			
+			if( $modelPerfilesXPersonas->save() )
+			{	
+				$model->id_perfiles_x_personas = $modelPerfilesXPersonas->id;
+				if( $model->load(Yii::$app->request->post()) && $model->save() )
+					return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
+			}
+			
         }
 
         return $this->render('create', [
-            'model' 	  => $model,
-            'personas' 	  => $personas,
-            'escalafones' => $escalafones,
-            'estados' 	  => $estados,
+            'model' 	  			=> $model,
+            'modelPerfilesXPersonas'=> $modelPerfilesXPersonas,
+            'personas' 	  			=> $personas,
+            'escalafones' 			=> $escalafones,
+            'estados' 	  			=> $estados,
         ]);
     }
 
@@ -107,33 +118,29 @@ class DocentesController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
+		$modelPerfilesXPersonas = PerfilesXPersonas::findOne($model->id_perfiles_x_personas);
+		
 		$estadosData 	= Estados::find()->all();
 		$estados 	 	= ArrayHelper::map( $estadosData, 'id', 'descripcion' );
 		
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find()->select( 'pf.id, personas.nombres' )
-										  ->innerJoin( 'perfiles_x_personas pf', 'personas.id=pf.id_personas' )
-										  ->where( 'personas.estado=1' )->all();
+		$personasData 	= Personas::find() ->where( 'personas.estado=1' )->andWhere( 'id='.$modelPerfilesXPersonas->id_personas )->all();
 		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
-        $model = $this->findModel($id);
-		
-		// $arModels = [ new Docentes(), new Docentes(), new Docentes() ];
-        // Docentes::loadMultiple( $arModels, Yii::$app->request->post() );
-		// echo "yyy<pre>" ;var_dump( $arModels ); echo "</pre>";
-// echo "<pre>" ;var_dump( Yii::$app->request->post() ); echo "</pre>"; exit(".........");
 		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
         }
 
         return $this->render('update', [
-            'model' 	  => $model,
-            'personas' 	  => $personas,
-            'escalafones' => $escalafones,
-            'estados' 	  => $estados,
+            'model' 	  			=> $model,
+			'modelPerfilesXPersonas'=> $modelPerfilesXPersonas,
+            'personas' 	  			=> $personas,
+            'escalafones' 			=> $escalafones,
+            'estados' 	  			=> $estados,
         ]);
     }
 

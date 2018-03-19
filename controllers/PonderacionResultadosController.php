@@ -1,21 +1,35 @@
 <?php
+/**********
+Versión: 001
+Fecha: 17-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de AsignaturasNivelesSedes
+---------------------------------------
+Modificaciones:
+Fecha: 17-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se elimina el campo id para mostrar
+
+---------------------------------------
+**********/
 
 namespace app\controllers;
 
 use Yii;
-use app\models\AsignaturasNivelesSedes;
-use app\models\Sedes;
-use app\models\SedesNiveles;
-use app\models\AsignaturasNivelesSedesBuscar;
+use app\models\PonderacionResultados;
+use app\models\PonderacionResultadosBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Periodos;
+use app\models\Estados;
 use	yii\helpers\ArrayHelper;
 
+
 /**
- * AsignaturasNivelesSedesController implements the CRUD actions for AsignaturasNivelesSedes model.
+ * PonderacionResultadosController implements the CRUD actions for PonderacionResultados model.
  */
-class AsignaturasNivelesSedesController extends Controller
+class PonderacionResultadosController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,13 +47,14 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Lists all AsignaturasNivelesSedes models.
+     * Lists all PonderacionResultados models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new AsignaturasNivelesSedesBuscar();
+        $searchModel = new PonderacionResultadosBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andwhere( 'estado=1');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,7 +63,7 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Displays a single AsignaturasNivelesSedes model.
+     * Displays a single PonderacionResultados model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,13 +76,24 @@ class AsignaturasNivelesSedesController extends Controller
     }
 
     /**
-     * Creates a new AsignaturasNivelesSedes model.
+     * Creates a new PonderacionResultados model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new AsignaturasNivelesSedes();
+		//se envia la variable periodos con los valores de la tabla periodos
+		$periodos = new Periodos();
+		$periodos = $periodos->find()->all();
+		$periodos = ArrayHelper::map($periodos,'id','descripcion');
+		
+		
+		//se envia la variable estados con los valores de la tabla estado, siempre es activo
+		$estados = new Estados();
+		$estados = $estados->find()->where('id=1')->all();
+		$estados = ArrayHelper::map($estados,'id','descripcion');
+		
+        $model = new PonderacionResultados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,11 +101,13 @@ class AsignaturasNivelesSedesController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'periodos'=>$periodos,
+			'estados'=>$estados,
         ]);
     }
 
     /**
-     * Updates an existing AsignaturasNivelesSedes model.
+     * Updates an existing PonderacionResultados model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -87,29 +115,32 @@ class AsignaturasNivelesSedesController extends Controller
      */
     public function actionUpdate($id)
     {
+		//se envia la variable periodos con los valores de la tabla periodos
+		$periodos = new Periodos();
+		$periodos = $periodos->find()->all();
+		$periodos = ArrayHelper::map($periodos,'id','descripcion');
+		
+		
+		//se envia la variable estados con los valores de la tabla estado, siempre es activo
+		$estados = new Estados();
+		$estados = $estados->find()->all();
+		$estados = ArrayHelper::map($estados,'id','descripcion');
+		
         $model = $this->findModel($id);
-		
-		$idSedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->all();
-		$idSedes = ArrayHelper::getColumn($idSedesNiveles, 'id_sedes' );
-		$idNiveles = ArrayHelper::getColumn($idSedesNiveles, 'id_niveles' );
-		$idSedes=$idSedes[0];
-		$idNiveles = $idNiveles[0];		
-		$idAsignaturas = $model->id_asignaturas;
-		
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-			'idSedes' =>$idSedes,
-			'idNiveles'=>$idNiveles,
-			'idAsignaturas'=>$idAsignaturas,
+			'periodos'=>$periodos,
+			'estados'=>$estados,
         ]);
     }
 
     /**
-     * Deletes an existing AsignaturasNivelesSedes model.
+     * Deletes an existing PonderacionResultados model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -117,21 +148,27 @@ class AsignaturasNivelesSedesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		
+		$model = PonderacionResultados::findOne($id);
+		$model->estado = 2;
+		$idInstitucion = $model->id;
+		$model->update(false);
+		
+        // $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the AsignaturasNivelesSedes model based on its primary key value.
+     * Finds the PonderacionResultados model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return AsignaturasNivelesSedes the loaded model
+     * @return PonderacionResultados the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = AsignaturasNivelesSedes::findOne($id)) !== null) {
+        if (($model = PonderacionResultados::findOne($id)) !== null) {
             return $model;
         }
 

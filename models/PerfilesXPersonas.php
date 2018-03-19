@@ -39,6 +39,7 @@ class PerfilesXPersonas extends \yii\db\ActiveRecord
             [['id_personas', 'id_perfiles'], 'integer'],
             [['id_perfiles'], 'exist', 'skipOnError' => true, 'targetClass' => Perfiles::className(), 'targetAttribute' => ['id_perfiles' => 'id']],
             [['id_personas'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_personas' => 'id']],
+            [['id_personas', 'id_perfiles'], 'unique', 'targetAttribute' => ['id_personas', 'id_perfiles'], 'message' => 'La persona ya ha sido registrada con el perfil' ],
         ];
     }
 
@@ -49,8 +50,8 @@ class PerfilesXPersonas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_personas' => 'Id Personas',
-            'id_perfiles' => 'Id Perfiles',
+            'id_personas' => 'Personas',
+            'id_perfiles' => 'Perfiles',
         ];
     }
 
