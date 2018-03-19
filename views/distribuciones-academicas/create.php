@@ -6,41 +6,24 @@ use yii\helpers\Html;
 ?>
 <script>
 
-// window.onload = llenarCombo();
-
-// function llenarCombo()
-// {		alert("uuuuu");
-	// $.get('index.php?r=distribuciones-academicas/listar',
-				// {
-					 // searchname: "holaa" ,
-				// },
-				// function(data){
-					// console.log("dddda");
-					// // if(data.error == 1)
-					// // {
-												
-					// // }
-					// // else
-					// // {
-						
-						
-					// // }
-				
-				// },
-				// "json"
-				
-		  // );
-	
-// }
-
 </script>
 
 <?php
 /* @var $this yii\web\View */
 /* @var $model app\models\DistribucionesAcademicas */
-$this->title = 'Create Distribuciones Academicas';
-$this->params['breadcrumbs'][] = ['label' => 'Distribuciones Academicas', 'url' => ['index']];
+$this->title = 'Agregar';
+$this->params['breadcrumbs'][] = [
+									'label' => 'Distribuciones Académicas', 
+									'url' => [
+												'index',
+												'idInstitucion' => $idInstitucion, 
+												'idSedes' 		=> $idSedes,
+											 ]
+								 ];
+								 
 $this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Distribuciones Academicas', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="distribuciones-academicas-create">
 
@@ -48,6 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'idSedes' => $idSedes,
+		'estados'=>$estados,
+		'docentes'=>$docentes,
+		'aulas'=>$aulas,
+		'grupos'=>$grupos,
+		'modificar'=>$modificar,
+		'niveles_sede'=>'',
+		'asignaturas_distribucion'=>'',
+		'idInstitucion' => $idInstitucion,
     ]) ?>
 
 </div>

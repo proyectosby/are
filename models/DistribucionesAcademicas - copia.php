@@ -17,7 +17,6 @@ use Yii;
  * @property Asignaciones[] $asignaciones
  * @property AsignaturasXNivelesSedes $asignaturasXNivelesSedes
  * @property Aulas $aulasXSedes
- * @property Aulas $ParalelosSedes
  * @property Docentes $perfilesXPersonasDocentes
  * @property Estados $estado0
  * @property DistribucionesXBloquesXDias[] $distribucionesXBloquesXDias
@@ -40,14 +39,12 @@ class DistribucionesAcademicas extends \yii\db\ActiveRecord
     {
         return [
             [['id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado'], 'default', 'value' => null],
-            [['id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado', 'id_paralelo_sede'], 'string'],
-            [['id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado', 'id_paralelo_sede'],'required'],
-			[['fecha_ingreso'], 'safe'],
+            [['id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado'], 'integer'],
+            [['fecha_ingreso'], 'safe'],
             [['id_asignaturas_x_niveles_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => AsignaturasNivelesSedes::className(), 'targetAttribute' => ['id_asignaturas_x_niveles_sedes' => 'id']],
             [['id_aulas_x_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => Aulas::className(), 'targetAttribute' => ['id_aulas_x_sedes' => 'id']],
             [['id_perfiles_x_personas_docentes'], 'exist', 'skipOnError' => true, 'targetClass' => Docentes::className(), 'targetAttribute' => ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
-            [['id_paralelo_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Paralelos::className(), 'targetAttribute' => ['id_paralelo_sede' => 'id']],
         ];
     }
 
@@ -63,7 +60,6 @@ class DistribucionesAcademicas extends \yii\db\ActiveRecord
             'id_aulas_x_sedes' => 'Aula',
             'fecha_ingreso' => 'Fecha Ingreso',
             'estado' => 'Estado',
-            'id_paralelo_sede' => 'Grupo',
         ];
     }
 
@@ -89,14 +85,6 @@ class DistribucionesAcademicas extends \yii\db\ActiveRecord
     public function getAulasXSedes()
     {
         return $this->hasOne(Aulas::className(), ['id' => 'id_aulas_x_sedes']);
-    }
-	
-	 /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getParalelosSedes()
-    {
-        return $this->hasOne(Paralelos::className(), ['id' => 'id_paralelo_sede']);
     }
 
     /**

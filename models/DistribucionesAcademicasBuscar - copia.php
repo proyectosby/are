@@ -18,7 +18,7 @@ class DistribucionesAcademicasBuscar extends DistribucionesAcademicas
     public function rules()
     {
         return [
-            [['id', 'id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado', 'id_paralelo_sede'], 'integer'],
+            [['id', 'id_asignaturas_x_niveles_sedes', 'id_perfiles_x_personas_docentes', 'id_aulas_x_sedes', 'estado'], 'integer'],
             [['fecha_ingreso'], 'safe'],
         ];
     }
@@ -65,7 +65,6 @@ class DistribucionesAcademicasBuscar extends DistribucionesAcademicas
             'id_aulas_x_sedes' => $this->id_aulas_x_sedes,
             'fecha_ingreso' => $this->fecha_ingreso,
             'estado' => $this->estado,
-            'id_paralelo_sede' => $this->id_paralelo_sede,
         ]);
 
         return $dataProvider;

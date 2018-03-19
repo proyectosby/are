@@ -1,5 +1,13 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: (16-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Lista de distribuiones academicas
+---------------------------------------
+*/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
@@ -17,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Distribuciones Academicas', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Agregar', [
+									'create',
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
+
     </p>
 
     <?= DataTables::widget([
@@ -26,11 +41,93 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_asignaturas_x_niveles_sedes',
-            'id_perfiles_x_personas_docentes',
-            'id_aulas_x_sedes',
-            'fecha_ingreso',
+            // 'id',
+            [
+				'attribute'=>'id_asignaturas_x_niveles_sedes',
+				'value' => function( $model )
+				{
+					/**
+					* Llenar nombre asignatura por id asignaturas niveles sedes
+					*/
+					//variable con la conexion a la base de datos 
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand("SELECT a.descripcion
+															FROM asignaturas as a, asignaturas_x_niveles_sedes as ans
+															WHERE ans.id_asignaturas = a.id
+															AND ans.id = $model->id_asignaturas_x_niveles_sedes;");
+					$result = $command->queryAll();
+								
+					return $result[0]['descripcion'];
+				},
+				
+			], 
+            [
+				'attribute'=>'id_perfiles_x_personas_docentes',
+				'value' => function( $model )
+				{
+					/**
+					* Llenar nombre del docente
+					*/
+					//variable con la conexion a la base de datos 
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand("select concat(p.nombres,' ',p.apellidos) as nombres
+															from personas as p, perfiles_x_personas as pp, docentes as d, distribuciones_academicas as da
+															where p.id= pp.id_personas
+															and p.estado=1
+															and da.id_perfiles_x_personas_docentes = d.id_perfiles_x_personas
+															and d.id_perfiles_x_personas = pp.id
+															and pp.id_personas = p.id
+															and d.id_perfiles_x_personas = $model->id_perfiles_x_personas_docentes;
+															");
+					$result = $command->queryAll();
+								
+					return $result[0]['nombres'];
+				},
+				
+			], 
+            [
+				'attribute'=>'id_aulas_x_sedes',
+				'value' => function( $model )
+				{
+					/**
+					* Llenar la descripcion del aula
+					*/
+					//variable con la conexion a la base de datos 
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand(" select a.descripcion
+															from aulas as a, distribuciones_academicas as da
+															where a.id= da.id_aulas_x_sedes
+															and a.estado=1
+															and a.id = $model->id_aulas_x_sedes
+															");
+					$result = $command->queryAll();
+								
+					return $result[0]['descripcion'];
+				},
+				
+			], 
+            [
+				'attribute'=>'id_paralelo_sede',
+				'value' => function( $model )
+				{
+					/**
+					* Llenar la descripcion del paralelo
+					*/
+					//variable con la conexion a la base de datos 
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand(" select p.descripcion
+															from paralelos as p, distribuciones_academicas as da
+															where da.id_paralelo_sede = p.id
+															and id_paralelo_sede = $model->id_paralelo_sede
+															and p.estado = 1
+															");
+					$result = $command->queryAll();
+								
+					return $result[0]['descripcion'];
+				},
+				
+			], 
+            // 'fecha_ingreso',
             //'estado',
 
             ['class' => 'yii\grid\ActionColumn'],
