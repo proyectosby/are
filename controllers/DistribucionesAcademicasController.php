@@ -434,11 +434,11 @@ class DistribucionesAcademicasController extends Controller
 	
 	}
 	
-  public function actionListar($idMunicipio )
+  public function actionListarBloques($idSede )
 	{
 		
 		
-		return Json::encode( $idMunicipio );
+		return Json::encode( $idSede );
 	
 	}
 	

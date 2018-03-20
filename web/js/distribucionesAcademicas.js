@@ -7,16 +7,15 @@ Descripción: js Distribuciones academicas
 */
 $( document ).ready(function() {
     
-
+	
 	modificar = $("#hidModificar").val();
 	asignaturas_distribucion=$("#hidAsig").val();
-	// alert(modificar+ ""+asignaturas_distribucion);
-	// setTimeout(function(){ alert(); modificar = $("#hidModificar").val();
-// alert(modificar);	}, 2000);
-	
-	
+	idSede=$("#hidIdSede").val();
+
 	//listar(); 
-	llenarListasActualizar();	
+	llenarListasActualizar();
+
+	
 	
 });
 
@@ -65,6 +64,12 @@ $("#selSedesNivel").change(function(){
 	
 	
 }); 
+
+
+$("#btnHorario").click(function(){
+      
+      window.open("/are/views/distribuciones-academicas/horario.html?idSede="+idSede, '_blank');
+   });
 
 
 /**

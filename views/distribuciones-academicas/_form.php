@@ -17,6 +17,8 @@ use app\models\SedesNiveles;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+
+
 <?php //echo $idSedes; ?>
 <div class="distribuciones-academicas-form">
     
@@ -26,6 +28,7 @@ use app\models\SedesNiveles;
 		
 		echo "<input type='hidden' id='hidAsig' name='hidAsig' value='".$asignaturas_distribucion."'>";
 		echo "<input type='hidden' id='hidModificar' name='hidModificar' value='".$modificar."'>";
+		echo "<input type='hidden' id='hidIdSede' name='hidIdSede' value='".$idSedes."'>";
 		
 		$model1 = new SedesNiveles();
 					// $model1->id=$idSedes;
@@ -77,3 +80,7 @@ use app\models\SedesNiveles;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+
+<button type="button" class="btn btn-primary" id='btnHorario'>Horario</button>
+
