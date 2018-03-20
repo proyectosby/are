@@ -72,8 +72,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				//se muestra la descripcion del estado
 				'value'=>function ($model)
 				{
-					$sedes = sedes::findOne($model->id_sedes);
-					return $sedes ? $sedes->descripcion : '';
+					$Estados = Estados::findOne($model->estado);
+					return $Estados ? $Estados->descripcion : '';
 					
 				}
 			],

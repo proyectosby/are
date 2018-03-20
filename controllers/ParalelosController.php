@@ -369,9 +369,7 @@ class ParalelosController extends Controller
 	 
 	 //se modifica para que no borre sino para que actualize el campo estado 
     public function actionDelete($id)
-    {
-
-				
+    {			
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
 
