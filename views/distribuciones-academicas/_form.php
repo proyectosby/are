@@ -82,5 +82,6 @@ use app\models\SedesNiveles;
 </div>
 
 
-<button type="button" class="btn btn-primary" id='btnHorario'>Horario</button>
+<!--<button type="button" class="btn btn-primary" id='btnHorario' onClick="window.open('/are/views/distribuciones-academicas/horario.html?idSede=48', target='popup', 'toolbar=0 , location=1 , status=0 , menubar=1 , scrollbars=0 , resizable=1 ,left=150pt,top=150pt,width=400px,height=400px'); return false;">Horario</button>-->
+<!--<button type="button" class="btn btn-primary" id='btnHorario' onClick="">Horario</button>-->
 

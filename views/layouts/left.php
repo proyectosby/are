@@ -45,11 +45,11 @@
 											'icon' => 'circle-o',
 											'url' => '#',
 											'items' => [
-												['label' => 'Estudiantes(matrícula)','icon' => 'circle-o','url' => '#',],
+												['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
 												['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
 												['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
-												['label' => 'Tipos calificación','icon' => 'circle-o','url' => '#',],
-												['label' => 'Ponderación resultados','icon' => 'circle-o','url' => '#',],
+												['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
+												['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
 												['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
 												['label' => 'Reportes','icon' => 'circle-o','url' => '#',],
 											],						
@@ -90,9 +90,10 @@
 												['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
 												['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
 												['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
+												['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
 										        ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
 												['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
-												['label' => 'Matricular estudiante', 'icon' => '', 'url' => '#',],
+												
 													
 												
 											],						
@@ -135,43 +136,70 @@
 							
 							
 							
-							['label' => 'Docentes', 'icon' => 'circle-o', 'url' => '#',],
-							['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => '#',],
+							['label' => 'Docentes', 
+							'icon' => 'circle-o',
+							'url' => '#',
+							 'items' => [
+                                            ['label' => 'Docentes', 'icon' => 'circle-o', 'url' => ['docentes/index'],],
+                                            ['label' => 'Docentes areas trabajo', 'icon' => 'circle-o', 'url' => ['docentes-x-areas-trabajos/index'],],
+											['label' => 'Evaluación', 'icon' => 'circle-o', 'url' => ['evaluacion-docentes/index'],],
+											['label' => 'Vinulación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
+											['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
+											['label' => 'Indicadores desempeño', 'icon' => 'circle-o', 'url' => ['indicador-desempeno/index'],],
+											['label' => 'Plan de aula', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
+											['label' => 'Calificaciones', 'icon' => 'circle-o', 'url' => ['calificaciones/index'],],
+											['label' => 'Asistencias', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
+                                            
+                                            
+                                            
+                                        ],
+							],
+							
+							
+							['label' => 'Estudiantes',
+							'icon' => 'circle-o',
+							'url' => '#',
+							 'items' => [
+                                            ['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => ['representantes-legales/index'],],
+											['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
+                                        ],
+							
+							],
 						],
 					],
 					
 					
 					
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'Some tools',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
+                    // ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    // [
+                        // 'label' => 'Some tools',
+                        // 'icon' => 'share',
+                        // 'url' => '#',
+                        // 'items' => [
+                            // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                            // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                            // [
+                                // 'label' => 'Level One',
+                                // 'icon' => 'circle-o',
+                                // 'url' => '#',
+                                // 'items' => [
+                                    // ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+                                    // [
+                                        // 'label' => 'Level Two',
+                                        // 'icon' => 'circle-o',
+                                        // 'url' => '#',
+                                        // 'items' => [
+                                            // ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                            // ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                        // ],
+                                    // ],
+                                // ],
+                            // ],
+                        // ],
+                    // ],
                 ],
             ]
         ) ?>
