@@ -51,7 +51,7 @@ class IndicadorDesempeno extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Código',
             'descripcion' => 'Descripción',
         ];
     }

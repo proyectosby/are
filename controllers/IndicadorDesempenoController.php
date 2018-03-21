@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 14-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Indicadores de desempeno
+---------------------------------------
+Modificaciones:
+Fecha: 14-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - muestra solo los indicadores con estado=1
+la funcion actionDelete actualiza el estado
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -37,6 +51,7 @@ class IndicadorDesempenoController extends Controller
     {
         $searchModel = new IndicadorDesempenoBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere('estado=1');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -104,7 +119,11 @@ class IndicadorDesempenoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+				
+		// $model = Asignaturas::findOne($id);
+		$model->estado = 2;
+		$model->update(false);		
 
         return $this->redirect(['index']);
     }
