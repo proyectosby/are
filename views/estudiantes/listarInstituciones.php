@@ -8,7 +8,7 @@ Descripción: CRUD de sedes-jornadas
 ---------------------------------------
 Modificaciones:
 Fecha: 06-03-2018
-Persona encargada: Edwin Molina Grisales
+Persona encargada: Oscar David Lopez Villa
 Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
 ---------------------------------------
 **********/
@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jornadas por sede';
+$this->title = 'Matricular Estudiantes';
 $this->params['breadcrumbs'][] = $this->title;
 
 
