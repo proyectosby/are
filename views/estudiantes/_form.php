@@ -1,5 +1,23 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 06-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de estudiantes(Matricular estudiantes)
+---------------------------------------
+Modificaciones:
+Fecha: 06-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - cambios en los campos a dropDownList 
+---------------------------------------
+Modificaciones:
+Fecha: 21-03-2018
+Persona encargada: Oscar David Lopez Villa
+Cambios realizados: - correccion de error cuando la sede no tiene niveles
+---------------------------------------
+
+**********/
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -41,16 +59,20 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/matriculasEstudiantes.js'
 												and sn.id_niveles = n.id
 												and n.estado = 1");
 		$result = $command->queryAll();
+		$nivel=array();
 		foreach($result as $key){
 			$nivel[$key['id']]=$key['descripcion'];
 		}
 					
 				
+		if(count($nivel)==0)
+		{
+			echo "<script>alert('La sede no tiene niveles');</script>";
+		}
+		
 		
 		$model1->id=$niveles_sede;
-		
-		
-		
+				
 		echo $form->field($model1, 'id')->dropDownList($nivel, ['prompt'=>'Seleccione...','id' =>'selSedesNivel','options' => [$model1['id'] => ['selected' => 'selected']]])->label('Nivel'); 
 		
 		// $model->id=$asignaturas_distribucion;
