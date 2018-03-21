@@ -70,6 +70,8 @@ $("#btnHorario").click(function(){
       
       window.open("/are/views/distribuciones-academicas/horario.html?idSede="+idSede, '_blank');
    });
+      // window.open("/are/views/distribuciones-academicas/horario.html?idSede="+idSede, '_blank');
+   // });
 
 
 /**
@@ -95,5 +97,10 @@ function listar(){
 				},
 		"json");
 
+}
+
+function Abrir_ventana (pagina) {
+var opciones="toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=300,height=300,top=85,left=140";
+window.open(pagina,"",opciones);
 }
 
