@@ -241,15 +241,40 @@ class CalificacionesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Calificaciones();
+        // $model = new Calificaciones();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // return $this->redirect(['view', 'id' => $model->id]);
+        // }
+		var_dump( Yii::$app->request->post('data') );
+		$count = count(Yii::$app->request->post('data'));
+		$models = [new Calificaciones()];
+		for($i = 1; $i < $count; $i++) {
+			$models[] = new Calificaciones();
+		}
+		
+		
+		if (Calificaciones::loadMultiple($models, Yii::$app->request->post(), 'data' ) && Calificaciones::validateMultiple($models)) {
+            foreach ($models as $model) {
+                $model->save(false);
+            }
+            // return $this->redirect('index');
         }
+		else{
+			if( !Calificaciones::validateMultiple($models) ) echo "Error";
+			// var_dump( $models[0] );
+			 
+			 foreach( $models as $model ){
+				 foreach( $model->errors as $error ){
+					 var_dump( $error );
+				 }
+				 
+			 }
+		}
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        // return $this->render('create', [
+            // 'model' => $model,
+        // ]);
     }
 
     /**

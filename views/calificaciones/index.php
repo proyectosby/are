@@ -8,7 +8,11 @@ use app\models\Personas;
 
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$personas = Personas::find()->where( 'estado=1' )->all();
+$personas = Personas::find()
+						->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
+						->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
+						->where( 'pp.id_perfiles=15' )
+						->all();
 
 
 
@@ -148,11 +152,11 @@ $this->params['breadcrumbs'][] = $this->title;
 					<th colspan=4></th>
 				</tr>
 				<tr>
-					<th>720</th>
-					<th>1025</th>
-					<th>430</th>
-					<th>290</th>
-					<th>105</th>
+					<th>3</th>
+					<th>4</th>
+					<th>5</th>
+					<th>6</th>
+					<th></th>
 					<th colspan=4></th>
 				</tr>
 			</thead>
@@ -163,7 +167,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					
 					<tr>
 						<td><b>#<?= ($i++) ?></b></td>
-						<td><b><?= Html::encode( $persona->nombres." ".$persona->apellidos ) ?></b></td>
+						<td>
+							<b><?= Html::encode( $persona->nombres." ".$persona->apellidos ) ?></b>
+							<input type='hidden' value='<?= $persona->id ?>' name='idPersona'>
+						</td>
 						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
 						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
 						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>

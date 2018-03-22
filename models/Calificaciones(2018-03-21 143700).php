@@ -13,11 +13,11 @@ use Yii;
  * @property string $observaciones
  * @property string $id_perfiles_x_personas_docentes
  * @property string $id_perfiles_x_personas_estudiantes
- * @property string $id_distribuciones_x_indicador_desempeno
+ * @property string $id_asignaciones_x_indicador_desempeno
  * @property string $fecha_modificacion
  * @property string $estado
  *
- * @property DistribucionesXIndicadorDesempeno $distribucionesXIndicadorDesempeno
+ * @property AsignacionesXIndicadorDesempeno $asignacionesXIndicadorDesempeno
  * @property Docentes $perfilesXPersonasDocentes
  * @property Estados $estado0
  * @property Estudiantes $perfilesXPersonasEstudiantes
@@ -40,10 +40,10 @@ class Calificaciones extends \yii\db\ActiveRecord
         return [
             [['calificacion'], 'number'],
             [['fecha', 'fecha_modificacion'], 'safe'],
-            [['id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_distribuciones_x_indicador_desempeno', 'estado'], 'default', 'value' => null],
-            [['id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_distribuciones_x_indicador_desempeno', 'estado'], 'integer'],
+            [['id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_asignaciones_x_indicador_desempeno', 'estado'], 'default', 'value' => null],
+            [['id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_asignaciones_x_indicador_desempeno', 'estado'], 'integer'],
             [['observaciones'], 'string', 'max' => 500],
-            [['id_distribuciones_x_indicador_desempeno'], 'exist', 'skipOnError' => true, 'targetClass' => DistribucionesXIndicadorDesempeno::className(), 'targetAttribute' => ['id_distribuciones_x_indicador_desempeno' => 'id']],
+            [['id_asignaciones_x_indicador_desempeno'], 'exist', 'skipOnError' => true, 'targetClass' => AsignacionesXIndicadorDesempeno::className(), 'targetAttribute' => ['id_asignaciones_x_indicador_desempeno' => 'id']],
             [['id_perfiles_x_personas_docentes'], 'exist', 'skipOnError' => true, 'targetClass' => Docentes::className(), 'targetAttribute' => ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_perfiles_x_personas_estudiantes'], 'exist', 'skipOnError' => true, 'targetClass' => Estudiantes::className(), 'targetAttribute' => ['id_perfiles_x_personas_estudiantes' => 'id_perfiles_x_personas']],
@@ -62,7 +62,7 @@ class Calificaciones extends \yii\db\ActiveRecord
             'observaciones' => 'Observaciones',
             'id_perfiles_x_personas_docentes' => 'Id Perfiles X Personas Docentes',
             'id_perfiles_x_personas_estudiantes' => 'Id Perfiles X Personas Estudiantes',
-            'id_distribuciones_x_indicador_desempeno' => 'Id Distribuciones X Indicador Desempeno',
+            'id_asignaciones_x_indicador_desempeno' => 'Id Asignaciones X Indicador Desempeno',
             'fecha_modificacion' => 'Fecha Modificacion',
             'estado' => 'Estado',
         ];
@@ -71,9 +71,9 @@ class Calificaciones extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDistribucionesXIndicadorDesempeno()
+    public function getAsignacionesXIndicadorDesempeno()
     {
-        return $this->hasOne(DistribucionesXIndicadorDesempeno::className(), ['id' => 'id_distribuciones_x_indicador_desempeno']);
+        return $this->hasOne(AsignacionesXIndicadorDesempeno::className(), ['id' => 'id_asignaciones_x_indicador_desempeno']);
     }
 
     /**

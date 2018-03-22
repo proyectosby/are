@@ -4,7 +4,7 @@ $( document ).ready(function() {
 		
 		var tr = $( this ).parent().parent().parent();
 		
-		var tds = $( "input", tr );
+		var tds = $( "input:text", tr );
 		var sum = 0;
 		
 		sum += tds.eq(0).val()*0.3;
@@ -20,6 +20,55 @@ $( document ).ready(function() {
 	
 	llenarComboDocentes();
 	
+});
+
+$( ".content a" ).click(function(){
+	
+	var nombreFormulario = $( ".content form" ).attr( "id"); 
+	var idDocente = $( selDocentes ).val();
+	 
+	if( idDocente != '' ){
+		
+		var table = $( ".content table" ).eq( $( ".content table" ).length-1 );
+		 
+		var estudiantes = $( "tbody > tr", table );
+		 
+		//Obtenendo los codigos del desempño
+		var codigosDesempeno = $( "thead > tr", table ).eq(3);
+		var codigosDesempeno = $( "th", codigosDesempeno );
+
+		data = [];
+		 
+		estudiantes.each(function(x){
+			 
+			var estudiante 		 = $( "[name=idPersona]", this ).val()*1;
+			var inCalificaciones = $( "input:text:lt(4)", this );
+			
+			
+			inCalificaciones.each(function(y){
+
+				data.push({
+					calificacion							: $( this ).val()*1,
+					fecha									: "2018-03-21",
+					observaciones							: "",
+					id_perfiles_x_personas_docentes			: idDocente,
+					id_perfiles_x_personas_estudiantes		: estudiante,
+					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).html(),
+					fecha_modificacion						: "2018-03-21",
+					estado									: 1,
+				});
+			});
+		});
+		
+		console.log(data);
+		
+		$.post(
+			"index.php?r=calificaciones/create",
+			{ data: data },
+			function( data ){},
+			"json"
+		);
+	}
 });
 
 

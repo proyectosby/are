@@ -18,7 +18,7 @@ class CalificacionesBuscar extends Calificaciones
     public function rules()
     {
         return [
-            [['id', 'id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_asignaciones_x_indicador_desempeno', 'estado'], 'integer'],
+            [['id', 'id_perfiles_x_personas_docentes', 'id_perfiles_x_personas_estudiantes', 'id_distribuciones_x_indicador_desempeno', 'estado'], 'integer'],
             [['calificacion'], 'number'],
             [['fecha', 'observaciones', 'fecha_modificacion'], 'safe'],
         ];
@@ -65,7 +65,7 @@ class CalificacionesBuscar extends Calificaciones
             'fecha' => $this->fecha,
             'id_perfiles_x_personas_docentes' => $this->id_perfiles_x_personas_docentes,
             'id_perfiles_x_personas_estudiantes' => $this->id_perfiles_x_personas_estudiantes,
-            'id_asignaciones_x_indicador_desempeno' => $this->id_asignaciones_x_indicador_desempeno,
+            'id_distribuciones_x_indicador_desempeno' => $this->id_distribuciones_x_indicador_desempeno,
             'fecha_modificacion' => $this->fecha_modificacion,
             'estado' => $this->estado,
         ]);
