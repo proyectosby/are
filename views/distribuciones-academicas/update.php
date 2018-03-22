@@ -31,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		'idSedes' => $idSedes,
 		'docentes'=>$docentes,
 		'aulas'=>$aulas,
-		'grupos'=>$grupos,
 		'niveles_sede'=>$niveles_sede,
 		'asignaturas_distribucion'=>$asignaturas_distribucion,
 		'modificar'=>$modificar,
 		'idInstitucion' => $idInstitucion,
+		'paralelos_distribucion'=>$paralelos_distribucion,
     ]) ?>
 
 </div>

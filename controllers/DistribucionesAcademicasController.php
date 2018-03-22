@@ -20,7 +20,9 @@ use app\models\Estados;
  */
 class DistribucionesAcademicasController extends Controller
 {
-    /**
+    
+	
+	/**
      * @inheritdoc
      */
     public function behaviors()
@@ -47,7 +49,7 @@ class DistribucionesAcademicasController extends Controller
 		{
 			
 			$searchModel = new DistribucionesAcademicasBuscar();
-			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$dataProvider = $searchModel->search(Yii::$app->request->queryParams); //traer los datos de la distribucion academica por sede
 			$dataProvider->query->select ("da.id, da.id_asignaturas_x_niveles_sedes, da.id_perfiles_x_personas_docentes, da.id_aulas_x_sedes, da.fecha_ingreso, da.estado, da.id_paralelo_sede");
 			$dataProvider->query->from( 'distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, sedes_niveles as sn');
 			$dataProvider->query->andwhere( "da.id_asignaturas_x_niveles_sedes = ans.id
@@ -162,18 +164,20 @@ class DistribucionesAcademicasController extends Controller
 			$aulas[$key['id']]=$key['descripcion'];
 		}
 		
-		/**
-		* Llenar select de paralelo(grupo) por sede
-		*/
-		$command = $connection->createCommand("SELECT p.id, p.descripcion
-												FROM paralelos as p, sedes_niveles as sn
-												WHERE sn.id_sedes = p.id_sedes_niveles
-												AND sn.id_sedes = $idSedes");
-		$result = $command->queryAll();
-		//se formatea para que lo reconozca el select
-		foreach($result as $key){
-			$grupos[$key['id']]=$key['descripcion'];
-		}
+		// /**
+		// * Llenar select de paralelo(grupo) por sede y nivel seleccionado
+		// */
+		
+		// $command = $connection->createCommand("SELECT p.id, p.descripcion
+												// FROM paralelos as p, sedes_niveles as sn
+												// WHERE sn.id = p.id_sedes_niveles
+												// AND sn.id_sedes = $idSedes
+												// and p.id_sedes_niveles = ".$idSedesNiveles."");
+		// $result = $command->queryAll();
+		// //se formatea para que lo reconozca el select
+		// foreach($result as $key){
+			// $grupos[$key['id']]=$key['descripcion'];
+		// }
 
 		$modificar = false;
 		
@@ -189,11 +193,12 @@ class DistribucionesAcademicasController extends Controller
 			'estados'=>$estados,
 			'docentes'=>$docentes,
 			'aulas'=>$aulas,
-			'grupos'=>$grupos,
+			'paralelos_distribucion'=>'',
 			'modificar'=>$modificar,
 			'niveles_sede'=>'',
 			'asignaturas_distribucion'=>'',
 			'idInstitucion'=>$idInstitucion,
+			'paralelos_distribucion'=>'',
         ]);
     }
 
@@ -273,19 +278,6 @@ class DistribucionesAcademicasController extends Controller
 		}
 		
 		/**
-		* Llenar select de paralelo(grupo) por sede
-		*/
-		$command = $connection->createCommand("SELECT p.id, p.descripcion
-												FROM paralelos as p, sedes_niveles as sn
-												WHERE sn.id_sedes = p.id_sedes_niveles
-												AND sn.id_sedes = $idSedes1");
-		$result = $command->queryAll();
-		//se formatea para que lo reconozca el select
-		foreach($result as $key){
-			$grupos[$key['id']]=$key['descripcion'];
-		}
-		
-		/**
 		* Traer de id_asignaturas_x_niveles_sedes con id de distribuciones academicas
 		*/
 		$command = $connection->createCommand("select da.id_asignaturas_x_niveles_sedes
@@ -306,6 +298,22 @@ class DistribucionesAcademicasController extends Controller
 		$result = $command->queryAll();
 		$niveles_sede = $result[0]['id'];  //ya se tiene el valor del nivel que se selecciono 26 septimo
 		
+		
+		// /**
+		// * Llenar select de paralelo(grupo) por sede 
+		// */
+		// $command = $connection->createCommand("SELECT p.id, p.descripcion
+												// FROM paralelos as p, sedes_niveles as sn
+												// WHERE sn.id = p.id_sedes_niveles
+												// AND sn.id_sedes = $idSedes1
+												// and p.id_sedes_niveles = $niveles_sede"); //idSedesNiveles
+		// $result = $command->queryAll();
+		// //se formatea para que lo reconozca el select
+		// foreach($result as $key){
+			// $grupos[$key['id']]=$key['descripcion'];
+			
+		// }
+		
 		/**
 		* Traer de las asignaturas ya guardada en la asignaturas por niveles sedes 
 		*/
@@ -318,6 +326,16 @@ class DistribucionesAcademicasController extends Controller
 												and ans.id = $id_asignaturas_x_niveles_sedes");
 		$result = $command->queryAll();
 		$asignaturas_distribucion = $result[0]['id']; 
+		
+		/**
+		* Traer paralelo(grupo) guardado por sede por nivel
+		*/
+		$command = $connection->createCommand("select da.id_paralelo_sede
+												from distribuciones_academicas as da
+												where da.id = $id"); //idSedesNiveles
+		$result = $command->queryAll();
+		$paralelos_distribucion = $result[0]['id_paralelo_sede']; 
+		
 		
 		$modificar = true;
 		
@@ -334,9 +352,10 @@ class DistribucionesAcademicasController extends Controller
 			'idInstitucion' => $idInstitucion,
 			'docentes'=>$docentes,
 			'aulas'=>$aulas,
-			'grupos'=>$grupos,
-			'niveles_sede'=>$niveles_sede,
+			'paralelos_distribucion'=>$paralelos_distribucion,
+			'niveles_sede'=>$niveles_sede, //todos
 			'asignaturas_distribucion'=>$asignaturas_distribucion,
+			'paralelos_distribucion'=>$paralelos_distribucion,
 			'modificar'=>$modificar,
         ]);
     }
@@ -418,6 +437,7 @@ class DistribucionesAcademicasController extends Controller
   public function actionListarA($idSedesNiveles )
 	{
 		
+		
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
 		//saber el id de la sede para redicionar al index correctamente
@@ -432,6 +452,29 @@ class DistribucionesAcademicasController extends Controller
 		 return Json::encode( $result );
 		
 	
+	}
+	
+	public function actionListarG($idSedesNiveles,$idSedes)
+	{
+		
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+		/**
+		* Llenar select de paralelo(grupo) por sede y nivel seleccionado
+		*/
+		
+		$command = $connection->createCommand("SELECT p.id, p.descripcion
+												FROM paralelos as p, sedes_niveles as sn
+												WHERE sn.id = p.id_sedes_niveles
+												AND sn.id_sedes = $idSedes
+												and p.id_sedes_niveles = ".$idSedesNiveles."");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		// foreach($result as $key){
+			// $grupos[$key['id']]=$key['descripcion'];
+		// }
+		
+		return Json::encode( $result );
 	}
 	
   public function actionListarBloques($idSede )

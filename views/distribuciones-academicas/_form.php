@@ -27,6 +27,7 @@ use app\models\SedesNiveles;
 	<?php 
 		
 		echo "<input type='hidden' id='hidAsig' name='hidAsig' value='".$asignaturas_distribucion."'>";
+		echo "<input type='hidden' id='hidPara' name='hidAsig' value='".$paralelos_distribucion."'>";
 		echo "<input type='hidden' id='hidModificar' name='hidModificar' value='".$modificar."'>";
 		echo "<input type='hidden' id='hidIdSede' name='hidIdSede' value='".$idSedes."'>";
 		
@@ -64,7 +65,7 @@ use app\models\SedesNiveles;
 
     <?= $form->field($model, 'id_aulas_x_sedes')->dropDownList($aulas, ['prompt'=>'Seleccione...'])->label('Aula') ?>
     
-	<?= $form->field($model, 'id_paralelo_sede')->dropDownList($grupos, ['prompt'=>'Seleccione...'])->label('Grupo') ?>
+	<?= $form->field($model, 'id_paralelo_sede')->dropDownList([''=>'Seleccione...'])->label('Grupo') ?>
 
     <!-- Campos de fecha que no se envian desde el formulario se envian con datos de fecha del sistema -->
 	<?php $date =  date ( 'Y-m-d H:m:s' )?>

@@ -10,6 +10,7 @@ $( document ).ready(function() {
 	
 	modificar = $("#hidModificar").val();
 	asignaturas_distribucion=$("#hidAsig").val();
+	paralelos_distribucion=$("#hidPara").val();
 	idSede=$("#hidIdSede").val();
 
 	//listar(); 
@@ -42,7 +43,9 @@ function llenarListasActualizar()
 $("#selSedesNivel").change(function(){ 
    
 	idSedesNiveles = $("#selSedesNivel").val();
+	idSedes = $("#hidIdSede").val();
 	
+	//llenar asignaturas
 	$.get( "index.php?r=distribuciones-academicas/listar-a&idSedesNiveles="+idSedesNiveles, 
 				function( data )
 				{
@@ -56,6 +59,26 @@ $("#selSedesNivel").change(function(){
 					 // setTimeout(function(){ 
 						if (asignaturas_distribucion != ""){  
 							$( "#distribucionesacademicas-id_asignaturas_x_niveles_sedes" ).val(asignaturas_distribucion);
+						 }
+					// }, 2000);
+					 
+				},
+		"json");
+		
+		//llenar grupos paralelos
+	$.get( "index.php?r=distribuciones-academicas/listar-g&idSedesNiveles="+idSedesNiveles+"&idSedes="+idSedes, 
+				function( data )
+				{
+					// console.log(data);
+					$('#distribucionesacademicas-id_paralelo_sede').find('option:not(:first)').remove();
+					for( i = 0; i< data.length; i++ ){ 
+						
+						$("#distribucionesacademicas-id_paralelo_sede").append('<option value='+data[i].id+'>'+data[i].descripcion+'</option>');
+					}
+					 
+					 // setTimeout(function(){ 
+						if (paralelos_distribucion != ""){ 
+							$( "#distribucionesacademicas-id_paralelo_sede" ).val(paralelos_distribucion);
 						 }
 					// }, 2000);
 					 
