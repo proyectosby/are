@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Sede' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->textInput( [ 'id'=>'txtSede','readOnly'=>'true' ] )->label( 'Sede' ) ?>
 				</td>
 			</tr>
 		</table>
@@ -110,11 +110,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Jornada' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...','id'=>'selJornada' ] )->label( 'Jornada' ) ?>
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Periodo' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ,'id'=>'selPeriodo'] )->label( 'Periodo' ) ?>
 				</td>
 			</tr>
 			

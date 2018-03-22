@@ -87,10 +87,14 @@ function llenarComboDocentes()
 }
 
 
+//inicio eventos 
+
 //consulta los niveles(grados) que tiene asociado ese docente desde #selDocentes
 $("#selDocentes").change(function()
 {
 	llenarComboGrados();
+	llenarCommbosSedeJornadaPeriodo();
+	
 });
 
 //consulta los grupo(paralelos) que tiene asociado ese docente en ese grado desde #selDocentes
@@ -99,12 +103,13 @@ $("#selGrado").change(function()
 	llenarComboGrupo();
 });
 
-
 //consulta las materias que tiene asociado ese docente en ese grupo des #selGrado
 $("#selGrupo").change(function()
 {
 	llenarComboMateria();
 });
+
+//Fin eventos 
 
 
 //consulta los niveles(grados) que tiene asociado ese docente
@@ -180,3 +185,29 @@ function llenarComboMateria()
 	"json");
 		
 }
+
+
+function llenarCommbosSedeJornadaPeriodo()
+{
+	
+	idDocente =	$("#selDocentes").val();
+	//si el idNivel esta vacio no hace nada
+	if(idDocente == "")
+	{
+		//si grado tiene ningun nombre seleccionado se vacia el combo de grado y se pone ese html
+		$("#xxxxxxxxxxxxxx").html("<option value=''>Seleccione...<\/option>");
+		return false;
+	}
+	
+	//consulta los niveles que tiene asociado ese docente
+	$.get( "index.php?r=calificaciones/sede-jornada-periodo&idDocente="+idDocente, 
+			function( data )
+			{
+				$("#txtSede").val(data.nombreSede);
+				$("#selJornada").html(data.jornadas);
+				$("#selPeriodo").html(data.periodos);
+			},
+	"json");
+		
+}
+
