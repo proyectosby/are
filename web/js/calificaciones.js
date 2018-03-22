@@ -42,7 +42,7 @@ $( ".content a" ).click(function(){
 		estudiantes.each(function(x){
 			 
 			var estudiante 		 = $( "[name=idPersona]", this ).val()*1;
-			var inCalificaciones = $( "input:text:lt(4)", this );
+			var inCalificaciones = $( "input:text:lt(6)", this );
 			
 			
 			inCalificaciones.each(function(y){
@@ -53,7 +53,7 @@ $( ".content a" ).click(function(){
 					observaciones							: "",
 					id_perfiles_x_personas_docentes			: idDocente,
 					id_perfiles_x_personas_estudiantes		: estudiante,
-					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).html(),
+					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).html()*1,
 					fecha_modificacion						: "2018-03-21",
 					estado									: 1,
 				});
@@ -61,6 +61,7 @@ $( ".content a" ).click(function(){
 		});
 		
 		console.log(data);
+		
 		
 		$.post(
 			"index.php?r=calificaciones/create",

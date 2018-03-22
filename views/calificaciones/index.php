@@ -11,7 +11,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depe
 $personas = Personas::find()
 						->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
 						->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
-						->where(  'pp.id=3'  )
+						->where(   'pp.id_perfiles=11' )
 						->all();
 
 
@@ -155,8 +155,9 @@ $this->params['breadcrumbs'][] = $this->title;
 					<th>3</th>
 					<th>4</th>
 					<th>5</th>
-					<th>6</th>
-					<th></th>
+					<th>18</th>
+					<th>20</th>
+					<th>19</th>
 					<th colspan=4></th>
 				</tr>
 			</thead>
