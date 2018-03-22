@@ -8,6 +8,7 @@ use app\models\CalificacionesBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * CalificacionesController implements the CRUD actions for Calificaciones model.
@@ -393,6 +394,48 @@ class CalificacionesController extends Controller
     }
 
     /**
+     * Esta funcion lista los indicadores de desempeño.
+     * 
+     * @param Recibe id sedes nivel
+     * @return la lista de asignaturas
+     * @throws no tiene excepciones
+     */		
+  public function actionListarI($idDocente, $idParalelo, $idAsignatura)
+	{
+		
+		
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+		//traer el id distribucion
+		$command = $connection->createCommand("select da.id
+												from distribuciones_academicas as da, paralelos as p, asignaturas as a, asignaturas_x_niveles_sedes as ans
+												where da.id_perfiles_x_personas_docentes = $idDocente
+												and da.id_paralelo_sede = p.id
+												and p.id = $idParalelo
+												and a.id = $idAsignatura
+												and da.id_asignaturas_x_niveles_sedes = ans.id
+												and ans.id_asignaturas  = a.id");
+		// $result = $command->queryAll();
+		$idDistribucion = $command->queryAll();
+		$idDistribucion = $idDistribucion[0]['id'];
+		
+		//traer indicadores de desempeño de la distribucion
+		$command = $connection->createCommand("select did.id
+												from distribuciones_academicas as da, distribuciones_x_indicador_desempeno as did, paralelos as p
+												where da.id_perfiles_x_personas_docentes = $idDocente
+												and da.id_paralelo_sede = p.id
+												and p.id = $idParalelo
+												and did.id_distribuciones = da.id
+												and id_distribuciones = $idDistribucion");
+		$result = $command->queryAll();
+		
+		 return Json::encode( $result );
+		
+	
+	}
+	
+	
+	/**
      * Finds the Calificaciones model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id

@@ -64,15 +64,15 @@ $this->params['breadcrumbs'][] = $this->title;
 		<table style='width:80%;'>
 			<tr>
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Codigo DANE' ) ?>
+					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Codigo DANE' ) ?>-->
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Institución educativa' ) ?>
+					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Institución educativa' ) ?>-->
 				</td>
 				
 				<td>
-					 <?php echo $form->field( $searchModel, 'observaciones' )->textInput( [ 'id'=>'txtSede','readOnly'=>'true' ] )->label( 'Sede' ) ?>
+					 <!--<?php echo $form->field( $searchModel, 'observaciones' )->textInput( [ 'id'=>'txtSede','readOnly'=>'true' ] )->label( 'Sede' ) ?>-->
 				</td>
 			</tr>
 		</table>
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			<tr>
 				<td>
-					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ,'id'=>'selMateria'] )->label( 'Materia' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ,'id'=>'selMateria'] )->label( 'Asignatura' ) ?>
 				</td>
 				
 				<td>
@@ -152,12 +152,19 @@ $this->params['breadcrumbs'][] = $this->title;
 					<th colspan=4></th>
 				</tr>
 				<tr>
-					<th>3</th>
-					<th>4</th>
-					<th>5</th>
-					<th>18</th>
-					<th>20</th>
-					<th>19</th>
+					<!--<th id="thSaber">3</th>
+					<th id="thHacer">4</th>
+					<th id="thSer">5</th>
+					<th id="thPers">18</th>
+					<th id="thSoci">20</th>
+					<th id="thAE">19</th>
+					<th colspan=4></th>-->
+					<th id="thSaber"></th>
+					<th id="thHacer"></th>
+					<th id="thSer"></th>
+					<th id="thPers"></th>
+					<th id="thSoci"></th>
+					<th id="thAE"></th>
 					<th colspan=4></th>
 				</tr>
 			</thead>

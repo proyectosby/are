@@ -211,3 +211,33 @@ function llenarCommbosSedeJornadaPeriodo()
 		
 }
 
+/**
+ * Funcion llenar los indicadores de desempeño
+ * 
+ * param Parámetro: El onchange del select id selMateria
+ * return Tipo de retorno: Retorna los indicadores a calficar
+ * author : Viviana Rodas
+ * exception : No tiene excepciones.
+ */
+$("#selMateria").change(function(){ 
+
+	idDocente =	$("#selDocentes").val();
+	idParalelo = $("#selGrupo").val();
+	idAsignatura = $("#selMateria").val();
+	
+	
+	//llenar indicadores desempeño
+	$.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura, 
+				function( data )
+				{
+					// console.log(data); //alert(data[0]['id']);
+					$("#thSaber").html(data[0]['id']);
+					$("#thHacer").html(data[1]['id']);
+					$("#thSer").html(data[2]['id']);
+					$("#thPers").html(data[3]['id']);
+					$("#thSoci").html(data[4]['id']);
+					$("#thAE").html(data[5]['id']);
+					 
+				},
+		"json");
+});
