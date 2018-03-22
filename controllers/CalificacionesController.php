@@ -206,6 +206,87 @@ class CalificacionesController extends Controller
 		echo json_encode($materia);
 	}
 	
+	
+	//retorna la sede y la jornada donde esta ese docente
+	public function actionSedeJornadaPeriodo($idDocente)	
+	{
+		$data= array();
+		
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand("
+		SELECT id_paralelo_sede as id
+		FROM public.distribuciones_academicas
+		where id_perfiles_x_personas_docentes =$idDocente 
+		group by id_paralelo_sede
+		");
+		$result = $command->queryAll();
+		
+		//se pasan los ids retornados por la consulta en un string
+		
+		foreach ($result as $dato)
+		{
+			$idPS[]=$dato['id'];
+		}
+		
+		$idPS= implode(",",$idPS);
+
+		//nombre id y nombre de la sede
+		$command = $connection->createCommand("
+		SELECT s.id , s.descripcion
+		FROM public.paralelos as p, public.sedes_jornadas as sj, public.sedes as s
+		where p.id in($idPS)
+		and p.id_sedes_jornadas = sj.id
+		and sj.id_sedes=s.id
+		group by s.id , s.descripcion
+		");
+		$result = $command->queryAll();
+		
+		$idSede = $result[0]['id'];
+		$nombreSede = $result[0]['descripcion'];
+		
+		$data['nombreSede'] = $nombreSede ;
+		//nombre id y nombre de la sede
+		$command = $connection->createCommand("		
+		SELECT j.id,j.descripcion
+		FROM public.sedes_jornadas as sj, jornadas as j
+		where sj.id_sedes= $idSede
+		and sj.id_jornadas = j.id
+		");
+		$result = $command->queryAll();
+		
+		$jornadas[] = "<option value=''>Seleccione...</option>";
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$descripcion = $key['descripcion'];
+			$jornadas[] = "<option value='$id'>$descripcion</option>";
+		}
+		
+		$data['jornadas']=$jornadas;
+		//los periodos de esa sede
+		$command = $connection->createCommand("		
+		SELECT id, descripcion
+		FROM public.periodos
+		where id_sedes = $idSede
+		");
+		$result = $command->queryAll();
+		
+		$periodos[] = "<option value=''>Seleccione...</option>";
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$descripcion = $key['descripcion'];
+			$periodos[] = "<option value='$id'>$descripcion</option>";
+		}
+		
+		$data['periodos']=$periodos;
+		echo json_encode($data);
+		
+		
+	}
+	
+	
     /**
      * Lists all Calificaciones models.
      * @return mixed
