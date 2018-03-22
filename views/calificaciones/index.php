@@ -2,14 +2,15 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
 use yii\widgets\ActiveForm;
 
 use app\models\Personas;
 
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $personas = Personas::find()->where( 'estado=1' )->all();
 
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 
 // echo "<pre>"; var_dump( $personas ); echo "</pre>";
 
@@ -79,27 +80,29 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<h2><?= Html::encode( "Registro de calificaciones" ) ?></h2>
 	
+	
+	
 	<div style='text-align:center;background-color:#ddd;'>
 	
 		<table style='width:80%;'>
 		
 			<tr>
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Docente' ) ?>
+					 <?php echo  $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ,'id'=>'selDocentes'] )->label( 'Docente' ) ?>
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Grado' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...','id'=>'selGrado'] )->label( 'Grado' ) ?>
 				</td>
 				
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Grupo' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...','id'=>'selGrupo' ] )->label( 'Grupo' ) ?>
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					 <?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Materia' ) ?>
+					 <?php echo $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ,'id'=>'selMateria'] )->label( 'Materia' ) ?>
 				</td>
 				
 				<td>

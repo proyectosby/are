@@ -29,6 +29,183 @@ class CalificacionesController extends Controller
         ];
     }
 
+	//retorna todos los docentes de la base de dato
+	public function actionListarDocentes()
+	{
+		
+		$connection = Yii::$app->getDb();
+		//saber el nombre del docente
+		$command = $connection->createCommand("
+		SELECT d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombres
+			FROM public.docentes as d, public.perfiles_x_personas as per, public.personas as p
+			where d.id_perfiles_x_personas = per.id
+			and per.id_personas = p.id
+		");
+		$result = $command->queryAll();
+		
+		$docente[] = "<option value=''>Seleccione...</option>";
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$nombres = $key['nombres'];
+			$docente[] = "<option value='$id'>$nombres</option>";
+		}
+		
+		echo json_encode($docente);
+		// return Json::encode( $algo);
+	}
+	
+	//retorna los niveles que tiene el docente
+	public function actionNivelesDocente($idDocente)
+	{
+				
+		$connection = Yii::$app->getDb();
+		//retorno los id_asignaturas_x_niveles_sedes para saber que niveles tiene ese docente
+		$command = $connection->createCommand("
+		SELECT id_asignaturas_x_niveles_sedes as id FROM public.distribuciones_academicas
+		where id_perfiles_x_personas_docentes = $idDocente
+		");
+		$result = $command->queryAll();
+				
+		//se pasan los ids retornados por la consulta en un string
+		
+		foreach ($result as $dato)
+		{
+			$idANS[]=$dato['id'];
+		}
+		$idANS= implode(",",$idANS);
+		
+		//tabla intermedia para saber cuales son lo niveles que tiene ese docente
+		$command = $connection->createCommand("
+		SELECT id_sedes_niveles as id
+		FROM public.asignaturas_x_niveles_sedes
+		where id in ($idANS) group by id_sedes_niveles 
+		");
+		$result = $command->queryAll();
+		
+		
+		//se pasan los ids retornados por la consulta en un string
+		
+		foreach ($result as $dato)
+		{
+			$idSN[]=$dato['id'];
+		}
+		
+		$idSN= implode(",",$idSN);
+		
+		
+		//se obtiene los id de los niveles a lo que dicta el docente
+		$command = $connection->createCommand("
+		SELECT id_niveles as id
+		FROM public.sedes_niveles
+		where id in ($idSN) group by id_niveles
+		");
+		$result = $command->queryAll();
+		
+		//se pasan los ids retornados por la consulta en un string
+		
+		foreach ($result as $dato)
+		{
+			$idN[]=$dato['id'];
+		}
+		
+		$idN= implode(",",$idN);
+		//nombre de los niveles 
+		$command = $connection->createCommand("
+		SELECT id, descripcion
+		FROM public.niveles
+		where id in ($idN) group by id
+		");
+		$result = $command->queryAll();
+		
+		
+		$docente[] = "<option value=''>Seleccione...</option>";
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$descripcion = $key['descripcion'];
+			$docente[] = "<option value='$id'>$descripcion</option>";
+		}
+		
+		
+		echo json_encode($docente);
+		// return Json::encode( $algo);
+	}
+	
+	//retorna los grupo que tien ese nivele que tiene el docente
+	public function actionGrupoNivelesDocente($idDocente,$idNivel)
+	{
+				
+		$connection = Yii::$app->getDb();
+		//retorno los id_paralelo_sede para saber que paralelos tiene esa el docente y comparalos con el nivel
+		$command = $connection->createCommand("
+		SELECT p.id, p.descripcion 
+		FROM public.paralelos as p, public.sedes_niveles as sn, public.distribuciones_academicas as da
+		where p.id_sedes_niveles = sn.id
+		and sn.id_niveles=$idNivel
+		and da.id_paralelo_sede=p.id
+		and da.id_perfiles_x_personas_docentes = $idDocente
+		group by p.id, p.descripcion
+		");
+		$result = $command->queryAll();
+				
+		//se formatea para llenar el combo
+		$grupo[] = "<option value=''>Seleccione...</option>";
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$descripcion = $key['descripcion'];
+			$grupo[] = "<option value='$id'>$descripcion</option>";
+		}
+				
+		echo json_encode($grupo);
+		
+	}
+
+	//que materia da el docente en ese paralelo
+	public function actionMateriaGrupo($idDocente,$idParalelo)
+	{
+		
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand("
+		SELECT id_asignaturas_x_niveles_sedes as id
+		FROM public.distribuciones_academicas
+		where id_perfiles_x_personas_docentes = $idDocente
+		and id_paralelo_sede = $idParalelo
+		and estado = 1
+		");
+		$result = $command->queryAll();
+		
+		//se pasan los ids retornados por la consulta en un string
+		
+		foreach ($result as $dato)
+		{
+			$idAXNS[]=$dato['id'];
+		}
+		
+		$idAXNS= implode(",",$idAXNS);
+		
+		
+		//se consulta el id y la descripcion de las materias que tiene el docente
+		$command = $connection->createCommand("
+		SELECT a.id, a.descripcion
+		FROM public.asignaturas_x_niveles_sedes as ans, asignaturas as a
+		where ans.id in ($idAXNS)
+		and ans.id_asignaturas = a.id
+		");
+		$result = $command->queryAll();
+		
+		foreach ($result as $key)
+		{
+			$id = $key['id'];
+			$descripcion = $key['descripcion'];
+			$materia[] = "<option value='$id'>$descripcion</option>";
+		}
+		
+		echo json_encode($materia);
+	}
+	
     /**
      * Lists all Calificaciones models.
      * @return mixed
