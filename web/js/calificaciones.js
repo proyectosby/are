@@ -86,7 +86,6 @@ function llenarComboDocentes()
 	
 }
 
-
 //inicio eventos 
 
 //consulta los niveles(grados) que tiene asociado ese docente desde #selDocentes

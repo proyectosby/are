@@ -263,7 +263,7 @@ class CalificacionesController extends Controller
 			$jornadas[] = "<option value='$id'>$descripcion</option>";
 		}
 		
-		$data['jornadas']=$jornadas;
+		$data['jornadas']=$jornadas; 
 		//los periodos de esa sede
 		$command = $connection->createCommand("		
 		SELECT id, descripcion

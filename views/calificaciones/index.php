@@ -15,7 +15,7 @@ $personas = Personas::find()
 						->all();
 
 
-
+ 
 // echo "<pre>"; var_dump( $personas ); echo "</pre>";
 
 /* @var $this yii\web\View */
