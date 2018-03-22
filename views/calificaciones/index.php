@@ -11,7 +11,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depe
 $personas = Personas::find()
 						->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
 						->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
-						->where( 'pp.id_perfiles=15' )
+						->where(  'pp.id=3'  )
 						->all();
 
 
