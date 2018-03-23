@@ -92,16 +92,18 @@ $( ".content a" ).click(function(){
 			});
 		});
 		
-		console.log(data);
+		// console.log(data);
 		
 		
-		// $.post(
-			// "index.php?r=calificaciones/create",
-			// { data: data },
-			// function( data ){},
-			// "json"
-		// );
+		$.post(
+			"index.php?r=calificaciones/create",
+			{ data: data },
+			function( data ){},
+			"json"
+		);
 	}
+	
+	return false;
 });
 
 
