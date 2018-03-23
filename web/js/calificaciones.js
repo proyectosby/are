@@ -45,6 +45,7 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 					
 					//Asigno la calificacion al campo corres
 					$( "input[name="+name+"]" ).val( data[0].calificacion );
+					$( "input[name="+name+"]" ).change();
 					$( "input[name=id"+name+"]" ).val( data[0].id );
 					
 					//En la fila busco un campo que tenga como name idSaber, idHacer, etc
