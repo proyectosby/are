@@ -59,20 +59,20 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php $form = ActiveForm::begin(); ?>
 	
 	
-	<div style='text-align:center;background-color:#ddd;'>
+	<!-- <div style='text-align:center;background-color:#ddd;'>
 	
 		<table style='width:80%;'>
 			<tr>
 				<td>
-					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Codigo DANE' ) ?>-->
+					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Codigo DANE' ) ?>
 				</td>
 				
 				<td>
-					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Institución educativa' ) ?>-->
+					 <!--<?= $form->field( $searchModel, 'observaciones' )->dropDownList( [], [ 'prompt' => 'Seleccione...' ] )->label( 'Institución educativa' ) ?>
 				</td>
 				
 				<td>
-					 <!--<?php echo $form->field( $searchModel, 'observaciones' )->textInput( [ 'id'=>'txtSede','readOnly'=>'true' ] )->label( 'Sede' ) ?>-->
+					 <?php echo $form->field( $searchModel, 'observaciones' )->textInput( [ 'id'=>'txtSede','readOnly'=>'true' ] )->label( 'Sede' ) ?>
 				</td>
 			</tr>
 		</table>
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	
 	<br>
-	<br>
+	<br>  -->
 	
 	<h2><?= Html::encode( "Registro de calificaciones" ) ?></h2>
 	
@@ -173,21 +173,45 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<?php $i = 1; foreach($personas as $key=>$persona): ?>
 					
-					<tr>
+					<tr estudiante=<?=$persona->id?> >
 						<td><b>#<?= ($i++) ?></b></td>
 						<td>
 							<b><?= Html::encode( $persona->nombres." ".$persona->apellidos ) ?></b>
 							<input type='hidden' value='<?= $persona->id ?>' name='idPersona'>
 						</td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput([ 'disabled' => 'disabled' ])->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
-						<td><?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?></td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'saber' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idsaber'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'hacer' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idhacer'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'ser' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idser'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'personal' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idpersonal'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'social' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idsocial'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'ae' ] )->label( '' ) ?>
+							<input type='hidden' value='' name='idae'>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput([ 'disabled' => 'disabled' ])->label( '' ) ?>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?>
+						</td>
+						<td>
+							<?= $form->field( $searchModel, 'observaciones' )->textInput()->label( '' ) ?>
+						</td>
 					</tr>
 				
 				<?php endforeach; ?>

@@ -22,6 +22,37 @@ $( document ).ready(function() {
 	
 });
 
+function cargarCalificacionAEstudiantes( indicadoresDesempeno ){	
+
+	var idDocente =	$( "#selDocentes" ).val();
+	
+	//Creo el array con los indicadores
+	var indicadores = [ "saber", "hacer","ser","personal","social","ae" ];
+	
+	$( indicadores ).each(function(x){
+		
+		//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
+		idIndicadorDesempeno = indicadoresDesempeno[x].id;	
+		
+		//llenar indicadores desempeño
+		var name = this; //this en este caso es idSaber, idHacer, ...
+		
+		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
+				function( data )
+				{
+					//Toda fila tienen como atributo estudiante
+					var tr = $( "[estudiante="+data[0].estudiante+"]" );
+					
+					//Asigno la calificacion al campo corres
+					$( "input[name="+name+"]" ).val( data[0].calificacion );
+					$( "input[name=id"+name+"]" ).val( data[0].id );
+					
+					//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+				},
+		"json");
+	});
+}
+
 $( ".content a" ).click(function(){
 	
 	var nombreFormulario = $( ".content form" ).attr( "id"); 
@@ -43,11 +74,12 @@ $( ".content a" ).click(function(){
 			 
 			var estudiante 		 = $( "[name=idPersona]", this ).val()*1;
 			var inCalificaciones = $( "input:text:lt(6)", this );
-			
-			
+			var inIds			 = $( "input:hidden:lt(6)", this );
+			console.log( inIds );
 			inCalificaciones.each(function(y){
 
 				data.push({
+					id										: $( inIds ).eq(y+1).val()*1,
 					calificacion							: $( this ).val()*1,
 					fecha									: "2018-03-21",
 					observaciones							: "",
@@ -63,12 +95,12 @@ $( ".content a" ).click(function(){
 		console.log(data);
 		
 		
-		$.post(
-			"index.php?r=calificaciones/create",
-			{ data: data },
-			function( data ){},
-			"json"
-		);
+		// $.post(
+			// "index.php?r=calificaciones/create",
+			// { data: data },
+			// function( data ){},
+			// "json"
+		// );
 	}
 });
 
@@ -237,7 +269,8 @@ $("#selMateria").change(function(){
 					$("#thPers").html(data[3]['id']);
 					$("#thSoci").html(data[4]['id']);
 					$("#thAE").html(data[5]['id']);
-					 
+					
+					cargarCalificacionAEstudiantes( data );
 				},
 		"json");
 });

@@ -29,6 +29,49 @@ class CalificacionesController extends Controller
             ],
         ];
     }
+	
+	public function actionConsultarCalificaciones( $idDocente, $idIndicadorDesempeno ){
+		
+		$val = [];
+		
+		// $calificaciones = Calificaciones::find()
+											// ->select( "calificaciones.id as id, ( p.nombres || ' ' || p.apellidos ) as nombres, calificaciones.calificacion as calificacion, pp.id as id_personas " )
+											// ->innerJoin( 'perfiles_x_personas pp', 'pp.id = calificaciones.id_perfiles_x_personas_estudiantes' )
+											// ->innerJoin( 'personas p', 'p.id = pp.id_personas' )
+											// ->where( 'calificaciones.estado=1' )
+											// ->andWhere( 'calificaciones.id_perfiles_x_personas_docentes='.$idDocente )
+											// ->andWhere( 'calificaciones.id_distribuciones_x_indicador_desempeno='.$idIndicadorDesempeno )
+											// ->all();
+											
+											
+		
+		$connection = Yii::$app->getDb();
+		//saber el nombre del docente
+		$command = $connection->createCommand("
+			SELECT calificaciones.id as id, ( p.nombres || ' ' || p.apellidos ) as nombres, calificaciones.calificacion as calificacion, pp.id as id_personas
+			  FROM calificaciones, perfiles_x_personas pp, personas p
+			 WHERE calificaciones.estado=1
+			   AND calificaciones.id_perfiles_x_personas_docentes=".$idDocente."
+			   AND calificaciones.id_distribuciones_x_indicador_desempeno=".$idIndicadorDesempeno."
+			   AND pp.id = calificaciones.id_perfiles_x_personas_estudiantes
+			   AND p.id = pp.id_personas
+		");
+		
+		$calificaciones = $command->queryAll();
+		
+		foreach( $calificaciones as $calificacion ){
+			// echo "<pre>"; var_dump( $calificacion ); echo "</pre>";
+				$val[] = [
+					"id" 			=> $calificacion[ 'id' ],
+					"calificacion" 	=> $calificacion[ 'calificacion' ],
+					"estudiante" 	=> $calificacion[ 'id_personas' ],
+					"nombres" 		=> $calificacion[ 'nombres' ],
+					"indicador" 	=> $idIndicadorDesempeno,
+				];
+		}
+		
+		echo json_encode( $val );
+	}
 
 	//retorna todos los docentes de la base de dato
 	public function actionListarDocentes()
