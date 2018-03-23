@@ -1,8 +1,31 @@
 $( document ).ready(function() {
 	// Handler for .ready() called.
-	$( "input" ).change(function(){
+	// $( "input" ).change(function(){
 		
-		var tr = $( this ).parent().parent().parent();
+		
+		// var tr = $( this ).parent().parent().parent();
+		
+		// var tds = $( "input:text", tr );
+		// var sum = 0;
+		
+		// sum += tds.eq(0).val()*0.3;
+		// sum += tds.eq(1).val()*0.4;
+		// sum += tds.eq(2).val()*0.3;
+		// sum = sum*0.7;
+		// sum += tds.eq(3).val()*0.1;
+		// sum += tds.eq(4).val()*0.1;
+		// sum += tds.eq(5).val()*0.1;
+		
+		// $( tds[ 6 ] ).val( Math.round( 100*sum )/100 );
+	// });
+	
+	llenarComboDocentes();
+	
+});
+
+function notaFinal(obj)
+{
+	var tr = $( obj ).parent().parent().parent();
 		
 		var tds = $( "input:text", tr );
 		var sum = 0;
@@ -16,11 +39,8 @@ $( document ).ready(function() {
 		sum += tds.eq(5).val()*0.1;
 		
 		$( tds[ 6 ] ).val( Math.round( 100*sum )/100 );
-	});
-	
-	llenarComboDocentes();
-	
-});
+}
+
 
 function cargarCalificacionAEstudiantes( indicadoresDesempeno ){	
 
@@ -37,20 +57,29 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		//llenar indicadores desempeño
 		var name = this; //this en este caso es idSaber, idHacer, ...
 		
+		
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
 				{
 					//Toda fila tienen como atributo estudiante
 					var tr = $( "[estudiante="+data[0].estudiante+"]" );
 					
-					//Asigno la calificacion al campo corres
+					//Asigno la calificacion al campo corresponde
+					
 					$( "input[name="+name+"]" ).val( data[0].calificacion );
-					$( "input[name="+name+"]" ).change();
+					// $( "input[name="+name+"]" ).change();
+					//llenar la nota final 
+					notaFinal($( "input[name="+name+"]" ));
 					$( "input[name=id"+name+"]" ).val( data[0].id );
 					
 					//En la fila busco un campo que tenga como name idSaber, idHacer, etc
 				},
 		"json");
+		//borrar los valores de las cajas de texto al cambiar la materia
+		$( "input[type='text']" ).val("");
+		
+		// $( "input[name="+name+"]" ).val("");
+		
 	});
 }
 
@@ -142,6 +171,7 @@ $("#selGrado").change(function()
 $("#selGrupo").change(function()
 {
 	llenarComboMateria();
+	llenarEstudiantes()
 });
 
 //Fin eventos 
@@ -217,8 +247,9 @@ function llenarComboMateria()
 			{
 				$("#selMateria").html(data);
 			},
-	"json");
-		
+	"json");	
+	
+	
 }
 
 
@@ -245,6 +276,38 @@ function llenarCommbosSedeJornadaPeriodo()
 	"json");
 		
 }
+
+/**
+ * Funcion llenar los estudiante por paralelo
+ * 
+ * param Parámetro: id del paralelo
+ * return Tipo de retorno: Los estudiantes que tiene el paralelo seleccionado
+ * author : Oscar David Lopez villa
+ * exception : No tiene excepciones.
+ */
+function llenarEstudiantes()
+{
+	
+	idParalelo   =	$("#selGrupo").val();
+	//si el idNivel esta vacio no hace nada
+	if(idParalelo == "")
+	{
+		$("#estudiantes").html("");
+		return false;
+	}
+	
+	//consulta los estudiantes que tiene ese paralelo 
+	$.get( "index.php?r=calificaciones/personas&idParalelo="+idParalelo, 
+			function( data )
+			{
+				$("#estudiantes").html(data);
+			},
+	"json");
+		
+}
+
+
+
 
 /**
  * Funcion llenar los indicadores de desempeño

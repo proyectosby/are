@@ -73,7 +73,7 @@ class CalificacionesController extends Controller
 		echo json_encode( $val );
 	}
 
-	//retorna todos los docentes de la base de dato
+	//retorna todos los docentes de la base de datos
 	public function actionListarDocentes()
 	{
 		
@@ -84,6 +84,7 @@ class CalificacionesController extends Controller
 			FROM public.docentes as d, public.perfiles_x_personas as per, public.personas as p
 			where d.id_perfiles_x_personas = per.id
 			and per.id_personas = p.id
+			and d.estado =1
 		");
 		$result = $command->queryAll();
 		
@@ -239,7 +240,7 @@ class CalificacionesController extends Controller
 		and ans.id_asignaturas = a.id
 		");
 		$result = $command->queryAll();
-		
+		$materia[] = "<option value=''>Seleccione...</option>";
 		foreach ($result as $key)
 		{
 			$id = $key['id'];
@@ -329,6 +330,119 @@ class CalificacionesController extends Controller
 		
 		
 	}
+	
+	
+	public function actionPersonas($idParalelo)
+	{
+		 
+		$varHtml ='<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="saber" onkeyup="notaFinal(this)">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idsaber">
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="hacer" onkeyup="notaFinal(this)">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idhacer">
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="ser" onkeyup="notaFinal(this)">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idser">
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="personal">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idpersonal" >
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="social" onkeyup="notaFinal(this)">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idsocial">
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="ae" onkeyup="notaFinal(this)">
+
+<div class="help-block"></div>
+</div>							<input type="hidden" value="" name="idae">
+						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="CalificacionesBuscar[observaciones]" disabled="disabled">
+
+<div class="help-block"></div>
+</div>						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="CalificacionesBuscar[observaciones]">
+
+<div class="help-block"></div>
+</div>						</td>
+						<td>
+							<div class="form-group field-calificacionesbuscar-observaciones">
+<label class="control-label" for="calificacionesbuscar-observaciones"></label>
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="CalificacionesBuscar[observaciones]">
+
+<div class="help-block"></div>
+</div>						</td>
+					';
+		 
+		 
+		 
+		 
+		$connection = Yii::$app->getDb();
+		//los periodos de esa sede
+		$command = $connection->createCommand("		
+		SELECT e.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombres
+		FROM public.estudiantes as e, public.perfiles_x_personas as pp, public.personas as p
+		where e.id_paralelos = $idParalelo
+		and e.estado = 1
+		and e.id_perfiles_x_personas = pp.id
+		and pp.id_personas =p.id
+		");
+		$result = $command->queryAll();
+		
+		$con=0;
+		
+		$data="";
+		
+		foreach ($result as $datos)
+		{
+			$con++;			
+			$id 		= $datos['id'];
+			$nombres 	= $datos['nombres'];
+			$data.="<tr estudiante='$id'>";
+			$data.= "<td><b>#$con</b></td>";
+			$data.= "<td><b>$nombres</b><input type='hidden' value='$id' name='idPersona'></td>";
+			$data.=$varHtml;
+			
+		}
+		$data.="</tr>";
+		
+		
+	echo json_encode($data);
+	}
+	
+	
 	
 	
     /**

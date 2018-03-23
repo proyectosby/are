@@ -8,11 +8,11 @@ use app\models\Personas;
 
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$personas = Personas::find()
-						->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
-						->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
-						->where(   'pp.id_perfiles=11' )
-						->all();
+// $personas = Personas::find()
+						// ->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
+						// ->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
+						// ->where(   'pp.id_perfiles=11' )
+						// ->all();
 
 
  
@@ -168,31 +168,32 @@ $this->params['breadcrumbs'][] = $this->title;
 					<th colspan=4></th>
 				</tr>
 			</thead>
+			<tbody id="estudiantes">
 			
-			<tbody>
+			<!--<tbody>
 
-				<?php $i = 1; foreach($personas as $key=>$persona): ?>
+				<?php //$i = 1; foreach($personas as $key=>$persona): ?>
 					
-					<tr estudiante=<?=$persona->id?> >
-						<td><b>#<?= ($i++) ?></b></td>
+					<tr estudiante=<?//=$persona->id?> >
+						<td><b>#<?//= ($i++) ?></b></td>
 						<td>
-							<b><?= Html::encode( $persona->nombres." ".$persona->apellidos ) ?></b>
-							<input type='hidden' value='<?= $persona->id ?>' name='idPersona'>
+							<b><?//= Html::encode( $persona->nombres." ".$persona->apellidos ) ?></b>
+							<input type='hidden' value='<?// $persona->id ?>' name='idPersona'>
 						</td>
 						<td>
-							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'saber' ] )->label( '' ) ?>
+							<?//= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'saber' ] )->label( '' ) ?>
 							<input type='hidden' value='' name='idsaber'>
 						</td>
 						<td>
-							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'hacer' ] )->label( '' ) ?>
+							<?//= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'hacer' ] )->label( '' ) ?>
 							<input type='hidden' value='' name='idhacer'>
 						</td>
 						<td>
-							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'ser' ] )->label( '' ) ?>
+							<?//= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'ser' ] )->label( '' ) ?>
 							<input type='hidden' value='' name='idser'>
 						</td>
 						<td>
-							<?= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'personal' ] )->label( '' ) ?>
+							<?//= $form->field( $searchModel, 'observaciones' )->textInput( [ 'name' => 'personal' ] )->label( '' ) ?>
 							<input type='hidden' value='' name='idpersonal'>
 						</td>
 						<td>
@@ -214,9 +215,9 @@ $this->params['breadcrumbs'][] = $this->title;
 						</td>
 					</tr>
 				
-				<?php endforeach; ?>
+				<?php //endforeach; ?>
 				
-			</tbody>
+			</tbody>-->
 		</table>
 	</div>
 	<br>
