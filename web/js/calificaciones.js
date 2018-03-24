@@ -104,8 +104,8 @@ $( ".content a" ).click(function(){
 			 
 			var estudiante 		 = $( "[name=idPersona]", this ).val()*1;
 			var inCalificaciones = $( "input:text:lt(6)", this );
-			var inIds			 = $( "input:hidden:lt(6)", this );
-			console.log( inIds );
+			var inIds			 = $( "input:hidden:lt(7)", this );
+
 			inCalificaciones.each(function(y){
 
 				data.push({
@@ -122,13 +122,23 @@ $( ".content a" ).click(function(){
 			});
 		});
 		
-		// console.log(data);
-		
-		
 		$.post(
 			"index.php?r=calificaciones/create",
-			{ data: data },
-			function( data ){},
+			{ 
+				data: data 
+			},
+			function( data ){
+				
+				for( var x in data ){
+					
+					var trEstudiante = $( "[estudiante="+x+"]" );
+					var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
+					
+					$( data[x] ).each(function(y){
+						inIds.eq(y+1).val( this.id );
+					});
+				}
+			},
 			"json"
 		);
 	}

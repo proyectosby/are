@@ -479,17 +479,18 @@ class CalificacionesController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {
-        // $model = new Calificaciones();
-
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->id]);
-        // }
-		var_dump( Yii::$app->request->post('data') );
-		$count = count(Yii::$app->request->post('data'));
-		$models = [new Calificaciones()];
-		for($i = 1; $i < $count; $i++) {
-			$models[] = new Calificaciones();
+    {		
+		// var_dump( Yii::$app->request->post('data') );
+		$data	=  Yii::$app->request->post('data');
+		$count 	= count(Yii::$app->request->post('data'));
+		
+		$models = [];
+		for( $i = 0; $i < $count; $i++ )
+		{
+			if( $data[$i]['id'] != 0 )
+				$models[] = Calificaciones::findOne( $data[$i]['id'] );
+			else
+				$models[] = new Calificaciones();
 		}
 		
 		
@@ -497,23 +498,30 @@ class CalificacionesController extends Controller
             foreach ($models as $model) {
                 $model->save(false);
             }
-            // return $this->redirect('index');
         }
 		else{
-			if( !Calificaciones::validateMultiple($models) ) echo "Error";
-			// var_dump( $models[0] );
 			 
 			 foreach( $models as $model ){
 				 foreach( $model->errors as $error ){
 					 var_dump( $error );
 				 }
-				 
 			 }
+			 
+			 return;
 		}
-
-        // return $this->render('create', [
-            // 'model' => $model,
-        // ]);
+		
+		//Devuelo la lista de los ids
+		$val = [];
+		
+		foreach( $models as $model ){
+			 $val[$model->id_perfiles_x_personas_estudiantes][]=[ 
+																	"id" 				=> $model->id,
+																	"indicadorDesempeno"=> $model->id_distribuciones_x_indicador_desempeno,
+																];
+		}
+		
+		echo json_encode( $val );
+		
     }
 
     /**
