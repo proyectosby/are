@@ -4,21 +4,18 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\PerfilesXPersonas */
+/* @var $model app\models\RepresentantesLegales */
 
-$this->title = 'Agregar estudiante: ';
-$this->params['breadcrumbs'][] = ['label' => 'Estudiantes', 'url' => ['index']];
+$this->title = 'Create Representantes Legales';
+$this->params['breadcrumbs'][] = ['label' => 'Representantes Legales', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="perfiles-xpersonas-create">
+<div class="representantes-legales-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' 					=> $model,
-		'personas' 					=> $personas,
-		'modelRepresentantesLegales'=> $modelRepresentantesLegales,
-		'representantesLegales'		=> $personas,
+        'model' => $model,
     ]) ?>
 
 </div>

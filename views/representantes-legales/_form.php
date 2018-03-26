@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\PerfilesXPersonas */
+/* @var $model app\models\RepresentantesLegales */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="perfiles-xpersonas-form">
+<div class="representantes-legales-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field( $model, 'id_personas' )->dropDownList( $personas , [ 'prompt' => 'Seleccione...'  ] ) ?>
-	
-    <?= $form->field( $modelRepresentantesLegales, 'id_personas' )->dropDownList( $representantesLegales , [ 'prompt' => 'Seleccione...'  ] ) ?>
+    <?= $form->field($model, 'id_perfiles_x_personas')->textInput() ?>
+
+    <?= $form->field($model, 'id_personas')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
