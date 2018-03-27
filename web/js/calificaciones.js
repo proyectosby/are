@@ -61,18 +61,24 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
 				{
-					//Toda fila tienen como atributo estudiante
-					var tr = $( "[estudiante="+data[0].estudiante+"]" );
-					
-					//Asigno la calificacion al campo corresponde
-					
-					$( "input[name="+name+"]" ).val( data[0].calificacion );
-					// $( "input[name="+name+"]" ).change();
-					//llenar la nota final 
-					notaFinal($( "input[name="+name+"]" ));
-					$( "input[name=id"+name+"]" ).val( data[0].id );
-					
-					//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+					try{
+						//Toda fila tienen como atributo estudiante
+						var tr = $( "[estudiante="+data[0].estudiante+"]" );
+						
+						//Asigno la calificacion al campo corresponde
+						
+						$( "input[name="+name+"]" ).val( data[0].calificacion );
+						// $( "input[name="+name+"]" ).change();
+						//llenar la nota final 
+						notaFinal( $( "input[name="+name+"]" ) );
+						$( "input[name=id"+name+"]" ).val( data[0].id );
+						
+						//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+					}
+					catch(e){
+						$( "input[name="+name+"]" ).val(0);
+						$( "input[name=id"+name+"]" ).val('');
+					}
 				},
 		"json");
 		//borrar los valores de las cajas de texto al cambiar la materia
