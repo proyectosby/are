@@ -80,7 +80,7 @@ class DocentesController extends Controller
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find() ->where( 'personas.estado=1' )->all();
+		$personasData 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'personas.estado=1' )->all();
 		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
         $model					= new Docentes();
@@ -127,7 +127,7 @@ class DocentesController extends Controller
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find() ->where( 'personas.estado=1' )->andWhere( 'id='.$modelPerfilesXPersonas->id_personas )->all();
+		$personasData 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'personas.estado=1' )->andWhere( 'id='.$modelPerfilesXPersonas->id_personas )->all();
 		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
 		
