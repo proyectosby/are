@@ -18,9 +18,9 @@ class PlanDeAulaBuscar extends PlanDeAula
     public function rules()
     {
         return [
-            [['id', 'id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_perfiles_x_personas_docentes'], 'integer'],
+            [['id', 'id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_indicador_desempeno'], 'integer'],
             [['fecha', 'actividad', 'observaciones'], 'safe'],
-            [['evaluativa'], 'boolean'],
+            [['cognitivo_conocer', 'cognitivo_hacer', 'cognitivo_ser', 'personal', 'social'], 'boolean'],
         ];
     }
 
@@ -65,9 +65,13 @@ class PlanDeAulaBuscar extends PlanDeAula
             'id_nivel' => $this->id_nivel,
             'id_asignatura' => $this->id_asignatura,
             'fecha' => $this->fecha,
-            'evaluativa' => $this->evaluativa,
             'estado' => $this->estado,
-            'id_perfiles_x_personas_docentes' => $this->id_perfiles_x_personas_docentes,
+            'id_indicador_desempeno' => $this->id_indicador_desempeno,
+            'cognitivo_conocer' => $this->cognitivo_conocer,
+            'cognitivo_hacer' => $this->cognitivo_hacer,
+            'cognitivo_ser' => $this->cognitivo_ser,
+            'personal' => $this->personal,
+            'social' => $this->social,
         ]);
 
         $query->andFilterWhere(['ilike', 'actividad', $this->actividad])

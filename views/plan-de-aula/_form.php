@@ -14,8 +14,6 @@ use dosamigos\datepicker\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
     
-	<?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
-
     <?= $form->field($model, 'id_periodo')->dropDownList( $periodos, [ 'prompt' => 'Seleccione...' ] ) ?>
 
     <?= $form->field($model, 'id_nivel')->dropDownList( $niveles, [ 'prompt' => 'Seleccione...' ] ) ?>
@@ -38,9 +36,19 @@ use dosamigos\datepicker\DatePicker;
 
     <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true, 'placeholder' => 'Ingrese las obsrvaciones']) ?>
 
-    <?= $form->field($model, 'evaluativa')->checkbox() ?>
-
     <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
+	
+	<?= $form->field($model, 'id_indicador_desempeno')->dropDownList( $indicadorDesempenos, [ 'prompt' => 'Seleccione...'  ]) ?>
+		
+	<?= $form->field($model, 'cognitivo_conocer')->checkbox() ?>
+
+	<?= $form->field($model, 'cognitivo_hacer')->checkbox() ?>
+
+	<?= $form->field($model, 'cognitivo_ser')->checkbox() ?>
+
+	<?= $form->field($model, 'personal')->checkbox() ?>
+
+	<?= $form->field($model, 'social')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

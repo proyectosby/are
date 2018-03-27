@@ -14,6 +14,7 @@ use app\models\Periodos;
 use app\models\Niveles;
 use app\models\Asignaturas;
 use app\models\Estados;
+use app\models\IndicadorDesempeno;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -91,6 +92,9 @@ class PlanDeAulaController extends Controller
 		$asignaturasData= Asignaturas::find()->where( 'estado=1' )->all();
 		$asignaturas	= ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
 		
+		$indicadorDesempenoData	= IndicadorDesempeno::find()->where( 'estado=1' )->all();
+		$indicadorDesempenos	= ArrayHelper::map( $indicadorDesempenoData, 'id', 'descripcion' );
+		
 		$estadosData	= Estados::find()->where( 'id=1' )->all();
 		$estados		= ArrayHelper::map( $estadosData, 'id', 'descripcion' );
 		
@@ -101,12 +105,13 @@ class PlanDeAulaController extends Controller
         }
 
         return $this->render('create', [
-            'model' 		=> $model,
-            'personas' 		=> $personas,
-            'periodos'		=> $periodos,
-            'niveles' 		=> $niveles,
-            'asignaturas' 	=> $asignaturas,
-            'estados' 		=> $estados,
+            'model' 				=> $model,
+            'personas' 				=> $personas,
+            'periodos'				=> $periodos,
+            'niveles' 				=> $niveles,
+            'asignaturas' 			=> $asignaturas,
+            'estados' 				=> $estados,
+            'indicadorDesempenos'	=> $indicadorDesempenos,
         ]);
     }
 
@@ -137,6 +142,9 @@ class PlanDeAulaController extends Controller
 		$asignaturasData= Asignaturas::find()->where( 'estado=1' )->all();
 		$asignaturas	= ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
 		
+		$indicadorDesempenoData	= IndicadorDesempeno::find()->where( 'estado=1' )->all();
+		$indicadorDesempenos	= ArrayHelper::map( $indicadorDesempenoData, 'id', 'descripcion' );
+		
 		$estadosData	= Estados::find()->all();
 		$estados		= ArrayHelper::map( $estadosData, 'id', 'descripcion' );
 		
@@ -147,12 +155,13 @@ class PlanDeAulaController extends Controller
         }
 
         return $this->render('update', [
-            'model' 		=> $model,
-			'personas' 		=> $personas,
-            'periodos'		=> $periodos,
-            'niveles' 		=> $niveles,
-            'asignaturas' 	=> $asignaturas,
-            'estados' 		=> $estados,
+            'model' 				=> $model,
+			'personas' 				=> $personas,
+            'periodos'				=> $periodos,
+            'niveles' 				=> $niveles,
+            'asignaturas' 			=> $asignaturas,
+            'estados' 				=> $estados,
+			'indicadorDesempenos'	=> $indicadorDesempenos,
         ]);
     }
 
