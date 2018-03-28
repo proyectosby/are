@@ -61,18 +61,24 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
 				{
-					//Toda fila tienen como atributo estudiante
-					var tr = $( "[estudiante="+data[0].estudiante+"]" );
-					
-					//Asigno la calificacion al campo corresponde
-					
-					$( "input[name="+name+"]" ).val( data[0].calificacion );
-					// $( "input[name="+name+"]" ).change();
-					//llenar la nota final 
-					notaFinal($( "input[name="+name+"]" ));
-					$( "input[name=id"+name+"]" ).val( data[0].id );
-					
-					//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+					try{
+						//Toda fila tienen como atributo estudiante
+						var tr = $( "[estudiante="+data[0].estudiante+"]" );
+						
+						//Asigno la calificacion al campo corresponde
+						
+						$( "input[name="+name+"]" ).val( data[0].calificacion );
+						// $( "input[name="+name+"]" ).change();
+						//llenar la nota final 
+						notaFinal( $( "input[name="+name+"]" ) );
+						$( "input[name=id"+name+"]" ).val( data[0].id );
+						
+						//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+					}
+					catch(e){
+						$( "input[name="+name+"]" ).val(0);
+						$( "input[name=id"+name+"]" ).val('');
+					}
 				},
 		"json");
 		//borrar los valores de las cajas de texto al cambiar la materia
@@ -129,13 +135,28 @@ $( ".content a" ).click(function(){
 			},
 			function( data ){
 				
-				for( var x in data ){
+				try{
+					for( var x in data ){
+						
+						var trEstudiante = $( "[estudiante="+x+"]" );
+						var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
+						
+						$( data[x] ).each(function(y){
+							inIds.eq(y+1).val( this.id );
+						});
+					}
 					
-					var trEstudiante = $( "[estudiante="+x+"]" );
-					var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
-					
-					$( data[x] ).each(function(y){
-						inIds.eq(y+1).val( this.id );
+					swal({
+						text: "Califiaciones guardadas exitosamente",
+						icon: "success",
+						button: "Cerrar",
+					});
+				}
+				catch(e){
+					swal({
+						text: "Hubo un error al guardar las calificaciones",
+						icon: "warning",
+						button: "Cerrar",
 					});
 				}
 			},

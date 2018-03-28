@@ -32,28 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-			[
-				'attribute' => 'id_perfiles_x_personas_docentes',
-				'label'		=> 'Docente',
-				'value' 	=> function( $model ){
-									$personas = Personas::find()
-													->select( "d.id_perfiles_x_personas as id, ( personas.nombres || ' ' || personas.apellidos ) nombres" )
-													->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
-													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
-													->where( 'personas.estado=1' )
-													->where( 'd.estado=1' )
-													->where( 'd.id_perfiles_x_personas='.$model->id_perfiles_x_personas_docentes )
-													->one();
-									return $personas ? $personas->nombres: '';
-								},
-				'filter' 	=> ArrayHelper::map( Personas::find()
-													->select( "d.id_perfiles_x_personas as id, ( personas.nombres || ' ' || personas.apellidos ) nombres" )
-													->innerJoin('perfiles_x_personas pf', 'pf.id_personas=personas.id' )
-													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
-													->where( 'personas.estado=1' )
-													->where( 'd.estado=1' )
-													->all(), 'id', 'nombres' ),
-			],
             [
 				'attribute' => 'id_periodo',
 				'value' 	=> function($model){
@@ -83,6 +61,12 @@ $this->params['breadcrumbs'][] = $this->title;
             //'observaciones',
             //'evaluativa:boolean',
             //'estado',
+			//'id_indicador_desempeno', 
+			//'cognitivo_conocer:boolean', 
+			//'cognitivo_hacer:boolean', 
+			//'cognitivo_ser:boolean', 
+			//'personal:boolean', 
+			//'social:boolean', 
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

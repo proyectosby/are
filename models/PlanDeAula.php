@@ -14,13 +14,17 @@ use Yii;
  * @property string $fecha
  * @property string $actividad
  * @property string $observaciones
- * @property bool $evaluativa
  * @property string $estado
- * @property string $id_perfiles_x_personas_docentes
+ * @property string $id_indicador_desempeno
+ * @property bool $cognitivo_conocer
+ * @property bool $cognitivo_hacer
+ * @property bool $cognitivo_ser
+ * @property bool $personal
+ * @property bool $social
  *
  * @property Asignaturas $asignatura
- * @property Docentes $perfilesXPersonasDocentes
  * @property Estados $estado0
+ * @property IndicadorDesempeno $indicadorDesempeno
  * @property Niveles $nivel
  * @property Periodos $periodo
  */
@@ -40,18 +44,19 @@ class PlanDeAula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_periodo', 'id_nivel', 'estado', 'id_perfiles_x_personas_docentes'], 'required'],
-            [['id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_perfiles_x_personas_docentes'], 'default', 'value' => null],
-            [['id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_perfiles_x_personas_docentes'], 'integer'],
+            [['id_periodo', 'id_nivel', 'estado'], 'required'],
+            [['id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_indicador_desempeno'], 'default', 'value' => null],
+            [['id_periodo', 'id_nivel', 'id_asignatura', 'estado', 'id_indicador_desempeno'], 'integer'],
             [['fecha'], 'safe'],
-            [['evaluativa'], 'boolean'],
+            [['cognitivo_conocer', 'cognitivo_hacer', 'cognitivo_ser', 'personal', 'social'], 'boolean'],
             [['actividad'], 'string', 'max' => 1000],
             [['observaciones'], 'string', 'max' => 200],
             [['id_asignatura'], 'exist', 'skipOnError' => true, 'targetClass' => Asignaturas::className(), 'targetAttribute' => ['id_asignatura' => 'id']],
-            [['id_perfiles_x_personas_docentes'], 'exist', 'skipOnError' => true, 'targetClass' => Docentes::className(), 'targetAttribute' => ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
+            [['id_indicador_desempeno'], 'exist', 'skipOnError' => true, 'targetClass' => IndicadorDesempeno::className(), 'targetAttribute' => ['id_indicador_desempeno' => 'id']],
             [['id_nivel'], 'exist', 'skipOnError' => true, 'targetClass' => Niveles::className(), 'targetAttribute' => ['id_nivel' => 'id']],
             [['id_periodo'], 'exist', 'skipOnError' => true, 'targetClass' => Periodos::className(), 'targetAttribute' => ['id_periodo' => 'id']],
+            [['id_indicador_desempeno','id_periodo','id_nivel','id_asignatura'], 'required'],
         ];
     }
 
@@ -68,9 +73,13 @@ class PlanDeAula extends \yii\db\ActiveRecord
             'fecha' => 'Fecha',
             'actividad' => 'Actividad',
             'observaciones' => 'Observaciones',
-            'evaluativa' => 'Evaluativa',
             'estado' => 'Estado',
-            'id_perfiles_x_personas_docentes' => 'Perfiles por personal Docente',
+            'id_indicador_desempeno' => 'Indicador de Desempeño',
+            'cognitivo_conocer' => 'Cognitivo Conocer',
+            'cognitivo_hacer' => 'Cognitivo Hacer',
+            'cognitivo_ser' => 'Cognitivo Ser',
+            'personal' => 'Personal',
+            'social' => 'Social',
         ];
     }
 
@@ -85,17 +94,17 @@ class PlanDeAula extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPerfilesXPersonasDocentes()
+    public function getEstado0()
     {
-        return $this->hasOne(Docentes::className(), ['id_perfiles_x_personas' => 'id_perfiles_x_personas_docentes']);
+        return $this->hasOne(Estados::className(), ['id' => 'estado']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEstado0()
+    public function getIndicadorDesempeno()
     {
-        return $this->hasOne(Estados::className(), ['id' => 'estado']);
+        return $this->hasOne(IndicadorDesempeno::className(), ['id' => 'id_indicador_desempeno']);
     }
 
     /**

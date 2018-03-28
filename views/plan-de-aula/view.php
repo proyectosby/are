@@ -8,6 +8,7 @@ use app\models\Periodos;
 use app\models\Niveles;
 use app\models\Asignaturas;
 use app\models\Estados;
+use app\models\IndicadorDesempeno;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PlanDeAula */
@@ -36,21 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             [
-				'attribute' => 'id_perfiles_x_personas_docentes',
-				'label'		=> 'Docente',
-				'value' 	=> function( $model ){
-									$personas = Personas::find()
-													->select( "d.id_perfiles_x_personas as id, ( personas.nombres || ' ' || personas.apellidos ) nombres" )
-													->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
-													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
-													->where( 'personas.estado=1' )
-													->where( 'd.estado=1' )
-													->where( 'd.id_perfiles_x_personas='.$model->id_perfiles_x_personas_docentes )
-													->one();
-									return $personas ? $personas->nombres: '';
-								},
-			],
-            [
 				'attribute' => 'id_periodo',
 				'value' 	=> function($model){
 									$periodo = Periodos::find()->where( 'id='.$model->id_periodo )->one();
@@ -73,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             'actividad',
             'observaciones',
-            'evaluativa:boolean',
             [
 				'attribute' => 'estado',
 				'value' 	=> function($model){
@@ -81,6 +66,18 @@ $this->params['breadcrumbs'][] = $this->title;
 									return $nivel ? $nivel->descripcion : '';
 							   },
 			],
+			[
+				'attribute' => 'id_indicador_desempeno',
+				'value' 	=> function($model){
+									$indicadorDesempeno = IndicadorDesempeno::find()->where( 'id='.$model->id_indicador_desempeno )->one();
+									return $indicadorDesempeno ? $indicadorDesempeno->descripcion : '';
+							   },
+			],
+			'cognitivo_conocer:boolean', 
+			'cognitivo_hacer:boolean', 
+			'cognitivo_ser:boolean', 
+			'personal:boolean', 
+			'social:boolean', 
         ],
     ]) ?>
 

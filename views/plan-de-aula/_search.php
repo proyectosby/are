@@ -29,11 +29,19 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'observaciones') ?>
 
-    <?php // echo $form->field($model, 'evaluativa')->checkbox() ?>
-
     <?php // echo $form->field($model, 'estado') ?>
 
-    <?php // echo $form->field($model, 'id_perfiles_x_personas_docentes') ?>
+    <?php // echo $form->field($model, 'id_indicador_desempeno') ?>
+
+    <?php // echo $form->field($model, 'cognitivo_conocer')->checkbox() ?>
+
+    <?php // echo $form->field($model, 'cognitivo_hacer')->checkbox() ?>
+
+    <?php // echo $form->field($model, 'cognitivo_ser')->checkbox() ?>
+
+    <?php // echo $form->field($model, 'personal')->checkbox() ?>
+
+    <?php // echo $form->field($model, 'social')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

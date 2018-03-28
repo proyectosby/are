@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD Dcoentes por áreas de trabajo
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Edwin Molina Grisales
+Se corrige los queries respectivos, ya que se repetía varias veces los metodos ->where() en una sola consulta
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -38,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
 													->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
 													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
 													->where( 'personas.estado=1' )
-													->where( 'd.estado=1' )
-													->where( 'd.id_perfiles_x_personas='.$model->id_perfiles_x_personas_docentes )
+													->andWhere( 'd.estado=1' )
+													->andWhere( 'd.id_perfiles_x_personas='.$model->id_perfiles_x_personas_docentes )
 													->one();
 									return $personas ? $personas->nombres: '';
 								},
@@ -48,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 													->innerJoin('perfiles_x_personas pf', 'pf.id_personas=personas.id' )
 													->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
 													->where( 'personas.estado=1' )
-													->where( 'd.estado=1' )
+													->andWhere( 'd.estado=1' )
 													->all(), 'id', 'nombres' ),
 			],
 			[

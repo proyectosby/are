@@ -63,7 +63,8 @@ class Instituciones extends \yii\db\ActiveRecord
             [['id_tipos_instituciones'], 'required'],
             [['id_sectores'], 'required'],
             [['correo_electronico_institucional'], 'email'],
-            [['nit'], 'required'],
+            [['nit','codigo_dane'], 'required'],
+            [['codigo_dane'], 'unique'],
         ];
     }
 

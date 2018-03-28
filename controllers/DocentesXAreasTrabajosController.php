@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD Dcoentes por áreas de trabajo
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Edwin Molina Grisales
+Se hacen cambios para que no se muestren docentes inactivos se corrige los queries respectivos,
+ya que se repetía varias veces los metodos ->where() en una sola consulta
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -42,7 +56,14 @@ class DocentesXAreasTrabajosController extends Controller
 		
         $searchModel = new DocentesXAreasTrabajosBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		// $dataProvider->query->andWhere( 'id_perfiles_x_personas_docentes != null' );
+		
+		//Muestro los docentes que están activos
+		$dataProvider->query
+							->select( "docentes_x_areas_trabajos.*" )
+							->innerJoin('perfiles_x_personas pf', 'pf.id=docentes_x_areas_trabajos.id_perfiles_x_personas_docentes' )
+							->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
+							->andWhere( 'd.estado=1' )
+							->one();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -79,7 +100,7 @@ class DocentesXAreasTrabajosController extends Controller
 										->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
 										->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
 										->where( 'personas.estado=1' )
-										->where( 'd.estado=1' )
+										->andWhere( 'd.estado=1' )
 										->all();
 		$personas	 	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
@@ -114,7 +135,7 @@ class DocentesXAreasTrabajosController extends Controller
 										->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
 										->innerJoin('docentes d', 'd.id_perfiles_x_personas=pf.id' )
 										->where( 'personas.estado=1' )
-										->where( 'd.estado=1' )
+										->andWhere( 'd.estado=1' )
 										->all();
 		$personas	 	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		

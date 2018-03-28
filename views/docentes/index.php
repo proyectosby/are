@@ -40,10 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
 															->innerJoin( 'docentes d', 'pf.id=d.id_perfiles_x_personas' )
 															->where( 'pf.id='.$model->id_perfiles_x_personas )->one();
 								// echo "--------<br><br><pre>"; var_dump($personas); echo "</pre>";
-								return $personas ? $personas->nombres: '';
+								return $personas ? $personas->nombres." ".$personas->apellidos: '';
 							},
 				'filter' => ArrayHelper::map(Personas::find()
-															->select( 'pf.id, personas.nombres' )
+															->select( "pf.id, ( personas.nombres || ' ' || personas.apellidos) nombres" )
 															->innerJoin( 'perfiles_x_personas pf', 'personas.id=pf.id_personas' )
 															->innerJoin( 'docentes d', 'pf.id=d.id_perfiles_x_personas' )
 															->all(), 'id', 'nombres' ),
