@@ -135,13 +135,28 @@ $( ".content a" ).click(function(){
 			},
 			function( data ){
 				
-				for( var x in data ){
+				try{
+					for( var x in data ){
+						
+						var trEstudiante = $( "[estudiante="+x+"]" );
+						var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
+						
+						$( data[x] ).each(function(y){
+							inIds.eq(y+1).val( this.id );
+						});
+					}
 					
-					var trEstudiante = $( "[estudiante="+x+"]" );
-					var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
-					
-					$( data[x] ).each(function(y){
-						inIds.eq(y+1).val( this.id );
+					swal({
+						text: "Califiaciones guardadas exitosamente",
+						icon: "success",
+						button: "Cerrar",
+					});
+				}
+				catch(e){
+					swal({
+						text: "Hubo un error al guardar las calificaciones",
+						icon: "warning",
+						button: "Cerrar",
 					});
 				}
 			},

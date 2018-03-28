@@ -7,7 +7,8 @@ use yii\widgets\ActiveForm;
 use app\models\Personas;
 
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-
+$this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
+// <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 // $personas = Personas::find()
 						// ->select( "pp.id as id, ( nombres || ' ' || apellidos ) nombres" )
 						// ->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
