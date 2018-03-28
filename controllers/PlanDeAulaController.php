@@ -1,5 +1,16 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Se hacen cambios para mostrar las asignaturas correspondientes al nivel
+---------------------------------------
+**********/
+
+
 namespace app\controllers;
 
 use Yii;
@@ -89,8 +100,9 @@ class PlanDeAulaController extends Controller
 		$nivelesData	= Niveles::find()->where( 'estado=1' )->all();
 		$niveles		= ArrayHelper::map( $nivelesData, 'id', 'descripcion' );
 		
-		$asignaturasData= Asignaturas::find()->where( 'estado=1' )->all();
-		$asignaturas	= ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
+		// $asignaturasData= Asignaturas::find()->where( 'estado=1' )->all();
+		// $asignaturas	= ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
+		$asignaturas	= [];
 		
 		$indicadorDesempenoData	= IndicadorDesempeno::find()->where( 'estado=1' )->all();
 		$indicadorDesempenos	= ArrayHelper::map( $indicadorDesempenoData, 'id', 'descripcion' );
@@ -124,6 +136,8 @@ class PlanDeAulaController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
+		
 		$personasData 	= Personas::find()
 										->select( "d.id_perfiles_x_personas as id, ( personas.nombres || ' ' || personas.apellidos ) nombres " )
 										->innerJoin('perfiles_x_personas pf', 'personas.id=pf.id_personas' )
@@ -139,7 +153,13 @@ class PlanDeAulaController extends Controller
 		$nivelesData	= Niveles::find()->where( 'estado=1' )->all();
 		$niveles		= ArrayHelper::map( $nivelesData, 'id', 'descripcion' );
 		
-		$asignaturasData= Asignaturas::find()->where( 'estado=1' )->all();
+		$asignaturasData= Asignaturas::find()
+									  ->innerJoin( 'asignaturas_x_niveles_sedes ans', 'ans.id_asignaturas=asignaturas.id' )
+									  ->innerJoin( 'sedes_niveles sn', 'sn.id=ans.id_sedes_niveles' )
+									  ->innerJoin( 'niveles n', 'n.id=sn.id_niveles' )
+									  ->where( 'n.id='.$model->id_nivel )
+									  ->andWhere( 'asignaturas.estado=1' )
+									  ->all();
 		$asignaturas	= ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
 		
 		$indicadorDesempenoData	= IndicadorDesempeno::find()->where( 'estado=1' )->all();
@@ -147,8 +167,6 @@ class PlanDeAulaController extends Controller
 		
 		$estadosData	= Estados::find()->all();
 		$estados		= ArrayHelper::map( $estadosData, 'id', 'descripcion' );
-		
-        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

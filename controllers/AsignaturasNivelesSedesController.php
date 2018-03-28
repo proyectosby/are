@@ -1,5 +1,15 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Se agrega método actionAsignaturasXNivelesSedes
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -10,6 +20,7 @@ use app\models\AsignaturasNivelesSedesBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Asignaturas;
 use	yii\helpers\ArrayHelper;
 
 /**
@@ -31,6 +42,21 @@ class AsignaturasNivelesSedesController extends Controller
             ],
         ];
     }
+	
+	public function actionAsignaturasXNivelesSedes( $idNivel ){
+		
+		$asignaturasData = Asignaturas::find()
+									  ->innerJoin( 'asignaturas_x_niveles_sedes ans', 'ans.id_asignaturas=asignaturas.id' )
+									  ->innerJoin( 'sedes_niveles sn', 'sn.id=ans.id_sedes_niveles' )
+									  ->innerJoin( 'niveles n', 'n.id=sn.id_niveles' )
+									  ->where( 'n.id='.$idNivel )
+									  ->andWhere( 'asignaturas.estado=1' )
+									  ->all();
+									  
+		$asignaturas = ArrayHelper::map( $asignaturasData, 'id', 'descripcion' );
+		
+		echo json_encode( $asignaturas );
+	}
 
     /**
      * Lists all AsignaturasNivelesSedes models.

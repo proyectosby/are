@@ -1,9 +1,21 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Se agrega el js plan_de_aulas.js que permite traer las asignaturas dinamicamente de acuerdo al nivel seleccionado
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 use dosamigos\datepicker\DatePicker;
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/plan_de_aulas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PlanDeAula */
