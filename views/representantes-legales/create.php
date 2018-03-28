@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\RepresentantesLegales */
 
-$this->title = 'Create Representantes Legales';
-$this->params['breadcrumbs'][] = ['label' => 'Representantes Legales', 'url' => ['index']];
+$this->title = 'Agregar';
+$this->params['breadcrumbs'][] = ['label' => 'Estudiantes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="representantes-legales-create">
@@ -16,6 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+		'estudiantes'=>$estudiantes,
+		'representantesLegales'=>$representantesLegales,
+		'modelRepresentantesLegales'=> $modelRepresentantesLegales,
+		'estudianteSelected'=>0,
+		'representantesLegalesSelected'=>0,
     ]) ?>
 
 </div>

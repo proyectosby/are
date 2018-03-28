@@ -1,13 +1,39 @@
 <?php
+/**********
+Versión: 001
+Fecha: 27-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Representantes Legales (Estudiantes)
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Ajustes a las diferentes funciones del CRUD
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Cambio en la funcion actionDelete
+---------------------------------------
+
+**********/
 
 namespace app\controllers;
 
 use Yii;
-use app\models\RepresentantesLegales;
-use app\models\RepresentantesLegalesBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use	yii\helpers\ArrayHelper;
+
+
+use app\models\RepresentantesLegales;
+use app\models\RepresentantesLegalesBuscar;
+use app\models\Personas;
+use app\models\Estudiantes;
+use app\models\PerfilesXPersonas;
+use app\models\PerfilesXPersonasBuscar;
+
 
 /**
  * RepresentantesLegalesController implements the CRUD actions for RepresentantesLegales model.
@@ -19,7 +45,8 @@ class RepresentantesLegalesController extends Controller
      */
     public function behaviors()
     {
-        return [
+
+		return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -54,6 +81,7 @@ class RepresentantesLegalesController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+			
         ]);
     }
 
@@ -64,14 +92,37 @@ class RepresentantesLegalesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new RepresentantesLegales();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        //se consultan las personas que esten en la base de datos		
+		$personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
+		$personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
+		
+		//para el agregar estudiante y representante Legal se muestran todas las personas de la base de datos
+		$estudiantes			= $personas;
+		$representantesLegales	= $personas;
+		
+				
+		$modelRepresentantesLegales = new RepresentantesLegales();
+        $model 						= new PerfilesXPersonas();
+		$model->id_perfiles = 11;
+		$modelEstudiantes 				= new Estudiantes();
+        if( $model->load(Yii::$app->request->post()) && $model->save() ){
+			
+			if( $modelRepresentantesLegales->load(Yii::$app->request->post()) )
+			{
+				$modelRepresentantesLegales->id_perfiles_x_personas = $model->id;
+				$modelEstudiantes->id_perfiles_x_personas = $model->id;
+				if( $modelRepresentantesLegales->save() && $modelEstudiantes->save() )
+					return $this->redirect(['view', 'id' => $modelRepresentantesLegales->id]);
+			}
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' 					=> $model,
+			'estudiantes'				=> $estudiantes,
+			'representantesLegales'		=> $representantesLegales,
+			'modelRepresentantesLegales'=> $modelRepresentantesLegales,
+			
+			
         ]);
     }
 
@@ -84,14 +135,51 @@ class RepresentantesLegalesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
+		 $model = $this->findModel($id);
+		
+		//consulta el nombre de la persona partiendo desde la tabla representantes_legales
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("
+		select rl.id, concat(p.nombres,' ',p.apellidos) as nombres, rl.id_personas
+		from personas as p, representantes_legales as rl, perfiles_x_personas pp
+		where rl.id = $id
+		and rl.id_perfiles_x_personas = pp.id
+		and pp.id_personas = p.id
+		");
+		$result = $command->queryAll();
+		
+		//se envia el estudiantes guardado, no se edita el estudiante solo el representante Legal
+		$estudiantes[$result[0]['id']] = $result[0]['nombres'];
+		
+		//que estudiante y representante legal estan selecionados 
+		$estudianteSelected =  $result[0]['id'];
+		$representantesLegalesSelected =  $result[0]['id_personas'];
+		// print_r($result);
+		
+		
+		//se consultan las personas que esten en la base de datos		
+		$personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
+		$personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
+		
+		//para editar el representante Legal se muestran todas las personas de la base de datos
+		// $estudiantes			= $personas;
+		$representantesLegales	= $personas;
+		
+				
+		$modelRepresentantesLegales = new RepresentantesLegales();
+		
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' 					=> $model,
+			'estudiantes'				=> $estudiantes,
+			'representantesLegales'		=> $representantesLegales,
+			'modelRepresentantesLegales'=> $modelRepresentantesLegales,
+			'estudianteSelected'		=> $estudianteSelected,
+			'representantesLegalesSelected' =>$representantesLegalesSelected,
         ]);
     }
 
@@ -104,8 +192,23 @@ class RepresentantesLegalesController extends Controller
      */
     public function actionDelete($id)
     {
+		
+		$model = $this->findModel($id);
+		//id de PerfilesXPersonas que esta en la tabla representantes_legales para borrar el registro
+		$idPerfilesXPersonas = $model->id_perfiles_x_personas;
+		
+		$modelEstudiantes = Estudiantes::findOne($idPerfilesXPersonas);
+		$modelEstudiantes->estado = 2;
+		$modelEstudiantes->update(false);
+		
+		
+		//se borra el registro de PerfilesXPersonas que tenga el id representantes_legales.id_perfiles_x_personas
+		$modelPerfilesXPersonas = PerfilesXPersonas::findOne($idPerfilesXPersonas);
+		$modelPerfilesXPersonas->delete();
+		// print_r($idPerfilesXPersonas);
+		// die;	
+		
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

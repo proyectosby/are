@@ -26,7 +26,7 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\RepresentantesLegalesBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Representantes Legales';
+$this->title = 'Estudiantes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="representantes-legales-index">
