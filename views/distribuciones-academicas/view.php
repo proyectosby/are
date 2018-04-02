@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: (16-03-2018)
+Desarrollador: Viviana Rodas
+Descripción: Ver detalle distribuiones academicas - indicador de desempeño
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -31,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Esta seguro que desea borrar este ítem?',
+                'confirm' => 'Esta seguro que desea eliminar este ítem?',
                 'method' => 'post',
             ],
         ]) ?>

@@ -92,7 +92,7 @@
 												['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
 												['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
 										        ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
-												['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
+												// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',], //esta en la distribucion academica
 												
 													
 												
