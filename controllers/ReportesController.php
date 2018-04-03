@@ -207,7 +207,7 @@ class ReportesController extends Controller
 					'sql' => $sql,
 				]);
 				
-				$sql ="SELECT p.descripcion as Grados, count (p.descripcion) as Cantidad
+				$sql ="SELECT p.descripcion as grados, count (p.descripcion) as Cantidad
 					FROM public.paralelos as p,
 					public.sedes_jornadas as sj,
 					public.estudiantes as e
