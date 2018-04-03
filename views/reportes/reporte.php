@@ -90,10 +90,23 @@ $this->params['breadcrumbs'][] = $this->title;
 						'columns' => 
 						[
 							['class' => 'yii\grid\SerialColumn'], 
-							'identificacion',
-							'nombres',
-							'domicilio',							
-							'descripcion',
+							
+							[
+								'attribute' => 'identificacion',
+								'label'		=> 'Documento',
+							],
+							[
+								'attribute' => 'nombres',
+								'label'		=> 'Nombre',
+							],
+							[
+								'attribute' => 'domicilio',
+								'label'		=> 'Dirección',
+							],
+							[
+								'attribute' => 'descripcion',
+								'label'		=> 'Descripción',
+							],
 
 						],
 					]); 
@@ -104,6 +117,111 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 					?>
 						<h2><?= Html::encode( "Cantidad de estudiantes por grado" ) ?></h2><br>
+					<?php
+				
+					echo  DataTables::widget([
+						'dataProvider' => $dataProviderCantidad,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							// ['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'nivel',
+								'label'		=> 'Grado',
+							],
+							[
+								'attribute' => 'grupo',
+								'label'		=> 'Grupo',
+							],
+							[
+								'attribute' => 'cantidad',
+								'label'		=> 'Cantidad de estudiantes',
+							],
+						],
+					]);
+					
+					
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'identificacion',
+								'label'		=> 'Documento',
+							],
+							[
+								'attribute' => 'nombres',
+								'label'		=> 'Nombre',
+							],
+							[
+								'attribute' => 'domicilio',
+								'label'		=> 'Dirección',
+							],
+							[
+								'attribute' => 'nivel',
+								'label'		=> 'Grado',
+							],
+							[
+								'attribute' => 'descripcion',
+								'label'		=> 'Jornada',
+							],
+
+						],
+					]); 
+				break;
+			case 3:
+				?>
+						<h2><?= Html::encode( "Cantidad de Estudiantes por Grupo" ) ?></h2><br>
 					<?php
 				
 					echo  DataTables::widget([
@@ -210,13 +328,8 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 					]); 
 				break;
-			case 3:
-				
-				break;
 		}
 		
 		?>
-	
-	
 	
 </div>

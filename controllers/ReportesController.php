@@ -136,49 +136,36 @@ class ReportesController extends Controller
 	
 	public function actionReportes($idReporte,$idSedes,$idInstitucion)
     {
-		// $connection = Yii::$app->getDb();
-
-// $command = $connection->createCommand("
-	// select p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
-   // from personas as p, perfiles_x_personas as pp, estudiantes as e, perfiles as pe, paralelos as pa, sedes_jornadas as sj, jornadas as j, sedes as s, instituciones as i
-   // where p.estado = 1
-   // and e.estado = 1
-   // and e.id_perfiles_x_personas = pp.id
-   // and pp.id_perfiles=11
-   // and pp.id_personas = p.id
-   // and e.id_paralelos = pa.id
-   // and pa.id_sedes_jornadas = sj.id
-   // and sj.id_jornadas = j.id
-   // and sj.id_sedes = 48
-   // and s.id_instituciones = i.id
-   // and i.id = 55
-   // group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
-// ");
-// $result = $command->queryAll();
-
-		
-		$sql ="
-	select p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
-   from personas as p, perfiles_x_personas as pp, estudiantes as e, paralelos as pa, sedes_jornadas as sj, jornadas as j, sedes as s, instituciones as i
-   where p.estado = 1
-   and e.estado = 1
-   and e.id_perfiles_x_personas = pp.id
-   and pp.id_perfiles=11
-   and pp.id_personas = p.id
-   and e.id_paralelos = pa.id
-   and pa.id_sedes_jornadas = sj.id
-   and sj.id_jornadas = j.id
-   and sj.id_sedes = 48
-   and s.id_instituciones = i.id
-   and i.id = 55
-   group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
-";
 		
 		$dataProviderCantidad = "";
 		
 		switch ($idReporte) 
 		{
 			case 1:
+			$sql ="
+				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
+				FROM personas as p, 
+					 perfiles_x_personas as pp, 
+					 estudiantes as e, 
+					 paralelos as pa, 
+					 sedes_jornadas as sj, 
+					 jornadas as j, 
+					 sedes as s, 
+					 instituciones as i
+				   where p.estado = 1
+				   and e.estado = 1
+				   and e.id_perfiles_x_personas = pp.id
+				   and pp.id_perfiles=11
+				   and pp.id_personas = p.id
+				   and e.id_paralelos = pa.id
+				   and pa.id_sedes_jornadas = sj.id
+				   and sj.id_jornadas = j.id
+				   and sj.id_sedes = $idSedes
+				   and s.id_instituciones = i.id
+				   and i.id = $idInstitucion
+				   group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
+				   ";
+				
 				$dataProvider = new SqlDataProvider([
 						'sql' => $sql,
 						
@@ -206,9 +193,9 @@ class ReportesController extends Controller
 					      AND e.id_paralelos 			= pa.id
 					      AND pa.id_sedes_jornadas 		= sj.id
 					      AND sj.id_jornadas 			= j.id
-					      AND sj.id_sedes 				= 48
+					      AND sj.id_sedes 				= $idSedes
 					      AND s.id_instituciones 		= i.id
-					      AND i.id 						= 55
+					      AND i.id 						= $idInstitucion
 						  AND sn.id 					= pa.id_sedes_niveles
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
@@ -253,10 +240,77 @@ class ReportesController extends Controller
 				$dataProviderCantidad = new SqlDataProvider([
 					'sql' => $sql,
 				]);
-				//echo "i es igual a 1";
+				
 				break;
 			case 3:
-				//echo "i es igual a 2";
+				
+				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+					     FROM personas as p, 
+							  perfiles_x_personas as pp, 
+							  estudiantes as e,
+							  paralelos as pa, 
+							  sedes_jornadas as sj, 
+							  jornadas as j, 
+							  sedes as s,
+							  instituciones as i,
+							  sedes_niveles sn,
+							  niveles n
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= $idSedes
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= $idInstitucion
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+					";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				$sql ="SELECT pa.descripcion as grupo, n.descripcion as nivel, count(*) as cantidad
+					     FROM personas as p, 
+							  perfiles_x_personas as pp, 
+							  estudiantes as e, 
+							  paralelos as pa, 
+							  sedes_jornadas as sj, 
+							  jornadas as j, 
+							  sedes as s,
+							  instituciones as i,
+							  sedes_niveles sn,
+							  niveles n
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= 48
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= 55
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+					 GROUP BY grupo, nivel
+					";
+			
+			
+				$dataProviderCantidad = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+			
 				break;
 		}
 		

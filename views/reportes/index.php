@@ -73,9 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
 								['class' => 'btn btn-success'
 		]) ?> 
 		
-		<?= Html::a('Disponibilidad de cupo vs matriculados (grados)', 
+		<?= Html::a('Cantidad de Estudiantes por Grupo', 
 								[
+									
 									'reportes',
+									'idReporte'		=> 3,
 									'idSedes' 		=> $idSedes,
 									'idInstitucion' => $idInstitucion, 
 								], 
@@ -87,14 +89,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="form-group">
       
-		<?= Html::a('Porcentaje de ocupación de aulas', 
+		<!-- <?= Html::a('Porcentaje de ocupación de aulas', 
 								[
 									'reportes',
 									'idSedes' 		=> $idSedes,
 									'idInstitucion' => $idInstitucion, 
 								], 
 								['class' => 'btn btn-success'
-		]) ?>
+		]) ?>-->
     </div>
 
     <?php ActiveForm::end(); ?>
