@@ -60,56 +60,59 @@ $this->params['breadcrumbs'][] = $this->title;
 		switch ($idReporte) 
 		{
 			case 1:
-						echo  DataTables::widget([
-						'dataProvider' => $dataProvider,
-						'clientOptions' => [
-						'language'=>[
-								'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+				?>
+					<h2><?= Html::encode( " Cantidad de Estudiantes IEO/Sede" ) ?></h2><br>
+				<?php
+					echo  DataTables::widget([
+					'dataProvider' => $dataProvider,
+					'clientOptions' => [
+					'language'=>[
+							'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+						],
+					"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+					"info"=>false,
+					"responsive"=>true,
+					"dom"=> 'lfTrtip',
+					"tableTools"=>[
+						"aButtons"=> [  
+							[
+							"sExtends"=> "csv",
+							"sButtonText"=> Yii::t('app',"CSV")
 							],
-						"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-						"info"=>false,
-						"responsive"=>true,
-						"dom"=> 'lfTrtip',
-						"tableTools"=>[
-							"aButtons"=> [  
-								[
-								"sExtends"=> "csv",
-								"sButtonText"=> Yii::t('app',"CSV")
-								],
-								[
-								"sExtends"=> "xls",
-								"oSelectorOpts"=> ["page"=> 'current']
-								],
-								[
-								"sExtends"=> "pdf",
-								"sButtonText"=> Yii::t('app',"PDF")
-								],
+							[
+							"sExtends"=> "xls",
+							"oSelectorOpts"=> ["page"=> 'current']
+							],
+							[
+							"sExtends"=> "pdf",
+							"sButtonText"=> Yii::t('app',"PDF")
 							],
 						],
 					],
-						'columns' => 
+				],
+					'columns' => 
+					[
+						['class' => 'yii\grid\SerialColumn'], 
+						
 						[
-							['class' => 'yii\grid\SerialColumn'], 
-							
-							[
-								'attribute' => 'identificacion',
-								'label'		=> 'Documento',
-							],
-							[
-								'attribute' => 'nombres',
-								'label'		=> 'Nombre',
-							],
-							[
-								'attribute' => 'domicilio',
-								'label'		=> 'Dirección',
-							],
-							[
-								'attribute' => 'descripcion',
-								'label'		=> 'Descripción',
-							],
-
+							'attribute' => 'identificacion',
+							'label'		=> 'Documento',
 						],
-					]); 
+						[
+							'attribute' => 'nombres',
+							'label'		=> 'Nombre',
+						],
+						[
+							'attribute' => 'domicilio',
+							'label'		=> 'Dirección',
+						],
+						[
+							'attribute' => 'descripcion',
+							'label'		=> 'Descripción',
+						],
+
+					],
+				]); 
 					
 				break;
 			
@@ -148,19 +151,17 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 						'columns' => 
 						[
-							// ['class' => 'yii\grid\SerialColumn'], 
+							['class' => 'yii\grid\SerialColumn'],
+							
 							[
-								'attribute' => 'nivel',
-								'label'		=> 'Grado',
-							],
-							[
-								'attribute' => 'grupo',
-								'label'		=> 'Grupo',
+								'attribute' => 'grados',
+								'label'		=> 'Grados',
 							],
 							[
 								'attribute' => 'cantidad',
-								'label'		=> 'Cantidad de estudiantes',
+								'label'		=> 'Cantidad',
 							],
+							
 						],
 					]);
 					
