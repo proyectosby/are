@@ -253,10 +253,10 @@ class ReportesController extends Controller
 				$dataProviderCantidad = new SqlDataProvider([
 					'sql' => $sql,
 				]);
-				echo "i es igual a 1";
+				//echo "i es igual a 1";
 				break;
 			case 3:
-				echo "i es igual a 2";
+				//echo "i es igual a 2";
 				break;
 		}
 		

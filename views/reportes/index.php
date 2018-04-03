@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="form-group">
-       <?= Html::a('Cantidad de estudiantes por IEO(parlelos)', 
+       <?= Html::a('Cantidad de estudiantes por IEO', 
 								[
 									'reportes',
 									'idReporte'	=> 1,
@@ -63,14 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
 								['class' => 'btn btn-success'
 		]) ?>
 		
-		<?= Html::a('Disponibilidad de cupo vs matriculados (grados)', 
-								[
-									'reportes',
-									'idSedes' 		=> $idSedes,
-									'idInstitucion' => $idInstitucion, 
-								], 
-								['class' => 'btn btn-success'
-		]) ?>
 		 <?= Html::a('Cantidad de estudiantes por Grado', 
 								[
 									'reportes',
@@ -80,6 +72,16 @@ $this->params['breadcrumbs'][] = $this->title;
 								], 
 								['class' => 'btn btn-success'
 		]) ?> 
+		
+		<?= Html::a('Disponibilidad de cupo vs matriculados (grados)', 
+								[
+									'reportes',
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
+		
 		
     </div>
 
