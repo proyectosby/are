@@ -74,6 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		 <?= Html::a('Cantidad de estudiantes por Grado', 
 								[
 									'reportes',
+									'idReporte'		=> 2,
 									'idSedes' 		=> $idSedes,
 									'idInstitucion' => $idInstitucion, 
 								], 

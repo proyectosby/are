@@ -85,9 +85,69 @@ $this->params['breadcrumbs'][] = $this->title;
 
 						],
 					]); 
+					
 				break;
+			
 			case 2:
 				
+					?>
+						<h2><?= Html::encode( "Cantidad de estudiantes por grado" ) ?></h2><br>
+					<?php
+				
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+						'language'=>[
+								'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+							],
+						"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+						"info"=>false,
+						"responsive"=>true,
+						"dom"=> 'lfTrtip',
+						"tableTools"=>[
+							"aButtons"=> [  
+								[
+								"sExtends"=> "csv",
+								"sButtonText"=> Yii::t('app',"CSV")
+								],
+								[
+								"sExtends"=> "xls",
+								"oSelectorOpts"=> ["page"=> 'current']
+								],
+								[
+								"sExtends"=> "pdf",
+								"sButtonText"=> Yii::t('app',"PDF")
+								],
+							],
+						],
+					],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'], 
+							'identificacion',
+							[
+								'attribute' => 'nombres',
+								'label'		=> 'Nombre',
+							],
+							[
+								'attribute' => 'Domicilio',
+								'label'		=> 'Dirección',
+							],
+							[
+								'attribute' => 'nivel',
+								'label'		=> 'Grado',
+							],
+							[
+								'attribute' => 'grupo',
+								'label'		=> 'Grupo',
+							],
+							[
+								'attribute' => 'descripcion',
+								'label'		=> 'Jornada',
+							],
+
+						],
+					]); 
 				break;
 			case 3:
 				

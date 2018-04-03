@@ -179,6 +179,40 @@ class ReportesController extends Controller
 					]);
 				break;
 			case 2:
+			
+				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+					     FROM personas as p, 
+							  perfiles_x_personas as pp, 
+							  estudiantes as e, 
+							  perfiles as pe, 
+							  paralelos as pa, 
+							  sedes_jornadas as sj, 
+							  jornadas as j, 
+							  sedes as s,
+							  instituciones as i,
+							  sedes_niveles sn,
+							  niveles n
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= 48
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= 55
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+					 GROUP BY p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion, pa.descripcion, n.descripcion";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
 				echo "i es igual a 1";
 				break;
 			case 3:
