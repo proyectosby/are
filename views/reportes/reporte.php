@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							['class' => 'yii\grid\SerialColumn'], 
 							'identificacion',
 							'nombres',
-							'Domicilio',							
+							'domicilio',							
 							'descripcion',
 
 						],
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								'label'		=> 'Nombre',
 							],
 							[
-								'attribute' => 'Domicilio',
+								'attribute' => 'domicilio',
 								'label'		=> 'Dirección',
 							],
 							[
