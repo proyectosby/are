@@ -1,5 +1,17 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 02-04-2018
+REPORTES VARIOS
+---------------------------------------
+Modificaciones:
+Fecha: 02-04-2018
+Persona encargada: Edwin Molina Grisales
+Se crea reporte de CANTIDAD DE ESTUDIATNES POR GRUPO con su resumido por cantidad y corresponde a la opción 2 del switch
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -95,36 +107,85 @@ $this->params['breadcrumbs'][] = $this->title;
 					<?php
 				
 					echo  DataTables::widget([
-						'dataProvider' => $dataProvider,
+						'dataProvider' => $dataProviderCantidad,
 						'clientOptions' => [
-						'language'=>[
-								'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
-							],
-						"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-						"info"=>false,
-						"responsive"=>true,
-						"dom"=> 'lfTrtip',
-						"tableTools"=>[
-							"aButtons"=> [  
-								[
-								"sExtends"=> "csv",
-								"sButtonText"=> Yii::t('app',"CSV")
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
 								],
-								[
-								"sExtends"=> "xls",
-								"oSelectorOpts"=> ["page"=> 'current']
-								],
-								[
-								"sExtends"=> "pdf",
-								"sButtonText"=> Yii::t('app',"PDF")
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
 								],
 							],
 						],
-					],
+						'columns' => 
+						[
+							// ['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'nivel',
+								'label'		=> 'Grado',
+							],
+							[
+								'attribute' => 'grupo',
+								'label'		=> 'Grupo',
+							],
+							[
+								'attribute' => 'cantidad',
+								'label'		=> 'Cantidad de estudiantes',
+							],
+						],
+					]);
+					
+					
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
 						'columns' => 
 						[
 							['class' => 'yii\grid\SerialColumn'], 
-							'identificacion',
+							[
+								'attribute' => 'identificacion',
+								'label'		=> 'Documento',
+							],
 							[
 								'attribute' => 'nombres',
 								'label'		=> 'Nombre',

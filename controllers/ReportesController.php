@@ -6,6 +6,13 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 02-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: 
+Se crea opción 2 del action index correspondiente al reporte de CANTIDAD DE ESTUDIANTES POR GRUPOS con su correspondiente resumido.
+Se corrige queries en el método actionIndex, ya que se unió la tabla perfiles sin relación alguna.
+---------------------------------------
+Modificaciones:
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - cambios en todas las funciones y 
@@ -152,7 +159,7 @@ class ReportesController extends Controller
 		
 		$sql ="
 	select p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
-   from personas as p, perfiles_x_personas as pp, estudiantes as e, perfiles as pe, paralelos as pa, sedes_jornadas as sj, jornadas as j, sedes as s, instituciones as i
+   from personas as p, perfiles_x_personas as pp, estudiantes as e, paralelos as pa, sedes_jornadas as sj, jornadas as j, sedes as s, instituciones as i
    where p.estado = 1
    and e.estado = 1
    and e.id_perfiles_x_personas = pp.id
@@ -167,7 +174,7 @@ class ReportesController extends Controller
    group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
 ";
 		
-		
+		$dataProviderCantidad = "";
 		
 		switch ($idReporte) 
 		{
@@ -183,8 +190,7 @@ class ReportesController extends Controller
 				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
 					     FROM personas as p, 
 							  perfiles_x_personas as pp, 
-							  estudiantes as e, 
-							  perfiles as pe, 
+							  estudiantes as e,
 							  paralelos as pa, 
 							  sedes_jornadas as sj, 
 							  jornadas as j, 
@@ -207,10 +213,44 @@ class ReportesController extends Controller
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
 						  AND n.estado 					= 1
-					 GROUP BY p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion, pa.descripcion, n.descripcion";
+					";
 			
 			
 				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				$sql ="SELECT pa.descripcion as grupo, n.descripcion as nivel, count(*) as cantidad
+					     FROM personas as p, 
+							  perfiles_x_personas as pp, 
+							  estudiantes as e, 
+							  paralelos as pa, 
+							  sedes_jornadas as sj, 
+							  jornadas as j, 
+							  sedes as s,
+							  instituciones as i,
+							  sedes_niveles sn,
+							  niveles n
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= 48
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= 55
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+					 GROUP BY grupo, nivel
+					";
+			
+			
+				$dataProviderCantidad = new SqlDataProvider([
 					'sql' => $sql,
 				]);
 				echo "i es igual a 1";
@@ -222,6 +262,7 @@ class ReportesController extends Controller
 		
 		return $this->render('reporte', [
 				'dataProvider'		=> $dataProvider,
+				'dataProviderCantidad'=> $dataProviderCantidad,
 				'idReporte'			=> $idReporte,
 				'idSedes' 			=> $idSedes,
 				'idInstitucion' 	=> $idInstitucion,
