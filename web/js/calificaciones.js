@@ -48,15 +48,16 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 	
 	//Creo el array con los indicadores
 	var indicadores = [ "saber", "hacer","ser","personal","social","ae" ];
-	
 	$( indicadores ).each(function(x){
+		
+		
+		var idEstudiante = $( "#idPersona" ).val();
 		
 		//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
 		idIndicadorDesempeno = indicadoresDesempeno[x].id;	
 		
 		//llenar indicadores desempeño
 		var name = this; //this en este caso es idSaber, idHacer, ...
-		
 		
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
