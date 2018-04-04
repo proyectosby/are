@@ -424,13 +424,22 @@ $("#selMateria").change(function(){
 	$.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura, 
 				function( data )
 				{
-					// console.log(data); //alert(data[0]['id']);
-					$("#thSaber").html(data[0]['id']);
-					$("#thHacer").html(data[1]['id']);
-					$("#thSer").html(data[2]['id']);
-					$("#thPers").html(data[3]['id']);
-					$("#thSoci").html(data[4]['id']);
-					$("#thAE").html(data[5]['id']);
+					//console.log(data);
+					// se llenan los codigos de indicadores de desempeño
+					$("#thSaber").html(data[0]['codigo']);
+					$("#thHacer").html(data[1]['codigo']);
+					$("#thSer").html(data[2]['codigo']);
+					$("#thPers").html(data[3]['codigo']);
+					$("#thSoci").html(data[4]['codigo']);
+					$("#thAE").html(data[5]['codigo']);
+					
+					// se llenan los id de indicadores de desempeño en los campos hidden NO SE COMO LLENARLOS CON EL NAME
+					$("#thSaberId").html(data[0]['id']);
+					$("#thHacerId").html(data[1]['id']);
+					$("#thSerId").html(data[2]['id']);
+					$("#thPersId").html(data[3]['id']);
+					$("#thSociId").html(data[4]['id']);
+					$("#thAEId").html(data[5]['id']);
 					
 					cargarCalificacionAEstudiantes( data );
 				},
