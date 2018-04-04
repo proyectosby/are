@@ -111,6 +111,7 @@ class RepresentantesLegalesController extends Controller
 			{
 				$modelRepresentantesLegales->id_perfiles_x_personas = $model->id;
 				$modelEstudiantes->id_perfiles_x_personas = $model->id;
+				$modelEstudiantes->estado = 1;
 				if( $modelRepresentantesLegales->save() && $modelEstudiantes->save() )
 					return $this->redirect(['view', 'id' => $modelRepresentantesLegales->id]);
 			}
