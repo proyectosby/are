@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_personas')->dropDownList($estudiantes,['prompt' => 'Seleccione...','options' => [$estudianteSelected => ['selected' => 'selected']]]) ?>
+    <?= $form->field($model, 'id_personas')->dropDownList($estudiantes,['prompt' => 'Seleccione...','options' => [$estudianteSelected => ['selected' => 'selected']]])->label("Estudiante") ?>
 	
 	<?= $form->field( $modelRepresentantesLegales, 'id_personas' )->dropDownList( $representantesLegales , [ 'prompt' => 'Seleccione...','options' => [$representantesLegalesSelected => ['selected' => 'selected']]  ] ) ?>
 																					
