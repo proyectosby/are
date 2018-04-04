@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SedesAreasEnsenanza */
 
-$this->title = 'Modificar Área de Ensenanza';
+$this->title = 'Modificar Área de Enseñanza';
 $this->params['breadcrumbs'][] = [
-									'label' => 'Sedes Areas Ensenanzas', 
+									'label' => 'Sedes Areas Enseñanzas', 
 									'url' => [
 												'index',
 												'idInstitucion' => $modelInstitucion->id,

@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 /* @var $searchModel app\models\SedesAreasEnsenanzaBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Áreas de Ensenanzas';
+$this->title = 'Áreas de Enseñanzas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sedes-areas-ensenanza-index">
