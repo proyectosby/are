@@ -48,10 +48,8 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 	
 	//Creo el array con los indicadores
 	var indicadores = [ "saber", "hacer","ser","personal","social","ae" ];
+	
 	$( indicadores ).each(function(x){
-		
-		
-		var idEstudiante = $( "#idPersona" ).val();
 		
 		//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
 		idIndicadorDesempeno = indicadoresDesempeno[x].id;	
@@ -59,22 +57,26 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		//llenar indicadores desempeño
 		var name = this; //this en este caso es idSaber, idHacer, ...
 		
+		
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
 				{
 					try{
-						//Toda fila tienen como atributo estudiante
-						var tr = $( "[estudiante="+data[0].estudiante+"]" );
-						
-						//Asigno la calificacion al campo corresponde
-						
-						$( "input[name="+name+"]" ).val( data[0].calificacion );
-						// $( "input[name="+name+"]" ).change();
-						//llenar la nota final 
-						notaFinal( $( "input[name="+name+"]" ) );
-						$( "input[name=id"+name+"]" ).val( data[0].id );
-						
-						//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+						for( var x in data ){
+							
+							//Toda fila tienen como atributo estudiante
+							var tr = $( "[estudiante="+data[x].estudiante+"]" );
+							
+							//Asigno la calificacion al campo corresponde
+							
+							$( "input[name="+name+"]", tr ).val( data[x].calificacion );
+							// $( "input[name="+name+"]" ).change();
+							//llenar la nota final 
+							notaFinal( $( "input[name="+name+"]", tr ) );
+							$( "input[name=id"+name+"]", tr ).val( data[x].id );
+							
+							//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+						}
 					}
 					catch(e){
 						$( "input[name="+name+"]" ).val(0);
