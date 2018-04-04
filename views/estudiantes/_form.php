@@ -84,7 +84,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/matriculasEstudiantes.js'
 
 	<?= $form->field($model, 'id_perfiles_x_personas')->dropDownList($estudiantes,['prompt'=>'Seleccione...'])?>
 	
-    <!--<?= $form->field($model, 'estado')->dropDownList($estados)?>-->
+    <?= $form->field($model, 'estado')->dropDownList($estados)?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
