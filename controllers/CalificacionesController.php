@@ -338,7 +338,7 @@ class CalificacionesController extends Controller
 		$varHtml ='<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="saber" onkeyup="notaFinal(this)">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="saber" onkeyup="notaFinal(this)">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idsaber">
@@ -346,7 +346,7 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="hacer" onkeyup="notaFinal(this)">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="hacer" onkeyup="notaFinal(this)">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idhacer">
@@ -354,7 +354,7 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="ser" onkeyup="notaFinal(this)">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="ser" onkeyup="notaFinal(this)">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idser">
@@ -362,7 +362,7 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="personal">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="personal">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idpersonal" >
@@ -370,7 +370,7 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="social" onkeyup="notaFinal(this)">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="social" onkeyup="notaFinal(this)">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idsocial">
@@ -378,7 +378,7 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="ae" onkeyup="notaFinal(this)">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control nota" name="ae" onkeyup="notaFinal(this)">
 
 <div class="help-block"></div>
 </div>							<input type="hidden" value="" name="idae">
@@ -393,14 +393,14 @@ class CalificacionesController extends Controller
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="CalificacionesBuscar[observaciones]">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control falta" name="CalificacionesBuscar[observaciones]">
 
 <div class="help-block"></div>
 </div>						</td>
 						<td>
 							<div class="form-group field-calificacionesbuscar-observaciones">
 <label class="control-label" for="calificacionesbuscar-observaciones"></label>
-<input type="text" id="calificacionesbuscar-observaciones" class="form-control" name="CalificacionesBuscar[observaciones]">
+<input type="text" id="calificacionesbuscar-observaciones" class="form-control coevaluacion" name="CalificacionesBuscar[observaciones]">
 
 <div class="help-block"></div>
 </div>						</td>

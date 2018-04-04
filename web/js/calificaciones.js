@@ -23,6 +23,7 @@ $( document ).ready(function() {
 	
 });
 
+
 function notaFinal(obj)
 {
 	var tr = $( obj ).parent().parent().parent();
@@ -335,6 +336,63 @@ function llenarEstudiantes()
 			function( data )
 			{
 				$("#estudiantes").html(data);
+				
+				$( "#estudiantes input:text.nota" ).on('keyup', function(event) {
+					
+					//Valida que no se pueda ingresar valor menores a 0 y mayores a 5
+					
+					var max		= 5;
+					var min		= 0;
+					var valor 	= parseFloat(this.value);
+					
+					if(valor < min || valor > 5 ){
+
+						swal({
+							text: "El Valor debe ser mayor a 0 y menor a 5",
+							icon: "warning",
+							button: "Cerrar",
+						});
+						
+						if( valor > 5)
+							this.value = max;
+						
+						if( valor < 0 )
+							this.value = min;
+					}
+
+				}).keypress(function(e){
+					
+					//Solo se permite números decimales
+					
+					tecla = (document.all) ? e.keyCode : e.which;
+
+					//Tecla de retroceso para borrar, siempre la permite
+					if (tecla==8){
+						return true;
+					}
+						
+					// Patron de entrada, en este caso solo acepta numeros
+					var patron=  /^[0-9]*\.?[0-9]*$/
+					tecla_final = String.fromCharCode(tecla);
+					return patron.test(tecla_final);
+				});
+				
+				//a faltas solo se le puede ingresar numeros enteros
+				$( "#estudiantes input:text.falta" ).keypress(function(e){
+					
+					
+					tecla = (document.all) ? e.keyCode : e.which;
+
+					//Tecla de retroceso para borrar, siempre la permite
+					if (tecla==8){
+						return true;
+					}
+						
+					// Patron de entrada, en este caso solo acepta numeros
+					var patron=  /^[0-9]+$/
+					tecla_final = String.fromCharCode(tecla);
+					return patron.test(tecla_final);
+				});
 			},
 	"json");
 		
