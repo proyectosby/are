@@ -9,6 +9,8 @@ use app\models\Instituciones;
 
 use yii\widgets\ActiveForm;
 
+use yii\bootstrap\Button;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AsginaturasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -39,6 +41,18 @@ $nombreInstitucion = $nombreInstitucion[$idInstitucion];
 $this->title = $nombreInstitucion;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<script>
+function prueba()
+{
+	alert('El tiempo maximo de ejeución en la base de datos se a agotado');
+	
+	return false;
+}
+
+
+</script>
+
+
 <div class="asignaturas-index">
 
     <h1><?= Html::encode($nombreSede) ?></h1>
@@ -88,16 +102,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="form-group">
-      
-		<!-- <?= Html::a('Porcentaje de ocupación de aulas', 
-								[
-									'reportes',
-									'idSedes' 		=> $idSedes,
-									'idInstitucion' => $idInstitucion, 
-								], 
-								['class' => 'btn btn-success'
-		]) ?>-->
-    </div>
+      <p>
+     
+		
+		
+<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>
+
 
     <?php ActiveForm::end(); ?>
 
