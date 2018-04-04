@@ -160,12 +160,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					<th id="thSoci">20</th>
 					<th id="thAE">19</th>
 					<th colspan=4></th>-->
-					<th id="thSaber"></th>
-					<th id="thHacer"></th>
-					<th id="thSer"></th>
-					<th id="thPers"></th>
-					<th id="thSoci"></th>
-					<th id="thAE"></th>
+					<th id="thSaber" name ="thSaberId"></th>
+					<th id="thHacer" name="thHacerId"></th>
+					<th id="thSer" name="thSerId"></th>
+					<th id="thPers" name="thPersId"></th>
+					<th id="thSoci" name="thSociId"></th>
+					<th id="thAE" name="thAEId"></th>
 					<th colspan=4></th>
 				</tr>
 			</thead>

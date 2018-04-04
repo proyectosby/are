@@ -585,13 +585,14 @@ class CalificacionesController extends Controller
 		$idDistribucion = $idDistribucion[0]['id'];
 		
 		//traer indicadores de desempeño de la distribucion
-		$command = $connection->createCommand("select did.id
-												from distribuciones_academicas as da, distribuciones_x_indicador_desempeno as did, paralelos as p
+		$command = $connection->createCommand("select did.id, id.codigo
+												from distribuciones_academicas as da, distribuciones_x_indicador_desempeno as did, paralelos as p, indicador_desempeno as id
 												where da.id_perfiles_x_personas_docentes = $idDocente
 												and da.id_paralelo_sede = p.id
 												and p.id = $idParalelo
 												and did.id_distribuciones = da.id
-												and id_distribuciones = $idDistribucion");
+												and id_distribuciones = $idDistribucion
+												and id_indicador_desempeno = id.id");
 		$result = $command->queryAll();
 		
 		 return Json::encode( $result );

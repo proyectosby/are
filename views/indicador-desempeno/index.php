@@ -12,6 +12,11 @@ Persona encargada: Oscar David Lopez
 Cambios realizados: - titulo 
 Etiqueta boton agregar
 ---------------------------------------
+Fecha: 04-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agrega campo codigo
+
+---------------------------------------
 **********/
 
 use yii\helpers\Html;
@@ -39,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
+			'codigo',
             'descripcion',
 
             ['class' => 'yii\grid\ActionColumn'],

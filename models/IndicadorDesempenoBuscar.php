@@ -1,5 +1,16 @@
 <?php
-
+/**********
+Versión: 001
+Fecha: 14-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Indicadores de desempeno
+---------------------------------------
+Modificaciones:
+Fecha: 04-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agrega el campo codigo
+---------------------------------------
+**********/
 namespace app\models;
 
 use Yii;
@@ -19,6 +30,7 @@ class IndicadorDesempenoBuscar extends IndicadorDesempeno
     {
         return [
             [['id'], 'integer'],
+            [['codigo'], 'integer'],
             [['descripcion'], 'safe'],
         ];
     }
