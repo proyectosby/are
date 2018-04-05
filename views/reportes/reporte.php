@@ -329,6 +329,108 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 					]); 
 				break;
+				case 4:
+				?>
+						<h2><?= Html::encode( "Cantidad de Estudiantes por Genero" ) ?></h2><br>
+					<?php
+				
+					echo  DataTables::widget([
+						'dataProvider' => $dataProviderCantidad,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							// ['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'sexo',
+								'label'		=> '',
+							],
+							[
+								'attribute' => 'cantidad',
+								'label'		=> '',
+							],
+							
+						],
+					]);
+					
+					// echo "<pre>"; print_r($dataProvider ); echo "</pre>";
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'documento',
+								'label'		=> 'Documento',
+							],
+							[
+								'attribute' => 'nombres',
+								'label'		=> 'Nombres y Apellidos',
+							],
+							[
+								'attribute' => 'direccion',
+								'label'		=> 'Dirección',
+							],
+							[
+								'attribute' => 'sexo',
+								'label'		=> 'Sexo',
+							],
+							[
+								'attribute' => 'jornada',
+								'label'		=> 'Jornada',
+							],
+
+						],
+					]); 
+				break;
 		}
 		
 		?>

@@ -98,15 +98,40 @@ function prueba()
 								['class' => 'btn btn-success'
 		]) ?>
 		
+			<?= Html::a('Cantidad de Estudiantes por Genero', 
+								[
+									
+									'reportes',
+									'idReporte'		=> 4,
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
 		
     </div>
 
     <div class="form-group">
+	<?= Html::a('Tase de cobertura neta', 
+								[
+									
+									'reportes',
+									'idReporte'		=> 5,
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
+
       <p>
      
 		
-		
-<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>
+	  <div class="form-group">
+	
+<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>		
+      <p>
+     	
+
 
 
     <?php ActiveForm::end(); ?>

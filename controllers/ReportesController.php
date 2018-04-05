@@ -141,7 +141,7 @@ class ReportesController extends Controller
 		
 		switch ($idReporte) 
 		{
-			case 1:
+			case 1: //cantidad de estudiantes por ieo 
 			$sql ="
 				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
 				FROM personas as p, 
@@ -172,7 +172,7 @@ class ReportesController extends Controller
 						
 					]);
 				break;
-			case 2:
+			case 2://cantidad de estudiantes por grado 
 			
 				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
 					     FROM personas as p, 
@@ -224,7 +224,7 @@ class ReportesController extends Controller
 				]);
 				
 				break;
-			case 3:
+			case 3://cantidad de estudiantes por grupo
 				
 				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
 					     FROM personas as p, 
@@ -278,9 +278,9 @@ class ReportesController extends Controller
 					      AND e.id_paralelos 			= pa.id
 					      AND pa.id_sedes_jornadas 		= sj.id
 					      AND sj.id_jornadas 			= j.id
-					      AND sj.id_sedes 				= 48
+					      AND sj.id_sedes 				= $idSedes
 					      AND s.id_instituciones 		= i.id
-					      AND i.id 						= 55
+					      AND i.id 						= $idInstitucion
 						  AND sn.id 					= pa.id_sedes_niveles
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
@@ -294,6 +294,151 @@ class ReportesController extends Controller
 				]);
 			
 				break;
+				case 4://Cantidad de estudiantes por Genero
+				
+				$sql ="SELECT p.identificacion as documento, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio as direccion, g.descripcion as sexo, j.descripcion as jornada
+							FROM personas as p, perfiles_x_personas as pp, estudiantes as e,paralelos as pa, sedes_jornadas as sj, jornadas as j, 
+							sedes as s, instituciones as i, sedes_niveles sn, niveles n, generos as g
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= $idSedes
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= $idInstitucion
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+						  AND p.id_generos = g.id
+					";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				$sql ="SELECT  g.descripcion as sexo, count(*) as cantidad
+							FROM personas as p, perfiles_x_personas as pp, estudiantes as e,paralelos as pa, sedes_jornadas as sj, jornadas as j, 
+							sedes as s, instituciones as i, sedes_niveles sn, niveles n, generos as g
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= $idSedes
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= $idInstitucion
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+						 AND p.id_generos = g.id
+						group by g.descripcion
+					";
+			
+			
+				$dataProviderCantidad = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+			
+				break;
+				case 5://tasa de cobertura neta
+				
+				$connection = Yii::$app->getDb();
+				
+				//edad de los estudiantes
+				$command = $connection->createCommand("
+					SELECT extract(year from age(p.fecha_nacimiento)) as edad
+					FROM estudiantes as e,
+					personas as p,
+					perfiles_x_personas as pp
+					WHERE e.id_perfiles_x_personas = pp.id and pp.id_personas = p.id
+					
+				");
+				$result = $command->queryAll();
+				
+				
+				$contTranscision =0;
+				$contPrimaria =0;
+				$contSecundaria =0;
+				$contMedia =0;
+				$arrayTCB=array('transcision'=>0,'primaria'=>0,'secundaria'=>0,'media'=>0);
+				
+				
+				//POBLACIÓN CON EDAD TEORICA O EN EL NIVEL
+				foreach ($result as $r)
+				{
+					// echo $r['edad'];
+					$edad = (int)$r['edad'];
+					
+					if($edad >= 5 and 6 >= $edad )
+					{
+						$arrayTCB['transcision']=++$contTranscision;
+					}					
+					elseif($edad >= 7 and  11 >= $edad )
+					{
+						$arrayTCB['primaria']=++$contPrimaria;
+					}					
+					elseif($edad >= 12 and 15 >= $edad )
+					{
+						$arrayTCB['secundaria']=++$contSecundaria;
+					}					
+					elseif($edad>= 16 and 17 >= $edad )
+					{
+						$arrayTCB['media']=++$contMedia;
+					}
+				}
+				
+				echo "<pre>"; print_r($arrayTCB); echo "</pre>";
+				
+				$sql ="SELECT extract(year from age(fecha_nacimiento)) as edad , count(*) as cantidad 
+						FROM personas
+						group by fecha_nacimiento
+						order by edad
+					";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				$sql ="SELECT  g.descripcion as sexo, count(*) as cantidad
+							FROM personas as p, perfiles_x_personas as pp, estudiantes as e,paralelos as pa, sedes_jornadas as sj, jornadas as j, 
+							sedes as s, instituciones as i, sedes_niveles sn, niveles n, generos as g
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= $idSedes
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= $idInstitucion
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+						 AND p.id_generos = g.id
+						group by g.descripcion
+					";
+			
+			
+				$dataProviderCantidad = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+			
+				break;
+				
 		}
 		
 		return $this->render('reporte', [
