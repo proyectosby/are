@@ -1,7 +1,23 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 04-04-2018
+Desarrollador: Edwin Molina Grisales
+Descripción: CRUD Dcoentes por sedes por niveles
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Edwin Molina Grisales
+Se deja la descripción de la sede y el nivel en lugar de sus ids
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
+use app\models\Niveles;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\SedesNiveles */
@@ -29,8 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'id_niveles',
-            'id_sedes',
+            [
+				'attribute' => 'id_niveles',
+				'value' 	=> function( $model ){
+					$niveles = Niveles::findOne($model->id_niveles);
+					return $niveles ? $niveles->descripcion : '';
+				},
+			],
+			[ 
+				'attribute' => 'id_sedes',
+				'label' 	=> 'Sede',
+				'value'		=> $modelSedes->descripcion,
+			]
         ],
     ]) ?>
 
