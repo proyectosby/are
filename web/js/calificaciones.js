@@ -1,3 +1,14 @@
+/**********
+Versión: 001
+Fecha: 04-04-2018
+---------------------------------------
+Modificaciones:
+Fecha: 04-04-2018
+Persona encargada: Edwin Molina Grisales
+Se muestra el código de los indicadores y se mejora la carga y mostrada de las notas
+---------------------------------------
+**********/
+
 $( document ).ready(function() {
 	// Handler for .ready() called.
 	// $( "input" ).change(function(){
@@ -50,6 +61,22 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 	//Creo el array con los indicadores
 	var indicadores = [ "saber", "hacer","ser","personal","social","ae" ];
 	
+	//Dejo todos los campos correspondientes en blanco
+	
+	//todos los campos en blanco
+	$( "input[type='text']" ).val("");
+	
+	//Deja valores por defecto a los campos de notas
+	$( indicadores ).each(function(){
+		var name = this;
+		$( "input[name="+name+"]" ).val('0');
+		$( "input[name=id"+name+"]" ).val('');
+	});
+	
+	//Las notas finales se dejan en 0.0
+	$( "input[disabled]" ).val("0.0");
+	
+	
 	$( indicadores ).each(function(x){
 		
 		//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
@@ -57,7 +84,6 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		
 		//llenar indicadores desempeño
 		var name = this; //this en este caso es idSaber, idHacer, ...
-		
 		
 		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
 				function( data )
@@ -80,13 +106,13 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 						}
 					}
 					catch(e){
-						$( "input[name="+name+"]" ).val(0);
+						$( "input[name="+name+"]" ).val('0');
 						$( "input[name=id"+name+"]" ).val('');
 					}
 				},
 		"json");
 		//borrar los valores de las cajas de texto al cambiar la materia
-		$( "input[type='text']" ).val("");
+		// $( "input[type='text']" ).val("");
 		
 		// $( "input[name="+name+"]" ).val("");
 		
@@ -125,7 +151,7 @@ $( ".content a" ).click(function(){
 					observaciones							: "",
 					id_perfiles_x_personas_docentes			: idDocente,
 					id_perfiles_x_personas_estudiantes		: estudiante,
-					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).html()*1,
+					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).data("id")*1,
 					fecha_modificacion						: "2018-03-21",
 					estado									: 1,
 				});
@@ -419,6 +445,14 @@ $("#selMateria").change(function(){
 	idParalelo = $("#selGrupo").val();
 	idAsignatura = $("#selMateria").val();
 	
+	// Se deja en blanco los campo  requeridos cada vez que se cambie la materia
+	$("#thSaber").html('').data( 'id', '' );
+	$("#thHacer").html('').data( 'id', '' );
+	$("#thSer").html('').data( 'id', '' );
+	$("#thPers").html('').data( 'id', '' );
+	$("#thSoci").html('').data( 'id', '' );
+	$("#thAE").html('').data( 'id', '' );
+	
 	
 	//llenar indicadores desempeño
 	$.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura, 
@@ -434,12 +468,33 @@ $("#selMateria").change(function(){
 					$("#thAE").html(data[5]['codigo']);
 					
 					// se llenan los id de indicadores de desempeño en los campos hidden NO SE COMO LLENARLOS CON EL NAME
-					$("#thSaberId").html(data[0]['id']);
-					$("#thHacerId").html(data[1]['id']);
-					$("#thSerId").html(data[2]['id']);
-					$("#thPersId").html(data[3]['id']);
-					$("#thSociId").html(data[4]['id']);
-					$("#thAEId").html(data[5]['id']);
+					// $("#thSaberId").html(data[0]['id']);
+					// $("#thHacerId").html(data[1]['id']);
+					// $("#thSerId").html(data[2]['id']);
+					// $("#thPersId").html(data[3]['id']);
+					// $("#thSociId").html(data[4]['id']);
+					// $("#thAEId").html(data[5]['id']);
+					
+					/**
+					 * uso caractarísticas de html
+					 * cualquier campo puede tener el atributo data
+					 * El atributo data siempre tiene la características data-DataAtributo
+					 * Donde DataAtributo es cualquier descripcion que identifica lo que se necesita
+					 *
+					 * Ejemplo: <input type='text' data-caracteristica='T-14'>
+					 *
+					 * jquery permite un fácil manejo con la función .data
+					 *
+					 * A continuación se setea cada celda con el valor correspondiente
+					 *
+					 * Nota: Al momento de grabar se usa las función get de jquery para data
+					 */
+					$("#thSaber").data( "id", data[0]['id']);
+					$("#thHacer").data( "id", data[1]['id']);
+					$("#thSer").data( "id", data[2]['id']);
+					$("#thPers").data( "id", data[3]['id']);
+					$("#thSoci").data( "id", data[4]['id']);
+					$("#thAE").data( "id", data[5]['id']);
 					
 					cargarCalificacionAEstudiantes( data );
 				},

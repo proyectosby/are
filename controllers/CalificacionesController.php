@@ -1,4 +1,14 @@
 <?php
+/**********
+Versión: 001
+Fecha: 04-04-2018
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Edwin Molina Grisales
+Al guardar una nota se deja la fecha de modificación a la actual
+---------------------------------------
+**********/
 
 namespace app\controllers;
 
@@ -496,6 +506,7 @@ class CalificacionesController extends Controller
 		
 		if (Calificaciones::loadMultiple($models, Yii::$app->request->post(), 'data' ) && Calificaciones::validateMultiple($models)) {
             foreach ($models as $model) {
+				$model->fecha_modificacion = date( "Y-m-d" );
                 $model->save(false);
             }
         }
@@ -585,7 +596,7 @@ class CalificacionesController extends Controller
 		$idDistribucion = $idDistribucion[0]['id'];
 		
 		//traer indicadores de desempeño de la distribucion
-		$command = $connection->createCommand("select did.id, id.codigo
+		$command = $connection->createCommand("select did.id, id.id as codigo
 												from distribuciones_academicas as da, distribuciones_x_indicador_desempeno as did, paralelos as p, indicador_desempeno as id
 												where da.id_perfiles_x_personas_docentes = $idDocente
 												and da.id_paralelo_sede = p.id
