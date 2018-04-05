@@ -11,6 +11,10 @@ Fecha: 27-03-2018
 Persona encargada: Edwin Molina Grisales
 Se corrige los queries respectivos, ya que se repetía varias veces los metodos ->where() en una sola consulta
 ---------------------------------------
+Fecha: 05-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agregan los datatabes
+---------------------------------------
 **********/
 
 use yii\helpers\Html;
@@ -20,6 +24,7 @@ use yii\grid\GridView;
 use app\models\Personas;
 use app\models\AreasTrabajos;
 use yii\helpers\ArrayHelper;
+use fedemotta\datatables\DataTables;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocentesXAreasTrabajosBuscar */
@@ -37,9 +42,42 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'clientOptions' => [
+		'language'=>[
+                'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+            ],
+		"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+		"info"=>false,
+		"responsive"=>true,
+		 "dom"=> 'lfTrtip',
+		 "tableTools"=>[
+			 "aButtons"=> [  
+				// [
+				// "sExtends"=> "copy",
+				// "sButtonText"=> Yii::t('app',"Copiar")
+				// ],
+				// [
+				// "sExtends"=> "csv",
+				// "sButtonText"=> Yii::t('app',"CSV")
+				// ],
+				[
+				"sExtends"=> "xls",
+				"oSelectorOpts"=> ["page"=> 'current']
+				],
+				[
+				"sExtends"=> "pdf",
+				"sButtonText"=> Yii::t('app',"PDF")
+				],
+				// [
+				// "sExtends"=> "print",
+				// "sButtonText"=> Yii::t('app',"Imprimir")
+				// ],
+			],
+		 ],
+	],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 			[
