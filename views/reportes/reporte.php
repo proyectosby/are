@@ -8,6 +8,10 @@ REPORTES VARIOS
 Modificaciones:
 Fecha: 02-04-2018
 Persona encargada: Edwin Molina Grisales
+Se crea reporte de PORCENTAJE OCUPACION DE AULAS
+---------------------------------------
+Fecha: 02-04-2018
+Persona encargada: Edwin Molina Grisales
 Se crea reporte de CANTIDAD DE ESTUDIATNES POR GRUPO con su resumido por cantidad y corresponde a la opción 2 del switch
 ---------------------------------------
 **********/
@@ -328,6 +332,60 @@ $this->params['breadcrumbs'][] = $this->title;
 
 						],
 					]); 
+				break;
+			
+			case 4:
+				?>
+					
+					<h2><?= Html::encode( "Porcentaje ocupación de aulas" ) ?></h2><br>
+					
+					<?php
+				
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							// ['class' => 'yii\grid\SerialColumn'], 
+							[
+								'attribute' => 'aula',
+								'label'		=> 'Aula',
+								// 'value'		=> '1111',
+							],
+							[
+								'label'		=> 'Ocupacion',
+								'value'		=> function($data){ 
+													return ( round( $data['cantidad_ocupada']/$data['capacidad'], 2 )*100 )."%"; 
+											   },
+							],
+						],
+					]);
+					
+					
 				break;
 		}
 		

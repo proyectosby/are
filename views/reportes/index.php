@@ -22,6 +22,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de reportes
 ---------------------------------------
 Modificaciones:
+Fecha: 05-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Porcentaje ocupacion aulas
+---------------------------------------
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - moficacion  del index para mostrar botones de los reportes
@@ -92,6 +96,16 @@ function prueba()
 									
 									'reportes',
 									'idReporte'		=> 3,
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
+		
+		<?= Html::a('Porcentaje ocupación aulas', 
+								[
+									'reportes',
+									'idReporte'		=> 4,
 									'idSedes' 		=> $idSedes,
 									'idInstitucion' => $idInstitucion, 
 								], 

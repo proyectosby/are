@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 05-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: 
+Se crea opción 4 del action index correspondiente al reporte de PORCENTAJE OCUPACION AULAS.
+---------------------------------------
 Fecha: 02-04-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: 
@@ -293,6 +298,31 @@ class ReportesController extends Controller
 					'sql' => $sql,
 				]);
 			
+				break;
+				
+			case 4:
+				
+				$sql ="SELECT a.descripcion AS aula, a.capacidad, COUNT(*) AS cantidad_ocupada
+						 FROM distribuciones_academicas da, 
+							  aulas a,
+							  estudiantes e,
+							  paralelos p
+						WHERE a.id 					= da.id_aulas_x_sedes
+						  AND a.estado 				= 1
+						  AND da.estado 			= 1
+						  AND da.id_paralelo_sede 	= p.id
+						  AND p.estado			 	= 1
+						  AND e.id_paralelos		= p.id
+						  AND e.estado				= 1
+						  AND a.id_sedes			= $idSedes
+					 GROUP BY 1, 2
+					";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+							
 				break;
 		}
 		
