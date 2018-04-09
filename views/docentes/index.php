@@ -13,6 +13,7 @@ use yii\grid\GridView;
 use app\models\Personas;
 use app\models\Escalafones;
 use yii\helpers\ArrayHelper;
+use fedemotta\datatables\DataTables;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocentesBuscar */
