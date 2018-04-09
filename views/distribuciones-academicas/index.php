@@ -6,6 +6,11 @@ Fecha: (16-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Lista de distribuiones academicas
 ---------------------------------------
+Modificaciones:
+Fecha: 05-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agregan los datatables
+---------------------------------------
 */
 
 use yii\helpers\Html;
@@ -47,9 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
 		"info"=>false,
 		"responsive"=>true,
-		// "dom"=> 'lfTrtip',
-		// "tableTools"=>[
-			// "aButtons"=> [  
+		 "dom"=> 'lfTrtip',
+		 "tableTools"=>[
+			 "aButtons"=> [  
 				// [
 				// "sExtends"=> "copy",
 				// "sButtonText"=> Yii::t('app',"Copiar")
@@ -58,20 +63,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				// "sExtends"=> "csv",
 				// "sButtonText"=> Yii::t('app',"CSV")
 				// ],
-				// [
-				// "sExtends"=> "xls",
-				// "oSelectorOpts"=> ["page"=> 'current']
-				// ],
-				// [
-				// "sExtends"=> "pdf",
-				// "sButtonText"=> Yii::t('app',"PDF")
-				// ],
+				[
+				"sExtends"=> "xls",
+				"oSelectorOpts"=> ["page"=> 'current']
+				],
+				[
+				"sExtends"=> "pdf",
+				"sButtonText"=> Yii::t('app',"PDF")
+				],
 				// [
 				// "sExtends"=> "print",
 				// "sButtonText"=> Yii::t('app',"Imprimir")
 				// ],
-			// ],
-		// ],
+			],
+		 ],
 	],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

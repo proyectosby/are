@@ -1,41 +1,61 @@
 <?php
-/**********
-Versión: 001
-Fecha: 17-03-2018
-Desarrollador: Oscar David Lopez
-Descripción: CRUD de Aponderacion-resultados
----------------------------------------
-Modificaciones:
-Fecha: 17-03-2018
-Persona encargada: Oscar David Lopez
-Cambios realizados: - se elimina el campo id para mostrar
----------------------------------------
-Fecha: 05-04-2018
-Persona encargada: Viviana Rodas
-Cambios realizados: Se agregan los datatables
----------------------------------------
-**********/
+
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Periodos;
-use	yii\helpers\ArrayHelper;
-use app\models\PonderacionResultados;
-use fedemotta\datatables\DataTables;
+use yii\helpers\ArrayHelper;
 
+use app\models\Sedes;
+use app\models\Instituciones;
+
+use fedemotta\datatables\DataTables;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PonderacionResultadosBuscar */
+/* @var $searchModel app\models\AsginaturasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ponderación Resultados';
+/**********
+Versión: 001
+Fecha: 10-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 10-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se cambia el atributo id_sede para que muestre la descripcion de la sede segun el id_sede
+ de la tabla asigaciones
+---------------------------------------
+Fecha: 50-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agrega data tables
+---------------------------------------
+**********/
+
+$nombreSede = new Sedes();
+$nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
+$nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
+$nombreSede = $nombreSede[$idSedes];
+
+$nombreInstitucion = new Instituciones();
+$nombreInstitucion = $nombreInstitucion->find()->where('id='.$idInstitucion)->all();
+$nombreInstitucion = ArrayHelper::map($nombreInstitucion,'id','descripcion');
+$nombreInstitucion = $nombreInstitucion[$idInstitucion];
+
+$this->title = $nombreInstitucion;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ponderacion-resultados-index">
+<div class="asignaturas-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Agregar', [
+									'create',
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
     </p>
 
     <?= DataTables::widget([
@@ -75,24 +95,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		 ],
 	],
         'columns' => [
+
             ['class' => 'yii\grid\SerialColumn'],
-            
-			[
-				'attribute'=>'id_periodo',
-				'value' => function( $model )
-				{
-					$Periodos = Periodos::findOne($model->id_periodo);
-					return $Periodos ? $Periodos->descripcion : '';
-				}, //para buscar por el nombre
-				'filter' 	=> ArrayHelper::map(Periodos::find()->all(), 'id', 'descripcion' ),
-				
-			],
-			[
-				'attribute'=>'calificacion',
-				//para buscar por el nombre
-				'filter' 	=> ArrayHelper::map(PonderacionResultados::find()->all(), 'calificacion', 'calificacion' ),
-				
-			],			
+            'descripcion',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -1,4 +1,11 @@
 <?php
+/**********
+Modificaciones:
+Fecha: 05-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agregan los datatabes
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 use yii\grid\GridView;

@@ -22,6 +22,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de reportes
 ---------------------------------------
 Modificaciones:
+Fecha: 05-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Porcentaje ocupacion aulas
+---------------------------------------
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - moficacion  del index para mostrar botones de los reportes
@@ -98,9 +102,8 @@ function prueba()
 								['class' => 'btn btn-success'
 		]) ?>
 		
-			<?= Html::a('Cantidad de Estudiantes por Genero', 
+		<?= Html::a('Porcentaje ocupación aulas', 
 								[
-									
 									'reportes',
 									'idReporte'		=> 4,
 									'idSedes' 		=> $idSedes,
@@ -109,29 +112,15 @@ function prueba()
 								['class' => 'btn btn-success'
 		]) ?>
 		
+		
     </div>
 
     <div class="form-group">
-	<?= Html::a('Tase de cobertura neta', 
-								[
-									
-									'reportes',
-									'idReporte'		=> 5,
-									'idSedes' 		=> $idSedes,
-									'idInstitucion' => $idInstitucion, 
-								], 
-								['class' => 'btn btn-success'
-		]) ?>
-
       <p>
      
 		
-	  <div class="form-group">
-	
-<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>		
-      <p>
-     	
-
+		
+<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>
 
 
     <?php ActiveForm::end(); ?>

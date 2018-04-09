@@ -11,6 +11,10 @@ Fecha: 13-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - No se muestra el id, no el estado
 ---------------------------------------
+Fecha: 05-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agregan los datatables
+---------------------------------------
 **********/
 
 use yii\helpers\Html;
@@ -19,6 +23,7 @@ use yii\grid\GridView;
 use app\models\Instituciones;
 use app\models\TiposCalificacion;
 use yii\helpers\ArrayHelper;
+use fedemotta\datatables\DataTables;
 
 $institucionNombre = new Instituciones();
 $institucionNombre = $institucionNombre->find()->where('id='.$idInstitucion)->all();
@@ -47,9 +52,42 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </p>
 
-    <?= GridView::widget([
+    <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'clientOptions' => [
+		'language'=>[
+                'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+            ],
+		"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+		"info"=>false,
+		"responsive"=>true,
+		 "dom"=> 'lfTrtip',
+		 "tableTools"=>[
+			 "aButtons"=> [  
+				// [
+				// "sExtends"=> "copy",
+				// "sButtonText"=> Yii::t('app',"Copiar")
+				// ],
+				// [
+				// "sExtends"=> "csv",
+				// "sButtonText"=> Yii::t('app',"CSV")
+				// ],
+				[
+				"sExtends"=> "xls",
+				"oSelectorOpts"=> ["page"=> 'current']
+				],
+				[
+				"sExtends"=> "pdf",
+				"sButtonText"=> Yii::t('app',"PDF")
+				],
+				// [
+				// "sExtends"=> "print",
+				// "sButtonText"=> Yii::t('app',"Imprimir")
+				// ],
+			],
+		 ],
+	],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

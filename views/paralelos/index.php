@@ -1,5 +1,6 @@
 <?php
 
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -10,6 +11,7 @@ use app\models\Sedes;
 use app\models\Jornadas;
 use app\models\Niveles;
 use app\models\Instituciones;
+use fedemotta\datatables\DataTables;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -25,6 +27,10 @@ Fecha: 09-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - modificacion de los datos en GridView para mostrar los datos correctos donde corresponde el Id
 de la tabla
+---------------------------------------
+Fecha: 05-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agregan los datatables
 ---------------------------------------
 **********/
 
@@ -52,9 +58,42 @@ $modelSedes 		= Sedes::findOne( $idSedes );
     </p>
 
 
-    <?= GridView::widget([
+    <?= DataTables::widget([
         'dataProvider' 	=> $dataProvider,
 		'filterModel' 	=> $searchModel,
+		'clientOptions' => [
+		'language'=>[
+                'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+            ],
+		"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+		"info"=>false,
+		"responsive"=>true,
+		 "dom"=> 'lfTrtip',
+		 "tableTools"=>[
+			 "aButtons"=> [  
+				// [
+				// "sExtends"=> "copy",
+				// "sButtonText"=> Yii::t('app',"Copiar")
+				// ],
+				// [
+				// "sExtends"=> "csv",
+				// "sButtonText"=> Yii::t('app',"CSV")
+				// ],
+				[
+				"sExtends"=> "xls",
+				"oSelectorOpts"=> ["page"=> 'current']
+				],
+				[
+				"sExtends"=> "pdf",
+				"sButtonText"=> Yii::t('app',"PDF")
+				],
+				// [
+				// "sExtends"=> "print",
+				// "sButtonText"=> Yii::t('app',"Imprimir")
+				// ],
+			],
+		 ],
+	],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
