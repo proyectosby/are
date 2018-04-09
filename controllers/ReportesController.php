@@ -316,7 +316,7 @@ class ReportesController extends Controller
 						  AND e.estado				= 1
 						  AND a.id_sedes			= $idSedes
 					 GROUP BY 1, 2
-					";
+					"; 
 			
 			
 				$dataProvider = new SqlDataProvider([
