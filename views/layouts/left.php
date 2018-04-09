@@ -31,90 +31,193 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
 					['label' => 'Inicio', 'options' => ['class' => 'header']],
-				    [
-                                'label' => 'Instituciones',
+					//menu mcee
+					[
+                                'label' => 'Hoja de vida',
                                 'icon' => 'circle-o',
                                 'url' => '#',
                                 'items' => [
                                     [
-                                        'label' => 'Académico',
+                                        'label' => 'Gestión Escolar',
                                         'icon' => 'circle-o',
                                         'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Institución educativa',
-											'icon' => 'circle-o',
-											'url' => '#',
-											'items' => [
-												['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
-												['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
-												['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
-												['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
-												['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
-												['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
-												['label' => 'Reportes','icon' => 'circle-o','url' => '#',],
-											],						
+                                        'items' => 
+										[
+                                            [
+												'label' => 'Gestión Académica',
+												'icon' => 'circle-o',
+												'url' => '#',
+												'items' => 
+												[
+														['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
+														['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
+														['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
+														['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
+														['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
+														['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
+														['label' => 'Reportes', 'icon' => '', 'url' =>  ['reportes/index'],],
+												],//
+											],
+											[
+												'label' => 'Gestión Comunitaria',
+												'icon' => 'circle-o',
+												'url' => '#',
+												// 'items' => [
+													// ['label' => 'Transporte', 'icon' => 'circle-o', 'url' => '#',],
+													// ['label' => 'Alimentación', 'icon' => 'circle-o', 'url' => '#',],
+													// ['label' => 'Soporte y apoyo académco', 'icon' => 'circle-o', 'url' => '#',],
+												// ],
+											],
+											[
+												'label' => 'Gestión Administrativa',
+												'icon' => 'circle-o',
+												'url' => '#',
+												 'items' => [
+													
+													
+														['label' => 'Instituciones','icon' => 'circle-o','url' => ['instituciones/index'],],
+														['label' => 'Sedes','icon' => 'circle-o','url' => ['sedes/index'],],
+														['label' => 'Aulas','icon' => 'circle-o','url' => ['aulas/index'],],
+														['label' => 'Jornadas','icon' => 'circle-o','url' => ['jornadas/index'],],
+														['label' => 'Sedes - Jornadas','icon' => 'circle-o','url' => ['sedes-jornadas/index'],],
+														['label' => 'Sedes - Niveles','icon' => 'circle-o','url' => ['sedes-niveles/index'],],
+														['label' => 'Periodos','icon' => 'circle-o','url' => ['periodos/index'],],
+														['label' => 'Asignaturas','icon' => 'circle-o','url' =>  ['asignaturas/index'],],
+														['label' => 'Áreas enseñanza','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
+														['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
+														['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
+														['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
+														['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
+														['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
+														['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+														['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
+												],//
+											],
+											[
+												'label' => 'Gestión directiva',
+												'icon' => 'circle-o',
+												'url' => '#',
+												'items' => [
+													['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#'],
+													['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => '#',],
+													['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
+												],
+											],
+											['label' => 'Gestión Curricular', 'icon' => 'circle-o', 'url' => '#'],
+                                        ],// Gestion escolar
+                                    ],
+									['label' => 'Mejoramiento aprendizajes', 
+									'icon' => 'circle-o',
+									'url' => '#',
+									'items' => [
+													['label' => 'Semilleros tic', 'icon' => 'circle-o', 'url' => '#'],
+													
+												],
+									],
+									['label' => 'Pedagogías para la vida', 'icon' => 'circle-o', 'url' => '#'],
+									['label' => 'Escuela mas comunidad', 'icon' => 'circle-o', 'url' => '#'],
+									['label' => 'Clima escolar', 'icon' => 'circle-o', 'url' => '#'],
+									['label' => 'Recursos', 
+									'icon' => 'circle-o',
+									'url' => '#',
+									'items' => [
+													 ['label' => 'Infraestructra física', 'icon' => 'circle-o', 'url' => ['recursos-infraestructura-fisica/index'],],
+													
+												],
+									
+									],
+									
+									/////////////////////
+									
+                                ],
+                            ],
+					
+					
+					
+					//--------------------------------
+				    // [
+                                // 'label' => 'Instituciones',
+                                // 'icon' => 'circle-o',
+                                // 'url' => '#',
+                                // 'items' => [
+                                    // [
+                                        // 'label' => 'Académico',
+                                        // 'icon' => 'circle-o',
+                                        // 'url' => '#',
+                                        // 'items' => [
+                                            // ['label' => 'Institución educativa',
+											// 'icon' => 'circle-o',
+											// 'url' => '#',
+											// 'items' => [
+												// ['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
+												// ['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
+												// ['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
+												// ['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
+												// ['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
+												// ['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
+												// ['label' => 'Reportes','icon' => 'circle-o','url' => '#',],
+											// ],						
 											
 											
-											], // 
-                                        ],//
-                                    ],
-									 [
-                                        'label' => 'Servicios',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Transporte', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Alimentación', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Soporte y apoyo académco', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-									[
-                                        'label' => 'Administrativo',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                         'items' => [
-                                            ['label' => 'Institución educativa',
-											'icon' => 'circle-o',
-											'url' => '',
-											'items' => [
-												['label' => 'Instituciones','icon' => 'circle-o','url' => ['instituciones/index'],],
-												['label' => 'Sedes','icon' => 'circle-o','url' => ['sedes/index'],],
-												['label' => 'Aulas','icon' => 'circle-o','url' => ['aulas/index'],],
-												['label' => 'Jornadas','icon' => 'circle-o','url' => ['jornadas/index'],],
-												['label' => 'Sedes - Jornadas','icon' => 'circle-o','url' => ['sedes-jornadas/index'],],
-												['label' => 'Sedes - Niveles','icon' => 'circle-o','url' => ['sedes-niveles/index'],],
-												['label' => 'Periodos','icon' => 'circle-o','url' => ['periodos/index'],],
-												['label' => 'Asignaturas','icon' => 'circle-o','url' =>  ['asignaturas/index'],],
-												['label' => 'Áreas enseñanza','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
-												['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
-												['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
-												['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
-												['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
-												['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
-										        ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
-										        ['label' => 'Reportes', 'icon' => '', 'url' =>  ['reportes/index'],],
-												// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',], //esta en la distribucion academica
+											// ], // 
+                                        // ],//
+                                    // ],
+									 // [
+                                        // 'label' => 'Servicios',
+                                        // 'icon' => 'circle-o',
+                                        // 'url' => '#',
+                                        // 'items' => [
+                                            // ['label' => 'Transporte', 'icon' => 'circle-o', 'url' => '#',],
+                                            // ['label' => 'Alimentación', 'icon' => 'circle-o', 'url' => '#',],
+                                            // ['label' => 'Soporte y apoyo académco', 'icon' => 'circle-o', 'url' => '#',],
+                                        // ],
+                                    // ],
+									// [
+                                        // 'label' => 'Administrativo',
+                                        // 'icon' => 'circle-o',
+                                        // 'url' => '#',
+                                         // 'items' => [
+                                            // ['label' => 'Institución educativa',
+											// 'icon' => 'circle-o',
+											// 'url' => '',
+											// 'items' => [
+												// ['label' => 'Instituciones','icon' => 'circle-o','url' => ['instituciones/index'],],
+												// ['label' => 'Sedes','icon' => 'circle-o','url' => ['sedes/index'],],
+												// ['label' => 'Aulas','icon' => 'circle-o','url' => ['aulas/index'],],
+												// ['label' => 'Jornadas','icon' => 'circle-o','url' => ['jornadas/index'],],
+												// ['label' => 'Sedes - Jornadas','icon' => 'circle-o','url' => ['sedes-jornadas/index'],],
+												// ['label' => 'Sedes - Niveles','icon' => 'circle-o','url' => ['sedes-niveles/index'],],
+												// ['label' => 'Periodos','icon' => 'circle-o','url' => ['periodos/index'],],
+												// ['label' => 'Asignaturas','icon' => 'circle-o','url' =>  ['asignaturas/index'],],
+												// ['label' => 'Áreas enseñanza','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
+												// ['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
+												// ['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
+												// ['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
+												// ['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
+												// ['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
+										        // ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+												// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
 												
 													
 												
-											],						
+											// ],						
 											
 											
-											], // 
-                                        ],//
-                                    ],
-									[
-                                        'label' => 'Participación en proyectos',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#'],
-                                            ['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
+											// ], // 
+                                        // ],//
+                                    // ],
+									// [
+                                        // 'label' => 'Participación en proyectos',
+                                        // 'icon' => 'circle-o',
+                                        // 'url' => '#',
+                                        // 'items' => [
+                                            // ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#'],
+                                            // ['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => '#',],
+                                            // ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
+                                        // ],
+                                    // ],
+                                // ],
+                            // ],
 							
 
                    [
@@ -144,7 +247,7 @@
                                             ['label' => 'Docentes', 'icon' => 'circle-o', 'url' => ['docentes/index'],],
                                             ['label' => 'Docentes areas trabajo', 'icon' => 'circle-o', 'url' => ['docentes-x-areas-trabajos/index'],],
 											['label' => 'Evaluación', 'icon' => 'circle-o', 'url' => ['evaluacion-docentes/index'],],
-											['label' => 'Vinculación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
+											['label' => 'Vinulación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
 											['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
 											['label' => 'Indicadores desempeño', 'icon' => 'circle-o', 'url' => ['indicador-desempeno/index'],],
 											['label' => 'Plan de aula', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
