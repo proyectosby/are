@@ -44,7 +44,7 @@ use dosamigos\datepicker\DatePicker;
 	<?= $form->field($model, 'id_sedes')->hiddenInput(['value'=> $idSedes])->label(false) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
