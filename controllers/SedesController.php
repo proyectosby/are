@@ -6,6 +6,10 @@ Fecha: 02-03-2018
 Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
+Fecha: 02-03-2018
+Persona encargada: Oscar David Lopez 
+Cambios realizados: Se muestran solo las sedes activas
+---------------------------------------
 Modificaciones:
 Fecha: 09-03-2018
 Persona encargada: Edwin Molina Grisales
@@ -119,6 +123,7 @@ class SedesController extends Controller
 			$searchModel = new SedesBuscar();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 			$dataProvider ->query->andWhere( 'id_instituciones='.$idInstitucion );
+			$dataProvider ->query->andWhere( 'estado=1');
 			
 			return $this->render('index', [
 				'searchModel' 		=> $searchModel,
