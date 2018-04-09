@@ -20,7 +20,7 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\SedesAreasEnsenanzaBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Áreas de Enseñanzas';
+$this->title = 'Especialidad';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sedes-areas-ensenanza-index">
