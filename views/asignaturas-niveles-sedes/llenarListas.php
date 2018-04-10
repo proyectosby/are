@@ -27,38 +27,7 @@ $dsn= $datosCon['dsn'];
 $datos = "$dsn;user=$usuario;password=$contrasena";
 $conn = new PDO($datos);
 
-$idSede =$_POST['idSede'];
 
-//consulta los niveles de la sede
-$sql = "SELECT sn.id, n.descripcion
-FROM public.sedes_niveles as sn, public.niveles as n
-where sn.id_sedes=$idSede
-and sn.id_niveles = n.id";
-
-$data = array('error'=>0,'niveles','asignaturas');
-
-$data['niveles'][]="<option value='0'>Seleccione..</option>";
-foreach ($conn->query($sql) as $row) {
-   $id =  $row['id'];
-   $descripcion = $row['descripcion'];
-	$data['niveles'][]="<option value=$id>$descripcion</option>";
-}
-
-//consulta las asignaturas de la sede
-$sql = "SELECT id,descripcion
-FROM public.asignaturas
-where id_sedes=$idSede";
-$data['asignaturas'][]="<option value='0'>Seleccione..</option>";
-foreach ($conn->query($sql) as $row) {
-   $id =  $row['id'];
-   $descripcion = $row['descripcion'];
-	$data['asignaturas'][]="<option value=$id>$descripcion</option>";
-}
-
-if(@count($data['asignaturas'])==1 || count(@$data['niveles'])==1)
-	$data['error']=1;
-
-echo json_encode($data);
 
 // print_r($data);
 

@@ -49,7 +49,7 @@ class SedesAreasEnsenanza extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_sedes' => 'Id Sedes',
+            'id_sedes' => 'Sede',
             'id_areas_ensenanza' => 'Especialidad',
         ];
     }

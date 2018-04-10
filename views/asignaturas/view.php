@@ -77,16 +77,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					
 				}
 			],
-			[
-				'attribute'=> 'estado',
-				//se muestra la descripcion del estado
-				'value'=>function ($model)
-				{
-					$estados = Estados::findOne($model->estado);
-					return $estados ? $estados->descripcion : '';
-					
-				}
-			]
 			
         ],
     ]) ?>
