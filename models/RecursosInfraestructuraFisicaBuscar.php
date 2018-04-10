@@ -18,7 +18,7 @@ class RecursosInfraestructuraFisicaBuscar extends RecursosInfraestructuraFisica
     public function rules()
     {
         return [
-            [['id', 'cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura'], 'integer'],
+            [['id', 'cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura', 'id_sede', 'estado'], 'integer'],
             [['programas_informaticos_admin'], 'safe'],
         ];
     }
@@ -71,6 +71,8 @@ class RecursosInfraestructuraFisicaBuscar extends RecursosInfraestructuraFisica
             'cantidad_computadores' => $this->cantidad_computadores,
             'cantidad_tabletas' => $this->cantidad_tabletas,
             'cantidad_bibliotecas_salas_lectura' => $this->cantidad_bibliotecas_salas_lectura,
+            'id_sede' => $this->id_sede,
+            'estado' => $this->estado,
         ]);
 
         $query->andFilterWhere(['ilike', 'programas_informaticos_admin', $this->programas_informaticos_admin]);

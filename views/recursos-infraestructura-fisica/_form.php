@@ -1,7 +1,25 @@
 <?php
-
+/**********
+Versión: 001
+Fecha: 10-04-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD Recursos Infraestructura Fisica
+---------------------------------------
+Modificaciones:
+Fecha: 10-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se muestra el nombre de los estados
+---------------------------------------
+**********/
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Estados;
+use	yii\helpers\ArrayHelper;
+
+$estado = new Estados;
+$estado = $estado->find()->all();
+$estado = ArrayHelper::map($estado,'id','descripcion');
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RecursosInfraestructuraFisica */
@@ -35,6 +53,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'cantidad_bibliotecas_salas_lectura')->textInput() ?>
 
     <?= $form->field($model, 'programas_informaticos_admin')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'id_sede')->hiddenInput(['value'=>$idSedes])->label(false); ?>
+
+    <?= $form->field($model, 'estado')->dropDownList($estado,['options' => [1 => ['selected' => 'selected']]]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

@@ -1,25 +1,62 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 10-04-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD Recursos Infraestructura Fisica
+---------------------------------------
+Modificaciones:
+Fecha: 10-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se quita de la vista el estado y el id_sedes
+---------------------------------------
+**********/
+
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Sedes;
+use	yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RecursosInfraestructuraFisica */
+$idSedes = $model->id_sede;
+$nombreSede = new Sedes();
+$nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
+$idInstitucion = ArrayHelper::map($nombreSede,'id','id_instituciones');
+$idInstitucion = $idInstitucion[$idSedes];
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Recursos Infraestructura Fisicas', 'url' => ['index']];
+$nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
+$nombreSede = $nombreSede[$idSedes];
+
+
+$this->title = "Detalle";
+$this->params['breadcrumbs'][] = [
+								'label' => 'Asignaturas', 
+								'url' => [
+											'index',
+											'idInstitucion' => $idInstitucion, 
+											'idSedes' 		=> $model->id_sede,
+										 ]
+							 ];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+
+
 ?>
 <div class="recursos-infraestructura-fisica-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Está seguro de eliminar este elemento?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -27,8 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
-        'attributes' => [
-            'id',
+        'attributes' => [            
             'cantidad_aulas_regulares',
             'cantidad_aulas_multiples',
             'cantidad_oficinas_admin',

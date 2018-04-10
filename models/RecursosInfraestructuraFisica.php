@@ -20,6 +20,11 @@ use Yii;
  * @property int $cantidad_tabletas
  * @property int $cantidad_bibliotecas_salas_lectura
  * @property string $programas_informaticos_admin
+ * @property string $id_sede
+ * @property string $estado
+ *
+ * @property Estados $estado0
+ * @property Sedes $sede
  */
 class RecursosInfraestructuraFisica extends \yii\db\ActiveRecord
 {
@@ -37,9 +42,11 @@ class RecursosInfraestructuraFisica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura'], 'default', 'value' => null],
-            [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura'], 'integer'],
+            [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura', 'id_sede', 'estado'], 'default', 'value' => null],
+            [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura', 'id_sede', 'estado'], 'integer'],
             [['programas_informaticos_admin'], 'string', 'max' => 500],
+            [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
+            [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
         ];
     }
 
@@ -50,18 +57,36 @@ class RecursosInfraestructuraFisica extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'cantidad_aulas_regulares' => 'Cantidad Aulas Regulares',
-            'cantidad_aulas_multiples' => 'Cantidad Aulas Multiples',
-            'cantidad_oficinas_admin' => 'Cantidad Oficinas Admin',
-            'cantidad_aulas_profesores' => 'Cantidad Aulas Profesores',
-            'cantidad_espacios_deportivos' => 'Cantidad Espacios Deportivos',
-            'cantidad_baterias_sanitarias' => 'Cantidad Baterias Sanitarias',
-            'cantidad_laboratorios' => 'Cantidad Laboratorios',
-            'cantidad_portatiles' => 'Cantidad Portatiles',
-            'cantidad_computadores' => 'Cantidad Computadores',
-            'cantidad_tabletas' => 'Cantidad Tabletas',
-            'cantidad_bibliotecas_salas_lectura' => 'Cantidad Bibliotecas Salas Lectura',
+            'cantidad_aulas_regulares' => 'Aulas Regulares',
+            'cantidad_aulas_multiples' => 'Aulas Multiples',
+            'cantidad_oficinas_admin' => 'Oficinas Admin',
+            'cantidad_aulas_profesores' => 'Aulas Profesores',
+            'cantidad_espacios_deportivos' => 'Espacios Deportivos',
+            'cantidad_baterias_sanitarias' => 'Baterias Sanitarias',
+            'cantidad_laboratorios' => 'Laboratorios',
+            'cantidad_portatiles' => 'Portatiles',
+            'cantidad_computadores' => 'Computadores',
+            'cantidad_tabletas' => 'Tabletas',
+            'cantidad_bibliotecas_salas_lectura' => 'Bibliotecas Salas Lectura',
             'programas_informaticos_admin' => 'Programas Informaticos Admin',
+            'id_sede' => 'Sede',
+            'estado' => 'Estado',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstado0()
+    {
+        return $this->hasOne(Estados::className(), ['id' => 'estado']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSede()
+    {
+        return $this->hasOne(Sedes::className(), ['id' => 'id_sede']);
     }
 }

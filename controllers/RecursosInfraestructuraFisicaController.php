@@ -1,5 +1,19 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 10-04-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD Recursos Infraestructura Fisica
+---------------------------------------
+Modificaciones:
+Fecha: 10-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - muestra solo los activos
+Desactiva los registro en lugar de borrarlos
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -29,19 +43,47 @@ class RecursosInfraestructuraFisicaController extends Controller
         ];
     }
 
+	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
+    {
+        return $this->render('listarInstituciones',[
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
+		] );
+    }
+
+	
+	
     /**
      * Lists all RecursosInfraestructuraFisica models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($idInstitucion = 0, $idSedes = 0)
     {
+		if( $idInstitucion != 0 && $idSedes != 0 )
+		{
+
         $searchModel = new RecursosInfraestructuraFisicaBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andWhere('estado=1');
+		$dataProvider->query->andWhere("id_sede=$idSedes");
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            'searchModel' 	=> $searchModel,
+            'dataProvider' 	=> $dataProvider,
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
+			// 'idSedes' => $this->findModel($id),
+			]);
+		}
+		else
+		{
+			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
+			 return $this->render('listarInstituciones',[
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+			] );
+		}
+
     }
 
     /**
@@ -62,7 +104,7 @@ class RecursosInfraestructuraFisicaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idSedes, $idInstitucion)
     {
         $model = new RecursosInfraestructuraFisica();
 
@@ -72,6 +114,8 @@ class RecursosInfraestructuraFisicaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+			'idSedes'=>$idSedes,
+			'idInstitucion'=>$idInstitucion,
         ]);
     }
 
@@ -104,9 +148,24 @@ class RecursosInfraestructuraFisicaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+		$model = $this->findModel($id);
+		$idSedes= $model->id_sede;
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+		//saber el id de la sede para redicionar al index correctamente
+		$command = $connection->createCommand("
+		SELECT i.id
+		FROM instituciones as i,sedes as s
+		WHERE s.id_instituciones = i.id
+		and s.id = $idSedes
+		");
+		$result = $command->queryAll();
+		$idInstituciones = $result[0]['id'];
+		
+		$model->estado = 2;
+		$model->update(false);
+		
+		return $this->redirect(['index', 'idInstitucion' => $idInstituciones,'idSedes'=>$idSedes]);	
     }
 
     /**
