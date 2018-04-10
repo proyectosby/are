@@ -8,55 +8,10 @@ use	yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\AsignaturasNivelesSedes */
 /* @var $form yii\widgets\ActiveForm */
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/asignaturasNivelesSedes.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
 
-
-<script>
-
-
-
-
-window.onload = llenarListasActualizar();
-
-function llenarListasActualizar() 
-{
-	var url = window.location.href; 
-	if (url.indexOf('update')!=-1) 
-	{
-		setTimeout(function(){ llenarListas(); }, 2000);	
-	}
-}
-
-function llenarListas()
-{		
-	$.post("../views/asignaturas-niveles-sedes/llenarListas.php",
-				{
-					idSede:$("#sedes-descripcion").val(),
-				},
-				function(data){
-					if(data.error == 1)
-					{
-						alert('La sede no tiene niveles o asignaturas');	
-						$("#asignaturasnivelessedes-id_sedes_niveles").html(data.niveles);
-						$("#asignaturasnivelessedes-id_asignaturas").html(data.asignaturas);						
-					}
-					else
-					{
-						$("#asignaturasnivelessedes-id_sedes_niveles").html(data.niveles);
-						$("#asignaturasnivelessedes-id_asignaturas").html(data.asignaturas);
-						
-					}
-				
-				},
-				"json"
-				
-		  );
-	
-}
-
-
-</script>
 
 <div class="asignaturas-niveles-sedes-form">
 

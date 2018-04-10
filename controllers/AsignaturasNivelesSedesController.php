@@ -8,6 +8,9 @@ Modificaciones:
 Fecha: 27-03-2018
 Se agrega método actionAsignaturasXNivelesSedes
 ---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Se agrega método actionAsignaturasXNivelesSedes
 **********/
 
 namespace app\controllers;
@@ -111,6 +114,70 @@ class AsignaturasNivelesSedesController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+	 
+	 
+	public function actionNivelesSedes($idSede,$idModelo)
+	{
+		
+		$data = array('error'=>0,'niveles','asignaturas');
+		$connection = Yii::$app->getDb();
+		if ($idModelo!=0)
+		{
+			//id del nivel seleccionado
+			// $command = $connection->createCommand("
+			// SELECT sn.id_niveles
+			// FROM public.asignaturas_x_niveles_sedes ans, sedes_niveles sn
+			// where ans.id_sedes_niveles = sn.id
+			// and ans.id =$idModelo
+			// ");
+			// $result = $command->queryAll();
+			$model = $this->findModel($idModelo);
+			$data["selectNiveles"]= $model->id_sedes_niveles;
+			$data["selectAsignatura"]= $model->id_asignaturas;
+		}
+		
+		
+		
+		//consulta los niveles de la sede
+		$command = $connection->createCommand("
+		SELECT sn.id, n.descripcion
+		FROM public.sedes_niveles as sn, public.niveles as n
+		where sn.id_sedes=$idSede
+		and sn.id_niveles = n.id
+		");
+		$result = $command->queryAll();
+		
+		
+		$data['niveles'][]="<option value='0'>Seleccione..</option>";
+		foreach ($result as $row) {
+			$id =  $row['id'];
+			$descripcion = $row['descripcion'];
+			$data['niveles'][]="<option value=$id>$descripcion</option>";
+		}
+		
+		
+		//consulta las asignaturas de la sede
+		$command = $connection->createCommand("
+		SELECT id,descripcion
+		FROM public.asignaturas
+		where id_sedes=$idSede
+		");
+		$result = $command->queryAll();
+		
+		
+		$data['asignaturas'][]="<option value='0'>Seleccione..</option>";
+		foreach ($result as $row) {
+			$id =  $row['id'];
+			$descripcion = $row['descripcion'];
+			$data['asignaturas'][]="<option value=$id>$descripcion</option>";
+		}
+		
+		if(@count($data['asignaturas'])==1 || count(@$data['niveles'])==1)
+			$data['error']=1;
+
+		echo json_encode($data);
+	}	
+	 
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
