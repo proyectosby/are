@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Áreas de enseñanza';
+$this->title = 'Especialidad';
 $this->params['breadcrumbs'][] = $this->title;
 
 

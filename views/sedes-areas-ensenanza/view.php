@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = [
-									'label' => 'Sedes Areas Ensenanzas', 
+									'label' => 'Especialidad', 
 									'url' => [
 												'index',
 												'idInstitucion' => $modelInstitucion->id,
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            // 'id',
 			[
 				'attribute' => 'id_sedes',
 				'value' 	=> function( $model ){

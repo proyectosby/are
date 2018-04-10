@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SedesAreasEnsenanza */
 
-$this->title = 'Agregar Áreas de Enseñanza';
+$this->title = 'Agregar';
 $this->params['breadcrumbs'][] = [
 									'label' => 'Sedes Areas Enseñanzas', 
 									'url' 	=> [

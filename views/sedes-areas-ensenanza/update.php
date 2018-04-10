@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SedesAreasEnsenanza */
 
-$this->title = 'Modificar Área de Enseñanza';
+$this->title = 'Modificar';
 $this->params['breadcrumbs'][] = [
-									'label' => 'Sedes Areas Enseñanzas', 
+									'label' => 'Especialidad', 
 									'url' => [
 												'index',
 												'idInstitucion' => $modelInstitucion->id,
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = [
 											]
 								];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="sedes-areas-ensenanza-update">
 
