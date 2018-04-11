@@ -32,7 +32,7 @@ $nombreSede = $nombreSede[$idSedes];
 
 $this->title = "Actualizar";
 $this->params['breadcrumbs'][] = [
-								'label' => 'Asignaturas', 
+								'label' => 'Recursos Infraestructuras Fisicas', 
 								'url' => [
 											'index',
 											'idInstitucion' => $idInstitucion, 
