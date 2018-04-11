@@ -45,16 +45,7 @@ $nombreInstitucion = $nombreInstitucion[$idInstitucion];
 $this->title = $nombreInstitucion;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<script>
-function prueba()
-{
-	alert('El tiempo maximo de ejeución en la base de datos se a agotado');
-	
-	return false;
-}
 
-
-</script>
 
 
 <div class="asignaturas-index">
@@ -116,11 +107,6 @@ function prueba()
     </div>
 
     <div class="form-group">
-      <p>
-     
-		
-		
-<?php echo Button::widget(["label" => "Estadisticas", "options" => ["class" => "btn-primary grid-button","onclick"=>"prueba()"]]); ?>
 
 
     <?php ActiveForm::end(); ?>
