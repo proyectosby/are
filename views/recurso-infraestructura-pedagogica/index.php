@@ -20,7 +20,7 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\RecursoInfraestructuraPedagogicaBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Recurso Infraestructura Pedagogicas';
+$this->title = 'Recurso Infraestructura Pedagógicas';
 $this->params['breadcrumbs'][] = $this->title;
 
 $sedes 	 	 = Sedes::findOne( $idSedes );

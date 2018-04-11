@@ -58,9 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			</tr>
 			
 			<tr>
-				<th rowspan='1' colspan='2'>Alejandro Seguro Toro</th>
-				<th rowspan='1' colspan='2'>JUAN GABRIEL LOPEZ SUAREZ</th>
-				<th rowspan='1' colspan='2'>ANA MARIA</th>
+				<th rowspan='1' colspan='2'>INSTITUCIÓN EDUCATIVA LA PAZ-SAAVEDRA GALINDO</th>
+				<th rowspan='1' colspan='2'>SEDE VILLA DEL ROSARIO</th>
+				<th rowspan='1' colspan='2'>SEDE JORGE ROBLEDO</th>
 			</tr>
 			
 			<tr>
