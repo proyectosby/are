@@ -33,12 +33,8 @@
 					['label' => 'Inicio', 'options' => ['class' => 'header']],
 					//menu mcee
 					[
-                                'label' => 'Hoja de vida',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    [
-                                        'label' => 'Gestión Escolar',
+                                
+                                        'label' => 'Hoja de vida',
                                         'icon' => 'circle-o',
                                         'url' => '#',
                                         'items' => 
@@ -56,6 +52,17 @@
 														['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
 														['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
 														['label' => 'Reportes', 'icon' => '', 'url' =>  ['reportes/index'],],
+														['label' => 'Recursos', 
+														'icon' => 'circle-o',
+														'url' => '#',
+														'items' => [
+																		 ['label' => 'Infraestructra física', 'icon' => 'circle-o', 'url' => ['recursos-infraestructura-fisica/index'],],
+																		 ['label' => 'Infraestructra pedagógica', 'icon' => 'circle-o', 'url' => ['recurso-infraestructura-pedagogica/index'],],
+																		
+																	],
+														
+														],
+														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 												],//
 											],
 											[
@@ -83,14 +90,14 @@
 														['label' => 'Sedes - Niveles','icon' => 'circle-o','url' => ['sedes-niveles/index'],],
 														['label' => 'Periodos','icon' => 'circle-o','url' => ['periodos/index'],],
 														['label' => 'Asignaturas','icon' => 'circle-o','url' =>  ['asignaturas/index'],],
-														['label' => 'Áreas enseñanza','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
+														['label' => 'Especialidades','icon' => 'circle-o','url' => ['sedes-areas-ensenanza/index'],],
 														['label' => 'Niveles','icon' => 'circle-o','url' => ['niveles/index'],],
 														['label' => 'Bloques por sede','icon' => 'circle-o','url' => ['sedes-bloques/index'],],
 														['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
 														['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
 														['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
-														['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
-														['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
+														// ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+														// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
 												],//
 											],
 											[
@@ -104,9 +111,10 @@
 												],
 											],
 											['label' => 'Gestión Curricular', 'icon' => 'circle-o', 'url' => '#'],
-                                        ],// Gestion escolar
-                                    ],
-									['label' => 'Mejoramiento aprendizajes', 
+                                        ],// Hoja de vida
+                                   
+                    ],
+					['label' => 'Mejoramiento aprendizajes', 
 									'icon' => 'circle-o',
 									'url' => '#',
 									'items' => [
@@ -117,21 +125,7 @@
 									['label' => 'Pedagogías para la vida', 'icon' => 'circle-o', 'url' => '#'],
 									['label' => 'Escuela mas comunidad', 'icon' => 'circle-o', 'url' => '#'],
 									['label' => 'Clima escolar', 'icon' => 'circle-o', 'url' => '#'],
-									['label' => 'Recursos', 
-									'icon' => 'circle-o',
-									'url' => '#',
-									'items' => [
-													 ['label' => 'Infraestructra física', 'icon' => 'circle-o', 'url' => ['recursos-infraestructura-fisica/index'],],
-													
-												],
 									
-									],
-									
-									/////////////////////
-									
-                                ],
-                            ],
-					
 					
 					
 					//--------------------------------
