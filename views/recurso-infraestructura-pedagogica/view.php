@@ -28,7 +28,7 @@ $nombreSede = $nombreSede[$model->id_sede];
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = [
-									'label' => 'Recurso Infraestructura Pedagogicas',
+									'label' => 'Recurso Infraestructura Pedagógicas',
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 

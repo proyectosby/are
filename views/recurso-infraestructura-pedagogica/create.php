@@ -25,7 +25,7 @@ $nombreSede = $nombreSede[$id_sede];
 /* @var $this yii\web\View */
 /* @var $model app\models\RecursoInfraestructuraPedagogica */
 
-$this->title = 'Agregar Recurso de Infraestructura Pedagogica';
+$this->title = 'Agregar Recurso de Infraestructura Pedagógica';
 $this->params['breadcrumbs'][] = [
 									'label' => 'Recurso Infraestructura Pedagogicas',
 									'url' => [
