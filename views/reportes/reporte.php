@@ -436,7 +436,52 @@ $this->params['breadcrumbs'][] = $this->title;
 					
 					
 				break;
-				
+				case 6:
+				?>
+					 
+					<h2><?= Html::encode( "Tasa de cobertura Neta" ) ?></h2><br>
+					
+					<?php
+					
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'],
+							'transcision',
+							'primaria',
+							'secundaria',
+							'media',
+						],
+					]);
+					
+					
+				break;
 		}
 		
 		?>

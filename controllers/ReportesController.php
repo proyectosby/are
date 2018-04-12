@@ -331,7 +331,8 @@ class ReportesController extends Controller
 					'sql' => $sql,
 				]);
 							
-				break;
+				break;//fin break 4
+				
 				case 5://tasa de cobertura bruta
 				
 				$connection = Yii::$app->getDb();
@@ -358,6 +359,7 @@ class ReportesController extends Controller
 				$contSecundaria =0;
 				$contMedia =0;
 				$arrayPEN=array('transcision'=>0,'primaria'=>0,'secundaria'=>0,'media'=>0);
+				
 				
 				
 				//POBLACIÓN CON EDAD TEORICA O EN EL NIVEL
@@ -388,7 +390,7 @@ class ReportesController extends Controller
 				
 				//estudiantes por edades por niveles
 				$command = $connection->createCommand("
-				SELECT extract(year from age(p.fecha_nacimiento)) as edad, na.descripcion
+				SELECT extract(year from age(p.fecha_nacimiento)) as edad, na.descripcion, n.id grado
 				FROM estudiantes as e,personas as p,perfiles_x_personas as pp,sedes as s,paralelos as pa,sedes_niveles as sn,
 				niveles as n, niveles_academicos as na
 				WHERE e.id_perfiles_x_personas = pp.id
@@ -399,11 +401,9 @@ class ReportesController extends Controller
 				and s.id_instituciones = $idInstitucion
 				and sn.id_niveles = n.id
 				and n.id_niveles_academicos = na.id
-				group by p.fecha_nacimiento,p.id,pa.descripcion,na.descripcion");
+				group by p.fecha_nacimiento,p.id,pa.descripcion,na.descripcion,n.id");
 				$result = $command->queryAll();
 								
-				
-				
 									
 				$contTranscision =0;
 				$contPrimaria =0;
@@ -416,8 +416,8 @@ class ReportesController extends Controller
 				{
 					// echo $r['edad'];
 					$descripcion = $r['descripcion'];
-					
-					if($descripcion == "transcision" )
+					$grado = $r['grado'];
+					if($grado == "1" )
 					{
 						$arrayMN['transcision']=++$contTranscision;
 					}					
@@ -483,7 +483,159 @@ class ReportesController extends Controller
 			
 				$dataProviderCantidad = "";
 			
-				break;
+				break;//fin break 5
+				
+				case 6://tasa de cobertura Neta
+				
+				$connection = Yii::$app->getDb();
+				
+				//edad de los estudiantes
+				$command = $connection->createCommand("
+					SELECT extract(year from age(p.fecha_nacimiento)) as edad
+					FROM estudiantes as e, personas as p, perfiles_x_personas as pp, sedes as s, paralelos as pa,
+					sedes_niveles as sn
+					WHERE e.id_perfiles_x_personas = pp.id
+					and pp.id_personas = p.id
+					and e.id_paralelos = pa.id
+					and pa.id_sedes_niveles = sn.id
+					and sn.id_sedes = $idSedes
+					and s.id_instituciones = $idInstitucion
+					group by p.fecha_nacimiento,p.id
+										
+				");
+				$result = $command->queryAll();
+				
+				
+				$contTranscision =0;
+				$contPrimaria =0;
+				$contSecundaria =0;
+				$contMedia =0;
+				$arrayPEN=array('transcision'=>0,'primaria'=>0,'secundaria'=>0,'media'=>0);
+				
+				
+				
+				//POBLACIÓN CON EDAD TEORICA O EN EL NIVEL
+				foreach ($result as $r)
+				{
+					// echo $r['edad'];
+					$edad = (int)$r['edad'];
+					
+					if($edad >= 5 and 6 >= $edad )
+					{
+						$arrayPEN['transcision']=++$contTranscision;
+					}					
+					elseif($edad >= 7 and  11 >= $edad )
+					{
+						$arrayPEN['primaria']=++$contPrimaria;
+					}					
+					elseif($edad >= 12 and 15 >= $edad )
+					{
+						$arrayPEN['secundaria']=++$contSecundaria;
+					}					
+					elseif($edad>= 16 and 17 >= $edad )
+					{
+						$arrayPEN['media']=++$contMedia;
+					}
+				}
+				
+				
+				
+				//estudiantes por edades por niveles
+				$command = $connection->createCommand("
+				SELECT extract(year from age(p.fecha_nacimiento)) as edad, na.descripcion, n.id grado
+				FROM estudiantes as e,personas as p,perfiles_x_personas as pp,sedes as s,paralelos as pa,sedes_niveles as sn,
+				niveles as n, niveles_academicos as na
+				WHERE e.id_perfiles_x_personas = pp.id
+				and pp.id_personas = p.id
+				and e.id_paralelos = pa.id
+				and pa.id_sedes_niveles = sn.id
+				and sn.id_sedes = $idSedes
+				and s.id_instituciones = $idInstitucion
+				and sn.id_niveles = n.id
+				and n.id_niveles_academicos = na.id
+				group by p.fecha_nacimiento,p.id,pa.descripcion,na.descripcion,n.id");
+				$result = $command->queryAll();
+								
+				$contTranscision =0;
+				$contPrimaria =0;
+				$contSecundaria =0;
+				$contMedia =0;
+				$arrayMEN=array('transcision'=>0,'primaria'=>0,'secundaria'=>0,'media'=>0);
+				
+				//cantidad de estudiantes por niveles			
+				foreach ($result as $r)
+				{
+					$edad = (int)$r['edad'];
+					$descripcion = $r['descripcion'];
+					$grado = $r['grado'];
+					if($grado == "1" and $edad >= 5 and 6 >= $edad )
+					{
+						$arrayMEN['transcision']=++$contTranscision;
+					}					
+					elseif($descripcion == "Primaria" and $edad >= 7 and  11 >= $edad)
+					{
+						$arrayMEN['primaria']=++$contPrimaria;
+					}					
+					elseif($descripcion == "Secundaria" and  $edad >= 12 and 15 >= $edad)
+					{
+						$arrayMEN['secundaria']=++$contSecundaria;
+					}					
+					elseif($descripcion == "Media" and $edad>= 16 and 17 >= $edad )
+					{
+						$arrayMEN['media']=++$contMedia;
+					}
+				}
+				
+									
+				//por si el nombre cambia se puede cambiar facil
+				$transcision = "transcision";
+				$primaria ="primaria";
+				$secundaria ="secundaria";
+				$media = "media";
+				
+				//***Calculo de la tasa de cobertura bruta
+				//transcision
+				if($arrayMEN [$transcision] ==0 or $arrayPEN[$transcision]==0)
+				$TCNTransicion ="No se encontraton datos";
+				else
+					$TCNTransicion 	= (($arrayMEN [$transcision] / $arrayPEN[$transcision]) * 100)."%";
+				
+				//primaria
+				if($arrayMEN [$primaria] ==0 or $arrayPEN[$primaria]==0)
+				$TCNPrimaria ="No se encontraton datos";
+				else
+					$TCNPrimaria 	= (($arrayMEN [$primaria] / $arrayPEN[$primaria]) * 100)."%";
+				
+				//secundaria
+				if($arrayMEN [$secundaria] ==0 or $arrayPEN[$secundaria]==0)
+				$TCNSecundaria ="No se encontraton datos";
+				else
+					$TCNSecundaria 	= (($arrayMEN [$secundaria] / $arrayPEN[$secundaria]) * 100)."%";
+				
+				//media
+				if($arrayMEN [$media] ==0 or $arrayPEN[$media]==0)
+				$TCNMedia ="No se encontraton datos";
+				else
+					$TCNMedia		= (($arrayMEN [$media] / $arrayPEN[$media]) * 100)."%";
+				
+				// array para mostrar los datos en el index de reportes
+				
+				$data =[
+				array(
+				$transcision	=>$TCNTransicion,
+				$primaria		=>$TCNPrimaria,
+				$secundaria		=>$TCNSecundaria,
+				$media			=>$TCNMedia)
+				];
+				
+				$dataProvider = new ArrayDataProvider([
+					'allModels' => $data,					
+				]);
+			
+			
+				$dataProviderCantidad = "";
+			
+				break;//fin break 6
 		}
 		
 		return $this->render('reporte', [
@@ -495,6 +647,11 @@ class ReportesController extends Controller
 			]);
     }
 	
+	
+	public function printr ($valor)
+	{
+		echo "<pre>"; print_r($valor ); echo "</pre>";
+	}
 	
     /**
      * Creates a new Asignaturas model.
