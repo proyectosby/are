@@ -140,6 +140,16 @@ $this->params['breadcrumbs'][] = $this->title;
 										'idInstitucion' => $idInstitucion, 
 									], 
 									['class' => 'btn btn-success']) ?>
+									
+		 <?= Html::a('Cantidad de estudiantes por Genero', 
+								[
+									'reportes',
+									'idReporte'		=> 8,
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?> 
 
     
 

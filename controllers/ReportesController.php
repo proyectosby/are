@@ -690,7 +690,79 @@ class ReportesController extends Controller
 							
 					$dataProviderCantidad = "";
 			
-				break;//fin break 6
+				break;//fin break 7
+				case 8://reporte cantida de estudiantes por genero
+			
+				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, g.descripcion as genero, n.descripcion as nivel
+						FROM personas as p,perfiles_x_personas as pp,
+						estudiantes as e,paralelos as pa, 
+						sedes_jornadas as sj,
+						jornadas as j,
+						sedes as s,
+						instituciones as i,
+						sedes_niveles sn,
+						niveles n,
+						generos g 
+						WHERE p.estado 					= 1
+					    AND e.estado 					= 1
+						AND e.id_perfiles_x_personas 	= pp.id
+						AND pp.id_perfiles				= 11
+						AND pp.id_personas 				= p.id
+						AND e.id_paralelos 				= pa.id
+						AND pa.id_sedes_jornadas 		= sj.id
+						AND sj.id_jornadas 				= j.id
+						AND sj.id_sedes 				= $idSedes
+						AND s.id_instituciones 			= i.id
+						AND i.id 						= $idInstitucion
+						AND sn.id 						= pa.id_sedes_niveles
+						AND sn.id_sedes 				= s.id
+						AND n.id						= sn.id_niveles
+						AND n.estado 					= 1
+						And P.id_generos 				= g.id 
+					";
+			
+			
+				$dataProvider = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				$sql ="SELECT g.descripcion as genero,count(*) as cantidad
+						FROM personas as p,
+						perfiles_x_personas as pp,
+						estudiantes as e,
+						paralelos as pa,
+						sedes_jornadas as sj,
+						jornadas as j,
+						sedes as s,
+						instituciones as i,
+						sedes_niveles sn,
+						niveles n,
+						generos g 
+					    WHERE p.estado 					= 1
+					      AND e.estado 					= 1
+					      AND e.id_perfiles_x_personas 	= pp.id
+					      AND pp.id_perfiles			= 11
+					      AND pp.id_personas 			= p.id
+					      AND e.id_paralelos 			= pa.id
+					      AND pa.id_sedes_jornadas 		= sj.id
+					      AND sj.id_jornadas 			= j.id
+					      AND sj.id_sedes 				= $idSedes
+					      AND s.id_instituciones 		= i.id
+					      AND i.id 						= $idInstitucion
+						  AND sn.id 					= pa.id_sedes_niveles
+						  AND sn.id_sedes 				= s.id
+						  AND n.id						= sn.id_niveles
+						  AND n.estado 					= 1
+						  And P.id_generos 				= g.id 
+						GROUP BY g.descripcion
+					";
+			
+			
+				$dataProviderCantidad = new SqlDataProvider([
+					'sql' => $sql,
+				]);
+				
+				break;//fin case 8
 		}
 		
 		return $this->render('reporte', [
