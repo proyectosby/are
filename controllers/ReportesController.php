@@ -1,15 +1,19 @@
 <?php
 /**********
 ---------------------------------------
-Modificaciones:
-Fecha: 11-04-2018
-Persona encargada: Oscar David Lopez
-Cambios realizados: - Se crea el reporte Tasa cobertura bruta
----------------------------------------
 Versión: 001
 Fecha: 10-03-2018
 Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Listado de estudiantes por grupo
+---------------------------------------
+Fecha: 11-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se crea el reporte Tasa cobertura bruta
 ---------------------------------------
 Modificaciones:
 Fecha: 05-04-2018
@@ -634,6 +638,57 @@ class ReportesController extends Controller
 			
 			
 				$dataProviderCantidad = "";
+			
+				break;//fin break 6
+				
+				case 7:	//Listado de estudiatnes por grupos
+					
+					
+					$sql ="SELECT p.id
+							 FROM public.sedes_jornadas as sj, 
+								  public.jornadas as j, 
+								  public.sedes as s,
+								  public.paralelos as p, 
+								  public.niveles as n, 
+								  public.sedes_niveles as sn
+							WHERE sj.id_jornadas= j.id
+							  AND sj.id_sedes 	= s.id
+							  AND s.id  		= $idSedes
+							  AND sj.id 		= p.id_sedes_jornadas
+							  AND s.id  		= sn.id_sedes
+							  AND sn.id 		= p.id_sedes_niveles
+							  AND n.id  		= sn.id_niveles
+						";
+					
+					$connection = Yii::$app->getDb();
+					
+					$command = $connection->createCommand($sql);
+					
+					$result = $command->queryAll();
+				
+					foreach( $result as $key => $value )
+					{
+						$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombre, p.domicilio, pa.descripcion as grupo, '' as puesto
+								 FROM personas as p, 
+									  perfiles_x_personas as pp, 
+									  estudiantes as e,
+									  paralelos as pa
+								WHERE p.estado 					= 1
+								  AND e.estado 					= 1
+								  AND e.id_perfiles_x_personas 	= pp.id
+								  AND pp.id_perfiles			= 11
+								  AND pp.id_personas 			= p.id
+								  AND e.id_paralelos 			= pa.id
+								  AND pa.id 					= ".$value['id']."
+							 ORDER BY grupo desc
+							";
+				
+						$dataProvider[] = new SqlDataProvider([
+							'sql' => $sql,
+						]);
+					}
+							
+					$dataProviderCantidad = "";
 			
 				break;//fin break 6
 		}

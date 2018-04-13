@@ -1,5 +1,27 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 10-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de reportes
+---------------------------------------
+Modificaciones:
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Listado de estudiantes por grupo
+---------------------------------------
+Fecha: 05-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Porcentaje ocupacion aulas
+---------------------------------------
+Fecha: 10-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - moficacion  del index para mostrar botones de los reportes
+---------------------------------------
+**********/
+
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -15,22 +37,6 @@ use yii\bootstrap\Button;
 /* @var $searchModel app\models\AsginaturasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-/**********
-Versión: 001
-Fecha: 10-03-2018
-Desarrollador: Oscar David Lopez
-Descripción: CRUD de reportes
----------------------------------------
-Modificaciones:
-Fecha: 05-04-2018
-Persona encargada: Edwin Molina Grisales
-Cambios realizados: - Se agrega opción Porcentaje ocupacion aulas
----------------------------------------
-Fecha: 10-03-2018
-Persona encargada: Oscar David Lopez
-Cambios realizados: - moficacion  del index para mostrar botones de los reportes
----------------------------------------
-**********/
 
 $nombreSede = new Sedes();
 $nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
@@ -121,6 +127,15 @@ $this->params['breadcrumbs'][] = $this->title;
 									[
 										'reportes',
 										'idReporte'		=> 6,
+										'idSedes' 		=> $idSedes,
+										'idInstitucion' => $idInstitucion, 
+									], 
+									['class' => 'btn btn-success']) ?>
+									
+		<?= Html::a('Listado de estudiantes por grupos', 
+									[
+										'reportes',
+										'idReporte'		=> 7,
 										'idSedes' 		=> $idSedes,
 										'idInstitucion' => $idInstitucion, 
 									], 

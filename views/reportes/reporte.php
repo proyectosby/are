@@ -6,6 +6,10 @@ Versión: 001
 Fecha: 02-04-2018
 REPORTES VARIOS
 ---------------------------------------
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega opción Listado de estudiantes por grupo
+---------------------------------------
 Fecha: 11-04-2018
 Persona encargada: Oscar David Lopez Villa
 Se crea reporte tasa de cobertura bruta
@@ -480,6 +484,91 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 					]);
 					
+					
+				break;
+				
+				case 7:
+				?>
+					 
+					<h2><?= Html::encode( "Listado de estudiantes por grupos" ) ?></h2><br>
+					
+					<?php
+					
+					foreach( $dataProvider as $dP )
+					{
+						//Si el grupo no tiene registro no se muestra
+						if( $dP->getTotalCount() > 0 )
+						{
+						
+							echo  DataTables::widget([
+								'dataProvider' => $dP,
+								'clientOptions' => [
+									'language'=>[
+											'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+										],
+									"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+									"info"=>false,
+									"responsive"=>true,
+									"dom"=> 'lfTrtip',
+									"tableTools"=>[
+										"aButtons"=> [  
+											[
+											"sExtends"=> "csv",
+											"sButtonText"=> Yii::t('app',"CSV")
+											],
+											[
+											"sExtends"=> "xls",
+											"oSelectorOpts"=> ["page"=> 'current']
+											],
+											[
+											"sExtends"=> "pdf",
+											"sButtonText"=> Yii::t('app',"PDF")
+											],
+										],
+									],
+								],
+								'columns' => 
+								[
+									['class' => 'yii\grid\SerialColumn'],
+									[
+										'attribute' => 'identificacion',
+										'label'		=> 'Documento',
+									],
+									[
+										'attribute' => 'nombre',
+										'label'		=> 'Nombre',
+									],
+									[
+										'attribute' => 'domicilio',
+										'label'		=> 'Dirección',
+									],
+									[
+										'attribute' => 'grupo',
+										'label'		=> 'Grado',
+										'value'		=> function( $model ){
+											list( $grado, $grupo ) = explode( "-", $model[ 'grupo' ] );
+											return $grado;
+										},
+									],
+									[
+										'attribute' => 'grupo',
+										'label'		=> 'Grupo',
+										'value'		=> function( $model ){
+											list( $grado, $grupo ) = explode( "-", $model[ 'grupo' ] );
+											return $grupo;
+										},
+									],
+									[
+										'attribute' => 'puesto',
+										'label'		=> 'Puesto',
+									],
+								],
+							]);
+							
+							echo "<br>";
+							echo "<br>";
+						}
+					}
 					
 				break;
 		}
