@@ -1,9 +1,15 @@
 <?php
 
 /**********
+
 Versión: 001
 Fecha: 02-04-2018
 REPORTES VARIOS
+---------------------------------------
+Fecha: 11-04-2018
+Persona encargada: Oscar David Lopez Villa
+Se crea reporte tasa de cobertura bruta
+
 ---------------------------------------
 Modificaciones:
 Fecha: 02-04-2018
@@ -340,7 +346,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					<h2><?= Html::encode( "Porcentaje ocupación de aulas" ) ?></h2><br>
 					
 					<?php
-				
 					echo  DataTables::widget([
 						'dataProvider' => $dataProvider,
 						'clientOptions' => [
@@ -382,6 +387,96 @@ $this->params['breadcrumbs'][] = $this->title;
 													return ( round( $data['cantidad_ocupada']/$data['capacidad'], 2 )*100 )."%"; 
 											   },
 							],
+						],
+					]);
+				break;
+				case 5:
+				?>
+					
+					<h2><?= Html::encode( "Tasa de cobertura bruta" ) ?></h2><br>
+					
+					<?php
+					
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'],
+							'transcision',
+							'primaria',
+							'secundaria',
+							'media',
+						],
+					]);
+					
+					
+				break;
+				case 6:
+				?>
+					 
+					<h2><?= Html::encode( "Tasa de cobertura Neta" ) ?></h2><br>
+					
+					<?php
+					
+					echo  DataTables::widget([
+						'dataProvider' => $dataProvider,
+						'clientOptions' => [
+							'language'=>[
+									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+								],
+							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+							"info"=>false,
+							"responsive"=>true,
+							"dom"=> 'lfTrtip',
+							"tableTools"=>[
+								"aButtons"=> [  
+									[
+									"sExtends"=> "csv",
+									"sButtonText"=> Yii::t('app',"CSV")
+									],
+									[
+									"sExtends"=> "xls",
+									"oSelectorOpts"=> ["page"=> 'current']
+									],
+									[
+									"sExtends"=> "pdf",
+									"sButtonText"=> Yii::t('app',"PDF")
+									],
+								],
+							],
+						],
+						'columns' => 
+						[
+							['class' => 'yii\grid\SerialColumn'],
+							'transcision',
+							'primaria',
+							'secundaria',
+							'media',
 						],
 					]);
 					
