@@ -433,20 +433,24 @@ class CalificacionesController extends Controller
 		
 		$con=0;
 		
-		$data="";
+		$data=[];
 		
 		foreach ($result as $datos)
 		{
 			$con++;			
 			$id 		= $datos['id'];
 			$nombres 	= $datos['nombres'];
-			$data.="<tr estudiante='$id'>";
-			$data.= "<td><b>#$con</b></td>";
-			$data.= "<td><b>$nombres</b><input type='hidden' value='$id' name='idPersona'></td>";
-			$data.=$varHtml;
+			// $data.="<tr estudiante='$id'>";
+			// $data.= "<td><b>#$con</b></td>";
+			// $data.= "<td><b>$nombres</b><input type='hidden' value='$id' name='idPersona'></td>";
+			// $data.=$varHtml;
+			$data[] = array( 
+							'id' 		=> $id,
+							'nombres' 	=> $nombres,
+					  );
 			
 		}
-		$data.="</tr>";
+		// $data.="</tr>";
 		
 		
 	echo json_encode($data);
@@ -606,8 +610,43 @@ class CalificacionesController extends Controller
 												and id_indicador_desempeno = id.id");
 		$result = $command->queryAll();
 		
-		 return Json::encode( $result );
+		// return Json::encode( $result );
 		
+		$i = 0;
+		foreach( $result as $key => $value )
+		{
+			// echo "<pre>"; var_dump($value); echo "</pre>";
+			$valor = $i;
+			if( $i > 5 ){
+				$valor = $i % 3;
+			}
+			$i++;
+			
+			switch( $valor )
+			{
+				case 0: 
+					$resultado[ 'conocer' ][] 	= $value;
+				break;
+				case 1: 
+					$resultado[ 'hacer' ][] 	= $value;
+				break;
+				case 2: 
+					$resultado[ 'ser' ][] 		= $value;
+				break;
+				case 3: 
+					$resultado[ 'personal' ][] 	= $value;
+				break;
+				case 4: 
+					$resultado[ 'social' ][] 	= $value;
+				break;
+				case 5: 
+					$resultado[ 'ae' ][] 		= $value;
+				break;
+				default: break;
+			}
+		}
+		
+		return Json::encode( $resultado );
 	
 	}
 	

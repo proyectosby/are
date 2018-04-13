@@ -125,8 +125,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	<br>
 	<br>
 	<br>
-	<div>
-		<table>
+	<div id=dvEstudiantes>
+		<!-- <table>
 			<thead >
 				<tr>
 					<th rowspan = '2' colspan=2></th>
@@ -218,8 +218,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 				<?php //endforeach; ?>
 				
-			</tbody>-->
-		</table>
+			</tbody>
+		</table> -->
 	</div>
 	<br>
 	<br>

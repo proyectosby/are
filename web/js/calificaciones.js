@@ -56,6 +56,10 @@ function notaFinal(obj)
 
 function cargarCalificacionAEstudiantes( indicadoresDesempeno ){	
 
+	console.log("====================================")
+	console.log("indicadoresDesempeno")
+	console.log(indicadoresDesempeno)
+	
 	var idDocente =	$( "#selDocentes" ).val();
 	
 	//Creo el array con los indicadores
@@ -77,46 +81,54 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 	$( "input[disabled]" ).val("0.0");
 	
 	
-	$( indicadores ).each(function(x){
+	$( indicadoresDesempeno ).each(function(x){
 		
-		//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
-		idIndicadorDesempeno = indicadoresDesempeno[x].id;	
+		try{
+			
+			// var name = this; //this en este caso es idSaber, idHacer, ...
+			
+			//x es la posicion del array e indicadores de desempeno tiene el codigo a buscar
+			var idIndicadorDesempeno = indicadoresDesempeno[ x ].id;
+			var posicion			 = x;
 		
-		//llenar indicadores desempeño
-		var name = this; //this en este caso es idSaber, idHacer, ...
-		
-		$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
-				function( data )
-				{
-					try{
-						for( var x in data ){
-							
-							//Toda fila tienen como atributo estudiante
-							var tr = $( "[estudiante="+data[x].estudiante+"]" );
-							
-							//Asigno la calificacion al campo corresponde
-							
-							$( "input[name="+name+"]", tr ).val( data[x].calificacion );
-							// $( "input[name="+name+"]" ).change();
-							//llenar la nota final 
-							notaFinal( $( "input[name="+name+"]", tr ) );
-							$( "input[name=id"+name+"]", tr ).val( data[x].id );
-							
-							//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+			//llenar indicadores desempeño
+			
+			$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
+					function( data )
+					{
+						try{
+							for( var x in data ){
+								
+								//Toda fila tienen como atributo estudiante
+								var tr = $( "[estudiante="+data[x].estudiante+"]" );
+								
+								//Asigno la calificacion al campo corresponde
+								
+								$( "input:text.nota", tr ).eq( posicion ).val( data[x].calificacion );
+
+								//llenar la nota final 
+								notaFinal( $( "input:text.nota", tr ).eq( posicion ) );
+								
+								$( "input:hidden[name=id]", tr ).eq( posicion ).val( data[x].id );
+								
+								//En la fila busco un campo que tenga como name idSaber, idHacer, etc
+							}
 						}
-					}
-					catch(e){
-						$( "input[name="+name+"]" ).val('0');
-						$( "input[name=id"+name+"]" ).val('');
-					}
-				},
-		"json");
-		//borrar los valores de las cajas de texto al cambiar la materia
-		// $( "input[type='text']" ).val("");
-		
-		// $( "input[name="+name+"]" ).val("");
+						catch(e){
+							$( "input[name="+name+"]" ).val('0');
+							$( "input[name=id"+name+"]" ).val('');
+						}
+					},
+			"json");
+		}
+		catch(e){
+			console.log(this)
+			console.log(x)
+			console.log(e);
+		}
 		
 	});
+	console.log("*******************************")
 }
 
 $( ".content a" ).click(function(){
@@ -134,13 +146,22 @@ $( ".content a" ).click(function(){
 		var codigosDesempeno = $( "thead > tr", table ).eq(3);
 		var codigosDesempeno = $( "th", codigosDesempeno );
 
-		data = [];
+		var data = [];
 		 
 		estudiantes.each(function(x){
 			 
 			var estudiante 		 = $( "[name=idPersona]", this ).val()*1;
 			var inCalificaciones = $( "input:text:lt(6)", this );
 			var inIds			 = $( "input:hidden:lt(7)", this );
+			
+			console.log( "estudiante" );
+			console.log( estudiante );
+			console.log( "inCalificaciones" );
+			console.log( inCalificaciones );
+			console.log( "inIds" );
+			console.log( inIds );
+			console.log( "codigosDesempeno" );
+			console.log( codigosDesempeno );
 
 			inCalificaciones.each(function(y){
 
@@ -158,6 +179,9 @@ $( ".content a" ).click(function(){
 			});
 		});
 		
+		console.log( "data" );
+		console.log( data );
+		// return;
 		$.post(
 			"index.php?r=calificaciones/create",
 			{ 
@@ -361,68 +385,11 @@ function llenarEstudiantes()
 	$.get( "index.php?r=calificaciones/personas&idParalelo="+idParalelo, 
 			function( data )
 			{
-				$("#estudiantes").html(data);
-				
-				$( "#estudiantes input:text.nota" ).on('keyup', function(e) {
-					
-					
-					var tecla = e.keyCode || e.which;
-
-					//Tecla de retroceso para borrar, siempre la permite
-					if ( tecla==8 || tecla == 13 || tecla == 9 ){
-						return true;
-					}
-					
-					//Valida que no se pueda ingresar valor menores a 0 y mayores a 5
-					
-					var max		= 5;
-					var min		= 0;
-					var valor 	= parseFloat(this.value);
-					
-					if(valor < min || valor > 5 ){
-
-						swal({
-							text: "El Valor debe ser mayor a 0 y menor a 5",
-							icon: "warning",
-							button: "Cerrar",
-						});
-						
-						if( valor > 5)
-							this.value = max;
-						
-						if( valor < 0 )
-							this.value = min;
-					}
-
-				}).keypress(function(e){
-					
-					//Solo se permite números decimales
-					
-					var tecla = e.keyCode || e.which;
-					
-					// Patron de entrada, en este caso solo acepta numeros
-					var patron=  /^[0-9]*\.?[0-9]*$/
-					tecla_final = String.fromCharCode(tecla);
-					// return patron.test(tecla_final);
-					return (patron.test(tecla_final) || tecla == 9 || tecla == 8);
-				});
-				
-				//a faltas solo se le puede ingresar numeros enteros
-				$( "#estudiantes input:text.falta" ).keypress(function(e){
-					
-					
-					var tecla = e.keyCode || e.which;
-
-					//Tecla de retroceso para borrar, siempre la permite
-					if ( tecla==8 || tecla == 13 || tecla == 9 ){
-						return true;
-					}
-						
-					// Patron de entrada, en este caso solo acepta numeros
-					var patron=  /^[0-9]+$/
-					tecla_final = String.fromCharCode(tecla);
-					return patron.test(tecla_final);
-				});
+				/**
+				 * Lista de estudiantes en json, contiene el id y nombre del estudiante
+				 * Se para listar los estudiantes al seleccionar una asignatura
+				 */
+				listaEstudiantes = data;
 			},
 	"json");
 		
@@ -441,6 +408,289 @@ function llenarEstudiantes()
  */
 $("#selMateria").change(function(){ 
 
+
+
+
+	function obtenerDatosEncabezado(){
+		
+		//Celdas principales de la tabla
+		//html es lo que va entre las etiquetas <td> y </td>
+		//colspan y rowspan solo los atributos necesarios a cada celda
+		var celdaConocer 	= {
+									html 	: "Saber conocer",
+									colspan : 0,
+									rowspan : 1,
+							  };
+		
+		var celdaHacer 		= {
+									html 	: "Saber hacer",
+									colspan : 0,
+									rowspan : 1,
+							  };
+		
+		var celdaSer		= {
+									html 	: "Saber ser",
+									colspan : 0,
+									rowspan : 1,
+							  };
+		
+		var celdaDesempeno 	= {
+								html 	: "Desempeños",
+								colspan : 0,
+								rowspan : 1,
+							  };
+							  
+		var celdaCognitivo 	= {
+								html 	: "COGNITIVO",
+								colspan : 0,
+								rowspan : 1,
+							  };
+		
+		var celdaPersonal 	= {
+								html 	: "Personal",
+								colspan : 0,
+								rowspan : 2,
+							  };
+							  
+							  
+		var celdaSocial 	= {
+								html 	: "Social",
+								colspan : 0,
+								rowspan : 2,
+							  };
+							  
+		var celdaAe			= {
+								html : "AE",
+								colspan : 0,
+								rowspan : 2,
+							  }
+		
+		//Representa el encabezado de la tabla
+		var titulos = [
+			[ 
+				{
+					html 	: "No",
+					colspan : 1,
+					rowspan : 4,
+				}, 
+				{
+					html 	: "Estudiantes",
+					colspan : 1,
+					rowspan : 4,
+				}, 
+				celdaCognitivo,
+				celdaPersonal,
+				celdaSocial,
+				celdaAe,
+				{
+					html 	: "Nota final",
+					colspan : 1,
+					rowspan : 4,
+				},
+				{
+					html 	: "Faltas",
+					colspan : 1,
+					rowspan : 4,
+				},
+				{
+					html 	: "Co evaluación",
+					colspan : 1,
+					rowspan : 4,
+				},
+			],
+			[
+				celdaConocer, 
+				celdaHacer, 
+				celdaSer, 
+			],
+			[
+				celdaDesempeno, 
+			],
+			[],	//Array vacio, esta fila corresponde a los codigos e ids de inidcadores
+		];
+		
+		var indicadores = {
+			conocer	: [ celdaConocer, celdaDesempeno, celdaCognitivo ],	//Este es la celda de saber
+			hacer	: [ celdaHacer, celdaDesempeno, celdaCognitivo ],	//Este es la celda de saber
+			ser		: [ celdaSer, celdaDesempeno, celdaCognitivo ],	//Este es la celda de saber
+			personal: [ celdaPersonal, celdaDesempeno ],	//Este es la celda de saber
+			social	: [ celdaSocial, celdaDesempeno ],	//Este es la celda de saber
+			ae		: [ celdaAe, celdaDesempeno ],	//Este es la celda de saber
+		}
+		
+		return {
+			titulos		: titulos,
+			indicadores : indicadores,
+		}
+	}
+	
+	/**
+	[{
+		saber: [1,2,3]
+	}]
+	*/
+	function addIndicadores( indicadores, datos )
+	{
+
+		for( var x in datos )
+		{	
+			var cols = datos[ x ].length;
+			
+			for( var z in indicadores[x] )
+				indicadores[x][z].colspan += cols;
+		}
+	}
+	
+	function pintarTabla( datosTablas, listaEstudiantes, indicadoresOrdenados ){
+		
+		$( "#dvEstudiantes" ).html("");
+		
+		var titulos = datosTablas.titulos;
+		
+		//Pinta el encabezado de la tabla reprensentada por titulos
+		var table = "<table>";
+		
+		table += "<thead>";
+		
+		for( var x in titulos ){
+			table += "<tr>";
+			for( var y in titulos[x] ){
+				var celda = titulos[x][y];
+				if( celda.colspan > 0 )
+				{
+					var atr = celda.atributos || '';
+					table += "<th rowspan="+celda.rowspan+" colspan="+celda.colspan+" "+atr+">";
+					table += celda.html;
+					table += "</th>";
+				}
+			}
+			table += "</tr>";
+		}
+		
+		table += "</thead>";
+		
+		//pintando la lista de estudiantes
+		table += "<tbody id=estudiantes>";
+		
+		var cont = 0;
+		for( var x in listaEstudiantes ){
+			cont++;
+			table += "<tr estudiante='"+listaEstudiantes[x].id+"'>";
+			table += "<td><b>#"+cont+"</b></td>";
+			table += "<td><b>"+listaEstudiantes[x].nombres+"</b><input type='hidden' value='"+listaEstudiantes[x].id+"' name='idPersona'></td>";
+			
+			for( var y in indicadoresOrdenados ){
+				
+				table += "<td>"
+							+"<div class='form-group field-calificacionesbuscar-observaciones'>"
+								+"<input type='text' class='form-control nota' name='' onkeyup='notaFinal(this)'>"
+							+"</div>"
+							+"<input type='hidden' value='' name='id'>"
+						+"</td>";
+			}
+			
+			// //ae
+			// table += "<td>"
+					// +"<div class='form-group field-calificacionesbuscar-observaciones'>"
+						// +"<input type='text' class='form-control nota' name='ae' onkeyup='notaFinal(this)'>"
+					// +"</div>"
+					// +"<input type='hidden' value='' name='idae'>"
+				// +"</td>";
+			
+			//Nota final
+			table += "<td>"
+						+"<div class='form-group field-calificacionesbuscar-observaciones'>"
+							+"<input type='text' class='form-control' disabled='disabled'>"
+						+"</div>"
+					+"</td>";
+					
+			//Faltas
+			table += "<td>"
+						+"<div class='form-group field-calificacionesbuscar-observaciones'>"
+							+"<input type='text' class='form-control falta'>"
+						+"</div>"
+					+"</td>";
+					
+			//Co evaluación
+			table += "<td>"
+						+"<div class='form-group field-calificacionesbuscar-observaciones'>"
+							+"<input type='text' class='form-control coevaluacion'>"
+						+"</div>"
+					"</td>";
+			
+			table += "</tr>";
+		}
+		
+		table += "</tbody>";
+		
+		table += "</table>";
+		
+		$( "#dvEstudiantes" ).append( table );
+		
+		$( "#estudiantes input:text.nota" ).on('keyup', function(e) {
+					
+					
+			var tecla = e.keyCode || e.which;
+
+			//Tecla de retroceso para borrar, siempre la permite
+			if ( tecla==8 || tecla == 13 || tecla == 9 ){
+				return true;
+			}
+			
+			//Valida que no se pueda ingresar valor menores a 0 y mayores a 5
+			
+			var max		= 5;
+			var min		= 0;
+			var valor 	= parseFloat(this.value);
+			
+			if(valor < min || valor > 5 ){
+
+				swal({
+					text: "El Valor debe ser mayor a 0 y menor a 5",
+					icon: "warning",
+					button: "Cerrar",
+				});
+				
+				if( valor > 5)
+					this.value = max;
+				
+				if( valor < 0 )
+					this.value = min;
+			}
+
+		}).keypress(function(e){
+			
+			//Solo se permite números decimales
+			
+			var tecla = e.keyCode || e.which;
+			
+			// Patron de entrada, en este caso solo acepta numeros
+			var patron=  /^[0-9]*\.?[0-9]*$/
+			tecla_final = String.fromCharCode(tecla);
+			// return patron.test(tecla_final);
+			return (patron.test(tecla_final) || tecla == 9 || tecla == 8);
+		});
+		
+		//a faltas solo se le puede ingresar numeros enteros
+		$( "#estudiantes input:text.falta" ).keypress(function(e){
+			
+			
+			var tecla = e.keyCode || e.which;
+
+			//Tecla de retroceso para borrar, siempre la permite
+			if ( tecla==8 || tecla == 13 || tecla == 9 ){
+				return true;
+			}
+				
+			// Patron de entrada, en este caso solo acepta numeros
+			var patron=  /^[0-9]+$/
+			tecla_final = String.fromCharCode(tecla);
+			return patron.test(tecla_final);
+		});
+	}
+
+
+
 	idDocente =	$("#selDocentes").val();
 	idParalelo = $("#selGrupo").val();
 	idAsignatura = $("#selMateria").val();
@@ -458,45 +708,36 @@ $("#selMateria").change(function(){
 	$.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura, 
 				function( data )
 				{
-					//console.log(data);
-					// se llenan los codigos de indicadores de desempeño
-					$("#thSaber").html(data[0]['codigo']);
-					$("#thHacer").html(data[1]['codigo']);
-					$("#thSer").html(data[2]['codigo']);
-					$("#thPers").html(data[3]['codigo']);
-					$("#thSoci").html(data[4]['codigo']);
-					$("#thAE").html(data[5]['codigo']);
+					datosTitulosIndicadores = obtenerDatosEncabezado();
+					addIndicadores( datosTitulosIndicadores.indicadores, data );
 					
-					// se llenan los id de indicadores de desempeño en los campos hidden NO SE COMO LLENARLOS CON EL NAME
-					// $("#thSaberId").html(data[0]['id']);
-					// $("#thHacerId").html(data[1]['id']);
-					// $("#thSerId").html(data[2]['id']);
-					// $("#thPersId").html(data[3]['id']);
-					// $("#thSociId").html(data[4]['id']);
-					// $("#thAEId").html(data[5]['id']);
 					
-					/**
-					 * uso caractarísticas de html
-					 * cualquier campo puede tener el atributo data
-					 * El atributo data siempre tiene la características data-DataAtributo
-					 * Donde DataAtributo es cualquier descripcion que identifica lo que se necesita
-					 *
-					 * Ejemplo: <input type='text' data-caracteristica='T-14'>
-					 *
-					 * jquery permite un fácil manejo con la función .data
-					 *
-					 * A continuación se setea cada celda con el valor correspondiente
-					 *
-					 * Nota: Al momento de grabar se usa las función get de jquery para data
-					 */
-					$("#thSaber").data( "id", data[0]['id']);
-					$("#thHacer").data( "id", data[1]['id']);
-					$("#thSer").data( "id", data[2]['id']);
-					$("#thPers").data( "id", data[3]['id']);
-					$("#thSoci").data( "id", data[4]['id']);
-					$("#thAE").data( "id", data[5]['id']);
+					//Variable que contiene todos los indicadores en el orden en que so pintados
+					var indicadoresOrdenados = [];
 					
-					cargarCalificacionAEstudiantes( data );
+					//Se agrega las celdas correspondientes a los codigos e ids de indicadores
+					for( var x in datosTitulosIndicadores.indicadores )
+					{
+						//x es uno de los valores conocer, hacer, ser, personal, social, ae
+						//Por cada x agrego las celdas correspondiente
+						if( data && data[x] ){
+							for( var y in data[x] ){
+								
+								indicadoresOrdenados.push( data[x][y] );	//Agrego el indicador pintado
+								
+								datosTitulosIndicadores.titulos[3].push({
+									html 		: data[x][y].codigo,
+									atributos	: "data-id="+data[x][y].id,
+									colspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
+									rowspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
+								})
+							}
+						}
+					}
+					
+					pintarTabla( datosTitulosIndicadores, listaEstudiantes, indicadoresOrdenados );
+					
+					cargarCalificacionAEstudiantes( indicadoresOrdenados );
 				},
 		"json");
 });
