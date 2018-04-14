@@ -76,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			case 1:
 				?>
 					<h2><?= Html::encode( " Cantidad de Estudiantes IEO/Sede" ) ?></h2><br>
+					<div style='text-align:center;font-weight:bold;padding:20px;font-size:12pt;'>Cantidad de Estudiantes: <?= $dataProvider->getTotalCount() ?></div>
 				<?php
 					echo  DataTables::widget([
 					'dataProvider' => $dataProvider,
