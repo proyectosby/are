@@ -295,9 +295,9 @@ class ReportesController extends Controller
 					      AND e.id_paralelos 			= pa.id
 					      AND pa.id_sedes_jornadas 		= sj.id
 					      AND sj.id_jornadas 			= j.id
-					      AND sj.id_sedes 				= 48
+					      AND sj.id_sedes 				= $idSedes
 					      AND s.id_instituciones 		= i.id
-					      AND i.id 						= 55
+					      AND i.id 						= $idInstitucion
 						  AND sn.id 					= pa.id_sedes_niveles
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
@@ -643,6 +643,7 @@ class ReportesController extends Controller
 				
 				case 7:	//Listado de estudiatnes por grupos
 					
+					$dataProvider = [];
 					
 					$sql ="SELECT p.id
 							 FROM public.sedes_jornadas as sj, 
