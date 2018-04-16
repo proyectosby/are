@@ -692,6 +692,7 @@ class ReportesController extends Controller
 					$dataProviderCantidad = "";
 			
 				break;//fin break 7
+				
 				case 8://reporte cantida de estudiantes por genero
 			
 				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, g.descripcion as genero, n.descripcion as nivel
@@ -764,6 +765,58 @@ class ReportesController extends Controller
 				]);
 				
 				break;//fin case 8
+				
+				case 9:	//Cantidad de estudiantes por grado desempeño
+					
+					$dataProvider = [];
+					
+					$sql ="SELECT p.id
+							 FROM public.sedes_jornadas as sj, 
+								  public.jornadas as j, 
+								  public.sedes as s,
+								  public.paralelos as p, 
+								  public.niveles as n, 
+								  public.sedes_niveles as sn
+							WHERE sj.id_jornadas= j.id
+							  AND sj.id_sedes 	= s.id
+							  AND s.id  		= $idSedes
+							  AND sj.id 		= p.id_sedes_jornadas
+							  AND s.id  		= sn.id_sedes
+							  AND sn.id 		= p.id_sedes_niveles
+							  AND n.id  		= sn.id_niveles
+						";
+					
+					$connection = Yii::$app->getDb();
+					
+					$command = $connection->createCommand($sql);
+					
+					$result = $command->queryAll();
+				
+					foreach( $result as $key => $value )
+					{
+						$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombre, p.domicilio, pa.descripcion as grupo, '' as puesto
+								 FROM personas as p, 
+									  perfiles_x_personas as pp, 
+									  estudiantes as e,
+									  paralelos as pa
+								WHERE p.estado 					= 1
+								  AND e.estado 					= 1
+								  AND e.id_perfiles_x_personas 	= pp.id
+								  AND pp.id_perfiles			= 11
+								  AND pp.id_personas 			= p.id
+								  AND e.id_paralelos 			= pa.id
+								  AND pa.id 					= ".$value['id']."
+							 ORDER BY grupo desc
+							";
+				
+						$dataProvider[] = new SqlDataProvider([
+							'sql' => $sql,
+						]);
+					}
+							
+					$dataProviderCantidad = "";
+			
+				break;//fin break 9
 		}
 		
 		return $this->render('reporte', [

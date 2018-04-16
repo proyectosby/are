@@ -572,6 +572,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					}
 					
 				break;
+				
 				case 8:
 				
 					?>
@@ -674,6 +675,82 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 					]); 
 				break; //fin case 8
+				
+				case 9:
+				?>
+					 
+					<h2><?= Html::encode( "Cantidad de estudiantes por Grado - Desempeño" ) ?></h2><br>
+					
+					<?php
+					
+					foreach( $dataProvider as $dP )
+					{
+						//Si el grupo no tiene registro no se muestra
+						if( $dP->getTotalCount() > 0 )
+						{
+						
+							echo  DataTables::widget([
+								'dataProvider' => $dP,
+								'clientOptions' => [
+									'language'=>[
+											'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+										],
+									"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+									"info"=>false,
+									"responsive"=>true,
+									"dom"=> 'lfTrtip',
+									"tableTools"=>[
+										"aButtons"=> [  
+											[
+											"sExtends"=> "csv",
+											"sButtonText"=> Yii::t('app',"CSV")
+											],
+											[
+											"sExtends"=> "xls",
+											"oSelectorOpts"=> ["page"=> 'current']
+											],
+											[
+											"sExtends"=> "pdf",
+											"sButtonText"=> Yii::t('app',"PDF")
+											],
+										],
+									],
+								],
+								'columns' => 
+								[
+									['class' => 'yii\grid\SerialColumn'],
+									[
+										'attribute' => 'identificacion',
+										'label'		=> 'Documento',
+									],
+									[
+										'attribute' => 'nombre',
+										'label'		=> 'Nombre',
+									],
+									[
+										'attribute' => 'domicilio',
+										'label'		=> 'Dirección',
+									],
+									[
+										'attribute' => 'grupo',
+										'label'		=> 'Grado',
+										// 'value'		=> function( $model ){
+											// return $model[ 'grupo' ];
+										// },
+									],
+									[
+										'attribute' => 'puesto',
+										'label'		=> 'Puesto',
+									],
+								],
+							]);
+							
+							echo "<br>";
+							echo "<br>";
+						}
+					}
+					
+				break;
 		}
 		
 		?>
