@@ -31,7 +31,7 @@ $nombreSede = $nombreSede[$idSedes];
 $this->title = 'Actualizar Director de grupo';
 $this->params['breadcrumbs'][] = 
 	[
-		'label' => 'Asignaturas', 
+		'label' => 'Director de grupo', 
 		'url' => [
 					'index',
 					'idInstitucion' => $idInstitucion, 

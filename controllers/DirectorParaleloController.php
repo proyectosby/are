@@ -46,6 +46,7 @@ class DirectorParaleloController extends Controller
 
         $searchModel = new DirectorParaleloBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andWhere('estado=1');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -72,8 +73,6 @@ class DirectorParaleloController extends Controller
 			'idInstitucion' => $idInstitucion,
 		] );
     }
-
-	
 	
     /**
      * Displays a single DirectorParalelo model.
@@ -237,9 +236,28 @@ class DirectorParaleloController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		$connection = Yii::$app->getDb();
+		//la sede y la institucion para la miga de pan
+		$command = $connection->createCommand("
+		SELECT sj.id_sedes as idsedes, s.id_instituciones as institucion
+		FROM director_paralelo  as dp, paralelos as p, sedes_jornadas as sj, sedes as s
+		where dp.id_paralelo = p.id
+		and p.id_sedes_jornadas = sj.id
+		and sj.id_sedes = s.id
+		and dp.id = $id
+		group by sj.id_sedes, s.id_instituciones
+		");
+		$result = $command->queryAll();
 
-        return $this->redirect(['index']);
+		$idSedes = $result[0]['idsedes'];
+		$idInstitucion = $result[0]['institucion'];
+		
+		$model = $this->findModel($id);
+		$model->estado = 2;
+		$model->update(false);
+		
+
+       return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes ]);
     }
 
     /**
