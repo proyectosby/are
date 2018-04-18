@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\TiposDocumentos;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use app\models\Personas;
@@ -42,6 +43,7 @@ class DocumentosController extends Controller
     {
         $searchModel = new DocumentosBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andWhere( 'estado=1' );
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -71,16 +73,24 @@ class DocumentosController extends Controller
     {
         $model = new Documentos();
 		
-		
-		$dataPersonas = Personas::find()->select( "id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )->where( 'estado=1' )->all();
+		$dataPersonas = Personas::find()
+							->select( "personas.id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )
+							->innerJoin( 'perfiles_x_personas', 'personas.id=id_personas' )
+							->where( 'personas.estado=1' )
+							->andWhere( 'id_perfiles=10' )
+							->all();
 		$personas 	  = ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		$tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
 		
 		$dataEstados  = Estados::find()->where( 'id=1' )->all();
 		$estados 	  = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
         
 		if ($model->load(Yii::$app->request->post())) {
 			
-			$file = UploadedFile::getInstanceByName('file');			
+			// $file = UploadedFile::getInstanceByName('file');			
+			$file = UploadedFile::getInstance( $model, 'ruta' );
 			
 			if( $file ){
 				
@@ -107,7 +117,7 @@ class DocumentosController extends Controller
 
         return $this->render('create', [
             'model' 		 => $model,
-            'tiposDocumento' => [ 'Diplomado en licenciatura escolar', 'Certificado congreso de maestros', 'Maestría en ciencias básicas' ],
+            'tiposDocumento' => $tiposDocumento,
             'personas' 		 => $personas,
             'estados' 		 => $estados,
         ]);
@@ -123,13 +133,52 @@ class DocumentosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		
+		$dataPersonas = Personas::find( $model->id )
+								->select( "personas.id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )
+								->where( 'id='.$model->id_persona )
+								->all();
+		$personas 	  = ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		$tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
+		
+		$dataEstados  = Estados::find()->where( 'id=1' )->all();
+		$estados 	  = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) )
+		{
+			// $file = UploadedFile::getInstanceByName('file');
+			$file = UploadedFile::getInstance( $model, 'ruta' );
+			
+			if( $file ){
+				
+				$persona = Personas::findOne( $model->id_persona );
+					
+				//Si no existe la carpeta se crea
+				$carpeta = "../documentos/documentosInteresDocentes/".$persona->identificacion;
+				if (!file_exists($carpeta)) {
+					mkdir($carpeta, 0777, true);
+				}
+				
+				$rutaFisicaDirectoriaUploads  = "../documentos/documentosInteresDocentes/".$persona->identificacion."/";
+				$rutaFisicaDirectoriaUploads .= $file->baseName;
+				$rutaFisicaDirectoriaUploads .= date( "_Y_m_d_His" ) . '.' . $file->extension;
+				
+				$file->saveAs( $rutaFisicaDirectoriaUploads );//$file->baseName puede ser cambiado por el nombre que quieran darle al archivo en el servidor.
+				
+				$model->ruta = $rutaFisicaDirectoriaUploads;
+		
+				if( $model->save() )
+					return $this->redirect(['view', 'id' => $model->id]);
+			}
         }
 
         return $this->render('update', [
             'model' => $model,
+			'tiposDocumento' => $tiposDocumento,
+            'personas' 		 => $personas,
+            'estados' 		 => $estados,
         ]);
     }
 
@@ -142,7 +191,9 @@ class DocumentosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+		$model->estado = 2;
+		$model->update( false );
 
         return $this->redirect(['index']);
     }

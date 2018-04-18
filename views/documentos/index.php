@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 use app\models\Personas;
+use app\models\TiposDocumentos;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocumentosBuscar */
@@ -40,15 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'tipo_documento',
 				'value' 	=> function( $model ){
 					
-					$tipo = "";
-					
-					switch( $model->tipo_documento ){
-						case 0: $tipo = 'Diplomado en licenciatura escolar'; break;
-						case 1: $tipo = 'Certificado congreso de maestros'; break;
-						case 2: $tipo = 'Maestría en ciencias básicas'; break;
-					}
-					
-					return $tipo;
+					$tipoDocumento = TiposDocumentos::findOne( $model->tipo_documento );
+					return $tipoDocumento ? $tipoDocumento->descripcion : '' ;
 				},
 			],
 
