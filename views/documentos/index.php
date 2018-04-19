@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+use yii\helpers\Url;
 use app\models\Personas;
 use app\models\TiposDocumentos;
 
@@ -29,7 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'ruta',
+            [ 
+				'attribute' => 'ruta' ,
+				'format' 	=> 'raw' ,
+				'value'		=> function( $model ){
+					return Html::a( "Ver archivo", Url::to( "@web/".$model->ruta , true), [ "target"=>"_blank" ] );
+				},
+			],
 			[
 				'attribute' => 'id_persona',
 				'value' => function( $model ){
