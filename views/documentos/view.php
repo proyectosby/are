@@ -3,6 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use yii\helpers\Url;
+use app\models\Estados;
+use app\models\Personas;
+use app\models\TiposDocumentos;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Documentos */
 
@@ -29,10 +34,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'ruta',
-            'id_persona',
-            'tipo_documento',
-            'estado',
+            [ 
+				'attribute' => 'ruta' ,
+				'format' 	=> 'raw' ,
+				'value'		=> function( $model ){
+					return Html::a( "Ver archivo", Url::to( "@web/".$model->ruta , true), [ "target"=>"_blank" ] );
+				},
+			],
+            [
+				'attribute' => 'id_persona',
+				'value' 	=> function( $model ){
+					$persona = Personas::findOne( $model->id_persona );
+					return $persona ? $persona->nombres." ".$persona->apellidos: '' ;
+				},
+			],
+            [
+				'attribute' => 'tipo_documento',
+				'value' 	=> function( $model ){
+					
+					$tipoDocumento = TiposDocumentos::findOne( $model->tipo_documento );
+					return $tipoDocumento ? $tipoDocumento->descripcion : '' ;
+				},
+			],
+            [ 
+				'attribute' => 'estado' ,
+				'value' 	=> function( $model ){
+					$estado = Estados::findOne( $model->estado );
+					return $estado ? $estado->descripcion: '' ;
+				} ,
+			],
         ],
     ]) ?>
 

@@ -16,9 +16,9 @@ use yii\widgets\ActiveForm;
 		'options' 				=> [ 'enctype' => 'multipart/form-data' ],
 	]); ?>
 
-    <!-- <?= $form->field($model, 'ruta')->textInput(['maxlength' => true]) ?> -->
+    <?= $form->field($model, 'ruta')->label('Archivo')->fileInput([ 'accept' => ".doc, .docx, .pdf, .xls" ]) ?>
     
-	<?= Html::fileInput( 'file' ) ?>
+	<!-- <?= Html::fileInput( 'file', '', [ 'accept' => ".doc, .docx, .pdf, .xls" ] ) ?> -->
 
     <?= $form->field($model, 'id_persona')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
 

@@ -3,7 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+use yii\helpers\Url;
 use app\models\Personas;
+use app\models\TiposDocumentos;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DocumentosBuscar */
@@ -28,7 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'ruta',
+            [ 
+				'attribute' => 'ruta' ,
+				'format' 	=> 'raw' ,
+				'value'		=> function( $model ){
+					return Html::a( "Ver archivo", Url::to( "@web/".$model->ruta , true), [ "target"=>"_blank" ] );
+				},
+			],
 			[
 				'attribute' => 'id_persona',
 				'value' => function( $model ){
@@ -40,15 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'tipo_documento',
 				'value' 	=> function( $model ){
 					
-					$tipo = "";
-					
-					switch( $model->tipo_documento ){
-						case 0: $tipo = 'Diplomado en licenciatura escolar'; break;
-						case 1: $tipo = 'Certificado congreso de maestros'; break;
-						case 2: $tipo = 'Maestría en ciencias básicas'; break;
-					}
-					
-					return $tipo;
+					$tipoDocumento = TiposDocumentos::findOne( $model->tipo_documento );
+					return $tipoDocumento ? $tipoDocumento->descripcion : '' ;
 				},
 			],
 
