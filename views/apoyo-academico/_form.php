@@ -62,18 +62,22 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 				 // modify template for custom rendering
 				'template' 		=> '{addon}{input}',
 				'language' 		=> 'es',
-				'clientOptions' => [
-				'autoclose' 	=> true,
-				'format' 		=> 'yyyy-mm-dd',
-			]
+				'clientOptions' => 
+				[
+					'autoclose' 	=> true,
+					'format' 		=> 'yyyy-mm-dd',
+				]
 	]);?> 
 	
-	<?php echo $form->field($model, 'hora_entrada')->widget(TimePicker::classname(), [
+	<?php 
+	
+	echo $form->field($model, 'hora_entrada')->widget(TimePicker::classname(), [
 		'options' => 
 		[
 			'readonly' => true,
 			'showMeridian'=>false,
-			'value'=>''
+			'value'=>$model->hora_entrada,
+			
 		]]);?>
 	
 	<?= $form->field($model, 'fecha_salida')->widget(
@@ -94,7 +98,7 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 		[
 			'readonly' => true,
 			'showMeridian'=>true,
-			'value'=>''
+			'value'=>$model->hora_salida
 		]]);?>
     <?= $form->field($model, 'incapacidad')->checkbox() ?>
 
