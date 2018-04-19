@@ -34,6 +34,11 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'k' => 
+        array (
+            'kartik\\time\\' => 12,
+            'kartik\\base\\' => 12,
+        ),
         'f' => 
         array (
             'fedemotta\\datatables\\' => 21,
@@ -125,6 +130,14 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'kartik\\time\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-timepicker',
+        ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
         'fedemotta\\datatables\\' => 
         array (

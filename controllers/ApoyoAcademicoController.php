@@ -11,7 +11,11 @@ Fecha: 16-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se agrega el listar sede e institucion
 muestra solo los apoyos academicos de la sede seleccionada
-
+---------------------------------------
+Modificaciones:
+Fecha: 7-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se modificar la funcion ActionUpdate
 ---------------------------------------
 **********/
 namespace app\controllers;
@@ -22,6 +26,7 @@ use app\models\ApoyoAcademicoBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Sedes;
 
 /**
  * ApoyoAcademicoController implements the CRUD actions for ApoyoAcademico model.
@@ -45,11 +50,12 @@ class ApoyoAcademicoController extends Controller
 	
 	
 	
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
+	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0, $AAcademico = 0 )
     {
         return $this->render('listarInstituciones',[
 			'idSedes' 		=> $idSedes,
 			'idInstitucion' => $idInstitucion,
+			'AAcademico'=>$AAcademico,
 		] );
     }
 
@@ -58,27 +64,33 @@ class ApoyoAcademicoController extends Controller
      * Lists all ApoyoAcademico models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex($idInstitucion = 0, $idSedes = 0, $AAcademico = 0)
     {
-		if( $idInstitucion != 0 && $idSedes != 0 )
+		//si alguno es 0 lo regresa a la vista para que seleccione
+		if( $idInstitucion != 0 && $idSedes != 0 && $AAcademico!=0 )
 		{
-			//muestra solo los de la sede actual
+			//muestra solo los de la sede actual y estado activo
 			$searchModel = new ApoyoAcademicoBuscar();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 			$dataProvider->query->andWhere('id_sede='.$idSedes);
+			$dataProvider->query->andWhere('estado=1');
 
 			return $this->render('index', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,'idSedes' 	=> $idSedes,
-					'idInstitucion' => $idInstitucion,
+				'searchModel' 	=> $searchModel,
+				'dataProvider' 	=> $dataProvider,'idSedes' 	=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+				'AAcademico'	=>$AAcademico
 				]);
 		}
 		else
 		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
+			// Si el id de institucion o de sedes es o de Apoyo Academico es 0 se llama a la vista listarInstituciones
 			 return $this->render('listarInstituciones',[
 				'idSedes' 		=> $idSedes,
 				'idInstitucion' => $idInstitucion,
+				'AAcademico' 	=>$AAcademico,
 			] );
 		}
 
@@ -102,9 +114,8 @@ class ApoyoAcademicoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idSedes, $idInstitucion)
+    public function actionCreate($idSedes, $idInstitucion, $AAcademico)
     {
-		
 		
 		/**
 		* Llenar nombre de los doctores
@@ -125,9 +136,8 @@ class ApoyoAcademicoController extends Controller
 		}
 				
 		
-		
 		/**
-		* Llenar nombre del estudiantes
+		* Llenar nombre del estudiante
 		*/
 		//variable con la conexion a la base de datos 
 		$connection = Yii::$app->getDb();
@@ -153,9 +163,12 @@ class ApoyoAcademicoController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model,
-			'estudiantes'=>$estudiantes,
-			'doctores' => $doctores,
+            'model' 		=> $model,
+			'estudiantes'	=> $estudiantes,
+			'doctores' 		=> $doctores,
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $idInstitucion,
+			'AAcademico'	=> $AAcademico
         ]);
     }
 
@@ -168,14 +181,57 @@ class ApoyoAcademicoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+		$model = $this->findModel($id);
+		
+		$idSedes = $model->id_sede;
+		$institucion = Sedes::findOne($idSedes);
+		
+		/**
+		* Llenar nombre de los doctores
+		*/
+		//variable con la conexion a la base de datos 
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("
+		SELECT pp.id as id, concat(pe.nombres,' ',pe.apellidos) as nombres
+		FROM public.perfiles_x_personas as pp, public.personas as pe
+		where pp.id_personas = pe.id
+		and pp.id_perfiles = 16
+		");
+		$result = $command->queryAll();
+		$doctores = array();
+		foreach ($result as $r)
+		{
+			$doctores[$r['id']]= $r['nombres'];
+		}
+		
+		//variable con la conexion a la base de datos 
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("
+		SELECT es.id_perfiles_x_personas as id, concat(pe.nombres,' ',pe.apellidos) as nombres
+		FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe
+		where es.id_perfiles_x_personas = pp.id
+		and pp.id_personas = pe.id
+		and pp.id_perfiles = 11
+		");
+		$result = $command->queryAll();
+		$estudiantes = array();
+		foreach ($result as $r)
+		{
+			$estudiantes[$r['id']]= $r['nombres'];
+		}
+		
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' 		=> $model,
+			'estudiantes'	=> $estudiantes,
+			'doctores' 		=> $doctores,
+			'idSedes' 		=> $idSedes,
+			'idInstitucion' => $institucion->id_instituciones,
+			'AAcademico'	=> $model->id_tipo_apoyo,
         ]);
     }
 
@@ -186,11 +242,21 @@ class ApoyoAcademicoController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+	 
+	//cambia el estado a 2 para borrar los datos
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+       
+		$model = $this->findModel($id);
+		$model->estado = 2;
+		$model->update(false);
+		
+		$idSedes = $model->id_sede;
+		$idInstitucion = Sedes::find()->where(['id' => $idSedes])->one();
+		$idInstitucion = $idInstitucion->id_instituciones;
+		
+		return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes,'AAcademico'	=> $model->id_tipo_apoyo]);
+		
     }
 
     /**

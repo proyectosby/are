@@ -13,7 +13,18 @@ de GridView a dataTable
 
 ---------------------------------------
 **********/
+use app\models\TiposApoyoAcademico;
+use app\models\Sedes;
+use	yii\helpers\ArrayHelper;
 
+
+$nombreTiposApoyoAcademico = TiposApoyoAcademico::find()->where(['id' => $AAcademico])->one();
+
+
+$nombreSede = new Sedes();
+$nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
+$nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
+$nombreSede = $nombreSede[$idSedes];
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -23,26 +34,24 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\ApoyoAcademicoBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '';
+$this->title = 'Apoyo Académico - '.$nombreTiposApoyoAcademico->descripcion;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="apoyo-academico-index">
 
-    <h1><?= Html::encode('Apoyo Academico') ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Agregar', [
 									'create',
 									'idSedes' 		=> $idSedes,
-									'idInstitucion' => $idInstitucion, 
+									'idInstitucion' => $idInstitucion,
+									'AAcademico' 	=>$AAcademico,
 								], 
 								['class' => 'btn btn-success'
 		]) ?>
-
     </p>
-
-    
  <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -92,11 +101,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					//variable con la conexion a la base de datos 
 					$connection = Yii::$app->getDb();
 					$command = $connection->createCommand("
-					SELECT es.id_perfiles_x_personas, concat(pe.nombres,' ',pe.apellidos) as nombres
-					FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe
-					where es.id_perfiles_x_personas = pp.id
-					and pp.id_personas = pe.id
-					and es.id_perfiles_x_personas =$model->id_persona_estudiante
+					SELECT pp.id, concat(pe.nombres,' ',pe.apellidos) as nombres
+					FROM public.perfiles_x_personas as pp, public.personas as pe
+					where pp.id_personas = pe.id
+					and pp.id =$model->id_persona_doctor
 					");
 					$result = $command->queryAll();
 					
@@ -104,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				
 			],
-            'registro',
+            // 'registro',
 			[
 				'attribute'=>'id_persona_estudiante',
 				'value' => function( $model )
@@ -129,9 +137,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             'motivo_consulta',
             'fecha_entrada',
-            //'hora_entrada',
-            //'fecha_salida',
-            //'hora_salida',
+            'hora_entrada',
+            'fecha_salida',
+            'hora_salida',
             //'incapacidad:boolean',
             //'no_dias_incapaciad',
             //'discapacidad:boolean',

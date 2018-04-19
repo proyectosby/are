@@ -1,21 +1,38 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Sedes;
+
+$nombreSede = Sedes::find()->where(['id' => $model->id_sede])->one();
+$nombreSede = $nombreSede->descripcion;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ApoyoAcademico */
 
-$this->title = 'Update Apoyo Academico: {nameAttribute}';
-$this->params['breadcrumbs'][] = ['label' => 'Apoyo Academicos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualizar Apoyo Académico';
+$this->params['breadcrumbs'][] = 
+	[
+		'label' => 'Apoyo Academico', 
+		'url' => [
+					'index',
+					'idInstitucion' => $idInstitucion, 
+					'idSedes' 		=> $idSedes,
+					'AAcademico'	=> $AAcademico,
+				 ]
+	];	
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="apoyo-academico-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' 		=> $model,
+		'estudiantes'	=> $estudiantes,
+		'doctores' 		=> $doctores,
+		'idSedes' 		=> $idSedes,
+		'idInstitucion' => $idInstitucion,
+		'AAcademico'	=> $AAcademico,
     ]) ?>
 
 </div>

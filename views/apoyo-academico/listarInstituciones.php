@@ -20,6 +20,7 @@ use yii\widgets\ActiveForm;
 
 use app\models\Instituciones;
 use app\models\Sedes;
+use app\models\TiposApoyoAcademico;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -44,11 +45,9 @@ $optionsInstituciones = array(
 							'onChange'	=> '$( "#idSedes" ).val(\'\'); this.form.submit(); ',
 						);
 
-
-
-
 $sedes = [];
-
+$arrayApoyoAcademico=[];
+$TiposApoyoAcademico = new TiposApoyoAcademico();
 //Si se ha seleccionado una institucion se buscan todas las sedes correspondientes a ese id
 if( $idInstitucion > 0 ){
 	
@@ -60,14 +59,35 @@ if( $idInstitucion > 0 ){
 	$sedes		 		= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 }
 
+
+
 //opciones para el select sedes
 $optionsSedes = array( 
 					'prompt' 	=> 'Seleccione...', 
 					'id'	 	=> 'idSedes', 
 					'name'	 	=> 'idSedes',
 					'value'	 	=> $idSedes == 0 ? '' : $idSedes,
+					'onChange'	=> '$( "#AAcademico" ).val(\'\'); this.form.submit(); ',
+				);
+
+//opciones para el select ApoyoAcademico	
+$optionsApoyoAcademico = array( 
+					'prompt' 	=> 'Seleccione...', 
+					'id'	 	=> 'AAcademico', 
+					'name'	 	=> 'AAcademico',
+					'value'	 	=> $AAcademico == 0 ? '' : $AAcademico,
 					'onchange'	=> 'this.form.submit();'
 				);
+				
+				//Si se ha seleccionado una sede se buscan todos los apoyos academicos 
+if( $idSedes > 0 )
+{
+	
+	//Obterniendo los datos necesarios para Sedes						
+	$TiposApoyoAcademico = new TiposApoyoAcademico();
+	$arrayApoyoAcademico = $TiposApoyoAcademico->find()->all();
+	$arrayApoyoAcademico = ArrayHelper::map( $arrayApoyoAcademico, 'id', 'descripcion' );
+}
 
 ?>
 <div class="sedes-index">
@@ -82,6 +102,8 @@ $optionsSedes = array(
 	<?= $form->field($institucionesTable, 'id')->dropDownList( $instituciones, $optionsInstituciones )->label('Instituciones') ?>
 	
 	<?= $form->field($institucionesTable, 'id')->dropDownList( $sedes, $optionsSedes )->label('Sedes') ?>
+	
+	<?= $form->field($institucionesTable, 'id')->dropDownList( $arrayApoyoAcademico, $optionsApoyoAcademico )->label('Apoyo Académico') ?>
 	
 	<?php $form = ActiveForm::end(); ?>
 	

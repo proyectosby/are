@@ -22,7 +22,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/apoyoAcademico.js',['depe
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\TimePicker;
+use kartik\time\TimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ApoyoAcademico */
@@ -31,7 +31,6 @@ use dosamigos\datepicker\DatePicker;
 use app\models\Estados;
 use app\models\TiposApoyoAcademico;
 use	yii\helpers\ArrayHelper;
-
 
 
 //se envia la variable estados con los valores de la tabla estado, siempre es activo
@@ -56,6 +55,7 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
     <?= $form->field($model, 'id_persona_estudiante')->DropDownList($estudiantes,['prompt'=>'Seleccione...']) ?>
 
     <?= $form->field($model, 'motivo_consulta')->textInput(['maxlength' => true]) ?>
+	
 	<?= $form->field($model, 'fecha_entrada')->widget(
 		DatePicker::className(), [
 			
@@ -66,10 +66,15 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 				'autoclose' 	=> true,
 				'format' 		=> 'yyyy-mm-dd',
 			]
-	]);?> 	
+	]);?> 
 	
-    <?= $form->field($model, 'hora_entrada')->textInput() ?>
-    <?= $form->field($model, 'hora_entrada')->widget(TimePicker::classname(), []); ?>
+	<?php echo $form->field($model, 'hora_entrada')->widget(TimePicker::classname(), [
+		'options' => 
+		[
+			'readonly' => true,
+			'showMeridian'=>false,
+			'value'=>''
+		]]);?>
 	
 	<?= $form->field($model, 'fecha_salida')->widget(
 		DatePicker::className(), [
@@ -83,8 +88,14 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 			]
 	]);?> 	
 
-    <?= $form->field($model, 'hora_salida')->textInput() ?>
-
+   
+	<?php echo $form->field($model, 'hora_salida')->widget(TimePicker::classname(), [
+		'options' => 
+		[
+			'readonly' => true,
+			'showMeridian'=>true,
+			'value'=>''
+		]]);?>
     <?= $form->field($model, 'incapacidad')->checkbox() ?>
 
     <?= $form->field($model, 'no_dias_incapaciad')->textInput(['type' => 'number']) ?>
@@ -93,9 +104,9 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 
     <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_sede')->textInput() ?>
+    <?= $form->field($model, 'id_sede')->hiddenInput(['value' => $idSedes])->label(false) ?>
 
-    <?= $form->field($model, 'id_tipo_apoyo')->DropDownList($apoyoAcademico,['prompt'=>'Seleccione...']) ?>
+    <?= $form->field($model, 'id_tipo_apoyo')->hiddenInput(['value' => $AAcademico])->label(false) ?>
 
     <?= $form->field($model, 'estado')->DropDownList($estados) ?>
 
