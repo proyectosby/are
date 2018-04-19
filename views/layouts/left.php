@@ -64,6 +64,7 @@
 														],
 														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
+														['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
 												],//
 											],
 											[
@@ -97,7 +98,7 @@
 														['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
 														['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
 														['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
-														['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+														['label' => 'Director de grupo', 'icon' => '', 'url' => ['director-paralelo/index'],],
 														// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
 												],//
 											],
@@ -248,7 +249,8 @@
 											['label' => 'Plan de aula', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
 											['label' => 'Distribución-indicador', 'icon' => 'circle-o', 'url' => ['distribuciones-indicador-desempeno/index'],],
 											['label' => 'Calificaciones', 'icon' => 'circle-o', 'url' => ['calificaciones/index'],],
-											['label' => 'Asistencias', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
+											['label' => 'Asistencias', 'icon' => 'circle-o', 'url' => '#',],
+											['label' => 'Documentos Interés', 'icon' => 'circle-o', 'url' => ['documentos/index'],],
                                             
                                             
                                             
