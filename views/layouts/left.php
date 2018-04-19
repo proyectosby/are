@@ -63,6 +63,7 @@
 														
 														],
 														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
+														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
 												],//
 											],
 											[
@@ -96,7 +97,7 @@
 														['label' => 'Grupos por nivel','icon' => 'circle-o','url' => ['paralelos/index'],],
 														['label' => 'Distribución académica', 'icon' => '', 'url' => ['distribuciones-academicas/index'],],
 														['label' => 'Asignatura niveles', 'icon' => '', 'url' => ['asignaturas-niveles-sedes/index'],],
-														// ['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
+														['label' => 'Director de grupo', 'icon' => '', 'url' => '#',],
 														// ['label' => 'Docente de grupo', 'icon' => '', 'url' => '#',],
 												],//
 											],
