@@ -15,6 +15,9 @@ use yii\web\UploadedFile;
 use app\models\Personas;
 use app\models\Estados;
 
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 /**
  * DocumentosController implements the CRUD actions for Documentos model.
  */
@@ -34,12 +37,59 @@ class DocumentosController extends Controller
             ],
         ];
     }
+	
+	function actionAgregarCampos( ){
+		
+		$consecutivo = Yii::$app->request->post('consecutivo');
+		
+		$model = new Documentos();
+		
+		$dataPersonas = Personas::find()
+							->select( "personas.id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )
+							->innerJoin( 'perfiles_x_personas', 'personas.id=id_personas' )
+							->where( 'personas.estado=1' )
+							->andWhere( 'id_perfiles=10' )
+							->all();
+		$personas 	  = ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		$tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
+		
+		$dataEstados  = Estados::find()->where( 'id=1' )->all();
+		$estados 	  = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
+		
+		$form = ActiveForm::begin();
+		
+		?> 
+			<div class=row>
+	
+				<div class=cell>
+					<?= $form->field($model, '['.$consecutivo.']id_persona')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
+				</div>
+
+				<div class=cell>
+					<?= $form->field($model,  '['.$consecutivo.']tipo_documento')->dropDownList( $tiposDocumento, [ 'prompt' => 'Seleccione...' ] ) ?>
+				</div>
+					
+				<div class=cell>
+					<?= $form->field($model,  '['.$consecutivo.']file')->label('Archivo')->fileInput([ 'accept' => ".doc, .docx, .pdf, .xls" ]) ?>
+				</div>
+
+				<div class=cell style='display:none'>
+					<?= $form->field($model,  '['.$consecutivo.']estado')->hiddenInput( [ 'value' => '1' ] )->label( '' ) ?>
+				</div>
+					
+			</div>
+		
+		<?php
+		
+	}
 
     /**
      * Lists all Documentos models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex( $guardado = 0 )
     {
         $searchModel = new DocumentosBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -48,6 +98,7 @@ class DocumentosController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'guardado' => $guardado,
         ]);
     }
 
@@ -71,7 +122,18 @@ class DocumentosController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Documentos();
+		$data = [];
+		
+		if( Yii::$app->request->post('Documentos') )
+			$data = Yii::$app->request->post('Documentos');
+		
+		$count 	= count( $data );
+		
+		$models = [];
+		for( $i = 0; $i < $count; $i++ )
+		{
+			$models[] = new Documentos();
+		}
 		
 		$dataPersonas = Personas::find()
 							->select( "personas.id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )
@@ -86,34 +148,68 @@ class DocumentosController extends Controller
 		
 		$dataEstados  = Estados::find()->where( 'id=1' )->all();
 		$estados 	  = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
-        
-		if ($model->load(Yii::$app->request->post())) {
+		
+		if (Documentos::loadMultiple($models, Yii::$app->request->post() )) {			
 			
-			// $file = UploadedFile::getInstanceByName('file');			
-			$file = UploadedFile::getInstance( $model, 'ruta' );
-			
-			if( $file ){
+			foreach( $models as $key => $model) {
 				
-				$persona = Personas::findOne( $model->id_persona );
+				//getInstances devuelve un array, por tanto siemppre se pone la posición 0
+				$file = UploadedFile::getInstance( $model, "[$key]file" );
 				
-				//Si no existe la carpeta se crea
-				$carpeta = "../documentos/documentosInteresDocentes/".$persona->identificacion;
-				if (!file_exists($carpeta)) {
-					mkdir($carpeta, 0777, true);
+				if( $file ){
+					
+					$persona = Personas::findOne( $model->id_persona );
+					
+					//Si no existe la carpeta se crea
+					$carpeta = "../documentos/documentosInteresDocentes/".$persona->identificacion;
+					if (!file_exists($carpeta)) {
+						mkdir($carpeta, 0777, true);
+					}
+					
+					//Construyo la ruta completa del archivo a guardar
+					$rutaFisicaDirectoriaUploads  = "../documentos/documentosInteresDocentes/".$persona->identificacion."/";
+					$rutaFisicaDirectoriaUploads .= $file->baseName;
+					$rutaFisicaDirectoriaUploads .= date( "_Y_m_d_His" ) . '.' . $file->extension;
+					
+					//Siempre activo
+					$model->estado = 1;
+					
+					$save = $file->saveAs( $rutaFisicaDirectoriaUploads );//$file->baseName puede ser cambiado por el nombre que quieran darle al archivo en el servidor.
+					
+					if( $save )
+					{
+						//Le asigno la ruta al arhvio
+						$model->ruta = $rutaFisicaDirectoriaUploads;
+						
+						// if( $model->save() )
+							// return $this->redirect(['view', 'id' => $model->id]);
+					}
+					else
+					{
+						echo $file->error;
+						exit("finnn....");
+					}
 				}
-				
-				$rutaFisicaDirectoriaUploads  = "../documentos/documentosInteresDocentes/".$persona->identificacion."/";
-				$rutaFisicaDirectoriaUploads .= $file->baseName;
-				$rutaFisicaDirectoriaUploads .= date( "_Y_m_d_His" ) . '.' . $file->extension;
-				
-				$file->saveAs( $rutaFisicaDirectoriaUploads );//$file->baseName puede ser cambiado por el nombre que quieran darle al archivo en el servidor.
-				
-				$model->ruta = $rutaFisicaDirectoriaUploads;
-				
-				if( $model->save() )
-					return $this->redirect(['view', 'id' => $model->id]);
+				else{
+					exit( "No hay archivo cargado" );
+				}
 			}
+			
+			//Se valida que todos los campos de todos los modelos sean correctos
+			if (!Documentos::validateMultiple($models)) {
+				Yii::$app->response->format = 'json';
+				 return \yii\widgets\ActiveForm::validateMultiple($models);
+			}
+			
+			//Guardo todos los modelos
+			foreach( $models as $key => $model) {
+				$model->save();
+			}
+			
+			return $this->redirect(['index', 'guardado' => true ]);
         }
+		
+		$model = new Documentos();
 
         return $this->render('create', [
             'model' 		 => $model,
@@ -122,6 +218,60 @@ class DocumentosController extends Controller
             'estados' 		 => $estados,
         ]);
     }
+	
+	// public function actionCreate()
+    // {
+        // $model = new Documentos();
+		
+		// $dataPersonas = Personas::find()
+							// ->select( "personas.id, ( nombres || ' ' || apellidos ) as nombres, identificacion " )
+							// ->innerJoin( 'perfiles_x_personas', 'personas.id=id_personas' )
+							// ->where( 'personas.estado=1' )
+							// ->andWhere( 'id_perfiles=10' )
+							// ->all();
+		// $personas 	  = ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
+		
+		// $dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		// $tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
+		
+		// $dataEstados  = Estados::find()->where( 'id=1' )->all();
+		// $estados 	  = ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
+        
+		// if ($model->load(Yii::$app->request->post())) {
+			
+			// // $file = UploadedFile::getInstanceByName('file');			
+			// $file = UploadedFile::getInstance( $model, 'ruta' );
+			
+			// if( $file ){
+				
+				// $persona = Personas::findOne( $model->id_persona );
+				
+				// //Si no existe la carpeta se crea
+				// $carpeta = "../documentos/documentosInteresDocentes/".$persona->identificacion;
+				// if (!file_exists($carpeta)) {
+					// mkdir($carpeta, 0777, true);
+				// }
+				
+				// $rutaFisicaDirectoriaUploads  = "../documentos/documentosInteresDocentes/".$persona->identificacion."/";
+				// $rutaFisicaDirectoriaUploads .= $file->baseName;
+				// $rutaFisicaDirectoriaUploads .= date( "_Y_m_d_His" ) . '.' . $file->extension;
+				
+				// $file->saveAs( $rutaFisicaDirectoriaUploads );//$file->baseName puede ser cambiado por el nombre que quieran darle al archivo en el servidor.
+				
+				// $model->ruta = $rutaFisicaDirectoriaUploads;
+				
+				// if( $model->save() )
+					// return $this->redirect(['view', 'id' => $model->id]);
+			// }
+        // }
+
+        // return $this->render('create', [
+            // 'model' 		 => $model,
+            // 'tiposDocumento' => $tiposDocumento,
+            // 'personas' 		 => $personas,
+            // 'estados' 		 => $estados,
+        // ]);
+    // }
 
     /**
      * Updates an existing Documentos model.

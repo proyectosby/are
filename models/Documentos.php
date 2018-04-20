@@ -18,6 +18,9 @@ use Yii;
  */
 class Documentos extends \yii\db\ActiveRecord
 {
+	
+	public $file;
+	
     /**
      * @inheritdoc
      */
@@ -32,7 +35,8 @@ class Documentos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ruta', 'id_persona', 'tipo_documento', 'estado'], 'required'],
+			[['file'], 'file'],
+            [['id_persona', 'tipo_documento', 'estado'], 'required'],
             [['id_persona', 'tipo_documento', 'estado'], 'default', 'value' => null],
             [['id_persona', 'tipo_documento', 'estado'], 'integer'],
             [['ruta'], 'string', 'max' => 200],

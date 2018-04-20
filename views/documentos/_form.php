@@ -6,27 +6,73 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Documentos */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/documentos.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
+
+<style>
+	.table{
+		display: table;
+	}
+
+	.row{
+		display: table-row;
+	}
+
+	.cell{
+		display: table-cell;
+	}
+</style>
 
 <div class="documentos-form">
 
     <?php $form = ActiveForm::begin([
+		// 'id' => 'contact-form',
+		// 'enableAjaxValidation' => true,
 		'method' 				=> 'post',
-		'enableClientValidation'=> true,
+		'enableClientValidation'=> true,		
 		'options' 				=> [ 'enctype' => 'multipart/form-data' ],
 	]); ?>
-
-    <?= $form->field($model, 'ruta')->label('Archivo')->fileInput([ 'accept' => ".doc, .docx, .pdf, .xls" ]) ?>
     
-	<!-- <?= Html::fileInput( 'file', '', [ 'accept' => ".doc, .docx, .pdf, .xls" ] ) ?> -->
+	<div class=table>
+		<div class=row>
+			<div class="form-group" style='display:inline;'>
+				<?= Html::buttonInput('Agregar', ['class' => 'btn btn-success', 'onclick' => 'agregarCampos()', 'id' => 'btnAgregar' ]) ?>
+			</div>
+			
+			<div class="form-group" style='display:inline;'>
+				<?= Html::buttonInput('Eliminar', ['class' => 'btn btn-success', 'onclick' => 'eliminarCampos()', 'id' => 'btnEliminar', 'display' => 'none' ]) ?>
+			</div>
+		</div>
+	</div>
+    
+	
+	<div id=dvTable class=table>
+		
+		<div class=row>
+	
+			<div class=cell>
+				<?= $form->field($model, '[0]id_persona')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
+			</div>
 
-    <?= $form->field($model, 'id_persona')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
+			<div class=cell>
+				<?= $form->field($model, '[0]tipo_documento')->dropDownList( $tiposDocumento, [ 'prompt' => 'Seleccione...' ] ) ?>
+			</div>
+				
+			<div class=cell>
+				<?= $form->field($model, '[0]file')->label('Archivo')->fileInput([ 'accept' => ".doc, .docx, .pdf, .xls" ]) ?>
+			</div>
 
-    <?= $form->field($model, 'tipo_documento')->dropDownList( $tiposDocumento, [ 'prompt' => 'Seleccione...' ] ) ?>
-
-    <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
-
-    <div class="form-group">
+			<div class=cell style='display:none'>
+				<?= $form->field($model, '[0]estado')->hiddenInput( [ 'value' => '1' ] )->label( '' ) ?>
+			</div>
+				
+		</div>
+	
+	</div>
+    
+	
+	<div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
