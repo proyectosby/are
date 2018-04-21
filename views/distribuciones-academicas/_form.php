@@ -6,11 +6,22 @@ Fecha: Fecha en formato (15-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Formulario distribuciones academicas
 ---------------------------------------
-******/
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Horario
+---------------------------------------
+**********/
+
+
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\SedesNiveles;
+use app\models\Estados;
+use fedemotta\datatables\DataTables;
+use kartik\editable\Editable;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DistribucionesAcademicas */
@@ -24,7 +35,7 @@ use app\models\SedesNiveles;
     
 	<?php $form = ActiveForm::begin(); ?>
 	
-	<?php 
+	 <!--<?php 
 		
 		echo "<input type='hidden' id='hidAsig' name='hidAsig' value='".$asignaturas_distribucion."'>";
 		echo "<input type='hidden' id='hidPara' name='hidAsig' value='".$paralelos_distribucion."'>";
@@ -59,7 +70,7 @@ use app\models\SedesNiveles;
 	
 	?>
 	
-    <?= $form->field($model, 'id_asignaturas_x_niveles_sedes')->dropDownList([''=>'Seleccione...'])->label('Asignatura') ?>
+   <?= $form->field($model, 'id_asignaturas_x_niveles_sedes')->dropDownList([''=>'Seleccione...'])->label('Asignatura') ?>
     
     <?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList($docentes, ['prompt'=>'Seleccione...'])->label('Docente') ?>
 
@@ -67,7 +78,7 @@ use app\models\SedesNiveles;
     
 	<?= $form->field($model, 'id_paralelo_sede')->dropDownList([''=>'Seleccione...'])->label('Grupo') ?>
 
-    <!-- Campos de fecha que no se envian desde el formulario se envian con datos de fecha del sistema -->
+    Campos de fecha que no se envian desde el formulario se envian con datos de fecha del sistema 
 	<?php $date =  date ( 'Y-m-d H:m:s' )?>
 	
 	<?= $form->field($model, 'fecha_ingreso')->hiddenInput(['value'=> $date])->label(false)?>
@@ -78,8 +89,18 @@ use app\models\SedesNiveles;
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?> -->
 
+	
+	<?php
+					DataTables::widget([
+					'dataProvider' => $dataProvider,
+					
+					
+				]); 
+	?>
+	<table id="tablaModulos" class="display" cellspacing="0" width="100%" ></table>
+	
 </div>
 
 

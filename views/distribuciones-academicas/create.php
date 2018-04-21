@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'niveles_sede'=>'',
 		'asignaturas_distribucion'=>'',
 		'idInstitucion' => $idInstitucion,
+		'dataProvider'=> $dataProvider,
     ]) ?>
 
 </div>

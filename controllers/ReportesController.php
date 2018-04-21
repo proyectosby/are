@@ -4,7 +4,7 @@
 Versión: 001
 Fecha: 10-03-2018
 Desarrollador: Oscar David Lopez
-Descripción: CRUD de Asignaturas
+Descripción: reportes
 ---------------------------------------
 Modificaciones:
 Fecha: 12-04-2018
