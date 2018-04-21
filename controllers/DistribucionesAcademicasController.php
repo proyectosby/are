@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
 use app\models\Estados;
+use yii\data\SqlDataProvider;
+
 
 
 /**
@@ -36,6 +38,10 @@ class DistribucionesAcademicasController extends Controller
             ],
         ];
     }
+	
+	
+	
+	
 	
 
     /**
@@ -124,6 +130,37 @@ class DistribucionesAcademicasController extends Controller
      */
     public function actionCreate($idSedes, $idInstitucion)
     {	
+	
+	$sql ="
+		SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
+		FROM personas as p, 
+			 perfiles_x_personas as pp, 
+			 estudiantes as e, 
+			 paralelos as pa, 
+			 sedes_jornadas as sj, 
+			 jornadas as j, 
+			 sedes as s, 
+			 instituciones as i
+		   where p.estado = 1
+		   and e.estado = 1
+		   and e.id_perfiles_x_personas = pp.id
+		   and pp.id_perfiles=11
+		   and pp.id_personas = p.id
+		   and e.id_paralelos = pa.id
+		   and pa.id_sedes_jornadas = sj.id
+		   and sj.id_jornadas = j.id
+		   and sj.id_sedes = 48
+		   and s.id_instituciones = i.id
+		   and i.id = 55
+		   group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
+		   ";
+		
+		$dataProvider = new SqlDataProvider([
+				'sql' => $sql,
+				
+				
+			]);
+						
         //se crea una instancia del modelo estados
 		$estadosTable 		 	= new Estados();
 		//se traen los datos de estados
@@ -199,6 +236,8 @@ class DistribucionesAcademicasController extends Controller
 			'asignaturas_distribucion'=>'',
 			'idInstitucion'=>$idInstitucion,
 			'paralelos_distribucion'=>'',
+			'dataProvider'=>$dataProvider,
+			
         ]);
     }
 
@@ -449,7 +488,94 @@ class DistribucionesAcademicasController extends Controller
 												AND sn.id = $idSedesNiveles");
 		$result = $command->queryAll();
 		
-		 return Json::encode( $result );
+		return Json::encode( $result );
+		
+	
+	}    
+
+	//trae la iformacion del horario
+  public function actionHorario($idSedes)
+	{
+		
+		
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+		//saber el id de la sede para redicionar al index correctamente
+		$command = $connection->createCommand("SELECT dbd.id,dbd.id_distribuciones_academicas,a.descripcion as asignatura, dbd.id_bloques_sedes, b.descripcion as bloques,
+			dbd.id_dias, d.descripcion as dias
+			FROM public.distribuciones_x_bloques_x_dias as dbd, dias as d, sedes_x_bloques as sb, bloques as b,
+			distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, asignaturas as a
+			where dbd.id_dias=d.id
+			and dbd.id_bloques_sedes = sb.id
+			and sb.id_sedes = $idSedes
+			and sb.id_bloques = b.id
+			and dbd.id_distribuciones_academicas = da.id
+			and da.id_asignaturas_x_niveles_sedes = ans.id
+			and ans.id_asignaturas = a.id
+			and a.estado  =1
+			and da.estado =1
+			and b.estado  =1
+			order by b.id");
+			$result = $command->queryAll();
+		
+			$command = $connection->createCommand("SELECT id, descripcion
+			FROM dias
+			where estado  =1
+			order by id");
+			$dias = $command->queryAll();
+			// print_r($result);
+			
+			$command = $connection->createCommand("
+			SELECT b.id, b.descripcion
+			FROM bloques as b, sedes_x_bloques as sb 
+			where b.estado  =1
+			and sb.id_sedes =$idSedes
+			and sb.id_bloques = b.id
+			order by id desc");
+			$bloques = $command->queryAll();
+			
+			
+			
+			foreach ($dias as $dia)
+			{
+				foreach ($bloques as $bloque)
+				{
+					$arrayHorario[$bloque['descripcion']][$dia['descripcion']]="No asignado";
+				}
+				
+				
+			}
+			
+			foreach($result as $r)
+			{
+				
+				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura'];
+			}
+			//{,"VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_2","LUNES":"No asignado","MARTES":"Idiomas","MIERCOLES":"No asignado","JUEVES":"No asignado","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_3","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Matemáticas","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_4","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Ciencias Sociales","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",}
+			
+			
+			$data='[';
+			$data.='{"bloques":"  BLOQUE","LUNES":"LUNES","MARTES":"MARTES","MIERCOLES":"MIERCOLES","JUEVES":"JUEVES","VIERNES":"VIERNES","SABADO":"SABADO","DOMINGO":"DOMINGO"},';
+			foreach($arrayHorario as $arrayHorarioJson=>$valor) 
+			{
+				$data.='{"bloques":"'.$arrayHorarioJson.'",';
+				foreach($valor as $v=>$value)
+				{
+					// print_r($v);
+					$arraydata[]='"'.$v.'":"'.$value.'"';
+				}
+				$data.=implode(",",$arraydata);
+				unset($arraydata);
+				$data.='},';
+			}
+			$data = substr($data, 0, -1);
+			$data.=']';
+			echo $data;
+			// print_r($arrayHorario);
+	
+
+		// return Json::encode( $arrayHorario );
+		// return Json::encode( $result );
 		
 	
 	}
