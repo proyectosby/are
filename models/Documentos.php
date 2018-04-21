@@ -35,7 +35,7 @@ class Documentos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-			[['file'], 'file'],
+			[['file'], 'file', 'maxSize' => 1024*1024*2 ],
             [['id_persona', 'tipo_documento', 'estado'], 'required'],
             [['id_persona', 'tipo_documento', 'estado'], 'default', 'value' => null],
             [['id_persona', 'tipo_documento', 'estado'], 'integer'],
