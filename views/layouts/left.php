@@ -65,6 +65,7 @@
 														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
 														['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
+														['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
 												],//
 											],
 											[

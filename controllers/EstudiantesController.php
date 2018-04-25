@@ -1,5 +1,12 @@
 <?php
 
+/**********
+Versión: 001
+Fecha modificación: 24-04-2018
+Desarrollador: Oscar David Lopez
+Descripción: se agrega el campo estado a las consultas con la tabla perfiles por persona
+---------------------------------------
+**********/
 namespace app\controllers;
 
 use Yii;
@@ -149,7 +156,8 @@ class EstudiantesController extends Controller
 		SELECT es.id_perfiles_x_personas, concat(pe.nombres,' ',pe.apellidos) as nombres
 		FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe
 		where es.id_perfiles_x_personas = pp.id
-		and pp.id_personas = pe.id		
+		and pp.id_personas = pe.id
+        and pp.estado = 1		
 		");
 		$result = $command->queryAll();
 		
@@ -224,6 +232,7 @@ class EstudiantesController extends Controller
 		FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe
 		where es.id_perfiles_x_personas = pp.id
 		and pp.id_personas = pe.id
+		and pp.estado = 1
 		");
 		$result = $command->queryAll();
 		

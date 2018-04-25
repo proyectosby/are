@@ -84,22 +84,51 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute'=>'id_perfiles_x_personas',
 				'value' => function( $model )
 				{
-					//se busca el id_personas para pasarlo al modelo personas y mostrar el nombre y apellidos de la persona
-					$PerfilesXPersonas = PerfilesXPersonas::findOne($model->id_perfiles_x_personas);
-					$PerfilesXPersonas->id_personas;
-					
-					$personas = Personas::findOne($PerfilesXPersonas->id_personas);
-					return $personas ? $personas->nombres." ".$personas->apellidos : '';
+					/**
+					* Llenar el nombre de los estudiantes
+					*/
+					//variable con la conexion a la base de datos 
+					// print_r($model); die;
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand("SELECT pp.id, concat(p.nombres,' ',p.apellidos) as nombres
+															FROM public.perfiles_x_personas as pp, personas as p, representantes_legales as rl, estudiantes as e
+															WHERE p.id = pp.id_personas
+															AND rl.id_perfiles_x_personas = pp.id
+															AND e.id_perfiles_x_personas = pp.id
+															and p.estado = 1
+															and pp.estado = 1
+															AND pp.id =". $model->id_perfiles_x_personas."");
+					$result = $command->queryAll();
+								
+					return $result[0]['nombres'];
 				},
+				
 			],
 			[
 				'attribute'=>'id_personas',
 				'value' => function( $model )
 				{
-					$personas = Personas::findOne($model->id_personas);
-					return $personas ? $personas->nombres." ".$personas->apellidos : '';
+					/**
+					* Llenar el nombre de los representantes legales
+					*/
+					//variable con la conexion a la base de datos 
+					$connection = Yii::$app->getDb();
+					$command = $connection->createCommand("SELECT p.id, concat(p.nombres,' ',p.apellidos) as nombres
+															FROM public.perfiles_x_personas as pp, personas as p, representantes_legales as rl
+															WHERE p.id = pp.id_personas
+															AND rl.id_personas = p.id
+															and p.estado = 1
+															and pp.estado = 1
+
+															AND p.id  = $model->id_personas
+															group by p.id, p.nombres,p.apellidos");
+					$result = $command->queryAll();
+								
+					return $result[0]['nombres'];
 				},
+				
 			],
+			
 			
 			
             ['class' => 'yii\grid\ActionColumn'],

@@ -15,6 +15,10 @@ Cambios realizados: Se modifican las reglas de los campos
 Fecha: Fecha en formato(09-03-2018)
 Persona encargada: Vivina Rodas
 Cambios realizados: Se crea funcion para codificar en ut8 los campos con caracteres especiales
+
+Fecha: Fecha en formato(24-04-2018)
+Persona encargada: Vivina Rodas
+Cambios realizados: Se pone campo estado como requerido
 */
 
 
@@ -93,7 +97,7 @@ class Personas extends \yii\db\ActiveRecord
             [['hobbies'], 'string', 'max' => 500],
             [['correo'], 'unique'],
             [['identificacion'], 'unique'],
-			[['identificacion', 'nombres','apellidos', 'correo','id_tipos_identificaciones','usuario','psw'],'required'],
+			[['identificacion', 'nombres','apellidos', 'correo','id_tipos_identificaciones','usuario','psw','estado'],'required'],
             [['usuario'], 'unique'],
             [['id_barrios_veredas'], 'exist', 'skipOnError' => true, 'targetClass' => BarriosVeredas::className(), 'targetAttribute' => ['id_barrios_veredas' => 'id']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
