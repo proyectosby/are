@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
 use app\models\Estados;
+use app\models\DistribucionesXBloquesXDias;
 use yii\data\SqlDataProvider;
 
 
@@ -131,33 +132,14 @@ class DistribucionesAcademicasController extends Controller
     public function actionCreate($idSedes, $idInstitucion)
     {	
 	
+	//se usa en el form para que en el yii se activen los dataTables
 	$sql ="
-		SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion
-		FROM personas as p, 
-			 perfiles_x_personas as pp, 
-			 estudiantes as e, 
-			 paralelos as pa, 
-			 sedes_jornadas as sj, 
-			 jornadas as j, 
-			 sedes as s, 
-			 instituciones as i
-		   where p.estado = 1
-		   and e.estado = 1
-		   and e.id_perfiles_x_personas = pp.id
-		   and pp.id_perfiles=11
-		   and pp.id_personas = p.id
-		   and e.id_paralelos = pa.id
-		   and pa.id_sedes_jornadas = sj.id
-		   and sj.id_jornadas = j.id
-		   and sj.id_sedes = 48
-		   and s.id_instituciones = i.id
-		   and i.id = 55
-		   group by p.identificacion, p.nombres,p.apellidos, p.domicilio, j.descripcion
-		   ";
-		
+		SELECT p.identificacion
+		FROM personas as p
+			 
+		   ";		
 		$dataProvider = new SqlDataProvider([
 				'sql' => $sql,
-				
 				
 			]);
 						
@@ -219,9 +201,114 @@ class DistribucionesAcademicasController extends Controller
 		$modificar = false;
 		
 		$model = new DistribucionesAcademicas();
-
+			
+			// echo "<pre>"; print_r( ); echo "</pre>";
+			// echo "<pre>"; print_r( Yii::$app->request->post()); echo "</pre>";
+			// die;
+		
+		
+		if($_POST)
+		{		
+	
+			$id_asignaturas_x_niveles_sedes	= $_POST['id_asignaturas_x_niveles_sedes'];
+			$id_perfiles_x_personas_docentes= $_POST['id_perfiles_x_personas_docentes'];
+			$id_aulas_x_sedes				= $_POST['id_aulas_x_sedes'];
+			$estado							= $_POST['id_aulas_x_sedes'];
+			$id_paralelo_sede				= $_POST['id_paralelo_sede'];
+			$fecha_ingreso					= $_POST['fecha_ingreso'];
+			$dia 							= $_POST['dia'];
+			$bloque 						= $_POST['bloque'];
+			
+			$connection = Yii::$app->getDb();
+			//id del dia del la celda que seleciona en el dataTable
+			$command 	= $connection->createCommand("SELECT id FROM dias WHERE descripcion ='$dia'");
+			$result 	= $command->queryAll();
+			$idDia 		= $result[0]['id'];
+			
+			//id del bloque del la celda que seleciona en el dataTable
+			$command 	= $connection->createCommand("SELECT sb.id 
+													FROM sedes_x_bloques as sb, bloques as b
+													WHERE sb.id_bloques = b.id
+													and b.descripcion ='$bloque'
+													and sb.id_sedes=$idSedes");
+			$result 	= $command->queryAll();
+			$idBloqueXSede	= $result[0]['id'];
+			
+			if(strpos($_POST['informacionCelda'],"</insertar>") > 0)
+			{
+				$connection = Yii::$app->getDb();
+			
+				//insertar en distribuciones_academicas y retornar el id 
+				$command = $connection->createCommand
+				("
+					INSERT INTO public.distribuciones_academicas
+					(
+						id_asignaturas_x_niveles_sedes,
+						id_perfiles_x_personas_docentes,
+						id_aulas_x_sedes,
+						fecha_ingreso,
+						estado,
+						id_paralelo_sede
+					)
+					VALUES 
+					(
+						$id_asignaturas_x_niveles_sedes,
+						$id_perfiles_x_personas_docentes,
+						$id_aulas_x_sedes,
+						'$fecha_ingreso',
+						1,
+						$id_paralelo_sede
+						
+					) RETURNING id;
+				");
+				$result = $command->queryAll();
+				$id = $result[0]['id'];
+				
+				
+				//insertar en distribuciones_x_bloques_x_dias
+				$command = $connection->createCommand
+				("
+					INSERT INTO public.distribuciones_x_bloques_x_dias
+					(
+						id_distribuciones_academicas,
+						id_bloques_sedes,
+						id_dias
+					)
+					VALUES 
+					(
+						$id,
+						$idBloqueXSede,
+						$idDia
+					)
+				");
+				$result = $command->queryAll();
+				
+				$data = array("mensaje"=>"hola");
+					
+				echo json_encode($data);
+				die;
+				
+			}
+			elseif(strpos($_POST['informacionCelda'],"</actualizar>") > 0)
+			{
+				
+			}
+			// return $this->redirect(['view', 'id' => $model->id]);
+		}
+		
+		//insert into distribuciones_academicas
+		
+		//INSERT INTO public.distribuciones_academicas(	
+		//id_asignaturas_x_niveles_sedes, 
+		// id_perfiles_x_personas_docentes, 
+		// id_aulas_x_sedes, 
+		// fecha_ingreso, 
+		// estado, 
+		// id_paralelo_sede)	VALUES ();
+		//insert into bloques_dias
+			
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            // return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -493,29 +580,38 @@ class DistribucionesAcademicasController extends Controller
 	
 	}    
 
-	//trae la iformacion del horario
-  public function actionHorario($idSedes)
+	//trae la iformacion del horario con respeto al docente y a la sede
+  public function actionHorario($idSedes,$idDocente)
 	{
 		
 		
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
-		//saber el id de la sede para redicionar al index correctamente
-		$command = $connection->createCommand("SELECT dbd.id,dbd.id_distribuciones_academicas,a.descripcion as asignatura, dbd.id_bloques_sedes, b.descripcion as bloques,
-			dbd.id_dias, d.descripcion as dias
-			FROM public.distribuciones_x_bloques_x_dias as dbd, dias as d, sedes_x_bloques as sb, bloques as b,
-			distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, asignaturas as a
-			where dbd.id_dias=d.id
-			and dbd.id_bloques_sedes = sb.id
-			and sb.id_sedes = $idSedes
-			and sb.id_bloques = b.id
-			and dbd.id_distribuciones_academicas = da.id
-			and da.id_asignaturas_x_niveles_sedes = ans.id
-			and ans.id_asignaturas = a.id
-			and a.estado  =1
-			and da.estado =1
-			and b.estado  =1
-			order by b.id");
+		
+		//que materias se dan y en que dias en la sede actual
+		$command = $connection->createCommand("
+		select d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
+		pa.descripcion as grupo, au.descripcion as aula
+			from distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, sedes_niveles as sn, dias as d, 
+			bloques as b , distribuciones_x_bloques_x_dias as dbd, sedes_x_bloques as sb, asignaturas as a, personas as p,perfiles_x_personas as pp,
+			paralelos as pa, aulas as au
+			where da.id_asignaturas_x_niveles_sedes = ans.id
+			AND sn.id = ans.id_sedes_niveles
+			AND sn.id_sedes = $idSedes
+			AND da.estado = 1
+			AND dbd.id_distribuciones_academicas = da.id
+			AND dbd.id_dias = d.id
+			AND dbd.id_bloques_sedes = sb.id
+			AND sb.id_bloques = b.id
+			AND ans.id_asignaturas= a.id
+			AND da.id_perfiles_x_personas_docentes = pp.id
+			and pp.id_personas=p.id
+			and da.id_paralelo_sede= pa.id
+			and p.estado = 1
+			and pa.estado= 1
+			and da.estado= 1
+			and da.id_perfiles_x_personas_docentes = $idDocente
+			and da.id_aulas_x_sedes = au.id");
 			$result = $command->queryAll();
 		
 			$command = $connection->createCommand("SELECT id, descripcion
@@ -523,7 +619,7 @@ class DistribucionesAcademicasController extends Controller
 			where estado  =1
 			order by id");
 			$dias = $command->queryAll();
-			// print_r($result);
+			
 			
 			$command = $connection->createCommand("
 			SELECT b.id, b.descripcion
@@ -531,31 +627,34 @@ class DistribucionesAcademicasController extends Controller
 			where b.estado  =1
 			and sb.id_sedes =$idSedes
 			and sb.id_bloques = b.id
-			order by id desc");
+			order by id asc");
 			$bloques = $command->queryAll();
 			
 			
-			
+			//se crea un array con los bloque de la sede VS los dias de la semana con el valor no asignado
 			foreach ($dias as $dia)
 			{
 				foreach ($bloques as $bloque)
 				{
-					$arrayHorario[$bloque['descripcion']][$dia['descripcion']]="No asignado";
+					//$bloque['descripcion'] nombre del bloque 
+					//$dia['descripcion'] dia de la semana
+					$arrayHorario[$bloque['descripcion']][$dia['descripcion']]="-"."</insertar>";
 				}
 				
 				
 			}
 			
+			//en la ubicacion bloque - dia se pone el nombrede la asignatura - group - aula que da ese docente $idDocente
 			foreach($result as $r)
 			{
 				
-				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura'];
+				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."</actualizar>";
 			}
-			//{,"VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_2","LUNES":"No asignado","MARTES":"Idiomas","MIERCOLES":"No asignado","JUEVES":"No asignado","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_3","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Matemáticas","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",},{"bloques":"BLOQUE_4","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Ciencias Sociales","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado",}
 			
 			
+			//se construye el formato json para llenar el dataTable
 			$data='[';
-			$data.='{"bloques":"  BLOQUE","LUNES":"LUNES","MARTES":"MARTES","MIERCOLES":"MIERCOLES","JUEVES":"JUEVES","VIERNES":"VIERNES","SABADO":"SABADO","DOMINGO":"DOMINGO"},';
+			$data.='{"bloques":" BLOQUE ","LUNES":"LUNES","MARTES":"MARTES","MIERCOLES":"MIERCOLES","JUEVES":"JUEVES","VIERNES":"VIERNES","SABADO":"SABADO","DOMINGO":"DOMINGO"},';
 			foreach($arrayHorario as $arrayHorarioJson=>$valor) 
 			{
 				$data.='{"bloques":"'.$arrayHorarioJson.'",';

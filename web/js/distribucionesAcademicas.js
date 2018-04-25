@@ -13,22 +13,38 @@ $( document ).ready(function() {
 	asignaturas_distribucion=$("#hidAsig").val();
 	paralelos_distribucion=$("#hidPara").val();
 	idSede=$("#hidIdSede").val();
-
-	listarHorario(); 
+	
+	var table="";
 	llenarListasActualizar();
 	
 });
+	
+	//se muestra el horario al seleccionar un docente
+$("#distribucionesacademicas-id_perfiles_x_personas_docentes").change(function() 
+{
+  listarHorario(); 
+});
+
 
 function listarHorario(){
+		
+	var idDocente = $("#distribucionesacademicas-id_perfiles_x_personas_docentes").val();
 	
-	$.get( "index.php?r=distribuciones-academicas/horario&idSedes=48", 
+	//si no tien ningun docente seleccionado oculat la tabla
+	if(idDocente =="")
+	{
+		$('#tablaModulos_wrapper').hide();
+		return false;
+		
+	}
+	$.get( "index.php?r=distribuciones-academicas/horario&idSedes="+idSede+"&idDocente="+idDocente, 
 				function( data )
 				{
+					
 					cargarInformacionEnTabla(data);
 					
 				},
 		"json");
-
 }
 
 //llenar el datatable del horario
@@ -36,13 +52,14 @@ function cargarInformacionEnTabla(data)
 {
 		
 		//se destruye el datatable al inicio
-	if(typeof table !== "undefined"){
-            table.destroy(); 
-            $('#tablaModulos').empty();
-        }
+	if(typeof table !== "undefined")
+	{
 		
-		// data =[{"bloques":"BLOQUE_1","LUNES":"Educación Física, Recreación y Deporte","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"No asignado","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado"},{"bloques":"BLOQUE_2","LUNES":"No asignado","MARTES":"Idiomas","MIERCOLES":"No asignado","JUEVES":"No asignado","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado"},{"bloques":"BLOQUE_3","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Matemáticas","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado"},{"bloques":"BLOQUE_4","LUNES":"No asignado","MARTES":"No asignado","MIERCOLES":"No asignado","JUEVES":"Ciencias Sociales","VIERNES":"No asignado","SABADO":"No asignado","DOMINGO":"No asignado"}];		
+        table.destroy(); 
+        $('#tablaModulos').empty();
+    }
 		
+			
 		 table = $('#tablaModulos').DataTable({
 			"data": data,
 			columns: [
@@ -55,29 +72,15 @@ function cargarInformacionEnTabla(data)
 			{ data: "SABADO" },
 			{ data: "DOMINGO" },
 			
-			// { title: "Id Módulo" },
-			// { title: "Módulo" },
-			// { title: "Fecha Inicial" },
-			// { title: "Fecha Final" },
-			// { title: "Duración" },
-			// { title: "Sede" },
-			// { title: "Días Curso" },
-			// { title: "Horario" },
-			// { title: "IntensidadHorariaDiaria" },
-			// { title: "Inscritos" },
-			// { title: "Ruta" },
-			// { title: "Modalidad" },
-			// { title: "cantidadSesiones" },
-			
 			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
 			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
-			"paging":   true,
 			"info":     false,
 			"order": [[ 0, "asc" ]],
 			"scrollY": "300px",
 			"scrollX": true,
 			"bDestroy": true,
+			"bSort": false,
 			"scrollCollapse": true,
 			"searching": false,
 			"paging": false,
@@ -104,7 +107,7 @@ function cargarInformacionEnTabla(data)
 		
 		// $('#tablaModulos tbody').on('click', 'tr', function () 
 		// {
-				
+			// console.log( table.row( this ).data() );
 			// if ( $(this).hasClass('selected')) {
 				// $(this).removeClass('selected');
 				// seleccionado = false;
@@ -116,16 +119,71 @@ function cargarInformacionEnTabla(data)
 			
 		// } );
 		
-		$('#tablaModulos').on( 'click', 'tbody td', function () {
-			 alert( table.cell( this ).data() );
-			 var idx = table.cell( this ).index().row;
-			var data = table.cells( idx, '' ).render( 'display' );
-		 
-			console.log( data );
-		} );
 		
 }
 
+//se obtiene el valor de la celda de dia y bloque
+	$('#tablaModulos').on( 'click', 'tbody td', function () 
+	{
+		
+		columna = "";
+		fila = "";
+		informacion = "";
+		
+		var  dataColumn = table.column( this).data();
+		var idx = table.cell( this ).index().row;
+		var datafila = table.cells( idx, '' ).render( 'display' );
+		
+		//saber que dia se la semana escojieron 
+		dia = dataColumn[0];
+		
+		//saber que bloque seleccionaron
+		bloque = datafila[0];
+		
+		//saber que dato tiene la celda
+		informacion = table.cell( this ).data();
+		
+		nivel = $("#selSedesNivel").val();
+		grupo = $("#distribucionesacademicas-id_paralelo_sede").val();
+		aula  = $("#distribucionesacademicas-id_aulas_x_sedes").val();
+		asignatura = $("#distribucionesacademicas-id_asignaturas_x_niveles_sedes").val();
+		
+		fecha_ingreso = $("#distribucionesacademicas-fecha_ingreso").val();
+		
+		
+		if (nivel=="" || grupo=="" || aula==""|| asignatura=="")
+		{
+			alert("Debe selecccionar todos los campos");
+		}
+		else
+		{
+			
+		idDocente = $("#distribucionesacademicas-id_perfiles_x_personas_docentes").val();
+			
+			$.post( "index.php?r=distribuciones-academicas/create&idSedes="+idSede+"&idInstitucion=55",
+			{
+				id_asignaturas_x_niveles_sedes:asignatura,
+				id_perfiles_x_personas_docentes:idDocente,
+				id_aulas_x_sedes		:aula,
+				estado					:1,
+				id_paralelo_sede		:grupo,
+				fecha_ingreso			:fecha_ingreso,
+				informacionCelda		:informacion,
+				dia						:dia,
+				bloque					:bloque,
+			},
+				function( data )
+				{
+					
+					listarHorario();
+				},
+		"json");
+			
+			
+		}
+		
+	} );
+	
 
 
 
@@ -184,35 +242,15 @@ $("#selSedesNivel").change(function(){
 						
 						$("#distribucionesacademicas-id_paralelo_sede").append('<option value='+data[i].id+'>'+data[i].descripcion+'</option>');
 					}
-					 
-					 // setTimeout(function(){ 
 						if (paralelos_distribucion != ""){ 
 							$( "#distribucionesacademicas-id_paralelo_sede" ).val(paralelos_distribucion);
 						 }
-					// }, 2000);
 					 
 				},
 		"json");
 	
 	
 }); 
-
-// $("#btnHorario").click(function(){
-      
-		// // // $( "#divHorario" ).load( "/are/views/distribuciones-academicas/horario.php" );
-		
-		// // // if($('#divHorario').css('display') == 'none'){
-		   // // // // Acción si el elemento no es visible
-		   // // // $("#divHorario").show();
-		// // // }else{
-		   // // // // Acción si el elemento es visible
-		   // // // $("#divHorario").hide();
-		// // // }
-		
-		
-	  // window.open("/are/views/distribuciones-academicas/horario.html?idSede="+idSede, '_blank');
-    // });
-
 
 
 // $("#btnHorario").click(function(){
@@ -231,20 +269,6 @@ $("#selSedesNivel").change(function(){
  */
 
 
-
-// function listar(){
-	
-	
-	
-	// $.get( "index.php?r=distribuciones-academicas/listar&idMunicipio=1006", 
-				// function( data )
-				// {
-					// alert(data);
-					
-				// },
-		// "json");
-
-// }
 
 function Abrir_ventana (pagina) {
 var opciones="toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=300,height=300,top=85,left=140";
