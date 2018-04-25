@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: 25-04-2018
+Desarrollador: Maria Viviana Rodas
+Descripción: controlador de perfiles persona institucion
+---------------------------------------
+*/
 
 namespace app\controllers;
 
@@ -8,6 +15,12 @@ use app\models\PerfilesPersonasInstitucionBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\data\SqlDataProvider;
+use app\models\Estados;
+use app\models\Perfiles;
+use app\models\PerfilesXPersonas;
+use app\models\Instituciones;
 
 /**
  * PerfilesPersonasInstitucionController implements the CRUD actions for PerfilesPersonasInstitucion model.
@@ -64,7 +77,32 @@ class PerfilesPersonasInstitucionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new PerfilesPersonasInstitucion();
+        
+		 //se crea una instancia del modelo perfiles
+		$perfilesTable 		 	= new Perfiles();
+		//se traen los datos de perfiles
+		$dataPerfiles		 	= $perfilesTable->find()->where( 'id=1' )->all();
+		//se guardan los datos en un array
+		$perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
+		
+		//se crea una instancia del modelo instituciones
+		$institucionesTable 		 	= new Instituciones();
+		//se traen los datos de estados
+		$dataInstituciones		 	= $institucionesTable->find()->where( 'id=1' )->all();
+		//se guardan los datos en un array
+		$instituciones	 	 	 	= ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
+		
+		//Falta perfiles por persona
+
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de estados
+		$dataestados		 	= $estadosTable->find()->where( 'id=1' )->all();
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
+		
+		
+		$model = new PerfilesPersonasInstitucion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +110,10 @@ class PerfilesPersonasInstitucionController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'perfilesTable' => $perfilesTable,
+            'perfiles' => $perfiles,
+            'instituciones' => $instituciones,
+            'estados' => $estados,
         ]);
     }
 

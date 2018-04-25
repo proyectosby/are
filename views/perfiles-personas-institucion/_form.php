@@ -1,5 +1,13 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 25-04-2018
+Desarrollador: Maria Viviana Rodas
+Descripción: Form de perfiles persona institucion
+---------------------------------------
+*/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,14 +20,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_perfiles_x_persona')->textInput() ?>
+    <?= $form->field($model, 'id_institucion')->dropDownList($instituciones,['prompt' => 'Seleccione...']) ?>
+	
+	<?= $form->field($perfilesTable, 'id_perfiles')->dropDownList($perfiles,['prompt' => 'Seleccione...'])->label("Perfil") ?>
+	
+	<?= $form->field($model, 'id_perfiles_x_persona')->dropDownList($perfilesPersonas,['prompt' => 'Seleccione...']) ?>
 
-    <?= $form->field($model, 'id_institucion')->textInput() ?>
-
-    <?= $form->field($model, 'estado')->textInput() ?>
+    <?= $form->field($model, 'estado')->dropDownList($estados,['prompt' => 'Seleccione...']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
