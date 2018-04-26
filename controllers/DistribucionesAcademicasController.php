@@ -289,9 +289,37 @@ class DistribucionesAcademicasController extends Controller
 				die;
 				
 			}
-			elseif(strpos($_POST['informacionCelda'],"</actualizar>") > 0)
+			elseif(strpos($_POST['informacionCelda'],"</actualizar=") > 0)
 			{
+				$pos = strpos($_POST['informacionCelda'],"</actualizar=");
+				//id de la distribucion academica
+				$id= substr($_POST['informacionCelda'],$pos+13);
+				//actualiza la distribucion academica
+				$command = $connection->createCommand
+				("
+					UPDATE public.distribuciones_academicas
+					SET id_asignaturas_x_niveles_sedes=$id_asignaturas_x_niveles_sedes,
+					id_perfiles_x_personas_docentes=$id_perfiles_x_personas_docentes,
+					id_aulas_x_sedes=$id_aulas_x_sedes,
+					fecha_ingreso='$fecha_ingreso',
+					estado=1,
+					id_paralelo_sede=$id_paralelo_sede				
+					WHERE id=$id;
+				");
+				$result = $command->queryAll();
 				
+				//actualiza distribuciones_x_bloques_x_dias
+				$command = $connection->createCommand
+				("
+					UPDATE public.distribuciones_x_bloques_x_dias
+					SET id_bloques_sedes=$idBloqueXSede,
+					id_dias=$idDia
+					WHERE id_distribuciones_academicas=$id;	
+				");
+				$result = $command->queryAll();
+				$data = array("mensaje"=>"hola");
+				echo json_encode($data);
+				die;
 			}
 			// return $this->redirect(['view', 'id' => $model->id]);
 		}
@@ -590,7 +618,7 @@ class DistribucionesAcademicasController extends Controller
 		
 		//que materias se dan y en que dias en la sede actual
 		$command = $connection->createCommand("
-		select d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
+		select da.id , d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
 		pa.descripcion as grupo, au.descripcion as aula
 			from distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, sedes_niveles as sn, dias as d, 
 			bloques as b , distribuciones_x_bloques_x_dias as dbd, sedes_x_bloques as sb, asignaturas as a, personas as p,perfiles_x_personas as pp,
@@ -648,7 +676,7 @@ class DistribucionesAcademicasController extends Controller
 			foreach($result as $r)
 			{
 				
-				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."</actualizar>";
+				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."</actualizar=".$r['id']."";
 			}
 			
 			
