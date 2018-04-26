@@ -7,7 +7,7 @@ Desarrollador: Viviana Rodas
 Descripción: Formulario distribuciones academicas
 ---------------------------------------
 Modificaciones:
-Fecha: 27-03-2018
+Fecha: 26-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Horario
 ---------------------------------------
@@ -99,6 +99,8 @@ use kartik\editable\Editable;
 					
 				]); 
 	?>
+	
+	<?= Html::tag('label', "<h2>Horario</h2>", ['id' => 'tablaModulosLabel']) ?>
 	<table id="tablaModulos" class="display" cellspacing="0" width="100%" ></table>
 	
 </div>

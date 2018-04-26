@@ -4,6 +4,12 @@ Fecha: Fecha en formato (15-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: js Distribuciones academicas
 ---------------------------------------
+Versión: 002
+Fecha: Fecha en formato (26-04-2018)
+Desarrollador: Oscar David lopez
+Descripción: Horario con datatables
+---------------------------------------
+
 */
 
 $( document ).ready(function() {
@@ -13,6 +19,7 @@ $( document ).ready(function() {
 	asignaturas_distribucion=$("#hidAsig").val();
 	paralelos_distribucion=$("#hidPara").val();
 	idSede=$("#hidIdSede").val();
+	$('#tablaModulosLabel').hide();
 	
 	var table="";
 	llenarListasActualizar();
@@ -34,13 +41,14 @@ function listarHorario(){
 	if(idDocente =="")
 	{
 		$('#tablaModulos_wrapper').hide();
+		$('#tablaModulosLabel').hide();
 		return false;
 		
 	}
 	$.get( "index.php?r=distribuciones-academicas/horario&idSedes="+idSede+"&idDocente="+idDocente, 
 				function( data )
 				{
-					
+					$('#tablaModulosLabel').show();
 					cargarInformacionEnTabla(data);
 					
 				},
