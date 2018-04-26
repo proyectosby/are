@@ -23,6 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		'municipios'=>$municipios,
 		'barriosVeredas'=>$barriosVeredas,
 		'clave'=>$clave,
+		'perfiles'=>$perfiles,
+		'perfilesTable'=>$perfilesTable,
+		'perfilesSelected'=>'',
+		
     ]) ?>
 
 </div>

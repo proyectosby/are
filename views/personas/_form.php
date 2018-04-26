@@ -12,30 +12,50 @@ Fecha: Fecha en formato(08-03-2018)
 Persona encargada: Viviana Rodas
 Cambios realizados: Se modifican los campos del formulario, los campos requeridos y ajustes
 a otros campos como textarea y fechas
+-----------
+Fecha: Fecha en formato(19-04-2018)
+Persona encargada: Viviana Rodas
+Cambios realizados: Se agrega al formulario el campo perfiles select multiple para guardar en la tabla perfiles por persona.
 **********/
 
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\datepicker\DatePicker;
+use app\models\Perfiles;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Personas */
 /* @var $form yii\widgets\ActiveForm */
 
+ // //se crea una instancia del modelo perfiles
+		// $perfilesTable 		 	= new Perfiles();
+		// //se traen los datos de los perfiles
+		// $dataPerfiles		 	= $perfilesTable->find()->where( 'estado = 1' )->all();
+		// //se guardan los datos en un array
+		// $perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
+		
+
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-
+	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>-->
+	
 
 <div class="personas-form">
 
     <?php $form = ActiveForm::begin(); ?>
 	
 	<?php 
+	if ($perfilesSelected != ""){
+		$perfilesSelected = implode(",",$perfilesSelected);
+		// echo $perfilesSelected;
+		echo "<input type='hidden' id='hidSelected' name='hidSelected' value='".$perfilesSelected."'>";
+	}
+	
 			/**
  * Metodo para codificar en utf8.
  * 
@@ -56,6 +76,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 	$Identificacion = utf8_encode('Identificación');
 	$telefono = utf8_encode('teléfono');
 	$ubicacion = utf8_encode('Ubicación');
+	$descripcion = utf8_encode('Descripción');
 	?>
 
 <!-- tabs de boostrarp para orden del formulario-->
@@ -65,6 +86,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
  </li>
   <li class="nav-item">
     <a class="nav-link" id="ubicacion-tab" data-toggle="tab" href="#ubicacion" role="tab" aria-controls="ubicacion" aria-selected="false" onclick=""><?php echo $ubicacion ?></a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link" id="perfiles-tab" data-toggle="tab" href="#perfiles" role="tab" aria-controls="perfiles" aria-selected="false" onclick="">Perfiles</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="hobbies-tab" data-toggle="tab" href="#hobbies" role="tab" aria-controls="hobbies" aria-selected="false" onclick="">Hobbies</a>
@@ -131,6 +155,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 		
 		<?= $form->field($model, 'domicilio')->textInput(['maxlength' => true,'placeholder'=> 'Digite el domicilio', 'id' =>'txtDom']) ?>
   </div>
+  <div class="tab-pane fade" id="perfiles" role="tabpanel" aria-labelledby="perfiles-tab">
+	<br>
+	<?= $form->field($perfilesTable, 'id')->dropDownList($perfiles, ['multiple'=>'multiple','size'=>'10'])->label($descripcion) ?>
+  </div>
+  
   <div class="tab-pane fade" id="hobbies" role="tabpanel" aria-labelledby="hobbies-tab">
 	<br>
 	<?= $form->field($model, 'hobbies')->textarea(array('rows'=>10,'cols'=>10),['placeholder'=> 'Digite los hobbies', 'id' =>'txtHobb'] ) ?>

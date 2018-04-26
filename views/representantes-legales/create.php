@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
 		'estudiantes'=>$estudiantes,
 		'representantesLegales'=>$representantesLegales,
-		'modelRepresentantesLegales'=> $modelRepresentantesLegales,
+		// 'modelRepresentantesLegales'=> $modelRepresentantesLegales,
 		'estudianteSelected'=>0,
 		'representantesLegalesSelected'=>0,
     ]) ?>

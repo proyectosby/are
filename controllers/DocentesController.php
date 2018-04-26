@@ -1,5 +1,14 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: Fecha modificacion (24-04-2018)
+Desarrollador: Viviana Rodas
+Descripción: Se modifica el create  y  el update para que solo guarde en docentes, se listan solo los docentes
+---------------------------------------
+
+*/
+
 namespace app\controllers;
 
 use Yii;
@@ -80,29 +89,36 @@ class DocentesController extends Controller
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'personas.estado=1' )->all();
-		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
+		/**
+		* Concexion a la db, llenar select de docentes
+		*/
+		//variable con la conexion a la base de datos  pe.id=10 es el perfil docente
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand("select pp.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=10
+												and pe.estado=1
+												");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		foreach($result as $key){
+			$personas[$key['id']]=$key['nombres'];
+		}
 		
         $model					= new Docentes();
-        $modelPerfilesXPersonas = new PerfilesXPersonas();
-
-        // if($model->load(Yii::$app->request->post()) )
-        if($modelPerfilesXPersonas->load(Yii::$app->request->post()) )
-		{
-			$modelPerfilesXPersonas->id_perfiles = 10;	//ID del perfil docente
+        
+		if( $model->load(Yii::$app->request->post()) && $model->save() )
+			return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
 			
-			if( $modelPerfilesXPersonas->save() )
-			{	
-				$model->id_perfiles_x_personas = $modelPerfilesXPersonas->id;
-				if( $model->load(Yii::$app->request->post()) && $model->save() )
-					return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
-			}
 			
-        }
+        
 
         return $this->render('create', [
             'model' 	  			=> $model,
-            'modelPerfilesXPersonas'=> $modelPerfilesXPersonas,
             'personas' 	  			=> $personas,
             'escalafones' 			=> $escalafones,
             'estados' 	  			=> $estados,
@@ -127,9 +143,25 @@ class DocentesController extends Controller
 		$escalafonesData= Escalafones::find()->where( 'estado=1' )->all();
 		$escalafones 	= ArrayHelper::map( $escalafonesData, 'id', 'descripcion' );
 		
-		$personasData 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'personas.estado=1' )->andWhere( 'id='.$modelPerfilesXPersonas->id_personas )->all();
-		$personas 	  	= ArrayHelper::map( $personasData, 'id', 'nombres' );
+		/**
+		* Concexion a la db, llenar select de docentes
+		*/
+		//variable con la conexion a la base de datos  pe.id=10 es el perfil docente
+		$connection = Yii::$app->getDb();
 		
+		$command = $connection->createCommand("select pp.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=10
+												and pe.estado=1
+												");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		foreach($result as $key){
+			$personas[$key['id']]=$key['nombres'];
+		}
 		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_perfiles_x_personas]);
@@ -137,7 +169,6 @@ class DocentesController extends Controller
 
         return $this->render('update', [
             'model' 	  			=> $model,
-			'modelPerfilesXPersonas'=> $modelPerfilesXPersonas,
             'personas' 	  			=> $personas,
             'escalafones' 			=> $escalafones,
             'estados' 	  			=> $estados,

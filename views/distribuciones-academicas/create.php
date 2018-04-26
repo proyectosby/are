@@ -1,8 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-// $this->registerJsFile('@web/js/distribucionesAcademicas.js');
- $this->registerJsFile(Yii::$app->request->baseUrl.'/js/distribucionesAcademicas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/distribucionesAcademicas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/jquery.dataTables.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+ 
+
+ 
+
 ?>
 <script>
 
@@ -27,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="distribuciones-academicas-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+   <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <?= $this->render('_form', [
         'model' => $model,

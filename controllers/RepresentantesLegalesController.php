@@ -15,6 +15,12 @@ Fecha: 27-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Cambio en la funcion actionDelete
 ---------------------------------------
+Fecha: 25-04-2018
+Persona encargada: Viviana Rodas
+Cambios realizados: - En la accion create y update se listan las personas con perfil de estudiante y las personas con perfil de representante legal
+					  Ya no se guarda en perfiles por persona, solo en estudiantes y representantes legales
+					  En el delete ya se borra en representantes legales y en estudiantes se inactiva, en perfiles por persona no se hace nada
+---------------------------------------
 
 **********/
 
@@ -93,35 +99,75 @@ class RepresentantesLegalesController extends Controller
     public function actionCreate()
     {
         //se consultan las personas que esten en la base de datos		
-		$personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
-		$personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
+		// $personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
+		// $personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
 		
-		//para el agregar estudiante y representante Legal se muestran todas las personas de la base de datos
-		$estudiantes			= $personas;
-		$representantesLegales	= $personas;
+		/**
+		* Concexion a la db, llenar select de estudiantes
+		*/
+		//variable con la conexion a la base de datos  pe.id=11 es el perfil estudiante
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand("select pp.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=11
+												and pe.estado=1
+												");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		foreach($result as $key){
+			$estudiantes[$key['id']]=$key['nombres'];
+		}
+		
+		/**
+		* Concexion a la db, llenar select de representantes legales
+		*/
+		//variable con la conexion a la base de datos  pe.id=12 es el perfil representante legal
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand("select p.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=12
+												and pe.estado=1
+												");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		$representantesLegales=array();
+		foreach($result as $key){
+			$representantesLegales[$key['id']]=$key['nombres'];
+		}
+		
+		
+		// //para el agregar estudiante y representante Legal se muestran todas las personas de la base de datos
+		// $estudiantes			= $personas;
+		// $representantesLegales	= $personas;
 		
 				
-		$modelRepresentantesLegales = new RepresentantesLegales();
-        $model 						= new PerfilesXPersonas();
-		$model->id_perfiles = 11;
-		$modelEstudiantes 				= new Estudiantes();
+		$model = new RepresentantesLegales();
+
+		
+		
         if( $model->load(Yii::$app->request->post()) && $model->save() ){
+			$modelEstudiantes 				= new Estudiantes();
 			
-			if( $modelRepresentantesLegales->load(Yii::$app->request->post()) )
-			{
-				$modelRepresentantesLegales->id_perfiles_x_personas = $model->id;
-				$modelEstudiantes->id_perfiles_x_personas = $model->id;
-				$modelEstudiantes->estado = 1;
-				if( $modelRepresentantesLegales->save() && $modelEstudiantes->save() )
-					return $this->redirect(['view', 'id' => $modelRepresentantesLegales->id]);
-			}
+			$modelEstudiantes->id_perfiles_x_personas = $model->id_perfiles_x_personas;
+			$modelEstudiantes->estado = 1;
+			$modelEstudiantes->save();
+			return $this->redirect(['view', 'id' => $model->id]);
+			
         }
 
         return $this->render('create', [
             'model' 					=> $model,
 			'estudiantes'				=> $estudiantes,
 			'representantesLegales'		=> $representantesLegales,
-			'modelRepresentantesLegales'=> $modelRepresentantesLegales,
+			// 'modelRepresentantesLegales'=> $modelRepresentantesLegales,
 			
 			
         ]);
@@ -138,33 +184,56 @@ class RepresentantesLegalesController extends Controller
     {
 		 $model = $this->findModel($id);
 		
-		//consulta el nombre de la persona partiendo desde la tabla representantes_legales
+		//consulta el nombre de la persona partiendo desde la tabla representantes_legales ESTUDIATE
 		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand("
-		select rl.id, concat(p.nombres,' ',p.apellidos) as nombres, rl.id_personas
-		from personas as p, representantes_legales as rl, perfiles_x_personas pp
-		where rl.id = $id
-		and rl.id_perfiles_x_personas = pp.id
-		and pp.id_personas = p.id
+			select pp.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=11
+												and pe.estado=1
+		
 		");
 		$result = $command->queryAll();
 		
-		//se envia el estudiantes guardado, no se edita el estudiante solo el representante Legal
-		$estudiantes[$result[0]['id']] = $result[0]['nombres'];
+		//se envia el estudiantes guardado, no se edita el estudiante solo el representante Legal el estudiante
+		foreach($result as $key){
+			$estudiantes[$key['id']]=$key['nombres'];
+		}
 		
-		//que estudiante y representante legal estan selecionados 
-		$estudianteSelected =  $result[0]['id'];
-		$representantesLegalesSelected =  $result[0]['id_personas'];
+		
+		
+		//----------
+		
+		//consulta el nombre de la persona partiendo desde la tabla representantes_legales REPRESENTANTE LEGAL
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand("select p.id as id, concat(p.nombres,' ',p.apellidos) as nombres
+												from personas as p, perfiles_x_personas as pp, perfiles as pe
+												where p.id= pp.id_personas
+												and p.estado=1
+												and pp.id_perfiles=pe.id
+												and pe.id=12
+												and pe.estado=1
+												");
+		$result = $command->queryAll();
+		
+		//se envia el estudiantes guardado, no se edita el estudiante solo el representante Legal el estudiante
+		$representantesLegales=array();
+		foreach($result as $key){
+			$representantesLegales[$key['id']]=$key['nombres'];
+		}
 		// print_r($result);
 		
 		
-		//se consultan las personas que esten en la base de datos		
-		$personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
-		$personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
+		// //se consultan las personas que esten en la base de datos		
+		// $personas 	= Personas::find()->select( "id, ( nombres || ' ' || apellidos ) nombres" )->where( 'estado=1' )->all();
+		// $personas 		= ArrayHelper::map( $personas, 'id' , 'nombres' );
 		
-		//para editar el representante Legal se muestran todas las personas de la base de datos
-		// $estudiantes			= $personas;
-		$representantesLegales	= $personas;
+		// //para editar el representante Legal se muestran todas las personas de la base de datos
+		// // $estudiantes			= $personas;
+		// $representantesLegales	= $personas;
 		
 				
 		$modelRepresentantesLegales = new RepresentantesLegales();
@@ -179,8 +248,7 @@ class RepresentantesLegalesController extends Controller
 			'estudiantes'				=> $estudiantes,
 			'representantesLegales'		=> $representantesLegales,
 			'modelRepresentantesLegales'=> $modelRepresentantesLegales,
-			'estudianteSelected'		=> $estudianteSelected,
-			'representantesLegalesSelected' =>$representantesLegalesSelected,
+
         ]);
     }
 
@@ -203,12 +271,13 @@ class RepresentantesLegalesController extends Controller
 		$modelEstudiantes->update(false);
 		
 		
-		//se borra el registro de PerfilesXPersonas que tenga el id representantes_legales.id_perfiles_x_personas
-		$modelPerfilesXPersonas = PerfilesXPersonas::findOne($idPerfilesXPersonas);
-		$modelPerfilesXPersonas->delete();
-		// print_r($idPerfilesXPersonas);
-		// die;	
+		// //se borra el registro de PerfilesXPersonas que tenga el id representantes_legales.id_perfiles_x_personas
+		// $modelPerfilesXPersonas = PerfilesXPersonas::findOne($idPerfilesXPersonas);
+		// $modelPerfilesXPersonas->delete();
+		// // print_r($idPerfilesXPersonas);
+		// // die;	
 		
+		//con esto se elimina en representantes legales
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }

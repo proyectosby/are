@@ -9,7 +9,12 @@ $this->title = 'Modificar: ';
 $this->params['breadcrumbs'][] = ['label' => 'Personas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Modificar';
+// print_r($perfilesSelected);
+// $perfilesSelected = implode(",",$perfilesSelected);
+// echo $perfilesSelected;
 ?>
+
+
 <div class="personas-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -24,6 +29,9 @@ $this->params['breadcrumbs'][] = 'Modificar';
 		'municipios'=>$municipios,
 		'barriosVeredas'=>$barriosVeredas,
 		'clave'=>$clave,
+		'perfiles'=>$perfiles,
+		'perfilesTable'=>$perfilesTable,
+		'perfilesSelected'=>$perfilesSelected,
 		
 	]) ?>
 </div>

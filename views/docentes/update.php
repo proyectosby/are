@@ -1,4 +1,12 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha modificacion (24-04-2018)
+Desarrollador: Viviana Rodas
+Descripción: Se modifica para llenar los docentes
+---------------------------------------
+
+*/
 
 use yii\helpers\Html;
 
@@ -16,7 +24,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' 	  			=> $model,
-		'modelPerfilesXPersonas'=> $modelPerfilesXPersonas,
 		'personas' 	  			=> $personas,
 		'escalafones' 			=> $escalafones,
 		'estados' 	  			=> $estados,

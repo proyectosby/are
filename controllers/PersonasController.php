@@ -5,6 +5,7 @@ Fecha: Fecha en formato (09-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Controlador de personas
 ---------------------------------------
+
 */
 namespace app\controllers;
 
@@ -22,6 +23,9 @@ use app\models\Generos;
 use app\models\Estados;
 use app\models\Municipios;
 use app\models\BarriosVeredas;
+use app\models\Perfiles;
+use app\models\PerfilesXPersonas;
+
 use yii\helpers\ArrayHelper;
 
 /**
@@ -126,6 +130,13 @@ class PersonasController extends Controller
 		//se guardan los datos en un array
 		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
 		
+		//se crea una instancia del modelo perfiles
+		$perfilesTable 		 	= new Perfiles();
+		//se traen los datos de los perfiles
+		$dataPerfiles		 	= $perfilesTable->find()->where( 'estado = 1' )->all();
+		//se guardan los datos en un array
+		$perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
+		
 		$model = new Personas();
 
 		
@@ -136,13 +147,41 @@ class PersonasController extends Controller
 		}
 		
 		
-		// if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->id]);
-        // }
+		// echo "<pre>";print_r($_POST);echo "</pre>";
+		@$idPerfiles = $_POST['Perfiles']['id'];
 		
 		if ($model->load($_POST) && $model->save()) {
-					return $this->redirect(['view', 'id' => $model->id]);
-				}
+			
+		}
+		
+		if ($model->id != '') {
+			//se crea una instancia del modelo perfiles
+			// $perfilesxPersona 		 	= new PerfilesXPersonas();
+			
+			//variable con la conexion a la base y traer id sede
+			$connection = Yii::$app->getDb();
+			
+			foreach($idPerfiles as $perfilesPersonas)
+			{
+				$arrayPerfiles[]="($model->id, $perfilesPersonas,1)";
+		
+			}
+					
+					/**
+					* Se inserta en perfiles por personas
+					*/
+					
+					$command = $connection->createCommand("INSERT INTO public.perfiles_x_personas(
+															 id_personas, id_perfiles,estado)
+															VALUES".implode(",",$arrayPerfiles)."");
+															
+					$result = $command->queryAll();
+		
+			
+		
+				return $this->redirect(['view', 'id' => $model->id]);
+		}
+		
 		
         return $this->render('create', [
             'model' => $model,
@@ -152,6 +191,9 @@ class PersonasController extends Controller
 			'estados'=>$estados,
 			'municipios'=>$municipios,
 			'barriosVeredas'=>$barriosVeredas,
+			'perfiles'=>$perfiles,
+			'perfilesTable'=>$perfilesTable,
+			
         ]);
     }
 
@@ -208,11 +250,147 @@ class PersonasController extends Controller
 		//se guardan los datos en un array
 		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
 		
+		/**
+		* Se trae el id perfiles por persona //-----------------------------------------
+		*/
+		//se crea una instancia del modelo perfiles
+		$perfilesTable 		 	= new Perfiles();
+		//se traen los datos de los perfiles
+		$dataPerfiles		 	= $perfilesTable->find()->where( 'estado = 1' )->all();
+		//se guardan los datos en un array
+		$perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
+		
+		/**
+		* Concexion a la db, llenar selected de perfiles por persona
+		*/
+		//variable con la conexion a la base de datos  pe.id=10 es el perfil docente
+		$connection = Yii::$app->getDb();
+		$perfilesSelected =array();
+		$command = $connection->createCommand("select p.id, p.descripcion
+											  from perfiles as p, perfiles_x_personas as pp, personas as pe
+											  where p.id = pp.id_perfiles
+											  and pe.id = pp.id_personas
+											  and pe.estado = 1
+											  and p.estado = 1
+											  and pp.estado = 1
+											  and pe.id = $id");
+		$result = $command->queryAll();
+		//se formatea para que lo reconozca el select
+		foreach($result as $key){
+			$perfilesSelected[]=$key['id'];
+		}
+		
 		$model = $this->findModel($id);
-
+		
+		// echo "<pre>";print_r($_POST);echo "</pre>";
+		@$idPerfiles = $_POST['Perfiles']['id'];
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            
+				if ($model->id != '') {
+				//se crea una instancia del modelo perfiles
+				// $perfilesxPersona 		 	= new PerfilesXPersonas();
+				
+				
+				/*
+				* Antes de insertar se debe verificar si es un perfil que se va a inactivar o a insertar
+				* se buscan los perfiles que trae en la tabla pefiles por persona si no se encuentra
+				* se inserta y si tiene tiene 4 almacenados y llegan tres el sobrante se inactiva
+				*/
+						/**
+						* Se consultan todos los perfiles de la persona
+						*/
+						
+							
+							$command = $connection->createCommand("SELECT id, id_perfiles
+																	FROM public.perfiles_x_personas
+																	WHERE id_personas =".$model->id." 
+																	AND estado = 1");
+																	
+							$result = $command->queryAll();
+							
+							
+							$arrayPerfilesConsultar=array();
+							if (count($result) > 0) {
+								foreach($result as $perfilesPersonasConsultar)
+								{
+									//se guardan los resultados en $arrayPerfilesConsultar
+									$arrayPerfilesConsultar[]=$perfilesPersonasConsultar['id_perfiles'];
+								}
+								
+							}
+						
+						
+						//si se encuentran resultados se compara los que tiene con los que trae para saber que inactivar
+						if (count($arrayPerfilesConsultar) > 0){
+							
+							
+							//array con datos del post $idPerfiles, array con datos de la consulta $arrayPerfilesConsultar
+							$resultado = array_diff($idPerfiles,$arrayPerfilesConsultar); //los que trae del post que no esten en la consulta se insertan
+							
+							if(count($resultado) > 0){
+								foreach($resultado as $perfilesPersonasNuevos)
+								{
+									$arrayPerfilesNuevos[]="($model->id, $perfilesPersonasNuevos,1)";
+							
+								}
+								/**
+								* Se inserta en perfiles por personas
+								*/
+								
+								$command = $connection->createCommand("INSERT INTO public.perfiles_x_personas(
+																		 id_personas, id_perfiles, estado)
+																		VALUES".implode(",",$arrayPerfilesNuevos)."");
+								$result = $command->queryAll();
+							}
+							
+									
+								//array con datos de la consulta $arrayPerfilesConsultar, array con datos del post $idPerfiles
+								$resultado1 = array_diff($arrayPerfilesConsultar,$idPerfiles); //los que trae del la consulta que no esten en la $post se inactivan
+								
+								if(count($resultado1) > 0){
+									foreach($resultado1 as $perfilesPersonasInactivar)
+									{
+										// $perfilesPersonasInactivar[]="($model->id, $perfilesPersonasInactivar,1)";
+										
+										/**
+										* Se inactiva en perfiles por personas
+										*/
+										
+										$command = $connection->createCommand("UPDATE public.perfiles_x_personas
+																				 SET estado = 2 
+																				 WHERE id_perfiles = $perfilesPersonasInactivar
+																				 AND id_personas =".$model->id. "");
+																				
+										$result = $command->queryAll();
+									}
+								}
+							
+						} 
+						else{		//si no se encuentran resultados se insertan					
+							
+							foreach($idPerfiles as $perfilesPersonas)
+							{
+								$arrayPerfiles[]="($model->id, $perfilesPersonas,1)";
+						
+							}
+							/**
+							* Se inserta en perfiles por personas
+							*/
+							
+							$command = $connection->createCommand("INSERT INTO public.perfiles_x_personas(
+																	 id_personas, id_perfiles, estado)
+																	VALUES".implode(",",$arrayPerfiles)."");
+							$result = $command->queryAll();
+							
+						}
+							
+					
+			}
+			return $this->redirect(['view', 'id' => $model->id]);
         }
+		
+		
 
         return $this->render('update', [
             'model' => $model,
@@ -222,6 +400,9 @@ class PersonasController extends Controller
 			'estados'=>$estados,
 			'municipios'=>$municipios,
 			'barriosVeredas'=>$barriosVeredas,
+			'perfiles'=>$perfiles,
+			'perfilesTable'=>$perfilesTable,
+			'perfilesSelected'=>$perfilesSelected,
         ]);
     }
 

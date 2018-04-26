@@ -35,7 +35,9 @@ use kartik\editable\Editable;
     
 	<?php $form = ActiveForm::begin(); ?>
 	
-	 <!--<?php 
+	<?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList($docentes, ['prompt'=>'Seleccione...'])->label('Docente') ?>
+	
+	<?php 
 		
 		echo "<input type='hidden' id='hidAsig' name='hidAsig' value='".$asignaturas_distribucion."'>";
 		echo "<input type='hidden' id='hidPara' name='hidAsig' value='".$paralelos_distribucion."'>";
@@ -62,34 +64,32 @@ use kartik\editable\Editable;
 		
 		$model1->id=$niveles_sede;
 		
-		
-		
 		echo $form->field($model1, 'id')->dropDownList($nivel, ['prompt'=>'Seleccione...','id' =>'selSedesNivel','options' => [$model1['id'] => ['selected' => 'selected']]])->label('Nivel'); 
 		
 		$model->id=$asignaturas_distribucion;
 	
 	?>
 	
-   <?= $form->field($model, 'id_asignaturas_x_niveles_sedes')->dropDownList([''=>'Seleccione...'])->label('Asignatura') ?>
-    
-    <?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList($docentes, ['prompt'=>'Seleccione...'])->label('Docente') ?>
-
-    <?= $form->field($model, 'id_aulas_x_sedes')->dropDownList($aulas, ['prompt'=>'Seleccione...'])->label('Aula') ?>
-    
 	<?= $form->field($model, 'id_paralelo_sede')->dropDownList([''=>'Seleccione...'])->label('Grupo') ?>
+	
+	<?= $form->field($model, 'id_aulas_x_sedes')->dropDownList($aulas, ['prompt'=>'Seleccione...'])->label('Aula') ?>
+    
+	
+	
+	<?= $form->field($model, 'id_asignaturas_x_niveles_sedes')->dropDownList([''=>'Seleccione...'])->label('Asignatura') ?>
 
-    Campos de fecha que no se envian desde el formulario se envian con datos de fecha del sistema 
+   <!-- Campos de fecha que no se envian desde el formulario se envian con datos de fecha del sistema -->
 	<?php $date =  date ( 'Y-m-d H:m:s' )?>
 	
 	<?= $form->field($model, 'fecha_ingreso')->hiddenInput(['value'=> $date])->label(false)?>
 	
-    <?= $form->field($model, 'estado')->dropDownList($estados, ['prompt'=>'Seleccione...']) ?>
+    <!-- <?= $form->field($model, 'estado')->dropDownList($estados, ['prompt'=>'Seleccione...']) ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?> -->
+    <?php ActiveForm::end(); ?> 
 
 	
 	<?php
