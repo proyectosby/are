@@ -160,7 +160,7 @@ class EstudiantesController extends Controller
         and pp.estado = 1		
 		");
 		$result = $command->queryAll();
-		
+		$estudiantes = array();
 		foreach ( $result as $key)
 		{
 			$estudiantes[$key['id_perfiles_x_personas']] = $key['nombres']; 
