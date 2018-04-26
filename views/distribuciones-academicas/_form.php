@@ -85,9 +85,9 @@ use kartik\editable\Editable;
 	
     <!-- <?= $form->field($model, 'estado')->dropDownList($estados, ['prompt'=>'Seleccione...']) ?> -->
 
-    <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-    </div>
+     <!--<div class="form-group">
+       <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+    </div>-->
 
     <?php ActiveForm::end(); ?> 
 
