@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/perfilPersonaInstitucion.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PerfilesPersonasInstitucion */
@@ -20,6 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		'perfiles' => $perfiles,
 		'instituciones' => $instituciones,
 		'estados' => $estados,
+		'perfilesSelected' => $perfilesSelected,
+        'PerfilesXPersonas' => $PerfilesXPersonas,
+        'modificar' => $modificar,
     ]) ?>
 
 </div>
