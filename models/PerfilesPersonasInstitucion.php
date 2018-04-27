@@ -48,8 +48,8 @@ class PerfilesPersonasInstitucion extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_perfiles_x_persona' => 'Id Perfiles X Persona',
-            'id_institucion' => 'Id Institucion',
+            'id_perfiles_x_persona' => 'Persona',
+            'id_institucion' => 'Institución',
             'estado' => 'Estado',
         ];
     }

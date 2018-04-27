@@ -21,6 +21,7 @@ use app\models\Estados;
 use app\models\Perfiles;
 use app\models\PerfilesXPersonas;
 use app\models\Instituciones;
+use yii\helpers\Json;
 
 /**
  * PerfilesPersonasInstitucionController implements the CRUD actions for PerfilesPersonasInstitucion model.
@@ -81,14 +82,14 @@ class PerfilesPersonasInstitucionController extends Controller
 		 //se crea una instancia del modelo perfiles
 		$perfilesTable 		 	= new Perfiles();
 		//se traen los datos de perfiles
-		$dataPerfiles		 	= $perfilesTable->find()->where( 'id=1' )->all();
+		$dataPerfiles		 	= $perfilesTable->find()->where( 'estado=1' )->all();
 		//se guardan los datos en un array
 		$perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
 		
 		//se crea una instancia del modelo instituciones
 		$institucionesTable 		 	= new Instituciones();
 		//se traen los datos de estados
-		$dataInstituciones		 	= $institucionesTable->find()->where( 'id=1' )->all();
+		$dataInstituciones		 	= $institucionesTable->find()->where( 'estado=1' )->all();
 		//se guardan los datos en un array
 		$instituciones	 	 	 	= ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		
@@ -101,6 +102,9 @@ class PerfilesPersonasInstitucionController extends Controller
 		//se guardan los datos en un array
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
+		$perfilesSelected[0]['id'] = "";
+        $PerfilesXPersonas[0]['id'] = "";
+        $modificar= false;
 		
 		$model = new PerfilesPersonasInstitucion();
 
@@ -114,6 +118,9 @@ class PerfilesPersonasInstitucionController extends Controller
             'perfiles' => $perfiles,
             'instituciones' => $instituciones,
             'estados' => $estados,
+			'perfilesSelected' => $perfilesSelected,
+            'PerfilesXPersonas' => $PerfilesXPersonas,
+            'modificar' => $modificar,
         ]);
     }
 
@@ -126,7 +133,63 @@ class PerfilesPersonasInstitucionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        //se crea una instancia del modelo perfiles
+		$perfilesTable 		 	= new Perfiles();
+		//se traen los datos de perfiles
+		$dataPerfiles		 	= $perfilesTable->find()->where( 'estado=1' )->all();
+		//se guardan los datos en un array
+		$perfiles	 	 	 	= ArrayHelper::map( $dataPerfiles, 'id', 'descripcion' );
+		
+		//perfil seleccionado
+		//variable con la conexion a la base de datos 
+		$connection = Yii::$app->getDb();
+		/**
+		* Llenar select perfiles selected
+		*/
+		$command = $connection->createCommand("SELECT p.id, p.descripcion
+											FROM public.perfiles_x_personas_institucion as ppi, perfiles as p, perfiles_x_personas as pp
+											WHERE ppi.id_perfiles_x_persona = pp.id
+											AND pp.id_perfiles = p.id
+											and p.estado = 1
+											and pp.estado = 1
+											and ppi.estado = 1
+											and ppi.id = $id");
+		$perfilesSelected = $command->queryAll();
+		
+		
+		/**
+		* Llenar select perfiles  por personas selected
+		*/
+		$command = $connection->createCommand(" SELECT pp.id
+											FROM public.perfiles_x_personas_institucion as ppi, perfiles as p, perfiles_x_personas as pp
+											WHERE ppi.id_perfiles_x_persona = pp.id
+											AND pp.id_perfiles = p.id
+											and p.estado = 1
+											and pp.estado = 1
+											and ppi.estado = 1
+											and ppi.id = $id");
+		$PerfilesXPersonas = $command->queryAll();
+		
+		
+		//se crea una instancia del modelo instituciones
+		$institucionesTable 		 	= new Instituciones();
+		//se traen los datos de estados
+		$dataInstituciones		 	= $institucionesTable->find()->where( 'estado=1' )->all();
+		//se guardan los datos en un array
+		$instituciones	 	 	 	= ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
+		
+		
+
+		//se crea una instancia del modelo estados
+		$estadosTable 		 	= new Estados();
+		//se traen los datos de estados
+		$dataestados		 	= $estadosTable->find()->all();
+		//se guardan los datos en un array
+		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
+		
+		$modificar = true;
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -134,6 +197,15 @@ class PerfilesPersonasInstitucionController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'perfilesTable' => $perfilesTable,
+            'perfiles' => $perfiles,
+            'instituciones' => $instituciones,
+            'estados' => $estados,
+            'perfilesSelected' => $perfilesSelected,
+            'PerfilesXPersonas' => $PerfilesXPersonas,
+            'modificar' => $modificar,
+			
+			
         ]);
     }
 
@@ -146,7 +218,10 @@ class PerfilesPersonasInstitucionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = PerfilesPersonasInstitucion::findOne($id);
+		$model->estado = 2;
+		$model->update(false);
+
 
         return $this->redirect(['index']);
     }
@@ -166,4 +241,33 @@ class PerfilesPersonasInstitucionController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+	
+	 /**
+     * Esta funcion lista los perfiles por persona
+     * 
+     * @param Recibe id sedes nivel
+     * @return la lista de asignaturas
+     * @throws no tiene excepciones
+     */		
+  public function actionListarP($idPerfiles )
+	{
+		
+		
+		//variable con la conexion a la base de datos
+		$connection = Yii::$app->getDb();
+		//saber el id de la sede para redicionar al index correctamente
+		$command = $connection->createCommand("SELECT pp.id, concat(p.nombres,' ',p.apellidos) as nombres
+												FROM public.perfiles_x_personas as pp, personas as p, perfiles as pe
+												WHERE pe.id = $idPerfiles
+												AND p.id = pp.id_personas
+												AND pe.id = pp.id_perfiles
+												AND pp.estado = 1
+												AND p.estado = 1
+												AND pe.estado = 1");
+		$result = $command->queryAll();
+		
+		 return Json::encode( $result );
+		
+	
+	}
 }

@@ -12,6 +12,7 @@ use app\models\Aulas;
 use app\models\Instituciones;
 use app\models\Sedes;
 use app\models\DistribucionesAcademicas;
+use app\models\Inasistencias;
 
 
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/inasistencias.js',['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -78,7 +79,6 @@ for( $i = $inicioPeriodo; $i <= $finalPeriodo; $i += 24*3600 ){
 							'attribute' => gmdate( "Y-m-d", $i ), 
 							'format'	=> 'raw',
 							'value'		=> function( $model, $key, $index, $column ){
-												// return $column->attribute;
 												
 												$object = [
 													'estudiante' 	 		=> $model['estudiante'],
@@ -86,8 +86,24 @@ for( $i = $inicioPeriodo; $i <= $finalPeriodo; $i += 24*3600 ){
 													'identificacion' 		=> $model['identificacion'],
 													'distribucionAcademica' => $model['distribucionAcademica'],
 													'fecha' 				=> $column->attribute,
+													'fechaActual'			=> date( "Y-m-d" ),
 												];
-												return Html::buttonInput( "asistió", [ "onclick"=>"marcarFalta( this, ".json_encode( $object ).")", "title" => "Cambiar a falta" ] );
+												
+												$inasistencia = Inasistencias::find()
+																		->where( "id_perfiles_x_personas_estudiantes=".$model['estudiante'] )
+																		->andWhere( "id_distribuciones_academicas=".$model['distribucionAcademica'] )
+																		->andWhere( "fecha='".$column->attribute."'" )
+																		->count();
+																		
+												$asistencia = $inasistencia > 0 ? 'faltó' : 'asistió';
+												$style 		= $inasistencia > 0 ? 'color:red;' : 'color:green;';
+												
+												return Html::buttonInput( $asistencia, 
+																		 [ 
+																			"onclick"=>"marcarFalta( this, ".json_encode( $object ).")", 
+																			"title"  => "Cambiar a falta", 
+																			"style"  => $style, 
+																		]);
 											},
 						];
 		}
@@ -106,7 +122,7 @@ for( $i = $inicioPeriodo; $i <= $finalPeriodo; $i += 24*3600 ){
 	// echo "<br>".gmdate( "Y-m-d", $v );
 $aulas = Aulas::findOne( $idGrupo );
 $estudiantes = Personas::find()
-					->select( "personas.id, ( nombres || apellidos ) as nombres, personas.identificacion" )
+					->select( "pp.id, ( nombres || apellidos ) as nombres, personas.identificacion" )
 					->innerJoin( "perfiles_x_personas pp", "pp.id_personas=personas.id" )
 					->innerJoin( "estudiantes e", "e.id_perfiles_x_personas=pp.id" )
 					->innerJoin( "paralelos p", "p.id=e.id_paralelos" )
@@ -159,7 +175,7 @@ $dataProvider = new ArrayDataProvider([
 		border-collapse:collapse;
     }
     td {
-		color:#678197;
+		color:black;
 		border-bottom:1px solid #e5eff8;
 		border-left:1px solid #e5eff8;
 		padding:.3em 1em;
@@ -181,19 +197,19 @@ $dataProvider = new ArrayDataProvider([
 		
 			<tr>
 				<td>
-					 <b>CODIGO DANE:</b>
-					<?php echo $institucion->codigo_dane ?> 
+					 <b><h2>CODIGO DANE:</b>
+					<?php echo $institucion->codigo_dane ?> </h2>
 				</td>
 				
 				<td>
-					 <?php echo  $institucion->descripcion ?>
+					 <h2><?php echo  $institucion->descripcion ?></h2>
 				</td>
 				
 			</tr>
 			
 			<tr>
 				<td colspan=2>
-					 <?php echo $sede->descripcion ?>
+					 <h3><?php echo $sede->descripcion ?></h3>
 				</td>
 			</tr>
 			
@@ -208,9 +224,6 @@ $dataProvider = new ArrayDataProvider([
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Inasistencias', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= DataTables::widget([
         'dataProvider' => $dataProvider,
