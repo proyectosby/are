@@ -8,6 +8,7 @@ use app\models\InasistenciasBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * InasistenciasController implements the CRUD actions for Inasistencias model.
@@ -92,15 +93,50 @@ class InasistenciasController extends Controller
      */
     public function actionCreate()
     {
+		$data = [
+			'error' => 0,
+			'msg' 	=> "",
+			'html' 	=> "",
+		];
+		
         $model = new Inasistencias();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            // return $this->redirect(['view', 'id' => $model->id]);
+			
+			$inasistencia = Inasistencias::find()
+									->where( "id_perfiles_x_personas_estudiantes=".$model->id_perfiles_x_personas_estudiantes )
+									->andWhere( "id_distribuciones_academicas=".$model->id_distribuciones_academicas )
+									->andWhere( "fecha='".$model->fecha."'" );
+									
+			if( $inasistencia->count() == 0  )
+			{
+				if( $model->save() )
+				{
+					$data['error'] 	= 0;
+					$data['msg'] 	= "faltó";
+					// return 1;
+				}
+			}
+			else
+			{
+				$model = $inasistencia->one();
+				$model->delete();
+				
+				$data['error'] 	= 1;
+				$data['msg'] 	= "asistió";
+				
+				// return 2;
+			}
+			
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+		else{
+			$data['error'] 	= 2;
+			$data['msg'] 	= $model->errors;
+			// return json_encode( $model->errors );
+		}
+		
+		return Json::encode( $data );
     }
 
     /**
