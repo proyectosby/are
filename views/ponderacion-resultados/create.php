@@ -50,6 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
 		'periodos'=>$periodos,
 		'estados'=>$estados,
+		'idSedes'=>$idSedes,
+		'idInstitucion' => $idInstitucion,
 		
     ]) ?>
 

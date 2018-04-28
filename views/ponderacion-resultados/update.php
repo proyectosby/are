@@ -52,6 +52,12 @@ $this->params['breadcrumbs'][] = 'Actualizar';
         'model' => $model,
 		'periodos'=>$periodos,
 		'estados'=>$estados,
+		'idSedes'=>$idSedes,
     ]) ?>
+<script>
+idPonderacion = <?php echo @$model->id; ?>;
+
+</script>
+
 
 </div>

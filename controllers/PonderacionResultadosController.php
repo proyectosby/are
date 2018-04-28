@@ -15,6 +15,12 @@ Fecha: 27-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se agrega el seleccionar la sede y la institucion
 ---------------------------------------
+Modificaciones:
+Fecha: 28-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - no se pude agregar una ponderacion de mas del 100%
+Se corrige la redireccion al index cuando se inactiva una ponderacion
+---------------------------------------
 **********/
 
 namespace app\controllers;
@@ -27,6 +33,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Periodos;
 use app\models\Estados;
+use app\models\Sedes;
 use	yii\helpers\ArrayHelper;
 
 
@@ -51,6 +58,42 @@ class PonderacionResultadosController extends Controller
     }
 
 	
+	//saber cuanto porcentaje han asignado a la ponderacion no pueder ser mas de 100
+	
+	public function actionCantidadPonderacion($idSede, $ponderacion = 0,$idPonderacion = 0)
+	{
+		$cantidadPonderacion = new PonderacionResultados();
+		$cantidadPonderacion = $cantidadPonderacion->find()
+								->where('id_sede='.$idSede)
+								->andWhere( 'estado=1')
+								->all();
+		$cantidadPonderacion = ArrayHelper::map($cantidadPonderacion,'id','calificacion');
+		// 
+											// ->all();
+		//saber si $idPonderacion es diferente de 0 o que se esta actualizando una ponderacion
+		if($idPonderacion !=0)
+		{
+			unset($cantidadPonderacion[$idPonderacion]);
+			
+		}
+
+		$totalPonderacion=0;
+		foreach( $cantidadPonderacion as $c)
+		{
+			//cuanto porcentaje han asignado a la ponderacion
+			$totalPonderacion +=$c;
+		}
+		// print_r($cantidadPonderacion);
+		$total = $totalPonderacion + $ponderacion;
+		
+		if ($total >100)
+		{
+			$data = array('error'=>1,'total'=>$total);
+			echo json_encode($data);
+			
+		}
+		die();
+	}
 	
 	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
     {
@@ -187,12 +230,16 @@ class PonderacionResultadosController extends Controller
 		
 		$model = PonderacionResultados::findOne($id);
 		$model->estado = 2;
-		$idInstitucion = $model->id;
+		$idSedes = $model->id_sede;
+		
 		$model->update(false);
 		
         // $this->findModel($id)->delete();
+		$idInstitucion = Sedes::find()->where('id='.$idSedes)->one();
+		$idInstitucion = $idInstitucion->id_instituciones;
 
-        return $this->redirect(['index']);
+		return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes ]);
+        // return $this->redirect(['index']);
     }
 
     /**
