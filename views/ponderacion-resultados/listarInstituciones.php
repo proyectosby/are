@@ -75,7 +75,7 @@ $optionsSedes = array(
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	<?php $form = ActiveForm::begin([
-		'action' => 'index.php?r=listar-estudiantes/index&idParalelo=0&idJornada=0', 
+		'action' => 'index.php?r=ponderacion-resultados/index', 
 		'method' => 'get',
 	]); ?>
 	

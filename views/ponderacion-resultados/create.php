@@ -12,26 +12,45 @@ Cambios realizados: - nombre de los botones
 Envío de variables para mostrar los posibles valores de los periodos
 Envío de variables para mostrar los posibles valores de los estados
 ---------------------------------------
+Modificaciones:
+Fecha: 27-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - miga de pan
+---------------------------------------
 **********/
 use yii\helpers\Html;
 
 
+use app\models\Sedes;
+
+$nombreSede = Sedes::find()->where('id='.$idSedes)->one();
+$nombreSede = $nombreSede->descripcion;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PonderacionResultados */
 
 $this->title = 'Agregar';
-$this->params['breadcrumbs'][] = ['label' => 'Ponderacion Resultados', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 
+	[
+		'label' => 'Ponderación de resultados', 
+		'url' => [
+					'index',
+					'idInstitucion' => $idInstitucion, 
+					'idSedes' 		=> $idSedes,
+				 ]
+	];						 
+		
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ponderacion-resultados-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
 		'periodos'=>$periodos,
 		'estados'=>$estados,
+		
     ]) ?>
 
 </div>
