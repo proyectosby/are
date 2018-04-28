@@ -4,10 +4,6 @@ use yii\helpers\Html;
 
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/distribucionesAcademicas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
- 
-
- 
-
 ?>
 <script>
 
