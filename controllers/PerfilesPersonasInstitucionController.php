@@ -51,6 +51,7 @@ class PerfilesPersonasInstitucionController extends Controller
     {
         $searchModel = new PerfilesPersonasInstitucionBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider ->query->andWhere('estado=1'); 
 
         return $this->render('index', [
             'searchModel' => $searchModel,
