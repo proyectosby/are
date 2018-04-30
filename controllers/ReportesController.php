@@ -669,9 +669,11 @@ class ReportesController extends Controller
 				
 					foreach( $result as $key => $value )
 					{
-						$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombre, p.domicilio, pa.descripcion as grupo, '' as puesto
+						$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombre, p.domicilio, pa.descripcion as grupo, SUM(c.calificacion) as puesto
 								 FROM personas as p, 
-									  perfiles_x_personas as pp, 
+									  perfiles_x_personas as pp 
+							LEFT JOIN calificaciones as c
+								   ON c.id_perfiles_x_personas_estudiantes = pp.id,
 									  estudiantes as e,
 									  paralelos as pa
 								WHERE p.estado 					= 1
@@ -681,6 +683,7 @@ class ReportesController extends Controller
 								  AND pp.id_personas 			= p.id
 								  AND e.id_paralelos 			= pa.id
 								  AND pa.id 					= ".$value['id']."
+							 GROUP BY p.identificacion, nombre, p.domicilio, grupo
 							 ORDER BY grupo desc
 							";
 				
@@ -807,6 +810,24 @@ class ReportesController extends Controller
 								  AND e.id_paralelos 			= pa.id
 								  AND pa.id 					= ".$value['id']."
 							 ORDER BY grupo desc
+							";
+							
+						$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombre, p.domicilio, pa.descripcion as grupo, SUM(c.calificacion) as puesto
+								 FROM personas as p,
+									  perfiles_x_personas as pp
+							LEFT JOIN calificaciones as c
+								   ON c.id_perfiles_x_personas_estudiantes = pp.id,
+									  estudiantes as e,
+									  paralelos as pa
+								WHERE p.estado 					= 1
+								  AND e.estado 					= 1
+								  AND e.id_perfiles_x_personas 	= pp.id
+								  AND pp.id_perfiles			= 11
+								  AND pp.id_personas 			= p.id
+								  AND e.id_paralelos 			= pa.id
+								  AND pa.id 					= ".$value['id']."
+							 GROUP BY p.identificacion, nombre, p.domicilio, grupo
+							 ORDER BY grupo desc, puesto
 							";
 				
 						$dataProvider[] = new SqlDataProvider([

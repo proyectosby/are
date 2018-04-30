@@ -559,10 +559,11 @@ $this->params['breadcrumbs'][] = $this->title;
 											return $grupo;
 										},
 									],
-									[
-										'attribute' => 'puesto',
-										'label'		=> 'Puesto',
-									],
+									// [
+										// 'attribute' => 'puesto',
+										// 'label'		=> 'Puesto',
+									// ],
+									['class' => 'yii\grid\SerialColumn', 'header' => 'Puesto' ],
 								],
 							]);
 							
@@ -738,10 +739,11 @@ $this->params['breadcrumbs'][] = $this->title;
 											// return $model[ 'grupo' ];
 										// },
 									],
-									[
-										'attribute' => 'puesto',
-										'label'		=> 'Puesto',
-									],
+									// [
+										// 'attribute' => 'puesto',
+										// 'label'		=> 'Puesto',
+									// ],
+									['class' => 'yii\grid\SerialColumn', 'header' => 'Puesto' ],
 								],
 							]);
 							
