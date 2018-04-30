@@ -180,7 +180,7 @@
 							'url' => '#',
 							 'items' => [
                                             ['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => ['representantes-legales/index'],],
-											['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
+											// ['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
                                         ],
 							
 							],
