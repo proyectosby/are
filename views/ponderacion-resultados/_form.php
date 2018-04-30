@@ -18,7 +18,14 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\PonderacionResultados */
 /* @var $form yii\widgets\ActiveForm */
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/ponderacionResultados.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
+
+<script>
+idSede = <?php echo $idSedes; ?>;
+
+</script>
+
 
 <div class="ponderacion-resultados-form">
 
@@ -29,6 +36,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'calificacion')->textInput() ?>
 
     <?= $form->field($model, 'estado')->dropDownList($estados) ?>
+	
+    <?= $form->field($model, 'id_sede')->hiddenInput(['value'=>$idSedes])->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

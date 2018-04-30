@@ -14,6 +14,11 @@ Fecha: 05-04-2018
 Persona encargada: Viviana Rodas
 Cambios realizados: Se agregan los datatables
 ---------------------------------------
+Modificaciones:
+Fecha: 27-04-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - se agrega el seleccionar la sede y la institucion
+---------------------------------------
 **********/
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -35,7 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', [
+									'create',
+									'idSedes' 		=> $idSedes,
+									'idInstitucion' => $idInstitucion, 
+								], 
+								['class' => 'btn btn-success'
+		]) ?>
+
     </p>
 
     <?= DataTables::widget([
@@ -65,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				[
 				"sExtends"=> "pdf",
-				"sButtonText"=> Yii::t('app',"PDF")
+				"oSelectorOpts"=> ["page"=> 'current']
 				],
 				// [
 				// "sExtends"=> "print",

@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					*/
 					//variable con la conexion a la base de datos 
 					$connection = Yii::$app->getDb();
-					$command = $connection->createCommand("SELECT pp.id, concat(p.nombres,' ',p.apellidos) as nombres
+					$command = $connection->createCommand("SELECT pp.id, concat(p.nombres,' ',p.apellidos,' - ',pe.descripcion) as nombres
 														FROM public.perfiles_x_personas as pp, personas as p, perfiles as pe, perfiles_x_personas_institucion as ppi
 														WHERE pp.id = $model->id_perfiles_x_persona
 														AND p.id = pp.id_personas

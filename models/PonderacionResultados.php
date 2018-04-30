@@ -33,6 +33,7 @@ class PonderacionResultados extends \yii\db\ActiveRecord
         return [
             [['id_periodo', 'calificacion', 'estado'], 'default', 'value' => null],
             [['id_periodo', 'calificacion', 'estado'], 'integer'],
+            [['id_periodo', 'calificacion', 'estado','id_sede'], 'required'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_periodo'], 'exist', 'skipOnError' => true, 'targetClass' => Periodos::className(), 'targetAttribute' => ['id_periodo' => 'id']],
         ];
@@ -48,6 +49,7 @@ class PonderacionResultados extends \yii\db\ActiveRecord
             'id_periodo' => 'Periodo',
             'calificacion' => 'Calificación en %',
             'estado' => 'Estado',
+            'id_sede' => 'Sede',
         ];
     }
 

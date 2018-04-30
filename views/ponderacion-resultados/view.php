@@ -9,13 +9,34 @@ use app\models\PonderacionResultados;
 /* @var $this yii\web\View */
 /* @var $model app\models\PonderacionResultados */
 
+use app\models\Sedes;
+
+$idSedes = $model->id_sede;
+
+$nombreSede = Sedes::find()->where('id='.$idSedes)->one();
+$idInstitucion = $nombreSede->id_instituciones;
+$nombreSede = $nombreSede->descripcion;
+ 
+
+/* @var $this yii\web\View */
+/* @var $model app\models\PonderacionResultados */
+
 $this->title = 'Detalle';
-$this->params['breadcrumbs'][] = ['label' => 'Ponderacion Resultados', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 
+	[
+		'label' => 'Ponderación de resultados', 
+		'url' => [
+					'index',
+					'idInstitucion' => $idInstitucion, 
+					'idSedes' 		=> $idSedes,
+				 ]
+	];
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ponderacion-resultados-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($nombreSede) ?></h1>
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

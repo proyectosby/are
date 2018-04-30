@@ -133,7 +133,7 @@ class DistribucionesAcademicasController extends Controller
     {	
 	
 	//se usa en el form para que en el yii se activen los dataTables
-	$sql ="
+		$sql ="
 		SELECT p.identificacion
 		FROM personas as p
 			 

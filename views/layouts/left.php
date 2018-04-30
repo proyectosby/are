@@ -165,6 +165,7 @@
 											['label' => 'Distribución-indicador', 'icon' => 'circle-o', 'url' => ['distribuciones-indicador-desempeno/index'],],
 											['label' => 'Calificaciones', 'icon' => 'circle-o', 'url' => ['calificaciones/index'],],
 											['label' => 'Asistencias', 'icon' => 'circle-o', 'url' => ['inasistencias/index'],],
+											['label' => 'Listado Estudiantes', 'icon' => 'circle-o', 'url' => ['listar-estudiantes/index'],],
 											['label' => 'Documentos Interés', 'icon' => 'circle-o', 'url' => ['documentos/index'],],
                                             
                                             
