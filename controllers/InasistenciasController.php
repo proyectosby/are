@@ -107,7 +107,8 @@ class InasistenciasController extends Controller
 			$inasistencia = Inasistencias::find()
 									->where( "id_perfiles_x_personas_estudiantes=".$model->id_perfiles_x_personas_estudiantes )
 									->andWhere( "id_distribuciones_academicas=".$model->id_distribuciones_academicas )
-									->andWhere( "fecha='".$model->fecha."'" );
+									->andWhere( "fecha='".$model->fecha."'" )
+									->andWhere( "estado=1" );
 									
 			if( $inasistencia->count() == 0  )
 			{
@@ -121,7 +122,8 @@ class InasistenciasController extends Controller
 			else
 			{
 				$model = $inasistencia->one();
-				$model->delete();
+				$model->estado = 2;
+				$model->update(false);
 				
 				$data['error'] 	= 1;
 				$data['msg'] 	= "asistió";

@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Distribución académica';
+$this->title = 'Asistencias';
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -72,11 +72,14 @@ if( $idSedes > 0 ){
 									->innerJoin( "perfiles_x_personas pp", "pp.id_personas=personas.id" )
 									->innerJoin( "distribuciones_academicas da", "da.id_perfiles_x_personas_docentes=pp.id" )
 									->innerJoin( "aulas a", "a.id=da.id_aulas_x_sedes" )
+									->innerJoin( "perfiles_x_personas_institucion ppi", "ppi.id_perfiles_x_persona=pp.id" )
 									->where('personas.estado=1')
 									->andWhere( "a.id_sedes=".$idSedes )
 									->andWhere( "a.estado=1" )
 									->andWhere( "pp.estado=1" )
+									->andWhere( "pp.id_perfiles=10" )
 									->andWhere( "personas.estado=1" )
+									->andWhere( "id_institucion=".$idInstitucion )
 									->orderby('descripcion');
 	// $queryPersonas->andWhere( 'id_instituciones='.$idInstitucion );
 	$dataPersonas	 		= $queryPersonas->all();

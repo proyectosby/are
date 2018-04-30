@@ -87,12 +87,14 @@ for( $i = $inicioPeriodo; $i <= $finalPeriodo; $i += 24*3600 ){
 													'distribucionAcademica' => $model['distribucionAcademica'],
 													'fecha' 				=> $column->attribute,
 													'fechaActual'			=> date( "Y-m-d" ),
+													'estado'				=> 1,
 												];
 												
 												$inasistencia = Inasistencias::find()
 																		->where( "id_perfiles_x_personas_estudiantes=".$model['estudiante'] )
 																		->andWhere( "id_distribuciones_academicas=".$model['distribucionAcademica'] )
 																		->andWhere( "fecha='".$column->attribute."'" )
+																		->andWhere( "estado=1" )
 																		->count();
 																		
 												$asistencia = $inasistencia > 0 ? 'faltó' : 'asistió';
