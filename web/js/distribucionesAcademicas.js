@@ -150,7 +150,6 @@ function cargarInformacionEnTabla(data)
 		
 		//saber que dato tiene la celda
 		informacion = table.cell( this ).data();
-		alert(informacion);
 		nivel = $("#selSedesNivel").val();
 		grupo = $("#distribucionesacademicas-id_paralelo_sede").val();
 		aula  = $("#distribucionesacademicas-id_aulas_x_sedes").val();
