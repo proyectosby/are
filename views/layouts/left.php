@@ -159,7 +159,7 @@
                                             ['label' => 'Docentes areas trabajo', 'icon' => 'circle-o', 'url' => ['docentes-x-areas-trabajos/index'],],
 											['label' => 'Evaluación', 'icon' => 'circle-o', 'url' => ['evaluacion-docentes/index'],],
 											['label' => 'Vinculación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
-											['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
+											['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['horario-docente/index'],],
 											['label' => 'Indicadores desempeño', 'icon' => 'circle-o', 'url' => ['indicador-desempeno/index'],],
 											['label' => 'Plan de aula', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
 											['label' => 'Distribución-indicador', 'icon' => 'circle-o', 'url' => ['distribuciones-indicador-desempeno/index'],],
