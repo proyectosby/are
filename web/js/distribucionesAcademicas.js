@@ -97,11 +97,6 @@ function cargarInformacionEnTabla(data)
 			// {"targets": [ 0 ],"visible": true,"searchable": true},
 			// {"targets": [ 1 ],"visible": true,"searchable": false},
 			// {"targets": [ 3 ],"visible": false,"searchable": false},
-			// {"targets": [ 5 ],"visible": false,"searchable": false},
-			// {"targets": [ 15 ],"visible": false,"searchable": false},
-			// {"targets": [ 13 ],"visible": false,"searchable": false},
-			// {"targets": [ 16 ],"visible": false,"searchable": false},
-			// {"targets": [ 17 ],"visible": false,"searchable": false}
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
@@ -112,21 +107,6 @@ function cargarInformacionEnTabla(data)
 				"Search:": "Filtrar"
 			}
 		});
-		
-		// $('#tablaModulos tbody').on('click', 'tr', function () 
-		// {
-			// console.log( table.row( this ).data() );
-			// if ( $(this).hasClass('selected')) {
-				// $(this).removeClass('selected');
-				// seleccionado = false;
-			// }else{
-				// table.$('tr.selected').removeClass('selected');
-				// $(this).addClass('selected');
-				// seleccionado = true;
-			// }
-			
-		// } );
-		
 		
 }
 
@@ -198,10 +178,9 @@ function llenarListasActualizar()
 {
 	var url = window.location.href; 
 	if (url.indexOf('update')!=-1) 
-	{
-		
+	{	
 		$('#selSedesNivel').trigger('change');
-		// setTimeout(function(){ llenarListas(); }, 2000);	
+		$('#distribucionesacademicas-id_perfiles_x_personas_docentes').trigger('change');	
 	}
 }
 

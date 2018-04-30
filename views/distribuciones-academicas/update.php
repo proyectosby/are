@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'modificar'=>$modificar,
 		'idInstitucion' => $idInstitucion,
 		'paralelos_distribucion'=>$paralelos_distribucion,
+		'dataProvider'=>$dataProvider,
+		'nivelSelected'=>$nivelSelected,
     ]) ?>
 
 </div>

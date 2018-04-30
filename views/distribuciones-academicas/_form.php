@@ -62,7 +62,8 @@ use kartik\editable\Editable;
 					
 				
 		
-		$model1->id=$niveles_sede;
+		// $model1->id=$niveles_sede;
+		$model1->id=$nivelSelected;
 		
 		echo $form->field($model1, 'id')->dropDownList($nivel, ['prompt'=>'Seleccione...','id' =>'selSedesNivel','options' => [$model1['id'] => ['selected' => 'selected']]])->label('Nivel'); 
 		
