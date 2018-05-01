@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+Modificaciones:
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se cambia a dropDownList "id_sedes" y "estado"
@@ -24,10 +29,12 @@ use yii\widgets\ActiveForm;
 <div class="asignaturas-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+	<?= $form->field($model, 'id_sedes')->dropDownList($sedes) ?>
+	
+	<?= $form->field($model, 'id_areas_ensenanza')->dropDownList($areas, ['prompt' => 'Seleccione...' ] ) ?>
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'id_sedes')->dropDownList($sedes) ?>
 
     <?= $form->field($model, 'estado')->dropDownList($estados) ?>
 

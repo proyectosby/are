@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+Modificaciones:
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Cambio en el campo estado para que muestre la descripcion del estado
@@ -25,6 +30,7 @@ use yii\helpers\ArrayHelper;
 
 use app\models\Estados;
 use app\models\Sedes;
+use app\models\AreasEnsenanza;
 
 //datos para la miga de pan
 $sedes = new Sedes();
@@ -68,6 +74,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'descripcion',
 			[
+				'attribute' => 'id_areas_ensenanza',
+				'value'		=> function( $model ){
+									$areas = AreasEnsenanza::findOne( $model->id_areas_ensenanza );
+									return $areas ? $areas->descripcion: '';
+							   },
+			],
+			[
 				'attribute'=> 'estado',
 				//se muestra la descripcion del estado
 				'value'=>function ($model)
@@ -77,6 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					
 				}
 			],
+
 			
         ],
     ]) ?>

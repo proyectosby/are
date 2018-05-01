@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 
 use app\models\Sedes;
 use app\models\Instituciones;
+use app\models\AreasEnsenanza;
 
 use fedemotta\datatables\DataTables;
 /* @var $this yii\web\View */
@@ -98,6 +99,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\SerialColumn'],
             'descripcion',
+            [
+				'attribute' => 'id_areas_ensenanza',
+				'value'		=> function( $model ){
+									$areas = AreasEnsenanza::findOne( $model->id_areas_ensenanza );
+									return $areas ? $areas->descripcion: '';
+							   },
+			],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
