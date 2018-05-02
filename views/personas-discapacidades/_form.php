@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id_tipos_discapacidades')->dropDownList($discapacidades, ['prompt'=>'Seleccione...']) ?>
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
+	
+    <?= $form->field($model, 'alergico')->textarea(['rows' => 4]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

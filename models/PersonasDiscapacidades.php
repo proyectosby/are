@@ -33,7 +33,7 @@ class PersonasDiscapacidades extends \yii\db\ActiveRecord
             [['id_personas', 'id_tipos_discapacidades'], 'required'],
             [['id_personas', 'id_tipos_discapacidades'], 'default', 'value' => null],
             [['id_personas', 'id_tipos_discapacidades'], 'integer'],
-            [['descripcion'], 'string'],
+            [['descripcion', 'alergico'], 'string'],
             [['id_personas', 'id_tipos_discapacidades'], 'unique', 'targetAttribute' => ['id_personas', 'id_tipos_discapacidades']],
             [['id_personas'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_personas' => 'id']],
             [['id_tipos_discapacidades'], 'exist', 'skipOnError' => true, 'targetClass' => TiposDiscapacidades::className(), 'targetAttribute' => ['id_tipos_discapacidades' => 'id']],
@@ -49,6 +49,7 @@ class PersonasDiscapacidades extends \yii\db\ActiveRecord
             'id_personas' => 'Persona',
             'id_tipos_discapacidades' => 'Tipos Discapacidad',
             'descripcion' => 'Descripción',
+            'alergico' => 'Alérgico',
         ];
     }
 
