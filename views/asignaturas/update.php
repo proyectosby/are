@@ -7,6 +7,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+Modificaciones:
 Fecha: 09-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Modificacion miga de pan
@@ -48,9 +53,10 @@ $this->params['breadcrumbs'][] = 'Actualizar';
     <h1><?= Html::encode("Asignaturas") ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
-		'estados'=>$estados,
-		'sedes'=>$sedes,
+        'model' 	=> $model,
+		'estados'	=> $estados,
+		'sedes'		=> $sedes,
+		'areas'		=> $areas,
     ]) ?>
 
 </div>

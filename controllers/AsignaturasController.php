@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+Modificaciones:
 Fecha: 10-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - cambios en todas las funciones y 
@@ -26,6 +31,7 @@ use app\models\AsginaturasBuscar;
 use app\models\Estados;
 use app\models\Sedes;
 use app\models\Instituciones;
+use app\models\AreasEnsenanza;
 
 
 
@@ -139,6 +145,15 @@ class AsignaturasController extends Controller
 		$sedes = $sedes->find()->where('id='.$idSedes)->all();
 		$sedes = ArrayHelper::map($sedes,'id','descripcion');
 		
+		//se seleccionan solo la sede actual 
+		$areas = new AreasEnsenanza();
+		$areas = $areas->find()
+					->innerJoin( 'sedes_areas_ensenanza sae', 'sae.id_areas_ensenanza=areas_ensenanza.id' )
+					->where( 'estado=1' )
+					->andWhere( 'sae.id_sedes='.$idSedes )
+					->all();
+		$areas = ArrayHelper::map($areas,'id','descripcion');
+		
         $model = new Asignaturas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -146,9 +161,11 @@ class AsignaturasController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model,
-			'estados'=>$estados,
-			'sedes'=>$sedes,
+            'model' 	=> $model,
+			'estados'	=> $estados,
+			'sedes'		=> $sedes,
+			'areas'		=> $areas,
+			'idSedes'	=> $idSedes,
         ]);
     }
 
@@ -173,7 +190,14 @@ class AsignaturasController extends Controller
 		$sedes = $sedes->find()->where('id='.$model->id_sedes)->all();
 		$sedes = ArrayHelper::map($sedes,'id','descripcion');
 		
-		
+		//se seleccionan solo la sede actual 
+		$areas = new AreasEnsenanza();
+		$areas = $areas->find()
+					->innerJoin( 'sedes_areas_ensenanza sae', 'sae.id_areas_ensenanza=areas_ensenanza.id' )
+					->where( 'estado=1' )
+					->andWhere( 'sae.id_sedes='.$model->id_sedes )
+					->all();
+		$areas = ArrayHelper::map($areas,'id','descripcion');
        
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -181,9 +205,10 @@ class AsignaturasController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
-			'estados'=>$estados,
-			'sedes'=>$sedes,
+            'model' 	=> $model,
+			'estados'	=> $estados,
+			'sedes'		=> $sedes,
+			'areas'		=> $areas,
         ]);
     }
 

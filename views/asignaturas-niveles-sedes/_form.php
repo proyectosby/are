@@ -1,5 +1,16 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 27-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega filtro por AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+**********/
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Sedes;
@@ -28,6 +39,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/asignaturasNivelesSedes.j
 		        
 
 	<?= $form->field($model, 'id_sedes_niveles')->dropDownList(['prompt'=>'Seleccione...'])->label('Niveles') ?>
+	
+	<div class="form-group field-asignaturasnivelessedes-id_sedes_niveles">
+		<label class="control-label">Areas de enseñanza</label>
+		<?= HTML::dropDownList( "areas", "", [],['prompt'=>'Seleccione...', "class"=>"form-control",'onchange'=>'llenarListaAsignatura()' ] ) ?>
+	</div>
 	
     <?= $form->field($model, 'id_asignaturas')->dropDownList(['prompt'=>'Seleccione...']) ?>
 

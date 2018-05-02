@@ -1,4 +1,17 @@
 <?php
+/**********
+Versión: 001
+Fecha: 10-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Asignaturas
+---------------------------------------
+Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+**********/
+
 
 namespace app\models;
 
@@ -37,6 +50,8 @@ class Asignaturas extends \yii\db\ActiveRecord
             [['descripcion'], 'string', 'max' => 100],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_sedes'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sedes' => 'id']],
+            [['id_areas_ensenanza'], 'exist', 'skipOnError' => true, 'targetClass' => AreasEnsenanza::className(), 'targetAttribute' => ['id_areas_ensenanza' => 'id']],
+			[['id_areas_ensenanza', 'descripcion'], 'required' ],
         ];
     }
 
@@ -46,10 +61,11 @@ class Asignaturas extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'descripcion' => 'Descripción',
-            'id_sedes' => 'Sedes',
-            'estado' => 'Estado',
+            'id' 				=> 'ID',
+            'descripcion' 		=> 'Descripción',
+            'id_sedes' 			=> 'Sedes',
+            'estado' 			=> 'Estado',
+            'id_areas_ensenanza'=> 'Area de enseñanza',
         ];
     }
 
