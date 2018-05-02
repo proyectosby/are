@@ -117,12 +117,18 @@ class DirectorParaleloController extends Controller
 				}
 						
 		$connection = Yii::$app->getDb();
-		//grupos que tiene la sede
+		//docentes que tiene la institucion
 		$command = $connection->createCommand("
-			SELECT d.id_perfiles_x_personas as id, concat(p.nombres,' ', p.apellidos) as nombre
-			FROM public.docentes d, personas p, perfiles_x_personas as pp
-			where d.id_perfiles_x_personas = pp.id
-			and pp.id_personas = p.id		
+				select d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombre
+				from personas as p, perfiles_x_personas as pp, docentes as d, perfiles as pe, perfiles_x_personas_institucion as ppi
+				where p.id= pp.id_personas
+				and p.estado=1
+				and pp.id_perfiles=pe.id
+				and pe.id=10
+				and pe.estado=1
+				and pp.id= d.id_perfiles_x_personas
+				and ppi.id_institucion = $idInstitucion
+				and pp.id = ppi.id_perfiles_x_persona		
 		");
 		$result = $command->queryAll();
 		
@@ -196,12 +202,18 @@ class DirectorParaleloController extends Controller
 				}
 					
 		$connection = Yii::$app->getDb();
-		//grupos que tiene la sede
+		//docente que tiene la institucion
 		$command = $connection->createCommand("
-			SELECT d.id_perfiles_x_personas as id, concat(p.nombres,' ', p.apellidos) as nombre
-			FROM public.docentes d, personas p, perfiles_x_personas as pp
-			where d.id_perfiles_x_personas = pp.id
-			and pp.id_personas = p.id		
+			select d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombre
+			from personas as p, perfiles_x_personas as pp, docentes as d, perfiles as pe, perfiles_x_personas_institucion as ppi
+			where p.id= pp.id_personas
+			and p.estado=1
+			and pp.id_perfiles=pe.id
+			and pe.id=10
+			and pe.estado=1
+			and pp.id= d.id_perfiles_x_personas
+			and ppi.id_institucion = $idInstitucion
+			and pp.id = ppi.id_perfiles_x_persona			
 		");
 		$result = $command->queryAll();
 		
