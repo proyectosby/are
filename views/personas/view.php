@@ -118,6 +118,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $estados ? $estados->descripcion : '';
 				},
 			],
+			'grupo_sanguineo',
+				
+			
+			
         ],
     ]) ?>
 

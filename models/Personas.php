@@ -87,7 +87,7 @@ class Personas extends \yii\db\ActiveRecord
             [['fecha_nacimiento', 'fecha_registro', 'fecha_ultimo_ingreso'], 'safe'],
             [['envio_correo'], 'boolean'],
             [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'default', 'value' => null],
-            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'string'],
+            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado','grupo_sanguineo'], 'string'],
             [['latitud', 'longitud'], 'number'],
             [['usuario'], 'string', 'max' => 60],
             [['psw', 'domicilio'], 'string', 'max' => 200],
@@ -135,6 +135,7 @@ class Personas extends \yii\db\ActiveRecord
 		$telefono = utf8_encode('Teléfonos');
 		$tipoIdentificacion = utf8_encode('Tipo Identificación');
 		$genero = utf8_encode('Género');
+		$grupo_sanguineo = utf8_encode('Grupo Sanguíneo');
         return [
             'id' => 'ID',
             'usuario' => 'Usuario',
@@ -157,6 +158,7 @@ class Personas extends \yii\db\ActiveRecord
             'id_generos' => $genero,
             'hobbies' => 'Hobbies',
             'id_barrios_veredas' => 'Barrio - Vereda',
+            'grupo_sanguineo' => $grupo_sanguineo,
             'estado' => 'Estado',
         ];
     }

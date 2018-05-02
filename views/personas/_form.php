@@ -77,6 +77,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 	$telefono = utf8_encode('teléfono');
 	$ubicacion = utf8_encode('Ubicación');
 	$descripcion = utf8_encode('Descripción');
+	$grupo_sanguineo = utf8_encode('Grupo Sanguíneo');
 	?>
 
 <!-- tabs de boostrarp para orden del formulario-->
@@ -108,6 +109,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 
 		<!--<?= $form->field($model, 'fecha_nacimiento')->textInput(['placeholder'=> 'Digite la fecha de nacimiento', 'id' =>'txtFechaNac']) ?>-->
 		
+		<?= $form->field($model, 'grupo_sanguineo')->textInput(['placeholder'=> "Digite el $grupo_sanguineo y rh"])->label($grupo_sanguineo) ?>
+		
 		<?= $form->field($model, 'fecha_nacimiento')->widget(
     DatePicker::className(), [
         
@@ -133,7 +136,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 		<?= $form->field($model, 'estado')->dropDownList($estados, ['prompt'=>'Seleccione...']) ?>
 		
 		<fieldset>
-			<legend align="right">Datos de acceso</legend>
+			<legend align="left">Datos de acceso</legend>
 			<?= $form->field($model, 'usuario')->textInput(['maxlength' => true,'placeholder'=> 'Digite el nombre de usuario', 'id' =>'txtUsu']) ?>
 
 			<?php  if ($clave == true) {?>
