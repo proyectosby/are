@@ -5,6 +5,11 @@ Versión: 001
 Fecha: 27-03-2018
 ---------------------------------------
 Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega filtro por AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+Modificaciones:
 Fecha: 27-03-2018
 Se agrega método actionAsignaturasXNivelesSedes
 ---------------------------------------
@@ -25,6 +30,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Asignaturas;
 use	yii\helpers\ArrayHelper;
+use	yii\helpers\Json;
 
 /**
  * AsignaturasNivelesSedesController implements the CRUD actions for AsignaturasNivelesSedes model.
@@ -114,9 +120,42 @@ class AsignaturasNivelesSedesController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+	
+	public function actionAreasEnsenanza( $sede, $idModelo ){
+		
+		$connection = Yii::$app->getDb();
+		
+		$data = array( 'error' => 0, 'areas' );
+		
+		if ($idModelo!=0)
+		{
+			$model = $this->findModel($idModelo);
+			$asignatura = Asignaturas::findOne( $model->id_asignaturas );
+			$data["selectAreas"] = $asignatura->id_areas_ensenanza;
+		}
+		
+		//consulta las asignaturas de la sede
+		$command = $connection->createCommand("
+						SELECT ae.id, ae.descripcion
+						  FROM sedes_areas_ensenanza sae, areas_ensenanza ae
+						 WHERE sae.id_sedes=$sede
+						   AND ae.id 	= sae.id_areas_ensenanza
+						   AND ae.estado= 1
+					");
+		$result = $command->queryAll();
+		
+		
+		$data['areas'][]="<option value='0'>Seleccione..</option>";
+		foreach ($result as $row) {
+			$id 		 = $row['id'];
+			$descripcion = $row['descripcion'];
+			$data['areas'][]="<option value=$id>$descripcion</option>";
+		}
+		
+		echo Json::encode($data);
+	}
 	 
-	 
-	public function actionNivelesSedes($idSede,$idModelo)
+	public function actionNivelesSedes($idSede,$idModelo,$area)
 	{
 		
 		$data = array('error'=>0,'niveles','asignaturas');
@@ -159,8 +198,9 @@ class AsignaturasNivelesSedesController extends Controller
 		//consulta las asignaturas de la sede
 		$command = $connection->createCommand("
 		SELECT id,descripcion
-		FROM public.asignaturas
-		where id_sedes=$idSede
+		  FROM public.asignaturas
+		 WHERE id_sedes=$idSede
+		   AND id_areas_ensenanza=$area
 		");
 		$result = $command->queryAll();
 		

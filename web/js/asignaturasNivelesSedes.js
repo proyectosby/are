@@ -1,3 +1,14 @@
+/**********
+Versión: 001
+Fecha: 27-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 01-05-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega filtro por AREAS DE ENSEÑANZA al CRUD
+---------------------------------------
+**********/
+
 $( document ).ready(function() {
 	
 	
@@ -5,6 +16,7 @@ $( document ).ready(function() {
 	if (url.indexOf('update')!=-1) 
 	{
 		llenarListas(idModelo);
+		// setTimeout( function(){ llenarListaAsignatura( idModelo ) }, 1000 );
 		
 	}
 	else
@@ -14,18 +26,53 @@ $( document ).ready(function() {
 });
 
 
-function llenarListas(idModelo=0)
+function llenarAreas( sede, idModelo = 0 )
 {		
 		
-$.get( "index.php?r=asignaturas-niveles-sedes/niveles-sedes&idSede=48&idModelo="+idModelo, 
-				function( data )
-				{
-					$("#asignaturasnivelessedes-id_sedes_niveles").html(data.niveles);
-					$("#asignaturasnivelessedes-id_asignaturas").html(data.asignaturas);
-					
-					$("#asignaturasnivelessedes-id_sedes_niveles").val(data.selectNiveles);
-					$("#asignaturasnivelessedes-id_asignaturas").val(data.selectAsignatura);
-				},
+	$.get( "index.php?r=asignaturas-niveles-sedes/areas-ensenanza&sede="+sede+"&idModelo="+idModelo,
+			function( data )
+			{
+				$("[name=areas]").html( data.areas );
+				$("[name=areas]").val( data.selectAreas );
+				
+				if( idModelo != 0 )
+					llenarListaAsignatura( idModelo );
+			},
+		"json");
+	
+}
+
+function llenarListas( idModelo=0 )
+{		
+
+	var areae = $("[name=areas]").val() || 0;
+		
+	$.get( "index.php?r=asignaturas-niveles-sedes/niveles-sedes&idSede="+$( "#sedes-descripcion" ).val()+"&idModelo="+idModelo+"&area="+areae, 
+			function( data )
+			{
+				$("#asignaturasnivelessedes-id_sedes_niveles").html(data.niveles);
+				$("#asignaturasnivelessedes-id_asignaturas").html(data.asignaturas);
+				
+				$("#asignaturasnivelessedes-id_sedes_niveles").val(data.selectNiveles);
+				$("#asignaturasnivelessedes-id_asignaturas").val(data.selectAsignatura);
+				
+				llenarAreas( $( "#sedes-descripcion" ).val(), idModelo );
+			},
+		"json");
+	
+}
+
+function llenarListaAsignatura( idModelo=0 )
+{		
+
+	var areae = $("[name=areas]").val() || 0;
+		
+	$.get( "index.php?r=asignaturas-niveles-sedes/niveles-sedes&idSede="+$( "#sedes-descripcion" ).val()+"&idModelo="+idModelo+"&area="+areae, 
+			function( data )
+			{
+				$("#asignaturasnivelessedes-id_asignaturas").html(data.asignaturas);
+				$("#asignaturasnivelessedes-id_asignaturas").val(data.selectAsignatura);
+			},
 		"json");
 	
 }
