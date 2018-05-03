@@ -246,6 +246,7 @@ class ReportesController extends Controller
 				$sql ="SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
 					     FROM personas as p, 
 							  perfiles_x_personas as pp, 
+							  perfiles_x_personas_institucion as ppi,
 							  estudiantes as e,
 							  paralelos as pa, 
 							  sedes_jornadas as sj, 
@@ -266,9 +267,12 @@ class ReportesController extends Controller
 					      AND s.id_instituciones 		= i.id
 					      AND i.id 						= $idInstitucion
 						  AND sn.id 					= pa.id_sedes_niveles
+						  AND ppi.id_institucion		= $idInstitucion
+					      AND ppi.id_perfiles_x_persona	= pp.id
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
 						  AND n.estado 					= 1
+						  AND ppi.estado				= 1
 					";
 			
 			
@@ -279,6 +283,7 @@ class ReportesController extends Controller
 				$sql ="SELECT pa.descripcion as grupo, n.descripcion as nivel, count(*) as cantidad
 					     FROM personas as p, 
 							  perfiles_x_personas as pp, 
+							  perfiles_x_personas_institucion as ppi,
 							  estudiantes as e, 
 							  paralelos as pa, 
 							  sedes_jornadas as sj, 
@@ -298,10 +303,13 @@ class ReportesController extends Controller
 					      AND sj.id_sedes 				= $idSedes
 					      AND s.id_instituciones 		= i.id
 					      AND i.id 						= $idInstitucion
+					      AND ppi.id_institucion		= $idInstitucion
+					      AND ppi.id_perfiles_x_persona	= pp.id
 						  AND sn.id 					= pa.id_sedes_niveles
 						  AND sn.id_sedes 				= s.id
 						  AND n.id						= sn.id_niveles
 						  AND n.estado 					= 1
+						  AND ppi.estado				= 1
 					 GROUP BY grupo, nivel
 					";
 			
@@ -674,14 +682,18 @@ class ReportesController extends Controller
 									  perfiles_x_personas as pp 
 							LEFT JOIN calificaciones as c
 								   ON c.id_perfiles_x_personas_estudiantes = pp.id,
+									  perfiles_x_personas_institucion as ppi,
 									  estudiantes as e,
 									  paralelos as pa
 								WHERE p.estado 					= 1
 								  AND e.estado 					= 1
+								  AND ppi.estado				= 1
 								  AND e.id_perfiles_x_personas 	= pp.id
 								  AND pp.id_perfiles			= 11
 								  AND pp.id_personas 			= p.id
 								  AND e.id_paralelos 			= pa.id
+								  AND ppi.id_perfiles_x_persona = pp.id
+								  AND ppi.id_institucion		= $idInstitucion
 								  AND pa.id 					= ".$value['id']."
 							 GROUP BY p.identificacion, nombre, p.domicilio, grupo
 							 ORDER BY grupo desc
@@ -817,14 +829,18 @@ class ReportesController extends Controller
 									  perfiles_x_personas as pp
 							LEFT JOIN calificaciones as c
 								   ON c.id_perfiles_x_personas_estudiantes = pp.id,
+									  perfiles_x_personas_institucion as ppi,
 									  estudiantes as e,
 									  paralelos as pa
 								WHERE p.estado 					= 1
 								  AND e.estado 					= 1
+								  AND ppi.estado				= 1
 								  AND e.id_perfiles_x_personas 	= pp.id
 								  AND pp.id_perfiles			= 11
 								  AND pp.id_personas 			= p.id
 								  AND e.id_paralelos 			= pa.id
+								  AND ppi.id_perfiles_x_persona = pp.id
+								  AND ppi.id_institucion		= $idInstitucion
 								  AND pa.id 					= ".$value['id']."
 							 GROUP BY p.identificacion, nombre, p.domicilio, grupo
 							 ORDER BY grupo desc, puesto
