@@ -77,6 +77,7 @@ class HorarioDocenteController extends Controller
 		$connection = Yii::$app->getDb();
 		//llenar los docente
 		$command = $connection->createCommand("
+			select d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombres
 			from personas as p, perfiles_x_personas as pp, docentes as d, perfiles as pe,perfiles_x_personas_institucion as ppi
 			where p.id= pp.id_personas
 			and p.estado=1
