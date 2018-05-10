@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/poblarTablas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 
 if( !empty( $msg ) ){
@@ -61,7 +62,10 @@ $this->title = 'Poblar tabla';
 		<div class=row>
 	
 			<div class=cell>
-				<?= $form->field( $model, 'tabla')->dropDownList( $tablas, [ 'prompt' => 'Seleccione...', 'class' => 'form-control' ] ) ?>
+				<?= $form->field( $model, 'tabla')->dropDownList( $tablas, [ 'prompt' 	=> 'Seleccione...', 
+																			 'class'	=> 'form-control', 
+																			 'onChange'	=> 'seleccionarTabla(this);', 
+				] ) ?>
 			</div>
 		
 		</div>
@@ -69,18 +73,20 @@ $this->title = 'Poblar tabla';
 		<div class=row>
 
 			<div class=cell>
-				<?= $form->field( $model, 'archivo')->fileInput( [ 'accept' => ".csv, .txt" ] )->label( 'Archivo csv' ) ?>
+				<?= $form->field( $model, 'archivo')->fileInput( [ 'accept' => ".csv, .txt" ] )->label( "Archivo csv(".ini_get("upload_max_filesize").")" ) ?>
 			</div>
 				
 		</div>
 	
 		<div class=row>
-			<div class=cell>
+			<div class=cell style='overflow:auto;'>
 				<br><b>Ejemplo archivo csv:</b>
-				<p style='background:#ddd;padding:10px;'>
-					"campo1","campo2","campo3",...<br>
-					"campo1","campo2","campo3",...
-				</p>
+				<div style='overflow:auto;width:900px;background:#ddd;'>
+					<p style='background:#ddd;padding:10px;' id='pCsvExample'>
+						"campo1","campo2","campo3",...<br>
+						"campo1","campo2","campo3",...
+					</p>
+				</div>
 			</div>
 		</div>
 		

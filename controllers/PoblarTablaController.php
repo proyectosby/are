@@ -11,8 +11,39 @@ use yii\web\UploadedFile;
 use yii\base\ErrorException;
 use yii\db\Exception;
 
+use yii\helpers\Json;
+
 class PoblarTablaController extends Controller
 {
+	public function actionColumnasPorTabla( $tabla ){
+		
+		$data = [
+			'error' => 0,
+			'msg' 	=> '',
+			'data'	=> [],
+		];
+		
+		// var_dump( $file );
+		$sql = "SELECT ordinal_position, column_name 
+				  FROM information_schema.columns 
+				 WHERE table_name = '".$tabla."'
+			  ORDER BY 1;";
+				 
+		$connection = Yii::$app->getDb();
+		
+		$command = $connection->createCommand($sql);
+		
+		$result = $command->queryAll();
+
+		foreach( $result as $key => $value )
+		{
+			// var_dump( $value );
+			// var_dump( $value['column_name'] );
+			$data['data'][] = $value['column_name'];
+		}
+		
+		echo Json::encode( $data );
+	}
 
     public function actionCreate()
     {
@@ -63,7 +94,7 @@ class PoblarTablaController extends Controller
     {
 		$connection = Yii::$app->getDb();
 		
-		$sql = "SELECT tablename FROM pg_tables WHERE schemaname = 'public';";
+		$sql = "SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY 1;";
 		
 		$command = $connection->createCommand($sql);
 					

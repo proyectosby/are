@@ -12,6 +12,7 @@ class PoblarTabla extends Model
 	{
 		return [
 			[['tabla','archivo'], 'required'],
+			[['archivo'], 'file','maxSize' => 1024*1024*50 ],
 		];
 	}
 
