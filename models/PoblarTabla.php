@@ -3,6 +3,8 @@ namespace app\models;
 
 use yii\base\Model;
 
+use yii\validators\FileValidator;
+
 class PoblarTabla extends Model
 {
     public $tabla;
@@ -10,9 +12,11 @@ class PoblarTabla extends Model
 	
 	public function rules()
 	{
+		$fileValidator = new FileValidator();
+		
 		return [
 			[['tabla','archivo'], 'required'],
-			[['archivo'], 'file','maxSize' => 1024*1024*50 ],
+			[['archivo'], 'file','maxSize' => $fileValidator->sizeLimit  ],
 		];
 	}
 

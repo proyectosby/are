@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use yii\validators\FileValidator;
+
 $this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/poblarTablas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
@@ -27,6 +29,8 @@ EOT_JS_CODE
 }
 
 $this->title = 'Poblar tabla';
+
+$fileValidator = new FileValidator();
 ?>
 
 <style>
@@ -73,7 +77,7 @@ $this->title = 'Poblar tabla';
 		<div class=row>
 
 			<div class=cell>
-				<?= $form->field( $model, 'archivo')->fileInput( [ 'accept' => ".csv, .txt" ] )->label( "Archivo csv(".ini_get("upload_max_filesize").")" ) ?>
+				<?= $form->field( $model, 'archivo')->fileInput( [ 'accept' => ".csv, .txt" ] )->label( "Archivo csv(".Yii::$app->formatter->asShortSize( $fileValidator->sizeLimit ).")" ) ?>
 			</div>
 				
 		</div>
