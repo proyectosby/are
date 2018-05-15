@@ -45,6 +45,14 @@ $fileValidator = new FileValidator();
 	.cell{
 		display: table-cell;
 	}
+	
+	.campos{
+		display: inline-block;
+		padding: 10px;
+		border: 1px solid black;
+		margin: 5px;
+		background-color: white;
+	}
 </style>
 
 <h1><?= Html::encode($this->title) ?></h1>
@@ -83,9 +91,18 @@ $fileValidator = new FileValidator();
 		</div>
 	
 		<div class=row>
+			<div class=cell>
+				<br><b>Campos de la tabla</b>
+				<div style='overflow:auto;width:80%;background:#ddd;padding:20px;' id='dvCampos'>
+				
+				</div>
+			</div>
+		</div>
+			
+		<div class=row>
 			<div class=cell style='overflow:auto;'>
 				<br><b>Ejemplo archivo csv:</b>
-				<div style='overflow:auto;width:900px;background:#ddd;'>
+				<div style='overflow:auto;width:80%;background:#ddd;'>
 					<p style='background:#ddd;padding:10px;' id='pCsvExample'>
 						"campo1","campo2","campo3",...<br>
 						"campo1","campo2","campo3",...

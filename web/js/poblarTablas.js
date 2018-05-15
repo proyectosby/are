@@ -18,6 +18,12 @@ function seleccionarTabla( cmp )
 			});
 			
 			$( "#pCsvExample" ).html( $( "#pCsvExample" ).html() + "<br>" + $( "#pCsvExample" ).html()  + "<br>" + $( "#pCsvExample" ).html() + "<br>..." );
+			
+			
+			$( "#dvCampos").html("");
+			$( data.data ).each(function(x){
+				$( "#dvCampos").append( "<div class=campos>" + x +". "+ data.data[x] + "</div>" );
+			});
 		}
 	  
 	}, "json" );
