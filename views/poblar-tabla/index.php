@@ -104,8 +104,8 @@ $fileValidator = new FileValidator();
 				<br><b>Ejemplo archivo csv:</b>
 				<div style='overflow:auto;width:80%;background:#ddd;'>
 					<p style='background:#ddd;padding:10px;' id='pCsvExample'>
-						"campo1","campo2","campo3",...<br>
-						"campo1","campo2","campo3",...
+						"campo1";"campo2";"campo3",...<br>
+						"campo1";"campo2";"campo3",...
 					</p>
 				</div>
 			</div>

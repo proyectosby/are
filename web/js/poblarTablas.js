@@ -12,7 +12,7 @@ function seleccionarTabla( cmp )
 				var coma = "";
 				
 				if( x > 0 )
-					coma = ",";
+					coma = ";";
 
 				$( "#pCsvExample").html( $( "#pCsvExample").html() + coma + '"' + data.data[x] +'"' );
 			});

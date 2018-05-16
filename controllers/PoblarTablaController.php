@@ -45,8 +45,10 @@ class PoblarTablaController extends Controller
 		echo Json::encode( $data );
 	}
 
-    public function actionCreate()
+    public function actionCreate( )
     {
+		$delimiter = ";";
+		
 		$model = new PoblarTabla();
 		
 		$msg = [];
@@ -65,7 +67,7 @@ class PoblarTablaController extends Controller
 				{
 					
 					// var_dump( $file );
-					$sql = "COPY ".$model->tabla." FROM '".$file->tempName."' WITH csv DELIMITER ',';";
+					$sql = "COPY ".$model->tabla." FROM '".$file->tempName."' WITH csv DELIMITER '".$delimiter."' ENCODING 'latin1';;";
 					
 					$command = $connection->createCommand($sql);
 					
