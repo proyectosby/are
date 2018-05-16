@@ -11,8 +11,23 @@ Fecha: 06-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
 ---------------------------------------
+Modificaciones:
+Fecha: 06-03-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
+---------------------------------------
 **********/
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+}
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -25,15 +40,34 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+
+
 $this->title = 'horario Docente';
 $this->params['breadcrumbs'][] = $this->title;
 
+//los id de la instituciones a la pertenece esa persona para mostrar solo esas instituciones
+$idInstituciones = implode(",",$_SESSION['instituciones']);
 
-//Obterniendo los datos necsarios para las instituciones
-$institucionesTable	 = new Instituciones();
-$queryInstituciones  = $institucionesTable->find()->orderby('descripcion')->where('estado=1');
-$dataInstituciones	 = $queryInstituciones->all();
-$instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
+// si pertenece a una sola institucion
+
+
+
+if (count($_SESSION['instituciones'])==1 and @$_GET['idInstitucion']=="")
+{
+	$id = $_SESSION['instituciones'][0];
+	echo "<script> window.location=\"index.php?r=horario-docente%2Findex&idInstitucion=$id&idSedes=\";</script>";
+}
+
+//Obterniendo los datos necesarios para las instituciones
+	$institucionesTable	 = new Instituciones();
+	
+	$queryInstituciones  = $institucionesTable
+							->find()
+							->orderby('descripcion')
+							->where('estado=1')
+							->andWhere("id in ($idInstituciones)");
+	$dataInstituciones	 = $queryInstituciones->all();
+	$instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );	
 
 //Opciones para el select instituciones
 $optionsInstituciones = array( 
