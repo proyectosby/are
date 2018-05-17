@@ -45,6 +45,7 @@ class RecursoInfraestructuraPedagogica extends \yii\db\ActiveRecord
         return [
             [['cantidad_computdores_portatiles', 'cantidad_aulas_tita', 'cantidad_bibliotecas', 'cantidad_ludotecas', 'cantidad_salones_juegos', 'id_sede', 'estado'], 'default', 'value' => null],
             [['cantidad_computdores_portatiles', 'cantidad_aulas_tita', 'cantidad_bibliotecas', 'cantidad_ludotecas', 'cantidad_salones_juegos', 'id_sede', 'estado'], 'integer'],
+            [['observaciones'], 'string'],
             [['id_sede', 'estado'], 'required'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
@@ -65,6 +66,7 @@ class RecursoInfraestructuraPedagogica extends \yii\db\ActiveRecord
             'cantidad_salones_juegos' => 'Cantidad en Salones de Juegos',
             'id_sede' => 'Sede',
             'estado' => 'Estado',
+            'observaciones' => 'Observaciones',
         ];
     }
 

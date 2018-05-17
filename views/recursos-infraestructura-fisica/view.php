@@ -77,6 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cantidad_tabletas',
             'cantidad_bibliotecas_salas_lectura',
             'programas_informaticos_admin',
+			'observaciones',
         ],
     ]) ?>
 

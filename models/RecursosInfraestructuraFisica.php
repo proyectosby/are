@@ -45,6 +45,7 @@ class RecursosInfraestructuraFisica extends \yii\db\ActiveRecord
             [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura', 'id_sede', 'estado'], 'default', 'value' => null],
             [['cantidad_aulas_regulares', 'cantidad_aulas_multiples', 'cantidad_oficinas_admin', 'cantidad_aulas_profesores', 'cantidad_espacios_deportivos', 'cantidad_baterias_sanitarias', 'cantidad_laboratorios', 'cantidad_portatiles', 'cantidad_computadores', 'cantidad_tabletas', 'cantidad_bibliotecas_salas_lectura', 'id_sede', 'estado'], 'integer'],
             [['programas_informaticos_admin'], 'string', 'max' => 500],
+            [['observaciones'], 'string'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
         ];

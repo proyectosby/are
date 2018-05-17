@@ -75,6 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $estado ? $estado->descripcion : '';
 				},
 			],
+			'observaciones',
         ],
     ]) ?>
 

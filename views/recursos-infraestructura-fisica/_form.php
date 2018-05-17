@@ -53,6 +53,8 @@ $estado = ArrayHelper::map($estado,'id','descripcion');
     <?= $form->field($model, 'cantidad_bibliotecas_salas_lectura')->textInput() ?>
 
     <?= $form->field($model, 'programas_informaticos_admin')->textInput(['maxlength' => true]) ?>
+	
+    <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'id_sede')->hiddenInput(['value'=>$idSedes])->label(false); ?>
 

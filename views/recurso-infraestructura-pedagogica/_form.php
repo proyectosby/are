@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'cantidad_ludotecas')->textInput() ?>
 
     <?= $form->field($model, 'cantidad_salones_juegos')->textInput() ?>
+	
+    <?= $form->field($model, 'observaciones')->textInput() ?>
 
     <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
 
