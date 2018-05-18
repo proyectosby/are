@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cantidad_salones_juegos')->textInput() ?>
 	
-    <?= $form->field($model, 'observaciones')->textInput() ?>
+    <?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
 

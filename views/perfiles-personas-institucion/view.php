@@ -8,7 +8,7 @@ use app\models\Estados;
 /* @var $model app\models\PerfilesPersonasInstitucion */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Perfiles Personas Institucions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Perfiles Personas Instituciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="perfiles-personas-institucion-view">
@@ -77,6 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				
 			], 
+			'observaciones',
             [
 				'attribute' => 'estado',
 				'value' => function( $model )
@@ -85,6 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $estados ? $estados->descripcion : '';
 				},
 			],
+			
         ],
     ]) ?>
 

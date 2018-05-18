@@ -35,6 +35,7 @@ class PerfilesPersonasInstitucion extends \yii\db\ActiveRecord
             [['id_perfiles_x_persona', 'id_institucion', 'estado'], 'required'],
             [['id_perfiles_x_persona', 'id_institucion', 'estado'], 'default', 'value' => null],
             [['id_perfiles_x_persona', 'id_institucion', 'estado'], 'integer'],
+            [['observaciones'], 'string'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_institucion'], 'exist', 'skipOnError' => true, 'targetClass' => Instituciones::className(), 'targetAttribute' => ['id_institucion' => 'id']],
             [['id_perfiles_x_persona'], 'exist', 'skipOnError' => true, 'targetClass' => PerfilesXPersonas::className(), 'targetAttribute' => ['id_perfiles_x_persona' => 'id']],
@@ -51,6 +52,7 @@ class PerfilesPersonasInstitucion extends \yii\db\ActiveRecord
             'id_perfiles_x_persona' => 'Persona',
             'id_institucion' => 'Institución',
             'estado' => 'Estado',
+            'observaciones' => 'Observaciones',
         ];
     }
 

@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
 	<?= $form->field($perfilesTable, 'id')->dropDownList($perfiles,['prompt' => 'Seleccione...','id' =>'selPerfiles','options' => [$perfilesSelected[0]['id'] => ['selected' => 'selected']]])->label("Perfil") ?>
 	
 	<?= $form->field($model, 'id_perfiles_x_persona')->dropDownList(['prompt' => 'Seleccione...']) ?>
+	
+	<?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'estado')->dropDownList($estados,['prompt' => 'Seleccione...']) ?>
 

@@ -46,7 +46,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/plan_de_aulas.js',['depen
 
     <?= $form->field($model, 'actividad')->textInput(['maxlength' => true, 'placeholder' => 'Ingrese la actividad' ]) ?>
 
-    <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true, 'placeholder' => 'Ingrese las obsrvaciones']) ?>
+    <?= $form->field($model, 'observaciones')->textarea(['rows' => '6','placeholder' => 'Ingrese las observaciones']) ?>
 
     <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
 	

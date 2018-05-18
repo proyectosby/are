@@ -37,7 +37,7 @@ use dosamigos\datepicker\DatePicker;
 
     <?= $form->field($model, 'id_docentes')->dropDownList($docentes, ['prompt'=>'Seleccione...']) ?>
 
-    <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'estado')->dropDownList($estados, ['prompt'=>'Seleccione...']) ?>
 

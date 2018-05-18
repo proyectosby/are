@@ -106,7 +106,7 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 
     <?= $form->field($model, 'discapacidad')->checkbox() ?>
 
-    <?= $form->field($model, 'observaciones')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'id_sede')->hiddenInput(['value' => $idSedes])->label(false) ?>
 
