@@ -58,8 +58,8 @@ class RecursoInfraestructuraPedagogica extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'cantidad_computdores_portatiles' => 'Cantidad Computdores Portatiles',
+           'id' => 'ID',
+            'cantidad_computdores_portatiles' => 'Cantidad Computadores Portátiles',
             'cantidad_aulas_tita' => 'Cantidad en Aulas Tita',
             'cantidad_bibliotecas' => 'Cantidad en Bibliotecas',
             'cantidad_ludotecas' => 'Cantidad en Ludotecas',
