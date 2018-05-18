@@ -239,7 +239,7 @@ use yii\helpers\Html;
                                  alt="User Image"/>
 
                             <p>
-                                Usuario 
+                                <?php echo $_SESSION['nombres']?>
                                 <small></small>
                             </p>
                         </li>
