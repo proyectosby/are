@@ -3,7 +3,7 @@
 Versión: 001
 Fecha: 10-04-2018
 Desarrollador: Oscar David Lopez
-Descripción: CRUD Recursos Infraestructura Fisica
+Descripción: CRUD Recursos Infraestructuras Fisicas
 ---------------------------------------
 Modificaciones:
 Fecha: 10-04-2018

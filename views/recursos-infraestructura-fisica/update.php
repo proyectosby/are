@@ -4,7 +4,7 @@
 Versión: 001
 Fecha: 10-04-2018
 Desarrollador: Oscar David Lopez
-Descripción: CRUD Recursos Infraestructura Fisica
+Descripción: CRUD Recursos Infraestructuras Fisicas
 ---------------------------------------
 Modificaciones:
 Fecha: 10-04-2018
@@ -32,7 +32,7 @@ $nombreSede = $nombreSede[$idSedes];
 
 $this->title = "Actualizar";
 $this->params['breadcrumbs'][] = [
-								'label' => 'Recursos Infraestructuras Fisicas', 
+								'label' => 'Recursos Infraestructuras Físicas', 
 								'url' => [
 											'index',
 											'idInstitucion' => $idInstitucion, 

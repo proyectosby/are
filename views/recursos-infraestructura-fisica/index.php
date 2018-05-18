@@ -21,7 +21,7 @@ $nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
 $nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
 $nombreSede = $nombreSede[$idSedes];
 
-$this->title = 'Recursos Infraestructuras Fisicas';
+$this->title = 'Recursos Infraestructuras Físicas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="recursos-infraestructura-fisica-index">

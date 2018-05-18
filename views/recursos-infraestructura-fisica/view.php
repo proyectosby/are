@@ -33,7 +33,7 @@ $nombreSede = $nombreSede[$idSedes];
 
 $this->title = "Detalle";
 $this->params['breadcrumbs'][] = [
-								'label' => 'Recursos Infraestructuras Fisicas', 
+								'label' => 'Recursos Infraestructuras Físicas', 
 								'url' => [
 											'index',
 											'idInstitucion' => $idInstitucion, 
