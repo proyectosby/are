@@ -1,5 +1,5 @@
 <?php
-
+$this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
 use app\models\Perfiles;
 use	yii\helpers\ArrayHelper;
 
-$this->title = 'Login';
+$this->title = 'Ingreso al sistema';
 $this->params['breadcrumbs'][] = $this->title;
 
 if(isset($_SESSION)) 
@@ -20,10 +20,17 @@ if(isset($_SESSION))
 
     
 if (@$_GET['mensaje']==1)
-{
-	
-	echo "<script>alert(\"Datos Incorrectos\");</script>";
-	
+{	
+	$this->registerJs( <<< EOT_JS_CODE
+
+  swal({
+		text: "Datos incorrectos",
+		icon: "warning",
+		button: "Cerrar",
+	});
+
+EOT_JS_CODE
+);	
 }
 ?>
 <div class="col-md-18 col-md-offset-4">
@@ -58,7 +65,7 @@ if (@$_GET['mensaje']==1)
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Ingresar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             </div>
         </div>
 
