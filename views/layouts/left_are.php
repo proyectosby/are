@@ -64,6 +64,7 @@
 												],
 												['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 												['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
+												['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
 												
 											],						
 											

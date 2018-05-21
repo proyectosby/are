@@ -57,7 +57,7 @@
 														'icon' => 'circle-o',
 														'url' => '#',
 														'items' => [
-																		 ['label' => 'Humanos', 'icon' => 'circle-o', 'url' => '#',],
+																		 ['label' => 'Humanos', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
 																		 ['label' => 'Infraestructra física', 'icon' => 'circle-o', 'url' => ['recursos-infraestructura-fisica/index'],],
 																		 ['label' => 'Infraestructra pedagógica', 'icon' => 'circle-o', 'url' => ['recurso-infraestructura-pedagogica/index'],],
 																		
@@ -67,7 +67,7 @@
 														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
 														['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
-														['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
+														['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
 												],//
 											],
 											[
