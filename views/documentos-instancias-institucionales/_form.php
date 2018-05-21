@@ -43,7 +43,7 @@ echo Html::hiddenInput( 'idInstitucion', $idInstitucion );
 			</div>
 			
 			<div class="form-group" style='display:inline;'>
-				<?= Html::buttonInput('Eliminar', ['class' => 'btn btn-success', 'onclick' => 'eliminarCampos()', 'id' => 'btnEliminar', 'display' => 'none' ]) ?>
+				<?= Html::buttonInput('Eliminar', ['class' => 'btn btn-success', 'onclick' => 'eliminarCampos()', 'id' => 'btnEliminar', 'style' => 'display:none' ]) ?>
 			</div>
 		</div>
 	</div>

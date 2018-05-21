@@ -78,14 +78,34 @@ function eliminarCampos(){
 
 $( document ).ready(function(){
 	
-	//Solo cuando se llama al index
-	setTimeout( function(){
-		if( $( "[name=guardado]" ).length > 0 ){
-			swal({
-				text: "Archivos guardadas exitosamente",
-				icon: "success",
-				button: "Cerrar",
+	try{
+	
+		//Solo cuando se llama al index
+		setTimeout( function(){
+			if( $( "[name=guardado]" ).length > 0 ){
+				swal({
+					text: "Archivos guardadas exitosamente",
+					icon: "success",
+					button: "Cerrar",
+				});
+			}
+		}, 1000 );
+	
+		setTimeout( function(){
+			$( "#w0" ).yiiActiveForm( 'add', {
+				"id":"documentosinstanciasinstitucionales-0-file",
+				"name":"[0]file",
+				"container":".field-documentosinstanciasinstitucionales-0-file",
+				"input":"#documentosinstanciasinstitucionales-0-file",
+				"validate":function (attribute, value, messages, deferred, $form) {
+					yii.validation.required(value, messages, {"message":"File no puede estar vacío."});
+					yii.validation.file(attribute, messages, {"message":"Falló la subida del archivo.","skipOnEmpty":true,"mimeTypes":[],"wrongMimeType":"Sólo se aceptan archivos con los siguientes tipos MIME: .","extensions":[],"wrongExtension":"Sólo se aceptan archivos con las siguientes extensiones: ","maxFiles":1,"tooMany":"Puedes subir como máximo 1 archivo."});
+				}
 			});
-		}
-	}, 1000 );
+		}, 1000 );
+		
+	}
+	catch(e){
+		console.log(e);
+	}
 });
