@@ -26,7 +26,7 @@ if (@$_GET['mensaje']==1)
 	
 }
 ?>
-<div class="site-login">
+<div class="col-md-18 col-md-offset-4">
     <h1><?= Html::encode($this->title) ?></h1>
 
 
@@ -67,5 +67,10 @@ if (@$_GET['mensaje']==1)
     <!--<div class="col-lg-offset-1" style="color:#999;">
         You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
         To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>-->
+		</div>-->
+		
 </div>
+<div class="col-md-18 col-md-offset-2">
+<img src="../views/site/logo_mcee.png">
+</div>
+
