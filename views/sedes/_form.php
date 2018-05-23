@@ -36,10 +36,12 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/sedes.js',['depends' => [
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la descripción' ]) ?>
-
-    <?= $form->field($model, 'telefonos')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el teléfono' ]) ?>
+	
+	<?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el Codigo Dane']) ?>
 
     <?= $form->field($model, 'direccion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la dirección']) ?>
+	
+	<?= $form->field($model, 'telefonos')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el teléfono' ]) ?>
 
     <?= $form->field($model, 'area')->textInput(['placeHolder' => 'Digite el área']) ?>
 
@@ -64,8 +66,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/sedes.js',['depends' => [
      <?= $form->field($model, 'id_estratos' )->dropDownList( $estratos, [ 'prompt' => 'Seleccione...' ] ) ?>
 
 	<?= $form->field($model, 'id_barrios_veredas' )->dropDownList( $barriosVeredas, [ 'prompt' => 'Seleccione...' ] ) ?>
-
-    <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el Codigo Dane']) ?>
 
     <?= $form->field($model, 'sede_principal')->checkbox() ?>
 

@@ -12,7 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la descripción' ]) ?>
+    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la descripción' ]) ?> 
+	
+	<?= $form->field($model, 'caracter')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el caracter']) ?>
+	
+	<?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la especialidad']) ?>
+	
+	<?= $form->field($model, 'rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el nombre del rector']) ?>
+
+    <?= $form->field($model, 'contacto_rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el contacto del rector']) ?>
+	
+	<?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el código DANE']) ?>
 
     <?= $form->field($model, 'id_tipos_instituciones')->dropDownList( $tipoInstituciones, [ 'prompt' => 'Seleccione...' ] ) ?>
 
@@ -20,20 +30,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nit')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el NIT']) ?>
 
-
-    <?= $form->field($model, 'caracter')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el caracter']) ?>
-
-    <?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la especialidad']) ?>
-
-    <?= $form->field($model, 'rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el nombre del rector']) ?>
-
-    <?= $form->field($model, 'contacto_rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el contacto del rector']) ?>
-
     <?= $form->field($model, 'correo_electronico_institucional')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el correo de la institución']) ?>
 
     <?= $form->field($model, 'pagina_web')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la página web']) ?>
-
-    <?= $form->field($model, 'codigo_dane')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el código DANE']) ?>
     
 	<?= $form->field($model, 'estado')->dropDownList( $estados ) ?> 
 
