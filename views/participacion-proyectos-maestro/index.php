@@ -1,0 +1,147 @@
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+use yii\helpers\ArrayHelper;
+use fedemotta\datatables\DataTables;
+
+use app\models\Estados;
+use app\models\NombresProyectosParticipacion;
+use app\models\Instituciones;
+use app\models\Sedes;
+use app\models\Personas;
+use app\models\Perfiles;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\ParticipacionProyectosMaestroBuscar */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Participacion en proyectos de maestros';
+$this->params['breadcrumbs'][] = $this->title;
+
+$institucion = Instituciones::findOne($idInstitucion);
+$sedes 		 = Sedes::findOne($idSedes);
+
+?>
+<div class="participacion-proyectos-maestro-index">
+
+    <h1><?= Html::encode($institucion->descripcion) ?></h1>
+    <h3><?= Html::encode($sedes->descripcion) ?></h3>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a('Agregar', ['create','idSedes' => $idSedes, 'idInstitucion' => $idInstitucion ], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?= DataTables::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+		'clientOptions' => [
+			'language'=>[
+					'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+				],
+			"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+			"info"=>false,
+			"responsive"=>true,
+			 "dom"=> 'lfTrtip',
+			 "tableTools"=>[
+				 "aButtons"=> [  
+					// [
+					// "sExtends"=> "copy",
+					// "sButtonText"=> Yii::t('app',"Copiar")
+					// ],
+					// [
+					// "sExtends"=> "csv",
+					// "sButtonText"=> Yii::t('app',"CSV")
+					// ],
+					[
+					"sExtends"=> "xls",
+					"oSelectorOpts"=> ["page"=> 'current']
+					],
+					[
+					"sExtends"=> "pdf",
+					"sButtonText"=> Yii::t('app',"PDF")
+					],
+					// [
+					// "sExtends"=> "print",
+					// "sButtonText"=> Yii::t('app',"Imprimir")
+					// ],
+				],
+			 ],
+		],
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            // 'id',
+            [ 
+				'attribute' => 'programa_proyecto',
+				'value' 	=> function( $model ){
+					$nombreProyecto = NombresProyectosParticipacion::findOne( $model->programa_proyecto );
+					return $nombreProyecto ? $nombreProyecto->descripcion : '';
+				},
+				
+			],
+            [ 
+				'attribute' => 'participante',
+				'value'		=> function( $model ){
+					$persona = Personas::findOne( $model->participante );
+					return $persona ? $persona->nombres." ".$persona->apellidos : '';
+				}
+			],
+            [ 
+				'attribute' => 'tipo',
+				'value'		=> function( $model ){
+					$perfil = Perfiles::findOne( $model->tipo );
+					return $perfil ? $perfil->descripcion : '';
+				},
+			],
+            'objeto',
+            //'duracion',
+            //'anio_inicio',
+            //'anio_fin',
+            //'tematica',
+            //'areas',
+            //'otros',
+            //'materiales_recursos',
+            //'logros',
+            //'observaciones',
+            //'id_institucion',
+            //'estado',
+
+            [
+				'class' => 'yii\grid\ActionColumn',
+				'buttons' => [
+						'view' => function ($url,$model) {
+							
+								return Html::a(
+												'<span class="glyphicon glyphicon-eye-open"></span>', 
+												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion']
+											);
+						},
+						'update' => function ($url,$model) {
+							
+								return Html::a(
+												'<span class="glyphicon glyphicon-pencil"></span>', 
+												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion']
+											);
+						},
+						'delete' => function ($url,$model) {
+							
+								return Html::a(
+												'<span class="glyphicon glyphicon-trash"></span>', 
+												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion'],
+												[
+													'data-confirm'  => "¿Está seguro de eliminar este elemento?",
+													'title' 		=> "Eliminar",
+													'aria-label'	=> "Eliminar",
+													'data-pjax'		=> "0",
+													'data-method'	=> "post",
+												]
+											);
+						},
+				],
+			],
+        ],
+    ]); ?>
+</div>
