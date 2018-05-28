@@ -63,7 +63,7 @@ class HorarioDocenteController extends Controller
 		
 		$data = [[],[],];		
 						
-			
+		//se usa para que la clase dataTables este disponible en yii	
 		$dataProvider = new ArrayDataProvider([
 			'allModels' => $data,
 		]);
