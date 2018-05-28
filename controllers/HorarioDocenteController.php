@@ -20,6 +20,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\SqlDataProvider;
+use yii\data\ArrayDataProvider;
 
 /**
  * HorarioDocenteController implements the CRUD actions for HorarioDocente model.
@@ -59,16 +60,14 @@ class HorarioDocenteController extends Controller
 		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{
-
-        $sql ="
-		SELECT p.identificacion
-		FROM personas as p
-			 
-		   ";		
-		$dataProvider = new SqlDataProvider([
-				'sql' => $sql,
+		
+		$data = [[],[],];		
+						
+			
+		$dataProvider = new ArrayDataProvider([
+			'allModels' => $data,
+		]);
 				
-			]);
 		
 		//modelo para el form
 		$model = new HorarioDocente();
