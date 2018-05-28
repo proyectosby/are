@@ -125,9 +125,9 @@
                                         'icon' => 'circle-o',
                                         'url' => '#',
                                         'items' => [
-                                            ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => '#'],
-                                            ['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => '#',],
+                                            ['label' => 'Por institución', 'icon' => 'circle-o', 'url' => ['participacion-proyectos-i-e/index'],],
+                                            ['label' => 'Por maestro o directivo', 'icon' => 'circle-o', 'url' => ['participacion-proyectos-maestro/index'],],
+                                            ['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => ['participacion-proyectos-jornada/index'],],
                                         ],
                                     ],
                                 ],
