@@ -40,7 +40,7 @@ $connection = Yii::$app->getDb();
 
 //consulta los datos del usuario con el nombre de usuario y la contraseña, tambien debe estar activo
 $command = $connection->createCommand("
-SELECT p.*
+SELECT p.*, pp.id as perfilesxpersonas
 	FROM public.personas as p, perfiles_x_personas as pp, perfiles as pe
 	WHERE usuario = '$username' 
 	AND psw = '$psw'
@@ -50,7 +50,6 @@ SELECT p.*
 	AND p.estado =1
 ");
 $result = $command->queryAll();
-	
 
 //si no trae datos se redireciona nuevamente al login 
 if (count($result)==0)

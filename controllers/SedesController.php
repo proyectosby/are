@@ -135,6 +135,29 @@ class SedesController extends Controller
 			return $this->render( "listarInstituciones" );
 		}
     }
+	
+	
+	//retorna las sede para el swal del index
+	public function actionSedes($idInstitucion)
+    {	
+		if( $idInstitucion > 0 )
+		{
+	
+			$sedes =Sedes::find()									  
+			  ->where( "id_instituciones=$idInstitucion" )
+			  ->andwhere("estado=1")
+			  ->all();
+									  
+			$asignaturas = ArrayHelper::map( $sedes, 'id', 'descripcion' );
+			
+			echo json_encode( $asignaturas );
+		
+		}
+    }
+	
+	
+	
+	
 
     /**
      * Displays a single Sedes model.
