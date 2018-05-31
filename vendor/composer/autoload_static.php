@@ -34,6 +34,10 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'n' => 
+        array (
+            'nex\\chosen\\' => 11,
+        ),
         'k' => 
         array (
             'kartik\\time\\' => 12,
@@ -130,6 +134,10 @@ class ComposerStaticInitdd46850290ae5f30421d2b6d36d9715d
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'nex\\chosen\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nex/yii2-chosen',
         ),
         'kartik\\time\\' => 
         array (

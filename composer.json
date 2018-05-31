@@ -21,7 +21,8 @@
         "dmstr/yii2-adminlte-asset": "^2.1",
         "2amigos/yii2-date-picker-widget": "~1.0",
         "fedemotta/yii2-widget-datatables": "*",
-        "kartik-v/yii2-widget-timepicker": "*"
+        "kartik-v/yii2-widget-timepicker": "*",
+        "nex/yii2-chosen": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

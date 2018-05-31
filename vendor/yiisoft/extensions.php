@@ -111,4 +111,13 @@ return array (
       '@kartik/time' => $vendorDir . '/kartik-v/yii2-widget-timepicker',
     ),
   ),
+  'nex/yii2-chosen' => 
+  array (
+    'name' => 'nex/yii2-chosen',
+    'version' => '1.0.0.0',
+    'alias' => 
+    array (
+      '@nex/chosen' => $vendorDir . '/nex/yii2-chosen',
+    ),
+  ),
 );
