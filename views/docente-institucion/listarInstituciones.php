@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jornadas por sede';
+$this->title = 'Docente por Institucion';
 $this->params['breadcrumbs'][] = $this->title;
 
 
