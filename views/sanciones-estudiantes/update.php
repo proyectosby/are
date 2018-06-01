@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SancionesEstudiantes */
 
-$this->title = 'Update Sanciones Estudiantes: {nameAttribute}';
+$this->title = 'Actualizar Sanciones Estudiantes';
 $this->params['breadcrumbs'][] = ['label' => 'Sanciones Estudiantes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+// $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="sanciones-estudiantes-update">
 
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+		'estudiantes'=>$estudiantes,
+		'estados'=>$estados,
     ]) ?>
 
 </div>

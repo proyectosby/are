@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SancionesEstudiantes */
 
-$this->title = 'Create Sanciones Estudiantes';
+$this->title = 'Agregar Sanciones Estudiantes';
 $this->params['breadcrumbs'][] = ['label' => 'Sanciones Estudiantes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+		'estudiantes'=>$estudiantes,
+		'estados'=>$estados,
     ]) ?>
 
 </div>

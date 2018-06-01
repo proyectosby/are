@@ -62,9 +62,26 @@ $this->params['breadcrumbs'][] = $this->title;
 		
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+			[
+				'attribute'=>'id_perfiles_persona',
+				'value' => function( $model )
+				{
+					$id = $model->id_perfiles_persona;
+					$connection = Yii::$app->getDb();
+					//saber el id de la sede para redicionar al index correctamente
+					$command = $connection->createCommand("
+					select concat(p.nombres,' ',p.apellidos) as nombre
+					from personas as p, perfiles_x_personas as pp, perfiles_x_personas_institucion as ppi
+					where pp.id_personas  = p.id
+					and pp.id = ppi.id_perfiles_x_persona
+					and ppi.id_perfiles_x_persona = $id
+					");
+					$result = $command->queryAll();
+					return $result[0]['nombre'];
+				},
+			
+			],	
 
-            // 'id',
-			'id_perfiles_persona',
             'descripcion',
             'fecha',
 
