@@ -75,7 +75,7 @@ class SancionesEstudiantesController extends Controller
     {
         $searchModel = new SancionesEstudiantesBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
+		$dataProvider->query->andWhere('estado=1');
 		
         return $this->render('index', [
             'searchModel' => $searchModel,
