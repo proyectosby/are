@@ -68,6 +68,7 @@
 														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
 														['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
 														['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
+														['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['sanciones-estudiantes/index'],],
 												],//
 											],
 											[
@@ -269,6 +270,7 @@
 							 'items' => [
                                             ['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => ['representantes-legales/index'],],
 											['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['horario-estudiante/index'],],
+											['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['hoja-vida-estudiante/index'],],
                                         ],
 							
 							],
