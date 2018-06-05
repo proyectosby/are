@@ -8,7 +8,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?php echo $_SESSION['nombres']; ?></p>
+                <p>Usuario</p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -65,6 +65,7 @@
 												['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 												['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
 												['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
+												['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['sanciones-estudiantes/index'],],
 												
 											],						
 											
@@ -184,6 +185,7 @@
 							 'items' => [
                                             ['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => ['representantes-legales/index'],],
 											['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['horario-estudiante/index'],],
+											['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['hoja-vida-estudiante/index'],],
                                         ],
 							
 							],
