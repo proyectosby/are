@@ -96,7 +96,7 @@ abstract class Application extends Module
     /**
      * @var string the application name.
      */
-    public $name = 'Sistema MCEE';
+    public $name = 'Sistema ARE';
     /**
      * @var string the charset currently used for the application.
      */

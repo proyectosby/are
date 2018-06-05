@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
 use app\models\Perfiles;
 use	yii\helpers\ArrayHelper;
 
-$this->title = 'Ingreso al sistema ARE';
+$this->title = 'Ingreso al sistema';
 $this->params['breadcrumbs'][] = $this->title;
 
 if(isset($_SESSION)) 
@@ -78,6 +78,6 @@ EOT_JS_CODE
 		
 </div>
 <div class="col-md-18 col-md-offset-2">
-
+<img src="../views/site/logo_mcee.png">
 </div>
 

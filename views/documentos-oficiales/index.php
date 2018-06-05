@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Agregar', ['create', 'idInstitucion' => $idInstitucion ], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DataTables::widget([

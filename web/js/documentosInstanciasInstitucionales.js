@@ -3,7 +3,7 @@ var consecutivo = 1;
 function agregarCampos(){
 	
 	$.post( 
-		"index.php?r=documentos-instancias-institucionales/agregar-campos&idInstitucion="+$( "[name=idInstitucion]" ).val(),
+		"index.php?r=documentos-instancias-institucionales/agregar-campos",
 		{
 			consecutivo : consecutivo,
 		},

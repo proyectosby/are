@@ -43,13 +43,12 @@ class DocumentosInstanciasInstitucionalesController extends Controller
      * Lists all Sedes models.
      * @return mixed
      */
-    public function actionListarInstituciones()
-    {
-        return $this->render( "listarInstituciones" );
-    }
+    
 
-    function actionAgregarCampos( $idInstitucion = 0 ){
-		
+    function actionAgregarCampos()
+	{
+	
+		$idInstitucion = $_SESSION['instituciones'][0];
 		$consecutivo = Yii::$app->request->post('consecutivo');
 		
 		$model = new DocumentosInstanciasInstitucionales();
@@ -97,8 +96,9 @@ class DocumentosInstanciasInstitucionalesController extends Controller
      * Lists all DocumentosInstanciasInstitucionales models.
      * @return mixed
      */
-    public function actionIndex( $idInstitucion = 0 , $guardado = 0 )
+    public function actionIndex($guardado = 0 )
     {
+		$idInstitucion = $_SESSION['instituciones'][0];
 		if( $idInstitucion > 0 )
 		{
 			$searchModel = new DocumentosInstanciasInstitucionalesBuscar();
@@ -111,9 +111,6 @@ class DocumentosInstanciasInstitucionalesController extends Controller
 				'guardado' 		=> $guardado,
 				'idInstitucion'	=> $idInstitucion,
 			]);
-		}
-		else{
-			return $this->render( "listarInstituciones" );
 		}
     }
 
@@ -135,9 +132,10 @@ class DocumentosInstanciasInstitucionalesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate( $idInstitucion = 0 )
+    public function actionCreate()
     {
 		$data = [];
+		$idInstitucion = $_SESSION['instituciones'][0];
 		
 		if( Yii::$app->request->post('DocumentosInstanciasInstitucionales') )
 			$data = Yii::$app->request->post('DocumentosInstanciasInstitucionales');
@@ -220,7 +218,7 @@ class DocumentosInstanciasInstitucionalesController extends Controller
 				$model->save();
 			}
 			
-			return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'guardado' => true ]);
+			return $this->redirect(['index', 'guardado' => true ]);
         }
 		
 		$model = new DocumentosInstanciasInstitucionales();
@@ -307,7 +305,7 @@ class DocumentosInstanciasInstitucionalesController extends Controller
 		$model->estado = 2;
 		$model->update( false );
 
-        return $this->redirect(['index', 'idInstitucion' => $model->id_instituciones ]);
+        return $this->redirect(['index']);
     }
 
     /**

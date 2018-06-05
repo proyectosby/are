@@ -27,6 +27,10 @@ class DocumentosOficialesController extends Controller
     /**
      * @inheritdoc
      */
+	 
+	
+	
+	
     public function behaviors()
     {
         return [
@@ -45,8 +49,9 @@ class DocumentosOficialesController extends Controller
     }
 
 	
-	function actionAgregarCampos( $idInstitucion = 0 ){
+	function actionAgregarCampos(){
 		
+		$idInstitucion = $_SESSION['instituciones'][0];
 		$consecutivo = Yii::$app->request->post('consecutivo');
 		
 		$model = new DocumentosOficiales();
@@ -96,6 +101,7 @@ class DocumentosOficialesController extends Controller
      */
     public function actionIndex( $idInstitucion = 0, $guardado = 0 )
     {
+		$idInstitucion = $_SESSION['instituciones'][0];
 		if( $idInstitucion > 0 )
 		{
 			$searchModel = new DocumentosOficialesBuscar();
@@ -132,10 +138,10 @@ class DocumentosOficialesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate( $idInstitucion = 0 )
+    public function actionCreate()
     {
 		$data = [];
-		
+		$idInstitucion = $_SESSION['instituciones'][0];
 		if( Yii::$app->request->post('DocumentosOficiales') )
 			$data = Yii::$app->request->post('DocumentosOficiales');
 		
@@ -217,7 +223,7 @@ class DocumentosOficialesController extends Controller
 				$model->save();
 			}
 			
-			return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'guardado' => true ]);
+			return $this->redirect(['index', 'guardado' => true ]);
         }
 		
 		$model = new DocumentosOficiales();
@@ -304,7 +310,7 @@ class DocumentosOficialesController extends Controller
 		$model->estado = 2;
 		$model->update( false );
 
-        return $this->redirect(['index', 'idInstitucion' => $model->id_instituciones ]);
+        return $this->redirect(['index']);
     }
 
     /**
