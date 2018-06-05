@@ -1,4 +1,14 @@
 <?php
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 //con que institucion y que sede se debe trabajar
 if (@$_GET['instituciones'])
 {
@@ -130,16 +140,7 @@ EOT_JS_CODE
 <?php
 
 
-if(@$_SESSION['sesion']=="si")
-{ 
-	// echo $_SESSION['nombre'];
-} 
-//si no tiene sesion se redirecciona al login
-else
-{
-	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
-	die;
-}
+
 
 /* @var $this yii\web\View */
 
