@@ -183,29 +183,11 @@ class DistribucionesAcademicasController extends Controller
 			$aulas[$key['id']]=$key['descripcion'];
 		}
 		
-		// /**
-		// * Llenar select de paralelo(grupo) por sede y nivel seleccionado
-		// */
 		
-		// $command = $connection->createCommand("SELECT p.id, p.descripcion
-												// FROM paralelos as p, sedes_niveles as sn
-												// WHERE sn.id = p.id_sedes_niveles
-												// AND sn.id_sedes = $idSedes
-												// and p.id_sedes_niveles = ".$idSedesNiveles."");
-		// $result = $command->queryAll();
-		// //se formatea para que lo reconozca el select
-		// foreach($result as $key){
-			// $grupos[$key['id']]=$key['descripcion'];
-		// }
-
 		$modificar = false;
 		
 		$model = new DistribucionesAcademicas();
 			
-			// echo "<pre>"; print_r( ); echo "</pre>";
-			// echo "<pre>"; print_r( Yii::$app->request->post()); echo "</pre>";
-			// die;
-		
 		
 		if($_POST)
 		{		
