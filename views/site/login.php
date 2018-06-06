@@ -9,6 +9,8 @@ use yii\bootstrap\ActiveForm;
 use app\models\Perfiles;
 use	yii\helpers\ArrayHelper;
 
+use nex\chosen\Chosen;
+
 $this->title = 'Ingreso al sistema ARE';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -61,7 +63,20 @@ EOT_JS_CODE
 		$perfiles = $modelPerfiles->find()->orderBY("descripcion")->all();
 		$perfiles = ArrayHelper::map($perfiles,'id','descripcion');
 			
-		echo $form->field($modelPerfiles, 'descripcion')->dropDownList($perfiles)->label('Perfil'); ?>
+		// echo $form->field($modelPerfiles, 'descripcion')->dropDownList($perfiles)->label('Perfil'); 
+		?>
+		
+		<?= $form->field($modelPerfiles, 'descripcion')->widget(
+			Chosen::className(), [
+				'items' => $perfiles,
+				'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
+				'placeholder' => 'Seleccione...',
+				'clientOptions' => [
+					'search_contains' => true,
+					'single_backstroke_delete' => false,
+				],
+			])->label('Perfil');
+		?>
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
