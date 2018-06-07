@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha modificacion (06-06-2018)
+Desarrollador: Edwin Molina Grisales
+Descripción: Se validan datos que puedan no existir en la base de datos para el estudiante que se busca
+---------------------------------------
+*/
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;

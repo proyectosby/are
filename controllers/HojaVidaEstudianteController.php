@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha modificacion (06-06-2018)
+Desarrollador: Edwin Molina Grisales
+Descripción: Se validan datos que puedan no existir en la base de datos para el estudiante que se busca
+---------------------------------------
+*/
 
 namespace app\controllers;
 
@@ -58,22 +65,21 @@ class HojaVidaEstudianteController extends Controller
 						 ( \'SI\' ) as mio
 						 ' 
 						 )
-			->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
-			->innerJoin( 'estudiantes e', 'e.id_perfiles_x_personas=pp.id' )
-			->innerJoin( 'representantes_legales rl', 'rl.id_perfiles_x_personas=pp.id' )
-			->innerJoin( 'personas prl', 'prl.id=rl.id_personas' )
-			->innerJoin( 'perfiles_x_personas_institucion ppi', 'ppi.id_perfiles_x_persona=pp.id' )
-			->innerJoin( 'instituciones i', 'i.id=ppi.id_institucion' )
-			->innerJoin( 'paralelos p', 'p.id=e.id_paralelos' )
-			->innerJoin( 'sedes_jornadas sj', 'sj.id=p.id_sedes_jornadas' )
-			->innerJoin( 'jornadas j', 'j.id=sj.id_jornadas' )
-			->innerJoin( 'sedes s', 's.id=sj.id_sedes' )
+			->leftJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
+			->leftJoin( 'estudiantes e', 'e.id_perfiles_x_personas=pp.id' )
+			->leftJoin( 'representantes_legales rl', 'rl.id_perfiles_x_personas=pp.id' )
+			->leftJoin( 'personas prl', 'prl.id=rl.id_personas' )
+			->leftJoin( 'perfiles_x_personas_institucion ppi', 'ppi.id_perfiles_x_persona=pp.id' )
+			->leftJoin( 'instituciones i', 'i.id=ppi.id_institucion' )
+			->leftJoin( 'paralelos p', 'p.id=e.id_paralelos' )
+			->leftJoin( 'sedes_jornadas sj', 'sj.id=p.id_sedes_jornadas' )
+			->leftJoin( 'jornadas j', 'j.id=sj.id_jornadas' )
+			->leftJoin( 'sedes s', 's.id=sj.id_sedes' )
 			->andWhere( 'personas.estado=1' )
 			->andWhere( 'e.estado=1' )
-			->andWhere( 'prl.estado=1' )
+			// ->andWhere( 'prl.estado=1' )
 			->andWhere( 'ppi.estado=1' )
 			->andWhere( 'pp.estado=1' );
-		
 		if( Yii::$app->request->queryParams && array_key_exists( 'HojaVidaEstudianteBuscar', Yii::$app->request->queryParams ) && Yii::$app->request->queryParams['HojaVidaEstudianteBuscar']['id'] )
 			$dataProvider->query->andWhere( 'personas.id='.Yii::$app->request->queryParams['HojaVidaEstudianteBuscar']['id'] );
 		else
