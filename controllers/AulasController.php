@@ -1,4 +1,12 @@
 <?php
+/**********
+Versión: 001
+---------------------------------------
+Fecha: 07-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita los select de institucion y sede se deja los datos por defecto que vienen de _SESSION
+---------------------------------------
+**********/
 
 namespace app\controllers;
 
@@ -38,8 +46,12 @@ class AulasController extends Controller
      * Lists all Aulas models.
      * @return mixed
      */
-    public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    // public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 ){
 			
 			$aulasSearchModel= new AulasBuscar();

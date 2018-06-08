@@ -6,6 +6,10 @@ Fecha: 02-03-2018
 Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes
 ---------------------------------------
+Fecha: 07-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita la seleccion de instituciones y se deja la institución por defecto de _SESSION
+---------------------------------------
 Fecha: 02-03-2018
 Persona encargada: Oscar David Lopez 
 Cambios realizados: Se muestran solo las sedes activas
@@ -107,8 +111,10 @@ class SedesController extends Controller
      * Lists all Sedes models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0 )
+    // public function actionIndex($idInstitucion = 0 )
+    public function actionIndex()
     {
+		$idInstitucion = $_SESSION['instituciones'][0];
 		
 		$querySedes = Sedes::find();
 		
