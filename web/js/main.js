@@ -1,21 +1,10 @@
-// yii.allowAction = function ($e) {
-        // var message = $e.data('confirm');
-        // return message === undefined || yii.confirm(message, $e);
-    // };
-    // yii.confirm = function (message, $e) {
-        // bootbox.confirm({
-            // title: 'Confirm',
-            // message: 'Are you sure?',            
-            // callback: function (result) {
-                // if (result) {
-                    // yii.handleAction($e);
-                // }
-            // }
-        // });
-        // // confirm will always return false on the first call
-        // // to cancel click handler
-        // return false;
-    // }
+/**********
+Versión: 001
+Fecha: 07-06-2018
+Desarrollador: Viviana Rodas
+Descripción: js para sobreescribir la funcion confirm que trae yii por confirm con la libreria bootbox
+---------------------------------------
+*/
 	
 	// --- Delete action (bootbox) ---
 yii.confirm = function (message, ok, cancel) {

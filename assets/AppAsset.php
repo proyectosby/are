@@ -1,4 +1,11 @@
 <?php
+/**********
+Versión: 001
+Fecha: 07-06-2018
+Desarrollador: Viviana Rodas
+Descripción: Se llaman los archivos de bootbox y main js para sobreescribir el confirm de yii.
+---------------------------------------
+*/
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
