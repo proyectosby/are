@@ -7,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes-jornadas
 ---------------------------------------
 Modificaciones:
+Fecha: 07-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita los select de institucion y sede se deja los datos por defecto que vienen de _SESSION
+---------------------------------------
 Fecha: 06-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se crea filtro de sedes por instituciones y a todas las vistas(create, update, view e index) se envían el id de sedes e instituciones
@@ -61,8 +65,12 @@ class SedesJornadasController extends Controller
     }
 
 
-	public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+	// public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+	public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 ){
 			
