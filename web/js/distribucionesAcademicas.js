@@ -45,7 +45,7 @@ function listarHorario(){
 		return false;
 		
 	}
-	$.get( "index.php?r=distribuciones-academicas/horario&idSedes="+idSede+"&idDocente="+idDocente, 
+	$.get( "index.php?r=distribuciones-academicas/horario&idDocente="+idDocente, 
 				function( data )
 				{
 					$('#tablaModulosLabel').show();
@@ -81,7 +81,6 @@ function cargarInformacionEnTabla(data)
 			{ data: "DOMINGO" },
 			
 			// {data: null, className: "center", defaultContent: '<a id="view-link" class="edit-link" href="#" title="Edit">Estudiantes por Salón </a>'},
-			// {data: null, className: "center", defaultContent: '<a id="asistencias-link" class="asistencias-link" href="#" title="Edit">Asistencias</a>'}
 			],
 			"info":     false,
 			"order": [[ 0, "asc" ]],
@@ -96,7 +95,6 @@ function cargarInformacionEnTabla(data)
 			"columnDefs": [
 			// {"targets": [ 0 ],"visible": true,"searchable": true},
 			// {"targets": [ 1 ],"visible": true,"searchable": false},
-			// {"targets": [ 3 ],"visible": false,"searchable": false},
 			],
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
@@ -147,7 +145,7 @@ function cargarInformacionEnTabla(data)
 			
 		idDocente = $("#distribucionesacademicas-id_perfiles_x_personas_docentes").val();
 			
-			$.post( "index.php?r=distribuciones-academicas/create&idSedes="+idSede+"&idInstitucion=55",
+			$.post( "index.php?r=distribuciones-academicas/create",
 			{
 				id_asignaturas_x_niveles_sedes:asignatura,
 				id_perfiles_x_personas_docentes:idDocente,
@@ -161,8 +159,14 @@ function cargarInformacionEnTabla(data)
 			},
 				function( data )
 				{
+					if(data.error == 1)
+					{
+						alert(data.mensaje);
+						return false;
+					}
 					
 					listarHorario();
+					
 				},
 		"json");
 			
@@ -219,7 +223,7 @@ $("#selSedesNivel").change(function(){
 		"json");
 		
 		//llenar grupos paralelos
-	$.get( "index.php?r=distribuciones-academicas/listar-g&idSedesNiveles="+idSedesNiveles+"&idSedes="+idSedes, 
+	$.get( "index.php?r=distribuciones-academicas/listar-g&idSedesNiveles="+idSedesNiveles, 
 				function( data )
 				{
 					// console.log(data);
@@ -237,13 +241,6 @@ $("#selSedesNivel").change(function(){
 	
 	
 }); 
-
-
-// $("#btnHorario").click(function(){
-      
-      // window.open("/are/views/distribuciones-academicas/horario.html?idSede="+idSede, '_blank');
-   // });
-
 
 /**
  * Funcion de listar las distribucines academicas.

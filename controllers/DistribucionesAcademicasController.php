@@ -42,18 +42,15 @@ class DistribucionesAcademicasController extends Controller
 	
 	
 	
-	
-	
-
     /**
      * Lists all DistribucionesAcademicas models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
-        // Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
-		if( $idInstitucion != 0 && $idSedes != 0 )
-		{
+        $idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
+		
 			
 			$searchModel = new DistribucionesAcademicasBuscar();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams); //traer los datos de la distribucion academica por sede
@@ -71,15 +68,7 @@ class DistribucionesAcademicasController extends Controller
 				'idSedes' 	=> $idSedes,
 				'idInstitucion' => $idInstitucion,
 			]);
-		}
-		else
-		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
-				'idSedes' 		=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-			] );
-		}
+		
     }
 
     /**
@@ -91,31 +80,8 @@ class DistribucionesAcademicasController extends Controller
     public function actionView($id)
     {
         
-		/**
-		* Se trae el id de sede desde el aula
-		*/
-		//variable con la conexion a la base y traer id sede
-		$connection = Yii::$app->getDb();
-		$command = $connection->createCommand("select s.id
-											  from aulas as a, sedes as s, distribuciones_academicas as da
-											  where da.id_aulas_x_sedes = a.id
-											  and a.id_sedes = s.id
-											  and a.estado = 1
-											  and s.estado = 1
-											  group by s.id");
-		$idSedes = $command->queryAll();
-		$idSedes = $idSedes[0]['id'];
-		// /**
-		// * Se trae el id de institucion desde sede
-		// */
-		$command = $connection->createCommand(" select i.id
-												  from sedes as s, instituciones as i
-												  where s.id_instituciones = i.id
-												  and s.estado = 1
-												  and i.estado = 1
-												  and s.id = $idSedes");
-		$idInstitucion = $command->queryAll();
-		$idInstitucion = $idInstitucion[0]['id'];
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
 		
 		return $this->render('view', [
             'model' => $this->findModel($id),
@@ -129,10 +95,13 @@ class DistribucionesAcademicasController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idSedes, $idInstitucion)
+    public function actionCreate()
     {	
 	
-	//se usa en el form para que en el yii se activen los dataTables
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
+		
+		//se usa en el form para que en el yii se activen los dataTables
 		$sql ="
 		SELECT p.identificacion
 		FROM personas as p
@@ -195,13 +164,60 @@ class DistribucionesAcademicasController extends Controller
 			$id_asignaturas_x_niveles_sedes	= $_POST['id_asignaturas_x_niveles_sedes'];
 			$id_perfiles_x_personas_docentes= $_POST['id_perfiles_x_personas_docentes'];
 			$id_aulas_x_sedes				= $_POST['id_aulas_x_sedes'];
-			$estado							= $_POST['id_aulas_x_sedes'];
+			$estado							= $_POST['estado'];
 			$id_paralelo_sede				= $_POST['id_paralelo_sede'];
 			$fecha_ingreso					= $_POST['fecha_ingreso'];
 			$dia 							= $_POST['dia'];
 			$bloque 						= $_POST['bloque'];
 			
+			//variable de conexion
 			$connection = Yii::$app->getDb();
+			
+			/**intensiad horario no se pueden asignar mas horas de las te tiene en la insentidad horaria*/
+			
+			//saber si tiene insentidad Horaria y cuanto es
+			$command 	= $connection->createCommand("
+			SELECT intensidad
+			FROM asignaturas_x_niveles_sedes
+			where id = $id_asignaturas_x_niveles_sedes
+			");
+			$intensidadhoraria = $command->queryAll();
+			$intensidadHoraria = $intensidadhoraria[0]['intensidad']; 
+			
+			
+			// print_r($intensidadHoraria);
+			// print_r(" --- ");
+			// print_r($_SESSION['sede'][0]);
+			// die("aqui");
+			//si no tiene intensiadhoraria
+			if(!empty($intensidadHoraria) == 0)
+			{
+				$data=array('error'=>1,'mensaje'=>"La materia no tiene intensiad horaria");
+				echo json_encode($data);
+				die;
+			}
+			
+			//cuantas horas tiene la materia en este momento
+			$command 	= $connection->createCommand("
+			SELECT count(dbd.id)
+			FROM distribuciones_academicas as da, distribuciones_x_bloques_x_dias as dbd
+			where dbd.id_distribuciones_academicas = da.id
+			and da.id_asignaturas_x_niveles_sedes = $id_asignaturas_x_niveles_sedes
+			and da.estado = 1
+			and da.id_paralelo_sede = $id_paralelo_sede
+		
+			");
+			$result 	= $command->queryAll();
+			$horasMateria	= @$result[0]['count'];
+			
+			if($horasMateria+1 > $intensidadHoraria )
+			{
+				$data=array('error'=>1,'mensaje'=>"la materia no pueden superar la insentidad horaria ($intensidadHoraria)");
+				echo json_encode($data);
+				die;
+			}
+			
+			
 			//id del dia del la celda que seleciona en el dataTable
 			$command 	= $connection->createCommand("SELECT id FROM dias WHERE descripcion ='$dia'");
 			$result 	= $command->queryAll();
@@ -216,18 +232,29 @@ class DistribucionesAcademicasController extends Controller
 			$result 	= $command->queryAll();
 			$idBloqueXSede	= $result[0]['id'];
 			
-			if(strpos($_POST['informacionCelda'],"</insertar>") > 0)
-			{
-				$connection = Yii::$app->getDb();
 			
-				//insertar en distribuciones_academicas y retornar el id 
+			//saber si ya existe una distribucion academica que pertenesca a ese horario
+			$command = $connection->createCommand
+			("
+				SELECT id
+				FROM distribuciones_academicas
+				where id_asignaturas_x_niveles_sedes = $id_asignaturas_x_niveles_sedes
+				and id_perfiles_x_personas_docentes = $id_perfiles_x_personas_docentes
+				and id_paralelo_sede =$id_paralelo_sede	
+				and estado = 1			
+			");
+			$distribucion  = $command->queryAll();
+			$idDistribucion = @$distribucion[0]['id'];	
+			//si no tiene horario no tiene ninguna distribucion academica se crea de lo contario se continua con 
+			//el id $idDistribucion
+			if (!empty($idDistribucion) == 0 )
+			{
 				$command = $connection->createCommand
 				("
 					INSERT INTO public.distribuciones_academicas
 					(
 						id_asignaturas_x_niveles_sedes,
 						id_perfiles_x_personas_docentes,
-						id_aulas_x_sedes,
 						fecha_ingreso,
 						estado,
 						id_paralelo_sede
@@ -236,17 +263,19 @@ class DistribucionesAcademicasController extends Controller
 					(
 						$id_asignaturas_x_niveles_sedes,
 						$id_perfiles_x_personas_docentes,
-						$id_aulas_x_sedes,
 						'$fecha_ingreso',
 						1,
 						$id_paralelo_sede
 						
-					) RETURNING id;
+					)returning id;
 				");
-				$result = $command->queryAll();
-				$id = $result[0]['id'];
-				
-				
+				$distribucion = $command->queryAll();
+				$idDistribucion = $distribucion[0]['id'];
+			}
+			
+					
+			if(strpos($_POST['informacionCelda'],"</insertar>") > 0)
+			{
 				//insertar en distribuciones_x_bloques_x_dias
 				$command = $connection->createCommand
 				("
@@ -254,52 +283,64 @@ class DistribucionesAcademicasController extends Controller
 					(
 						id_distribuciones_academicas,
 						id_bloques_sedes,
-						id_dias
+						id_dias,
+						id_aulas_sedes
 					)
 					VALUES 
 					(
-						$id,
+						$idDistribucion,
 						$idBloqueXSede,
-						$idDia
+						$idDia,
+						$id_aulas_x_sedes
 					)
 				");
 				$result = $command->queryAll();
 				
-				$data = array("mensaje"=>"hola");
-					
+				$data = array("error"=>"0");
 				echo json_encode($data);
 				die;
 				
 			}
 			elseif(strpos($_POST['informacionCelda'],"</actualizar=") > 0)
 			{
+				/***se valida que una materia no se asigne mas horas de las que se indican en al instensidad horaria*/
+				
+				//instensidad horaria
+				
 				$pos = strpos($_POST['informacionCelda'],"</actualizar=");
 				//id de la distribucion academica
-				$id= substr($_POST['informacionCelda'],$pos+13);
-				//actualiza la distribucion academica
+				$id  = substr($_POST['informacionCelda'],$pos+13);
+				//borrar el registro
 				$command = $connection->createCommand
 				("
-					UPDATE public.distribuciones_academicas
-					SET id_asignaturas_x_niveles_sedes=$id_asignaturas_x_niveles_sedes,
-					id_perfiles_x_personas_docentes=$id_perfiles_x_personas_docentes,
-					id_aulas_x_sedes=$id_aulas_x_sedes,
-					fecha_ingreso='$fecha_ingreso',
-					estado=1,
-					id_paralelo_sede=$id_paralelo_sede				
-					WHERE id=$id;
+					DELETE FROM distribuciones_x_bloques_x_dias
+					WHERE id_bloques_sedes = $idBloqueXSede
+					and id_dias = $idDia
 				");
-				$result = $command->queryAll();
-				
+				$result = $command->execute();
+				// echo " DELETE FROM distribuciones_x_bloques_x_dias
+				// WHERE id_bloques_sedes = $idBloqueXSede
+					// and id_dias = $idDia";
+					
 				//actualiza distribuciones_x_bloques_x_dias
+				//se ingresa nuevamente 
 				$command = $connection->createCommand
 				("
-					UPDATE public.distribuciones_x_bloques_x_dias
-					SET id_bloques_sedes=$idBloqueXSede,
-					id_dias=$idDia
-					WHERE id_distribuciones_academicas=$id;	
+					INSERT INTO distribuciones_x_bloques_x_dias(
+					id_distribuciones_academicas,
+					id_bloques_sedes, 
+					id_dias,
+					id_aulas_sedes)
+					VALUES 
+					(
+					$idDistribucion,
+					$idBloqueXSede,
+					$idDia,
+					$id_aulas_x_sedes
+					)	
 				");
 				$result = $command->queryAll();
-				$data = array("mensaje"=>"hola");
+				$data = array("error"=>"0");
 				echo json_encode($data);
 				die;
 			}
@@ -338,6 +379,9 @@ class DistribucionesAcademicasController extends Controller
     public function actionUpdate($id)
     {
 		
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
+		
 		$sql ="
 		SELECT p.identificacion
 		FROM personas as p
@@ -355,30 +399,13 @@ class DistribucionesAcademicasController extends Controller
 		//se guardan los datos en un array
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
-		/**
-		* Se trae el id de sede desde el aula
-		*/
-		//variable con la conexion a la base y traer id sede
+	
+		
+		
+		// Concexion a la db, llenar select de docentes
 		$connection = Yii::$app->getDb();
-		$command = $connection->createCommand("select s.id as idsedes, s.id_instituciones as idinstitucion
-											  from aulas as a, sedes as s, distribuciones_academicas as da
-											  where da.id_aulas_x_sedes = a.id
-											  and a.id_sedes = s.id
-											  and a.estado = 1
-											  and s.estado = 1
-											  and da.id=$id
-											  group by s.id"
-											  );
-		$idSedes = $command->queryAll();
-		$idSedes1 = $idSedes[0]['idsedes'];
-		$idInstitucion = $idSedes[0]['idinstitucion'];
 		
-		
-		/**
-		* Concexion a la db, llenar select de docentes
-		*/
 		//variable con la conexion a la base de datos  pe.id=10 es el perfil docente
-		
 		
 		$command = $connection->createCommand("select d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombres
 												from personas as p, perfiles_x_personas as pp, docentes as d, perfiles as pe, perfiles_x_personas_institucion as ppi
@@ -404,7 +431,7 @@ class DistribucionesAcademicasController extends Controller
 		$command = $connection->createCommand("SELECT a.id, a.descripcion
 												FROM aulas as a, sedes as s
 												WHERE a.id_sedes = s.id
-												AND a.id_sedes = $idSedes1");
+												AND a.id_sedes = $idSedes");
 		$result = $command->queryAll();
 		//se formatea para que lo reconozca el select
 		foreach($result as $key){
@@ -428,7 +455,7 @@ class DistribucionesAcademicasController extends Controller
 		*/
 		$command = $connection->createCommand("SELECT sn.id, n.descripcion
 												FROM public.sedes_niveles as sn, niveles as n, asignaturas_x_niveles_sedes as ans
-												where sn.id_sedes = $idSedes1
+												where sn.id_sedes = $idSedes
 												and sn.id_niveles = n.id
 												and n.estado = 1
 												
@@ -491,7 +518,7 @@ class DistribucionesAcademicasController extends Controller
 			
             'model' => $model,
 			'estados'=>$estados,
-			'idSedes' => $idSedes1,
+			'idSedes' => $idSedes,
 			'idInstitucion' => $idInstitucion,
 			'docentes'=>$docentes,
 			'aulas'=>$aulas,
@@ -513,45 +540,12 @@ class DistribucionesAcademicasController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->findModel($id)->delete();
-
-		// /**
-		// * Se trae el id de sede desde el aula
-		// */
-		//variable con la conexion a la base y traer id sede
-		$connection = Yii::$app->getDb();
-		$command = $connection->createCommand("select s.id
-											  from aulas as a, sedes as s, distribuciones_academicas as da
-											  where da.id_aulas_x_sedes = a.id
-											  and a.id_sedes = s.id
-											  and a.estado = 1
-											  and s.estado = 1
-											  group by s.id");
-		$idSedes = $command->queryAll();
-		$idSedes = $idSedes[0]['id'];
-		// /**
-		// * Se trae el id de institucion desde sede
-		// */
-		$command = $connection->createCommand(" select i.id
-												  from sedes as s, instituciones as i
-												  where s.id_instituciones = i.id
-												  and s.estado = 1
-												  and i.estado = 1
-												  and s.id = $idSedes");
-		$idInstitucion = $command->queryAll();
-		$idInstitucion = $idInstitucion[0]['id'];
         
 		$model = DistribucionesAcademicas::findOne($id);
 		$model->estado = 2;
 		$model->update(false);
 		
-		
-		// return $this->redirect('index', [
-			// 'idSedes' 		=> $idSedes,
-			// 'idInstitucion' => $idInstitucion,
-        // ]);
-		
-		return $this->redirect(['index', 'idInstitucion' => $idInstitucion,'idSedes'=>$idSedes]);
+		return $this->redirect(['index']);
     }
 
     /**
@@ -584,13 +578,14 @@ class DistribucionesAcademicasController extends Controller
 		
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
-		//saber el id de la sede para redicionar al index correctamente
-		$command = $connection->createCommand("SELECT ans.id, a.descripcion
-												FROM asignaturas_x_niveles_sedes as ans, asignaturas as a, sedes_niveles as sn
-												WHERE a.estado = 1
-												AND a.id = ans.id_asignaturas
-												AND ans.id_sedes_niveles = sn.id
-												AND sn.id = $idSedesNiveles");
+		//asignaturas del grupo
+		$command = $connection->createCommand("
+		SELECT ans.id, a.descripcion
+		FROM asignaturas_x_niveles_sedes as ans, asignaturas as a, sedes_niveles as sn
+		WHERE a.estado = 1
+		AND a.id = ans.id_asignaturas
+		AND ans.id_sedes_niveles = sn.id
+		AND sn.id = $idSedesNiveles");
 		$result = $command->queryAll();
 		
 		return Json::encode( $result );
@@ -599,37 +594,32 @@ class DistribucionesAcademicasController extends Controller
 	}    
 
 	//trae la iformacion del horario con respeto al docente y a la sede
-  public function actionHorario($idSedes,$idDocente)
+  public function actionHorario($idDocente)
 	{
 		
+		$idSedes = $_SESSION['sede'][0];
 		
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
 		
-		//que materias se dan y en que dias en la sede actual
+		//
 		$command = $connection->createCommand("
-		select da.id , d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
-		pa.descripcion as grupo, au.descripcion as aula
-			from distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, sedes_niveles as sn, dias as d, 
-			bloques as b , distribuciones_x_bloques_x_dias as dbd, sedes_x_bloques as sb, asignaturas as a, personas as p,perfiles_x_personas as pp,
-			paralelos as pa, aulas as au
-			where da.id_asignaturas_x_niveles_sedes = ans.id
-			AND sn.id = ans.id_sedes_niveles
-			AND sn.id_sedes = $idSedes
-			AND da.estado = 1
-			AND dbd.id_distribuciones_academicas = da.id
-			AND dbd.id_dias = d.id
-			AND dbd.id_bloques_sedes = sb.id
-			AND sb.id_bloques = b.id
-			AND ans.id_asignaturas= a.id
-			AND da.id_perfiles_x_personas_docentes = pp.id
-			and pp.id_personas=p.id
-			and da.id_paralelo_sede= pa.id
-			and p.estado = 1
-			and pa.estado= 1
-			and da.estado= 1
+		select dbd.id_distribuciones_academicas as id, d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
+			pa.descripcion as grupo, au.descripcion as aula
+			from distribuciones_x_bloques_x_dias as dbd, asignaturas_x_niveles_sedes as ans, distribuciones_academicas as da, 
+			sedes_niveles as sn, dias as d, bloques as b, sedes_x_bloques as sb, asignaturas as a, paralelos as pa, aulas as au
+			Where dbd.id_distribuciones_academicas = da.id
+			and dbd.id_dias = d.id
+			and dbd.id_bloques_sedes = sb.id
+			and sb.id_sedes = $idSedes
 			and da.id_perfiles_x_personas_docentes = $idDocente
-			and da.id_aulas_x_sedes = au.id");
+			and da.id_asignaturas_x_niveles_sedes = ans.id
+			and ans.id_asignaturas = a.id
+			and ans.id_sedes_niveles = sn.id
+			and sb.id_bloques = b.id 
+			and da.id_paralelo_sede =pa.id
+			and dbd.id_aulas_sedes = au.id
+		");
 			$result = $command->queryAll();
 		
 			$command = $connection->createCommand("SELECT id, descripcion
@@ -697,9 +687,10 @@ class DistribucionesAcademicasController extends Controller
 	
 	}
 	
-	public function actionListarG($idSedesNiveles,$idSedes)
+	public function actionListarG($idSedesNiveles)
 	{
 		
+		$idSedes = $_SESSION['sede'][0];
 		//variable con la conexion a la base de datos
 		$connection = Yii::$app->getDb();
 		/**
@@ -728,40 +719,4 @@ class DistribucionesAcademicasController extends Controller
 	
 	}
 	
-	 /**
-     * Esta funcion lista las institucines que estan activas.
-     * 
-     * @param Recibe id institucion y el id de sedes
-     * @return la lista de insticiones
-     * @throws no tiene excepciones
-     */
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-		] );
-    }
-
-	
-	// public function actionListarDistribuciones()
-	// {
-	// // //variable con la conexion a la base de datos
-		// // $connection = Yii::$app->getDb();
-		// // //saber el id de la sede para redicionar al index correctamente
-		// // $command = $connection->createCommand("
-		// // SELECT * FROM distribuciones_academicas");
-		// // $result = $command->queryAll();
-		
-		// $comunasTable	 	 = new DistribucionesAcademicas();
-		// $dataComunas		 = $comunasTable->find()->all();
-									// // ->where( 'comunas_corregimientos.estado=1' )
-									// // ->andWhere( 'comunas_corregimientos.id_municipios='.$idMunicipio )
-									
-		// $comunas	 	 	 = ArrayHelper::map( $dataComunas, 'id', 'estado' );
-		
-	// // print_r ($comunas);	
-	// return Json::encode( $comunas );	
-	
-	// }
 }

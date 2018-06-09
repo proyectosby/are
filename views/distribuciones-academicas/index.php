@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				[
 				"sExtends"=> "pdf",
-				"sButtonText"=> Yii::t('app',"PDF")
+				"oSelectorOpts"=> ["page"=> 'current']
 				],
 				// [
 				// "sExtends"=> "print",
@@ -122,27 +122,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					$result = $command->queryAll();
 								
 					return $result[0]['nombres'];
-				},
-				
-			], 
-            [
-				'attribute'=>'id_aulas_x_sedes',
-				'value' => function( $model )
-				{
-					/**
-					* Llenar la descripcion del aula
-					*/
-					//variable con la conexion a la base de datos 
-					$connection = Yii::$app->getDb();
-					$command = $connection->createCommand(" select a.descripcion
-															from aulas as a, distribuciones_academicas as da
-															where a.id= da.id_aulas_x_sedes
-															and a.estado=1
-															and a.id = $model->id_aulas_x_sedes
-															");
-					$result = $command->queryAll();
-								
-					return $result[0]['descripcion'];
 				},
 				
 			], 
