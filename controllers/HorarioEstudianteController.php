@@ -60,28 +60,21 @@ class HorarioEstudianteController extends Controller
 		
 		//que materias se dan y en que dias en la sede actual
 		$command = $connection->createCommand("
-			select da.id , d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
+			select dbd.id_distribuciones_academicas as id, d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
 			pa.descripcion as grupo, au.descripcion as aula
-			from distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, sedes_niveles as sn, dias as d, bloques as b,
-			distribuciones_x_bloques_x_dias as dbd, sedes_x_bloques as sb, asignaturas as a, personas as p,perfiles_x_personas as pp,
-			paralelos as pa, aulas as au, estudiantes as e
-			where da.id_asignaturas_x_niveles_sedes = ans.id
-			AND sn.id = ans.id_sedes_niveles
-			AND sn.id_sedes = $idSede
-			AND da.estado = 1
-			AND dbd.id_distribuciones_academicas = da.id
-			AND dbd.id_dias = d.id
-			AND dbd.id_bloques_sedes = sb.id
-			AND sb.id_bloques = b.id
-			AND ans.id_asignaturas= a.id
-			AND da.id_perfiles_x_personas_docentes = pp.id
-			and pp.id_personas=p.id
-			and da.id_paralelo_sede= pa.id
-			and p.estado = 1
-			and pa.estado= 1
-			and da.estado= 1
-			and da.id_aulas_x_sedes = au.id
-			and e.id_paralelos = pa.id
+			from distribuciones_x_bloques_x_dias as dbd, asignaturas_x_niveles_sedes as ans, distribuciones_academicas as da, 
+			sedes_niveles as sn, dias as d, bloques as b, sedes_x_bloques as sb, asignaturas as a, paralelos as pa, aulas as au,
+			estudiantes as e
+			Where dbd.id_distribuciones_academicas = da.id
+			and dbd.id_dias = d.id
+			and dbd.id_bloques_sedes = sb.id
+			and da.id_asignaturas_x_niveles_sedes = ans.id
+			and ans.id_asignaturas = a.id
+			and ans.id_sedes_niveles = sn.id
+			and sb.id_bloques = b.id 
+			and da.id_paralelo_sede =pa.id
+			and dbd.id_aulas_sedes = au.id
+			and e.id_paralelos =  da.id_paralelo_sede
 			and e.id_perfiles_x_personas = $idPerfilesXPersona");
 		$result = $command->queryAll();
 		
