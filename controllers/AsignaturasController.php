@@ -6,6 +6,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 10-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita los select de institucion y sede se deja los datos por defecto que vienen de _SESSION
+---------------------------------------
 Fecha: 01-05-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se agrega campo AREAS DE ENSEÑANZA al CRUD
@@ -72,8 +76,11 @@ class AsignaturasController extends Controller
      * @return mixed
      */
 	 //recibe 2 parametros con la intencion de filtrar por institucion y por sede
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
 		
 		// Si existe id sedes e institución se muestra la listas de todas las asignaturas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )

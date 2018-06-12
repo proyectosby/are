@@ -67,7 +67,7 @@ $models = $dataProvider->getModels();
 		echo "<span class=span>".$model->nombres." ".$model->apellidos."</span>";
 		echo "<span class=span>"."FECHA DE NACIMIENTO: ".$model->fecha_nacimiento."</span>";
 		echo "<span class=span>"."EDAD: ".$edad."</span>";
-		echo "<span class=span>".$genero->descripcion."</span>";
+		echo "<span class=span>".( $genero ? $genero->descripcion : '' )."</span>";
 		echo "<br>";
 		echo "<span class=span>".( $institucion ? $institucion->descripcion : 'SIN INSTITUCION ASIGNADA' ). "</span><span clss=span> SEDE: ".( $sede ? $sede->descripcion : 'SIN SEDE ASIGNADA' )." </span><span clss=span>GRADO: ".$grado."</span><span clss=span> GRUPO: </span><span clss=span>".$grupo." JORNADA: </span><span clss=span>".( $jornada ? $jornada->descripcion : 'SIN JORNADA ASIGNADA' )."</span>" ;
 		echo "<br>";

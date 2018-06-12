@@ -6,6 +6,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de AsignaturasNivelesSedes
 ---------------------------------------
 Modificaciones:
+Fecha: 10-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita los select de institucion y sede se deja los datos por defecto que vienen de _SESSION
+---------------------------------------
 Fecha: 16-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se debe seleccionar la sede y la institucion
@@ -59,8 +63,12 @@ class PeriodosController extends Controller
      * Lists all Periodos models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{

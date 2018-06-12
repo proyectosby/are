@@ -1,4 +1,12 @@
 <?php
+/**********
+Versión: 001
+---------------------------------------
+Fecha: 10-06-2018
+Persona encargada: Edwin MG
+Cambios realizados: Se quita los select de institucion y sede se deja los datos por defecto que vienen de _SESSION
+---------------------------------------
+**********/
 
 namespace app\controllers;
 
@@ -39,8 +47,12 @@ class SedesAreasEnsenanzaController extends Controller
      * Lists all SedesAreasEnsenanza models.
      * @return mixed
      */
-    public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    // public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{
 			$modelSedes 		= Sedes::findOne($idSedes);
