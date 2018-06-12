@@ -21,6 +21,12 @@ Fecha: (16-04-2018)
 Desarrollador: Viviana Rodas
 Descripción: Vista de grupos soporte
 ---------------------------------------
+Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Viviana Rodas
+Se agrega swal con mensaje de gurdado exitoso, con los parametros que llegan del controlador.
+**********/
+
 */
 
 use yii\helpers\Html;

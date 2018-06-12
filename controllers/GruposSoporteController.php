@@ -5,6 +5,10 @@ Fecha: 13-04-2018
 Persona encargada: Viviana Rodas
 Controller de grupos de apoyo
 ---------------------------------------
+Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Viviana Rodas
+En el create y update se agregan parametros para mostrar el mensaje de guardado existoso, antes de mostrar la vista view.
 **********/
 
 namespace app\controllers;
