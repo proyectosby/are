@@ -1,5 +1,20 @@
 <?php
+$this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 
+if (@$_GET['save']==1 and $_GET['descripcion'] != "" and $_GET['tipoGrupo'] != "")
+{	
+$mensaje= "El grupo ".$_GET['tipoGrupo']." ".$_GET['descripcion']." ha sido creado con exito";
+	$this->registerJs( <<< EOT_JS_CODE
+
+  swal({
+		text: "$mensaje",
+		icon: "success",
+		button: "Salir",
+	});
+
+EOT_JS_CODE
+);	
+}
 /**********
 Versión: 001
 Fecha: (16-04-2018)

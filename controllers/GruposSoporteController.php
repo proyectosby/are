@@ -24,6 +24,7 @@ use app\models\SedesJornadas;
 
 
 
+
 /**
  * GruposSoporteController implements the CRUD actions for GruposSoporte model.
  */
@@ -113,6 +114,8 @@ class GruposSoporteController extends Controller
      */
     public function actionCreate($idInstitucion, $idSedes)
     {
+		$model = new GruposSoporte();
+		
 		//se crea una instancia del modelo tipos
 		$gruposTable 		 	= new TiposGruposSoporte();
 		//se traen los datos de identificaciones
@@ -170,10 +173,16 @@ class GruposSoporteController extends Controller
 		//se guardan los datos en un array
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
-	   $model = new GruposSoporte();
+		
+	   
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+		{
+			// print_r(Yii::$app->request->post());die();
+			$tiposGruposSoporte = TiposGruposSoporte::findOne($model->id_tipo_grupos);
+		    $tiposGruposSoporte = $tiposGruposSoporte ? $tiposGruposSoporte->descripcion:'';
+		
+            return $this->redirect(['view', 'id' => $model->id,'save'=>true,'descripcion'=>$model->descripcion,'tipoGrupo'=>$tiposGruposSoporte]);
         }
 
         return $this->render('create', [
@@ -263,10 +272,16 @@ class GruposSoporteController extends Controller
 		$estados	 	 	 	= ArrayHelper::map( $dataestados, 'id', 'descripcion' );
 		
 		
+		$tiposGruposSoporte = TiposGruposSoporte::findOne($model->id_tipo_grupos);
+		$tiposGruposSoporte = $tiposGruposSoporte ? $tiposGruposSoporte->descripcion:'';
 		
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+			// print_r(Yii::$app->request->post());die();
+				$tiposGruposSoporte = TiposGruposSoporte::findOne($model->id_tipo_grupos);
+				$tiposGruposSoporte = $tiposGruposSoporte ? $tiposGruposSoporte->descripcion:'';
+				
+            return $this->redirect(['view', 'id' => $model->id,'save'=>true,'descripcion'=>$model->descripcion,'tipoGrupo'=>$tiposGruposSoporte]);
         }
 
         return $this->render('update', [
