@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Apoyo Académico
 ---------------------------------------
 Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo remitido a EPS
+---------------------------------------
+Modificaciones:
 Fecha: 17-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - cambios en los datos para mostrar la descripcion en lugar del id
@@ -118,6 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'incapacidad:boolean',
             'no_dias_incapaciad',
             'discapacidad:boolean',
+            'remitido_eps:boolean',
             'observaciones',
             // 'id_sede',
             

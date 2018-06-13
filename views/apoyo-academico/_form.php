@@ -6,6 +6,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Apoyo Academico
 ---------------------------------------
 Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se agrega campo REMITIDO A EPS y se agregan el select chosen para doctores y estudiantes
+---------------------------------------
+Modificaciones:
 Fecha: 16-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se renombran los labels del boton
@@ -32,6 +37,8 @@ use app\models\Estados;
 use app\models\TiposApoyoAcademico;
 use	yii\helpers\ArrayHelper;
 
+use nex\chosen\Chosen;
+
 
 //se envia la variable estados con los valores de la tabla estado, siempre es activo
 $estados = new Estados();
@@ -48,11 +55,35 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_persona_doctor')->DropDownList($doctores,['prompt'=>'Seleccione...']) ?>
+    <!-- <?= $form->field($model, 'id_persona_doctor')->DropDownList($doctores,['prompt'=>'Seleccione...']) ?> -->
+	
+	<?= $form->field($model, 'id_persona_doctor')->widget(
+		Chosen::className(), [
+			'items' => $doctores,
+			'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
+			'placeholder' => 'Seleccione...',
+			'clientOptions' => [
+				'search_contains' => true,
+				'single_backstroke_delete' => false,
+			],
+		])->label('Doctor');
+	?>
 
     <?= $form->field($model, 'registro')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_persona_estudiante')->DropDownList($estudiantes,['prompt'=>'Seleccione...']) ?>
+    <!-- <?= $form->field($model, 'id_persona_estudiante')->DropDownList($estudiantes,['prompt'=>'Seleccione...']) ?> -->
+	
+	<?= $form->field($model, 'id_persona_estudiante')->widget(
+		Chosen::className(), [
+			'items' => $estudiantes,
+			'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
+			'placeholder' => 'Seleccione...',
+			'clientOptions' => [
+				'search_contains' => true,
+				'single_backstroke_delete' => false,
+			],
+		])->label('Estudiante');
+	?>
 
     <?= $form->field($model, 'motivo_consulta')->textInput(['maxlength' => true]) ?>
 	
@@ -105,6 +136,8 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
     <?= $form->field($model, 'no_dias_incapaciad')->textInput(['type' => 'number']) ?>
 
     <?= $form->field($model, 'discapacidad')->checkbox() ?>
+	
+    <?= $form->field($model, 'remitido_eps')->checkbox() ?>
 
     <?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 

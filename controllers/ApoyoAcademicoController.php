@@ -7,6 +7,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Apoyo Academico
 ---------------------------------------
 Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Solo se muestra los doctores y estudiantes correspondientes a la institución seleccionada
+---------------------------------------
+Modificaciones:
 Fecha: 16-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se agrega el listar sede e institucion
@@ -123,10 +128,12 @@ class ApoyoAcademicoController extends Controller
 		//variable con la conexion a la base de datos 
 		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand("
-		SELECT pp.id as id, concat(pe.nombres,' ',pe.apellidos) as nombres
-		FROM public.perfiles_x_personas as pp, public.personas as pe
-		where pp.id_personas = pe.id
-		and pp.id_perfiles = 16
+			SELECT pp.id as id, concat(pe.nombres,' ',pe.apellidos) as nombres
+			  FROM public.perfiles_x_personas as pp, public.personas as pe, perfiles_x_personas_institucion ppi
+			 WHERE pp.id_personas = pe.id
+			   AND pp.id_perfiles = 16
+			   AND ppi.id_perfiles_x_persona = pp.id
+			   AND ppi.id_institucion = $idInstitucion
 		");
 		$result = $command->queryAll();
 		$doctores = array();
@@ -142,11 +149,13 @@ class ApoyoAcademicoController extends Controller
 		//variable con la conexion a la base de datos 
 		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand("
-		SELECT es.id_perfiles_x_personas as id, concat(pe.nombres,' ',pe.apellidos) as nombres
-		FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe
-		where es.id_perfiles_x_personas = pp.id
-		and pp.id_personas = pe.id
-		and pp.id_perfiles = 11
+			SELECT es.id_perfiles_x_personas as id, concat(pe.nombres,' ',pe.apellidos) as nombres
+			  FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe, perfiles_x_personas_institucion ppi
+			 WHERE es.id_perfiles_x_personas = pp.id
+			   AND pp.id_personas = pe.id
+			   AND pp.id_perfiles = 11
+			   AND ppi.id_perfiles_x_persona = pp.id
+			   AND ppi.id_institucion = $idInstitucion
 		");
 		$result = $command->queryAll();
 		$estudiantes = array();

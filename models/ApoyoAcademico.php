@@ -1,5 +1,18 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 16-04-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Apoyo Academico
+---------------------------------------
+Modificaciones:
+Fecha: 12-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega campo remitido a EPS
+---------------------------------------
+**********/
+
 namespace app\models;
 
 use Yii;
@@ -50,7 +63,7 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
             [['id_persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'default', 'value' => null],
             [['id_persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
             [['fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida'], 'safe'],
-            [['incapacidad', 'discapacidad'], 'boolean'],
+            [['incapacidad', 'discapacidad', 'remitido_eps'], 'boolean'],
             [['registro'], 'string', 'max' => 50],
             [['motivo_consulta'], 'string', 'max' => 500],
             [['observaciones'], 'string', 'max' => 600],
@@ -83,7 +96,8 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
             'observaciones' => 'Observaciones',
             'id_sede' => 'Sede',
             'id_tipo_apoyo' => 'Tipo Apoyo',
-            'estado' => 'Estado'
+            'estado' => 'Estado',
+            'remitido_eps' => 'Remitido a EPS',
         ];
     }
 
