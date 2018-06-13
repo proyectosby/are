@@ -128,7 +128,7 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		}
 		
 	});
-	console.log("*******************************")
+	
 }
 
 $( ".content a" ).click(function(){
@@ -154,14 +154,6 @@ $( ".content a" ).click(function(){
 			var inCalificaciones = $( "input:text:lt(6)", this );
 			var inIds			 = $( "input:hidden:lt(7)", this );
 			
-			console.log( "estudiante" );
-			console.log( estudiante );
-			console.log( "inCalificaciones" );
-			console.log( inCalificaciones );
-			console.log( "inIds" );
-			console.log( inIds );
-			console.log( "codigosDesempeno" );
-			console.log( codigosDesempeno );
 
 			inCalificaciones.each(function(y){
 
@@ -179,8 +171,7 @@ $( ".content a" ).click(function(){
 			});
 		});
 		
-		console.log( "data" );
-		console.log( data );
+		
 		// return;
 		$.post(
 			"index.php?r=calificaciones/create",
