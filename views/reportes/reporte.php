@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							],
 							[
 							"sExtends"=> "pdf",
-							"sButtonText"=> Yii::t('app',"PDF")
+							"oSelectorOpts"=> ["page"=> 'current']
 							],
 						],
 					],
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -203,7 +203,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -262,7 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -308,7 +308,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -373,7 +373,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -424,7 +424,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -470,7 +470,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -523,7 +523,7 @@ $this->params['breadcrumbs'][] = $this->title;
 											],
 											[
 											"sExtends"=> "pdf",
-											"sButtonText"=> Yii::t('app',"PDF")
+											"oSelectorOpts"=> ["page"=> 'current']
 											],
 										],
 									],
@@ -602,7 +602,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -647,7 +647,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									],
 									[
 									"sExtends"=> "pdf",
-									"sButtonText"=> Yii::t('app',"PDF")
+									"oSelectorOpts"=> ["page"=> 'current']
 									],
 								],
 							],
@@ -712,7 +712,7 @@ $this->params['breadcrumbs'][] = $this->title;
 											],
 											[
 											"sExtends"=> "pdf",
-											"sButtonText"=> Yii::t('app',"PDF")
+											"oSelectorOpts"=> ["page"=> 'current']
 											],
 										],
 									],
