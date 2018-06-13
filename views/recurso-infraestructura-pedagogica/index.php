@@ -65,7 +65,7 @@ $institucion = Instituciones::findOne($sedes->id_instituciones);
 					],
 					[
 					"sExtends"=> "pdf",
-					"sButtonText"=> Yii::t('app',"PDF")
+					"oSelectorOpts"=> ["page"=> 'current']
 					],
 					// [
 					// "sExtends"=> "print",

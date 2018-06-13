@@ -61,7 +61,7 @@ $sedes 		 = Sedes::findOne($idSedes);
 					],
 					[
 					"sExtends"=> "pdf",
-					"sButtonText"=> Yii::t('app',"PDF")
+					"oSelectorOpts"=> ["page"=> 'current']
 					],
 					// [
 					// "sExtends"=> "print",
