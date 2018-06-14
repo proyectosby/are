@@ -7,6 +7,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Asignaturas
 ---------------------------------------
 Modificaciones:
+Fecha: 13-06-2018
+Persona encargada: Edwin Molina
+Cambios realizados: Se deja por defecto la institución y sede de la SESSION
+---------------------------------------
 Fecha: 12-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Modificaciones en todas las funciones
@@ -69,8 +73,13 @@ class SedesBloquesController extends Controller
     
 	//cambio de la funcion a que reciba 2 parametros, que sirven para 
 	//tener control sobre la vista listarInstituciones que siempre redireccione a esa vista
-	public function actionIndex($idInstitucion = 0, $idSedes = 0)
+	// public function actionIndex($idInstitucion = 0, $idSedes = 0)
+	public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+
+		
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{

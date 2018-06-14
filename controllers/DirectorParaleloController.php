@@ -1,5 +1,15 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 09-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 13-06-2018
+Persona encargada: Edwin Molina
+Cambios realizados: Se deja por defecto la institución y sede de la SESSION
+**********/
+
 namespace app\controllers;
 
 use Yii;
@@ -39,8 +49,12 @@ class DirectorParaleloController extends Controller
      * Lists all DirectorParalelo models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{
 
