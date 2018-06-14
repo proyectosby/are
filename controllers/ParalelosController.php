@@ -26,6 +26,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Paralelos
 ---------------------------------------
 Modificaciones:
+Fecha: 13-06-2018
+Persona encargada: Edwin Molina
+Cambios realizados: Se deja por defecto la institución y sede de la SESSION
+---------------------------------------
 Fecha: 09-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Cambios en todas las funciones excepto "behaviors()" y se agrega la actionListarInstituciones()
@@ -74,8 +78,12 @@ class ParalelosController extends Controller
 	 
 	//lista los paralelos que le corresponen a la sede ($idSedes)
 	//la funcion cambia de no tener parametros a tener 2
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{	
