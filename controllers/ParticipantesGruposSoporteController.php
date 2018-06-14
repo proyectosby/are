@@ -168,9 +168,9 @@ class ParticipantesGruposSoporteController extends Controller
 		$idSedes = $_SESSION['sede'][0];
 		
 		$connection = Yii::$app->getDb();
-		//estudiantes de la sede y la jornada seleccionada
+		//estudiantes de la sede y la jornada seleccionada y cumplen con la edad requerida
 		$command = $connection->createCommand("
-		SELECT p.id, concat(p.nombres,' ',p.apellidos) as nombres
+		SELECT p.id, concat(p.nombres,' ',p.apellidos) as nombres,  extract(year from age(p.fecha_nacimiento)) as edad
 		FROM estudiantes as e, perfiles_x_personas as pp,
 		personas as p, paralelos as pa, sedes_jornadas as sj
 		where e.id_perfiles_x_personas = pp.id
@@ -180,6 +180,8 @@ class ParticipantesGruposSoporteController extends Controller
 		and pa.id_sedes_jornadas = sj.id
 		and sj.id_sedes = $idSedes
 		and sj.id_jornadas = $idJornadas
+		and extract(year from age(p.fecha_nacimiento)) >= (select edad_minima from grupos_soporte where id=$idGruposSoporte)
+		and extract(year from age(p.fecha_nacimiento)) <= (select edad_maxima from grupos_soporte where id=$idGruposSoporte)
 		");
 		$result = $command->queryAll();
 		
@@ -219,7 +221,7 @@ class ParticipantesGruposSoporteController extends Controller
 		$connection = Yii::$app->getDb();
 		//estudiantes de la sede y la jornada seleccionada
 		$command = $connection->createCommand("
-		SELECT p.id, concat(p.nombres,' ',p.apellidos) as nombres
+		SELECT p.id, concat(p.nombres,' ',p.apellidos) as nombres,  extract(year from age(p.fecha_nacimiento)) as edad
 		FROM estudiantes as e, perfiles_x_personas as pp,
 		personas as p, paralelos as pa, sedes_jornadas as sj
 		where e.id_perfiles_x_personas = pp.id
@@ -229,6 +231,9 @@ class ParticipantesGruposSoporteController extends Controller
 		and pa.id_sedes_jornadas = sj.id
 		and sj.id_sedes = $idSedes
 		and sj.id_jornadas = $idJornadas
+		and extract(year from age(p.fecha_nacimiento)) >= (select edad_minima from grupos_soporte where id=$idGruposSoporte)
+		and extract(year from age(p.fecha_nacimiento)) <= (select edad_maxima from grupos_soporte where id=$idGruposSoporte)
+		
 		");
 		$result = $command->queryAll();
 		
