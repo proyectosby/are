@@ -69,7 +69,7 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
             [['observaciones'], 'string', 'max' => 600],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_persona_estudiante'], 'exist', 'skipOnError' => true, 'targetClass' => Estudiantes::className(), 'targetAttribute' => ['id_persona_estudiante' => 'id_perfiles_x_personas']],
-            [['id_persona_doctor'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_persona_doctor' => 'id']],
+            [['id_persona_doctor'], 'exist', 'skipOnError' => true, 'targetClass' => PerfilesXPersonas::className(), 'targetAttribute' => ['id_persona_doctor' => 'id']],
             [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
             [['id_tipo_apoyo'], 'exist', 'skipOnError' => true, 'targetClass' => TiposApoyoAcademico::className(), 'targetAttribute' => ['id_tipo_apoyo' => 'id']],
         ];
