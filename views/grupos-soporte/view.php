@@ -27,7 +27,7 @@ Persona encargada: Viviana Rodas
 Se agrega swal con mensaje de gurdado exitoso, con los parametros que llegan del controlador.
 **********/
 
-*/
+
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
