@@ -185,7 +185,7 @@ class ParticipantesGruposSoporteController extends Controller
 		");
 		$result = $command->queryAll();
 		
-		
+		$estudiantes = array();
 		foreach ($result as $r)
 		{
 			$estudiantes[$r['id']]=$r['nombres'];
@@ -237,7 +237,7 @@ class ParticipantesGruposSoporteController extends Controller
 		");
 		$result = $command->queryAll();
 		
-		
+		$estudiantes = array();
 		foreach ($result as $r)
 		{
 			$estudiantes[$r['id']]=$r['nombres'];
