@@ -81,6 +81,7 @@
                                             ['label' => 'Transporte', 'icon' => 'circle-o', 'url' => '#',],
                                             ['label' => 'Alimentación', 'icon' => 'circle-o', 'url' => '#',],
                                             ['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
+                                            ['label' => 'Participantes', 'icon' => '', 'url' =>  ['participantes-grupos-soporte/index'],],
 											['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
                                         ],
                                     ],
