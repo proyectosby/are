@@ -69,6 +69,21 @@ class ParticipantesGruposSoporteController extends Controller
 			'key' => 'id',
 			]);
 	
+			//cupos disponibles y docente a cargo
+			$sql ="
+				SELECT gs.descripcion, gs.cantidad_participantes as \"Cantidad Participantes\", concat(p.nombres,' ',p.apellidos) as docente,
+				cantidad_participantes - (select count(id) from participantes_grupos_soporte Where id_grupo_soporte = $idGruposSoporte and estado = 1 ) as \"Cupos Disponibles\"
+				FROM grupos_soporte as gs, perfiles_x_personas as pp, personas as p
+				where gs.id = $idGruposSoporte
+				and gs.estado = 1
+				and gs.id_docentes = pp.id
+				and pp.id_personas = p.id
+			 ";		
+			$provider = new SqlDataProvider(
+			['sql' => $sql,
+			]);
+	
+			
 			$searchModel = new ParticipantesGruposSoporteBuscar();
 			// $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 			
@@ -77,6 +92,7 @@ class ParticipantesGruposSoporteController extends Controller
 			return $this->render('index', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
+				'provider' => $provider,
 				'idGruposSoporte' 	=> $idGruposSoporte,
 				'TiposGruposSoporte' => $TiposGruposSoporte,
 				'idJornadas'=>$idJornadas,
