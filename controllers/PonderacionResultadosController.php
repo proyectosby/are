@@ -6,6 +6,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de ponderacion de resultados
 ---------------------------------------
 Modificaciones:
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se deja institución y sede por defecto las seleccionadas al inicio de SESSION
+---------------------------------------
 Fecha: 17-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se elimina el campo id para mostrar
@@ -107,8 +111,12 @@ class PonderacionResultadosController extends Controller
      * Lists all PonderacionResultados models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
 		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{

@@ -9,6 +9,10 @@ Descripción: reportes
 Modificaciones:
 Fecha: 12-04-2018
 Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se deja institución y sede por defecto las seleccionadas al inicio de SESSION
+---------------------------------------
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
 Cambios realizados: - Se agrega opción Listado de estudiantes por grupo
 ---------------------------------------
 Fecha: 11-04-2018
@@ -95,8 +99,11 @@ class ReportesController extends Controller
      * @return mixed
      */
 	 //recibe 2 parametros con la intencion de filtrar por institucion y por sede
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
 		
 		// Si existe id sedes e institución se muestra la listas de todas las asignaturas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )

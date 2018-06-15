@@ -7,6 +7,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de RangosCalificacion
 ---------------------------------------
 Modificaciones:
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se deja institución por defecto la seleccionada al inicio de SESSION
+---------------------------------------
 Fecha: 13-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Modificaciones para que siempre pida la institucion,
@@ -67,8 +71,11 @@ class RangosCalificacionController extends Controller
 	 
 	 //se obliga siempre a tener una institucion seleccionada
 	 //se agrega parametro para validar si esta seleccionada la institucion
-    public function actionIndex($idInstitucion = 0)
+    // public function actionIndex($idInstitucion = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		
 		// Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0)
 		{

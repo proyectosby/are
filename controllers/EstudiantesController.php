@@ -6,6 +6,11 @@ Fecha modificación: 24-04-2018
 Desarrollador: Oscar David Lopez
 Descripción: se agrega el campo estado a las consultas con la tabla perfiles por persona
 ---------------------------------------
+Modificaciones:
+Fecha: 12-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se deja institución y sede por defecto las seleccionadas al inicio de SESSION
+---------------------------------------
 **********/
 namespace app\controllers;
 
@@ -79,8 +84,12 @@ class EstudiantesController extends Controller
      * Lists all Estudiantes models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{
 
