@@ -26,7 +26,7 @@ if(@$_SESSION['sesion']=="si")
 //si no tiene sesion se redirecciona al login
 else
 {
-	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	header('Location: index.php?r=site%2Flogin');
 	die;
 }
 use Yii;
