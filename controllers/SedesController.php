@@ -37,7 +37,7 @@ Cambios realizados: Se muestra un select con las instituciones, y una vez selecc
 
 namespace app\controllers;
 
-if(@$_SESSION['sesion']=="si" or $_GET['idInstitucion'] > 0)
+if(@$_SESSION['sesion']=="si" or @$_GET['idInstitucion'] > 0)
 { 
 	// echo $_SESSION['nombre'];
 } 
