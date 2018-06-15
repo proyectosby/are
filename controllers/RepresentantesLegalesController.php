@@ -26,6 +26,17 @@ Cambios realizados: - En la accion create y update se listan las personas con pe
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
+
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

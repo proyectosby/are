@@ -12,6 +12,16 @@ Cambios realizados: Se deja por defecto la institución y sede de la SESSION
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\DirectorParalelo;
 use app\models\DirectorParaleloBuscar;

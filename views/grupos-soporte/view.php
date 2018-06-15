@@ -1,4 +1,14 @@
 <?php
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 $this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 
 if (@$_GET['save']==1 and $_GET['descripcion'] != "" and $_GET['tipoGrupo'] != "")

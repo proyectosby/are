@@ -24,6 +24,16 @@ Cambios realizados: - Se modifica para que se deba seleccionar la institucion y 
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\SedesBloques;
 use app\models\SedesBloquesBuscar;

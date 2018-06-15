@@ -20,6 +20,16 @@ Cambios realizados: Se crea filtro de sedes por instituciones y a todas las vist
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\SedesJornadas;
 use yii\data\ActiveDataProvider;

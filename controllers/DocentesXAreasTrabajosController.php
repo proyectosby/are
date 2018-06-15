@@ -16,6 +16,16 @@ ya que se repetía varias veces los metodos ->where() en una sola consulta
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\DocentesXAreasTrabajos;
 use app\models\DocentesXAreasTrabajosBuscar;

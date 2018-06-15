@@ -1,4 +1,14 @@
 <?php
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 /**********
 Versión: 001
 Fecha: 17-04-2018
@@ -14,7 +24,7 @@ Modificaciones:
 Fecha: 17-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - cambios en los datos para mostrar la descripcion en lugar del id
-miga de pab
+miga de pan
 ---------------------------------------
 **********/
 use yii\helpers\Html;

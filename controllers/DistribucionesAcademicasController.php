@@ -2,6 +2,18 @@
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
+
+
 use Yii;
 use app\models\DistribucionesAcademicas;
 use app\models\DistribucionesAcademicasBuscar;
@@ -40,9 +52,7 @@ class DistribucionesAcademicasController extends Controller
         ];
     }
 	
-	
-	
-    /**
+			/**
      * Lists all DistribucionesAcademicas models.
      * @return mixed
      */

@@ -37,6 +37,18 @@ Cambios realizados: Se muestra un select con las instituciones, y una vez selecc
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si" or $_GET['idInstitucion'] > 0)
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	// print_r($_SESSION);
+	header('Location: index.php?r=site%2Flogin');
+	// echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\Sedes;
 use app\models\SedesBuscar;

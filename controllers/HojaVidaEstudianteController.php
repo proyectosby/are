@@ -9,6 +9,16 @@ Descripción: Se validan datos que puedan no existir en la base de datos para el
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 use Yii;
 use app\models\HojaVidaEstudiante;
 use app\models\HojaVidaEstudianteBuscar;

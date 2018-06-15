@@ -10,6 +10,17 @@ Cambios realizados: Se quita los select de institucion y sede se deja los datos 
 
 namespace app\controllers;
 
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
+
 use Yii;
 use app\models\SedesAreasEnsenanza;
 use app\models\SedesAreasEnsenanzaBuscar;
