@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
-
+use app\models\Sedes;
+use app\models\Instituciones;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
@@ -13,6 +14,22 @@ use yii\helpers\Html;
 
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
+			
+			<?php 
+			
+			$nombreInstitucion = Instituciones::find()->where(['id' => @$_SESSION['instituciones'][0]])->one();
+			$nombreInstitucion = $nombreInstitucion->descripcion;
+			
+			$nombreSede = Sedes::find()->where(['id' => @$_SESSION['sede'][0]])->one();
+			$nombreSede = @$nombreSede->descripcion;
+			
+			if($nombreSede)
+			{
+				echo "&nbsp;&nbsp;&nbsp;$nombreInstitucion - $nombreSede";
+			}
+			
+			?>
+			
         </a>
 
         <div class="navbar-custom-menu">

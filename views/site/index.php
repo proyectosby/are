@@ -9,15 +9,29 @@ else
 	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
 	die;
 }
+
+use app\models\Sedes;
+use app\models\Instituciones;
+$valInstitucion ="valor";
 //con que institucion y que sede se debe trabajar
 if (@$_GET['instituciones'])
-{
-	$_SESSION['instituciones'][0]=$_GET['instituciones'];
+{	
+	$_SESSION['instituciones'][0]=$_SESSION['instituciones'][0];	
+	
 }
 
 if (@$_GET['sede'])
 {
 	$_SESSION['sede'][0]=$_GET['sede'];
+	
+	$nombreInstitucion = Instituciones::find()->where(['id' => $_SESSION['instituciones'][0]])->one();
+	$nombreInstitucion = $nombreInstitucion->descripcion;
+	
+	$nombreSede = Sedes::find()->where(['id' => $_SESSION['sede'][0]])->one();
+	$nombreSede = $nombreSede->descripcion;
+	
+	die("&nbsp;&nbsp;&nbsp;&nbsp;$nombreInstitucion - $nombreSede");
+	
 }
 
 
@@ -51,8 +65,6 @@ foreach($result as $r)
 	$descripcion = $r['descripcion'];
 	$datos.= "'$id':'$descripcion',";
 }
-
-	
 	$this->registerJs( <<< EOT_JS_CODE
 	
 	//que institucion selecciono
@@ -102,15 +114,13 @@ const {value: institucion} = swal({
 						if (valor !== '') 
 						  {
 							  //variable de sesion con la sede que selecciono
-							 var Sedesasda = $.get( "index.php?sede="+valor, function() 
+							 var Sedesasda = $.get( "index.php?sede="+valor, function(data) 
 								{
-									
+									$(".sidebar-toggle").html(" ");
+									$(".sidebar-toggle").append(data);
 								})
 								
 								
-								
-									
-									
 									
 							resolve()
 						  }
