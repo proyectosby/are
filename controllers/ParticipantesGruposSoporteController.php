@@ -61,6 +61,22 @@ class ParticipantesGruposSoporteController extends Controller
 		if( $TiposGruposSoporte != 0 && $idGruposSoporte != 0 && $idJornadas != 0 )
 		{
 
+			//cupos disponibles y docente a cargo y rango de edad
+			$sql ="
+				SELECT gs.descripcion, gs.cantidad_participantes as \"Cantidad Participantes\", concat(p.nombres,' ',p.apellidos) as docente,
+				cantidad_participantes - (select count(id) from participantes_grupos_soporte Where id_grupo_soporte = $idGruposSoporte and estado = 1 ) as \"Cupos Disponibles\",
+				gs.edad_minima as \"Edad Minima\", gs.edad_maxima as \"Edad Maxima\"
+				FROM grupos_soporte as gs, perfiles_x_personas as pp, personas as p
+				where gs.id = $idGruposSoporte
+				and gs.estado = 1
+				and gs.id_docentes = pp.id
+				and pp.id_personas = p.id
+			 ";		
+			$provider = new SqlDataProvider(
+			['sql' => $sql,
+			]);
+	
+			//participantes que estan en el grupo
 			$sql ="
 				SELECT pgs.id, concat(p.nombres,' ',p.apellidos) as \"Participantes\", extract(year from age(p.fecha_nacimiento)) as edad, 
 				pa.descripcion as \"Grado\", s.descripcion as \"Sede\", pgs.nombre_equipo as \"Nombre Equipo\"
@@ -80,19 +96,7 @@ class ParticipantesGruposSoporteController extends Controller
 			'key' => 'id',
 			]);
 	
-			//cupos disponibles y docente a cargo
-			$sql ="
-				SELECT gs.descripcion, gs.cantidad_participantes as \"Cantidad Participantes\", concat(p.nombres,' ',p.apellidos) as docente,
-				cantidad_participantes - (select count(id) from participantes_grupos_soporte Where id_grupo_soporte = $idGruposSoporte and estado = 1 ) as \"Cupos Disponibles\"
-				FROM grupos_soporte as gs, perfiles_x_personas as pp, personas as p
-				where gs.id = $idGruposSoporte
-				and gs.estado = 1
-				and gs.id_docentes = pp.id
-				and pp.id_personas = p.id
-			 ";		
-			$provider = new SqlDataProvider(
-			['sql' => $sql,
-			]);
+			
 	
 			
 			$searchModel = new ParticipantesGruposSoporteBuscar();
@@ -133,7 +137,8 @@ class ParticipantesGruposSoporteController extends Controller
 		$model = $this->findModel($id);
 		
 		$connection = Yii::$app->getDb();
-
+		
+		//datos del grupos
 		$command = $connection->createCommand("
 		SELECT pgs.id, concat(p.nombres,' ',p.apellidos) as \"Participantes\", extract(year from age(p.fecha_nacimiento)) as edad, 
 			pa.descripcion as \"Grado\", s.descripcion as \"Sede\", pgs.nombre_equipo as \"Nombre Equipo\"

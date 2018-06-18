@@ -67,6 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'Cupos Disponibles',
 			'docente',
 			'Cantidad Participantes',
+			'Edad Minima',
+			'Edad Maxima',
         ],
     ]); ?>
 	
