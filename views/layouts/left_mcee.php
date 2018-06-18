@@ -34,7 +34,7 @@
 					//menu mcee
 					[
                                 
-                                        'label' => 'Hoja de vida',
+                                        'label' => 'Gestión Escolar',
                                         'icon' => 'circle-o',
                                         'url' => '#',
                                         'items' => 
