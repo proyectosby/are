@@ -59,8 +59,8 @@ foreach($result as $r)
 const {value: institucion} = swal({
   title: 'Seleccione una Institución',
   input: 'select',
-  closeOnClickOutside: false,
-  closeOnEsc: false,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
   inputOptions: { $datos
     
   },
@@ -90,8 +90,8 @@ const {value: institucion} = swal({
 				const {valor: sede} = swal({
 			title: 'Seleccione una sede',
 			input: 'select',
-			closeOnClickOutside: false,
-			closeOnEsc: false,
+			allowOutsideClick: false,
+			allowEscapeKey: false,
 			inputOptions: (prueba),
 				inputPlaceholder: 'Seleccione...',
 				
