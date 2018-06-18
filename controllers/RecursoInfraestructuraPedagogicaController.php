@@ -55,8 +55,12 @@ class RecursoInfraestructuraPedagogicaController extends Controller
      * Lists all RecursoInfraestructuraPedagogica models.
      * @return mixed
      */
-    public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    // public function actionIndex( $idInstitucion = 0, $idSedes = 0 )
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 ){
 			
 			$searchModel = new RecursoInfraestructuraPedagogicaBuscar();

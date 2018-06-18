@@ -67,22 +67,25 @@ class RecursosInfraestructuraFisicaController extends Controller
      * Lists all RecursosInfraestructuraFisica models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{
+			$searchModel = new RecursosInfraestructuraFisicaBuscar();
+			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			$dataProvider->query->andWhere('estado=1');
+			$dataProvider->query->andWhere("id_sede=$idSedes");
 
-        $searchModel = new RecursosInfraestructuraFisicaBuscar();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->query->andWhere('estado=1');
-		$dataProvider->query->andWhere("id_sede=$idSedes");
-
-        return $this->render('index', [
-            'searchModel' 	=> $searchModel,
-            'dataProvider' 	=> $dataProvider,
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-			// 'idSedes' => $this->findModel($id),
+			return $this->render('index', [
+				'searchModel' 	=> $searchModel,
+				'dataProvider' 	=> $dataProvider,
+				'idSedes' 		=> $idSedes,
+				'idInstitucion' => $idInstitucion,
+				// 'idSedes' => $this->findModel($id),
 			]);
 		}
 		else

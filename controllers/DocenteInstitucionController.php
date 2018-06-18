@@ -51,8 +51,11 @@ class DocenteInstitucionController extends Controller
      * Lists all DocenteInstitucion models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0)
+    // public function actionIndex($idInstitucion = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		
 		if( $idInstitucion != 0)
 		{
 
