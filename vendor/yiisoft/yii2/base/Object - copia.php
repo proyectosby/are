@@ -59,68 +59,34 @@ if (count($result)==0)
 //se crean los datos de sesion 
 else
 {
-	//printf($_SESSION['sesion']);
-	//sleep(10);
-	if (isset($_SESSION)) {
-		session_destroy(); 	
-		session_start();
-		//se crean los datos de sesion con los datos del usuario
-		foreach($result[0] as $r => $valor)
-		{
-			$_SESSION[$r]=$valor;
+	session_destroy(); 
+	session_start();
+	//se crean los datos de sesion con los datos del usuario
+	foreach($result[0] as $r => $valor)
+	{
+		$_SESSION[$r]=$valor;
 
-		}
-		
-		$_SESSION['sesion']="si";
-		$_SESSION['perfil']=$perfil;
-		
-		//ids de las instituciones a la que pertenece la personas
-		$command = $connection->createCommand("
-		SELECT ppi.id_institucion
-		FROM perfiles_x_personas_institucion as ppi, perfiles_x_personas as pp
-		where pp.id_personas = ".$_SESSION['id']."
-		AND ppi.id_perfiles_x_persona = pp.id");
-		$idsInstituciones = $command->queryAll();
-		
-		foreach($idsInstituciones as $i)
-		{
-			$idInstitucion[] = $i['id_institucion'];
-		}
-			
-		//Id de las instituciones a la pertenece la persona
-		$_SESSION['instituciones']=$idInstitucion;
-		header('Location: index.php');	
 	}
-	else {
-		//session_destroy(); 
-		session_start();
-		//se crean los datos de sesion con los datos del usuario
-		foreach($result[0] as $r => $valor)
-		{
-			$_SESSION[$r]=$valor;
-
-		}
-		
-		$_SESSION['sesion']="si";
-		$_SESSION['perfil']=$perfil;
-		
-		//ids de las instituciones a la que pertenece la personas
-		$command = $connection->createCommand("
-		SELECT ppi.id_institucion
-		FROM perfiles_x_personas_institucion as ppi, perfiles_x_personas as pp
-		where pp.id_personas = ".$_SESSION['id']."
-		AND ppi.id_perfiles_x_persona = pp.id");
-		$idsInstituciones = $command->queryAll();
-		
-		foreach($idsInstituciones as $i)
-		{
-			$idInstitucion[] = $i['id_institucion'];
-		}
-			
-		//Id de las instituciones a la pertenece la persona
-		$_SESSION['instituciones']=$idInstitucion;
-		header('Location: index.php');	
+	
+	$_SESSION['sesion']="si";
+	$_SESSION['perfil']=$perfil;
+	
+	//ids de las instituciones a la que pertenece la personas
+	$command = $connection->createCommand("
+	SELECT ppi.id_institucion
+	FROM perfiles_x_personas_institucion as ppi, perfiles_x_personas as pp
+	where pp.id_personas = ".$_SESSION['id']."
+	AND ppi.id_perfiles_x_persona = pp.id");
+	$idsInstituciones = $command->queryAll();
+	
+	foreach($idsInstituciones as $i)
+	{
+		$idInstitucion[] = $i['id_institucion'];
 	}
+		
+	//Id de las instituciones a la pertenece la persona
+	$_SESSION['instituciones']=$idInstitucion;
+	header('Location: index.php');	
 }
 
 die;
