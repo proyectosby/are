@@ -43,213 +43,192 @@ class ListarEstudiantesController extends Controller
             ],
         ];
     }
-	
-	
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-		] );
-    }
-
-	
 
     /**
      * Lists all ListarEstudiantes models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0, $idParalelo = 0, $idJornada = 0)
+    public function actionIndex($idParalelo = 0, $idJornada = 0)
     {
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
        
-	   if( $idInstitucion != 0 && $idSedes != 0)
+		//si no selecciona ningun paralelos los muestra todos
+		if ($idParalelo == 0 && $idJornada == 0)
 		{
-			//si no selecciona ningun paralelos los muestra todos
-			if ($idParalelo == 0 && $idJornada == 0)
-			{
-				$sql ="
-				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
-					FROM personas as p, 
-						  perfiles_x_personas as pp, 
-						  estudiantes as e,
-						  paralelos as pa, 
-						  sedes_jornadas as sj, 
-						  jornadas as j, 
-						  sedes as s,
-						  instituciones as i,
-						  sedes_niveles sn,
-						  niveles n
-					WHERE p.estado 					= 1
-					  AND e.estado 					= 1
-					  AND e.id_perfiles_x_personas 	= pp.id
-					  AND pp.id_perfiles			= 11
-					  AND pp.id_personas 			= p.id
-					  AND e.id_paralelos 			= pa.id
-					  AND pa.id_sedes_jornadas 		= sj.id
-					  AND sj.id_jornadas 			= j.id
-					  AND sj.id_sedes 				= $idSedes
-					  AND s.id_instituciones 		= i.id
-					  AND i.id 						= $idInstitucion
-					  AND sn.id 					= pa.id_sedes_niveles
-					  AND sn.id_sedes 				= s.id
-					  AND n.id						= sn.id_niveles
-					  AND n.estado 					= 1
-				";
-			}
-			elseif($idParalelo > 0 && $idJornada == 0)
-			{
-				$sql ="
-				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
-					FROM personas as p, 
-						  perfiles_x_personas as pp, 
-						  estudiantes as e,
-						  paralelos as pa, 
-						  sedes_jornadas as sj, 
-						  jornadas as j, 
-						  sedes as s,
-						  instituciones as i,
-						  sedes_niveles sn,
-						  niveles n
-					WHERE p.estado 					= 1
-					  AND e.estado 					= 1
-					  AND e.id_perfiles_x_personas 	= pp.id
-					  AND pp.id_perfiles			= 11
-					  AND pp.id_personas 			= p.id
-					  AND e.id_paralelos 			= pa.id
-					  AND pa.id_sedes_jornadas 		= sj.id
-					  AND sj.id_jornadas 			= j.id
-					  AND sj.id_sedes 				= $idSedes
-					  AND s.id_instituciones 		= i.id
-					  AND i.id 						= $idInstitucion
-					  AND sn.id 					= pa.id_sedes_niveles
-					  AND sn.id_sedes 				= s.id
-					  AND n.id						= sn.id_niveles
-					  AND n.estado 					= 1
-					  AND pa.id 					=$idParalelo
-				";
-			}
-			elseif($idParalelo == 0 && $idJornada > 0)
-			{
-				$sql ="
-				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
-					FROM personas as p, 
-						  perfiles_x_personas as pp, 
-						  estudiantes as e,
-						  paralelos as pa, 
-						  sedes_jornadas as sj, 
-						  jornadas as j, 
-						  sedes as s,
-						  instituciones as i,
-						  sedes_niveles sn,
-						  niveles n
-					WHERE p.estado 					= 1
-					  AND e.estado 					= 1
-					  AND e.id_perfiles_x_personas 	= pp.id
-					  AND pp.id_perfiles			= 11
-					  AND pp.id_personas 			= p.id
-					  AND e.id_paralelos 			= pa.id
-					  AND pa.id_sedes_jornadas 		= sj.id
-					  AND sj.id_jornadas 			= j.id
-					  AND sj.id_sedes 				= $idSedes
-					  AND s.id_instituciones 		= i.id
-					  AND i.id 						= $idInstitucion
-					  AND sn.id 					= pa.id_sedes_niveles
-					  AND sn.id_sedes 				= s.id
-					  AND n.id						= sn.id_niveles
-					  AND n.estado 					= 1
-					  AND j.id 						= $idJornada
-				";
-			}
-			elseif($idParalelo > 0 && $idJornada > 0)
-			{
-				$sql ="
-				SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
-					FROM personas as p, 
-						  perfiles_x_personas as pp, 
-						  estudiantes as e,
-						  paralelos as pa, 
-						  sedes_jornadas as sj, 
-						  jornadas as j, 
-						  sedes as s,
-						  instituciones as i,
-						  sedes_niveles sn,
-						  niveles n
-					WHERE p.estado 					= 1
-					  AND e.estado 					= 1
-					  AND e.id_perfiles_x_personas 	= pp.id
-					  AND pp.id_perfiles			= 11
-					  AND pp.id_personas 			= p.id
-					  AND e.id_paralelos 			= pa.id
-					  AND pa.id_sedes_jornadas 		= sj.id
-					  AND sj.id_jornadas 			= j.id
-					  AND sj.id_sedes 				= $idSedes
-					  AND s.id_instituciones 		= i.id
-					  AND i.id 						= $idInstitucion
-					  AND sn.id 					= pa.id_sedes_niveles
-					  AND sn.id_sedes 				= s.id
-					  AND n.id						= sn.id_niveles
-					  AND n.estado 					= 1
-					  AND j.id 						= $idJornada
-					  AND pa.id 					= $idParalelo
-				";
-			}
-		
-				$dataProvider = new SqlDataProvider([
-					'sql' => $sql,
-				]);
-				
-				$connection = Yii::$app->getDb();
-				//que paralelos o grupos tiene esa sede
-				$command = $connection->createCommand("
-					SELECT p.id, p.descripcion
-					FROM paralelos as p, sedes_jornadas as sj
-					where p.id_sedes_jornadas = sj.id
-					and sj.id_sedes = $idSedes
-					order by p.id
-					");
-				$result = $command->queryAll();
-				
-				foreach ($result as $r)
-				{
-					$paralelos[$r['id']]=$r['descripcion'];
-				}
-				$command = $connection->createCommand("
-				SELECT j.id,j.descripcion
-				FROM paralelos as p, sedes_jornadas as sj, jornadas as j
-				where p.id_sedes_jornadas = sj.id
-				and sj.id_sedes = 48
-				and sj.id_jornadas = j.id
-				group by j.id
-					");
-				$result = $command->queryAll();
-				
-				foreach ($result as $r)
-				{
-					$jornadas[$r['id']]=$r['descripcion'];
-				}
-				$model = new ListarEstudiantes();
-				return $this->render('index', [
-					'dataProvider' 	=> $dataProvider,
-					'idSedes' 		=> $idSedes,
-					'idInstitucion' => $idInstitucion,
-					'model'			=> $model,
-					'paralelos'		=> $paralelos,
-					'idParalelo'	=> $idParalelo,
-					'idJornada'		=> $idJornada,
-					'jornadas'		=> $jornadas,
-					]);
-			
-			
-			
+			$sql ="
+			SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+				FROM personas as p, 
+					  perfiles_x_personas as pp, 
+					  estudiantes as e,
+					  paralelos as pa, 
+					  sedes_jornadas as sj, 
+					  jornadas as j, 
+					  sedes as s,
+					  instituciones as i,
+					  sedes_niveles sn,
+					  niveles n
+				WHERE p.estado 					= 1
+				  AND e.estado 					= 1
+				  AND e.id_perfiles_x_personas 	= pp.id
+				  AND pp.id_perfiles			= 11
+				  AND pp.id_personas 			= p.id
+				  AND e.id_paralelos 			= pa.id
+				  AND pa.id_sedes_jornadas 		= sj.id
+				  AND sj.id_jornadas 			= j.id
+				  AND sj.id_sedes 				= $idSedes
+				  AND s.id_instituciones 		= i.id
+				  AND i.id 						= $idInstitucion
+				  AND sn.id 					= pa.id_sedes_niveles
+				  AND sn.id_sedes 				= s.id
+				  AND n.id						= sn.id_niveles
+				  AND n.estado 					= 1
+			";
 		}
-		else
+		elseif($idParalelo > 0 && $idJornada == 0)
 		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
+			$sql ="
+			SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+				FROM personas as p, 
+					  perfiles_x_personas as pp, 
+					  estudiantes as e,
+					  paralelos as pa, 
+					  sedes_jornadas as sj, 
+					  jornadas as j, 
+					  sedes as s,
+					  instituciones as i,
+					  sedes_niveles sn,
+					  niveles n
+				WHERE p.estado 					= 1
+				  AND e.estado 					= 1
+				  AND e.id_perfiles_x_personas 	= pp.id
+				  AND pp.id_perfiles			= 11
+				  AND pp.id_personas 			= p.id
+				  AND e.id_paralelos 			= pa.id
+				  AND pa.id_sedes_jornadas 		= sj.id
+				  AND sj.id_jornadas 			= j.id
+				  AND sj.id_sedes 				= $idSedes
+				  AND s.id_instituciones 		= i.id
+				  AND i.id 						= $idInstitucion
+				  AND sn.id 					= pa.id_sedes_niveles
+				  AND sn.id_sedes 				= s.id
+				  AND n.id						= sn.id_niveles
+				  AND n.estado 					= 1
+				  AND pa.id 					=$idParalelo
+			";
+		}
+		elseif($idParalelo == 0 && $idJornada > 0)
+		{
+			$sql ="
+			SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+				FROM personas as p, 
+					  perfiles_x_personas as pp, 
+					  estudiantes as e,
+					  paralelos as pa, 
+					  sedes_jornadas as sj, 
+					  jornadas as j, 
+					  sedes as s,
+					  instituciones as i,
+					  sedes_niveles sn,
+					  niveles n
+				WHERE p.estado 					= 1
+				  AND e.estado 					= 1
+				  AND e.id_perfiles_x_personas 	= pp.id
+				  AND pp.id_perfiles			= 11
+				  AND pp.id_personas 			= p.id
+				  AND e.id_paralelos 			= pa.id
+				  AND pa.id_sedes_jornadas 		= sj.id
+				  AND sj.id_jornadas 			= j.id
+				  AND sj.id_sedes 				= $idSedes
+				  AND s.id_instituciones 		= i.id
+				  AND i.id 						= $idInstitucion
+				  AND sn.id 					= pa.id_sedes_niveles
+				  AND sn.id_sedes 				= s.id
+				  AND n.id						= sn.id_niveles
+				  AND n.estado 					= 1
+				  AND j.id 						= $idJornada
+			";
+		}
+		elseif($idParalelo > 0 && $idJornada > 0)
+		{
+			$sql ="
+			SELECT p.identificacion, concat(p.nombres,' ',p.apellidos) as nombres, p.domicilio, j.descripcion, pa.descripcion as grupo, n.descripcion as nivel
+				FROM personas as p, 
+					  perfiles_x_personas as pp, 
+					  estudiantes as e,
+					  paralelos as pa, 
+					  sedes_jornadas as sj, 
+					  jornadas as j, 
+					  sedes as s,
+					  instituciones as i,
+					  sedes_niveles sn,
+					  niveles n
+				WHERE p.estado 					= 1
+				  AND e.estado 					= 1
+				  AND e.id_perfiles_x_personas 	= pp.id
+				  AND pp.id_perfiles			= 11
+				  AND pp.id_personas 			= p.id
+				  AND e.id_paralelos 			= pa.id
+				  AND pa.id_sedes_jornadas 		= sj.id
+				  AND sj.id_jornadas 			= j.id
+				  AND sj.id_sedes 				= $idSedes
+				  AND s.id_instituciones 		= i.id
+				  AND i.id 						= $idInstitucion
+				  AND sn.id 					= pa.id_sedes_niveles
+				  AND sn.id_sedes 				= s.id
+				  AND n.id						= sn.id_niveles
+				  AND n.estado 					= 1
+				  AND j.id 						= $idJornada
+				  AND pa.id 					= $idParalelo
+			";
+		}
+	
+			$dataProvider = new SqlDataProvider([
+				'sql' => $sql,
+			]);
+			
+			$connection = Yii::$app->getDb();
+			//que paralelos o grupos tiene esa sede
+			$command = $connection->createCommand("
+				SELECT p.id, p.descripcion
+				FROM paralelos as p, sedes_jornadas as sj
+				where p.id_sedes_jornadas = sj.id
+				and sj.id_sedes = $idSedes
+				order by p.id
+				");
+			$result = $command->queryAll();
+			
+			$paralelos = array();
+			
+			foreach ($result as $r)
+			{
+				$paralelos[$r['id']]=$r['descripcion'];
+			}
+			$command = $connection->createCommand("
+			SELECT j.id,j.descripcion
+			FROM paralelos as p, sedes_jornadas as sj, jornadas as j
+			where p.id_sedes_jornadas = sj.id
+			and sj.id_sedes = 48
+			and sj.id_jornadas = j.id
+			group by j.id
+				");
+			$result = $command->queryAll();
+			
+			foreach ($result as $r)
+			{
+				$jornadas[$r['id']]=$r['descripcion'];
+			}
+			$model = new ListarEstudiantes();
+			return $this->render('index', [
+				'dataProvider' 	=> $dataProvider,
 				'idSedes' 		=> $idSedes,
 				'idInstitucion' => $idInstitucion,
-			] );
-		}
+				'model'			=> $model,
+				'paralelos'		=> $paralelos,
+				'idParalelo'	=> $idParalelo,
+				'idJornada'		=> $idJornada,
+				'jornadas'		=> $jornadas,
+				]);
 
     }
 

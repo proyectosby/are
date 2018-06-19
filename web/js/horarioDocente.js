@@ -34,7 +34,7 @@ function listarHorario(){
 		return false;
 		
 	}
-	$.get( "index.php?r=horario-docente/index&idSedes="+idSede+"&idInstitucion="+idInstitucion+"&idDocente="+idDocente, 
+	$.get( "index.php?r=horario-docente/index&idDocente="+idDocente, 
 				function( data )
 				{
 					$('#tablaModulosLabel').show();

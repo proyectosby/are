@@ -51,28 +51,20 @@ class HorarioDocenteController extends Controller
             ],
         ];
     }
-	
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-		] );
-    }
 
 
     /**
      * Lists all HorarioDocente models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0, $idDocente = 0)
+    public function actionIndex($idDocente = 0)
     {
 		
-		if( $idInstitucion != 0 && $idSedes != 0 )
-		{
+		
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];		
 		
 		$data = [[],[],];		
-						
 		//se usa para que la clase dataTables este disponible en yii	
 		$dataProvider = new ArrayDataProvider([
 			'allModels' => $data,
@@ -195,15 +187,7 @@ class HorarioDocenteController extends Controller
 			'idInstitucion' => $idInstitucion,
 			'dataProvider'=>$dataProvider,
 			]);
-		}
-		else
-		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
-				'idSedes' 		=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-			] );
-		}
+		
 
     }
 

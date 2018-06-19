@@ -27,32 +27,10 @@ $("#listarestudiantes-id_paralelos,#listarestudiantes-estado").change(function()
 		idJornada=0;
 	}
 	
-	location.href ="index.php?r=listar-estudiantes/index&idSedes="+idSede+"&idInstitucion="+idInstitucion+"&idParalelo="+idParalelo+"&idJornada="+idJornada;
-	
-  // listarHorario(); 
+	location.href ="index.php?r=listar-estudiantes/index&idParalelo="+idParalelo+"&idJornada="+idJornada;
+	 
 });
 	
 	
 });
 	
-
-
-function listarHorario(){
-		
-	var idGrupo = $("#listarestudiantes-id_paralelos").val();
-	
-	//si no tien ningun docente seleccionado oculat la tabla
-	if(idGrupo =="")
-	{
-		return false;		
-	}
-	$.get( "index.php?r=listar-estudiantes/index&idSedes="+idSede+"&idInstitucion="+idInstitucion, 
-				function( data )
-				{
-					alert();
-					// $('#tablaModulosLabel').show();
-					// cargarInformacionEnTabla(data);
-					
-				},
-		"json");
-}
