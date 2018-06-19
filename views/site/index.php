@@ -116,8 +116,8 @@ const {value: institucion} = swal({
 							  //variable de sesion con la sede que selecciono
 							 var Sedesasda = $.get( "index.php?sede="+valor, function(data) 
 								{
-									$(".sidebar-toggle").html(" ");
-									$(".sidebar-toggle").append(data);
+									$("#InstitucionSede").html(" ");
+									$("#InstitucionSede").append(data);
 								})
 								
 								
