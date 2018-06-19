@@ -24,14 +24,10 @@ use app\models\Instituciones;
 			$nombreSede = @$nombreSede->descripcion;
 			
 			if($nombreSede)
-			{
 				echo "&nbsp;&nbsp;&nbsp;$nombreInstitucion - $nombreSede";
-			}
-			
-			?>
-			
+			?>	
         </a>
-
+		
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
