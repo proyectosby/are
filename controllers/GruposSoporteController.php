@@ -6,6 +6,10 @@ Persona encargada: Viviana Rodas
 Controller de grupos de apoyo
 ---------------------------------------
 Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja instición y sede según la SESSION
+---------------------------------------
 Fecha: 12-06-2018
 Persona encargada: Viviana Rodas
 En el create y update se agregan parametros para mostrar el mensaje de guardado existoso, antes de mostrar la vista view.
@@ -63,8 +67,12 @@ class GruposSoporteController extends Controller
      * Lists all GruposSoporte models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    // public function actionIndex($idInstitucion = 0, $idSedes = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
         // Si existe id sedes e institución se muestra la listas de todas las jornadas correspondientes
 		if( $idInstitucion != 0 && $idSedes != 0 )
 		{

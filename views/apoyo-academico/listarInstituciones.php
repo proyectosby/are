@@ -1,14 +1,5 @@
 <?php
-if(@$_SESSION['sesion']=="si")
-{ 
-	// echo $_SESSION['nombre'];
-} 
-//si no tiene sesion se redirecciona al login
-else
-{
-	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
-	die;
-}
+
 /**********
 Versión: 001
 Fecha: 06-03-2018
@@ -16,6 +7,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD de sedes-jornadas
 ---------------------------------------
 Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja instición y sede según la SESSION
+---------------------------------------
 Fecha: 06-03-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
@@ -32,22 +27,34 @@ use app\models\Sedes;
 use app\models\TiposApoyoAcademico;
 use yii\helpers\ArrayHelper;
 
+use nex\chosen\Chosen;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Apoyo académico';
 $this->params['breadcrumbs'][] = $this->title;
 
+if($idInstitucion == 0 && $_SESSION ){
+	$idInstitucion 	= $_SESSION['instituciones'][0];
+}
+
+if($idSedes == 0 && $_SESSION ){
+	$idSedes 		= $_SESSION['sede'][0];
+}
 
 //Obterniendo los datos necsarios para las instituciones
 $institucionesTable	 = new Instituciones();
 $queryInstituciones  = $institucionesTable->find()->orderby('descripcion')->where('estado=1');
+if( $idInstitucion > 0 ){
+	$queryInstituciones->andWhere( 'id='.$idInstitucion );
+}
 $dataInstituciones	 = $queryInstituciones->all();
 $instituciones		 = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 
 //Opciones para el select instituciones
 $optionsInstituciones = array( 
-							'prompt' 	=> 'Seleccione...', 
+							// 'prompt' 	=> 'Seleccione...', 
 							'id'	 	=> 'idInstitucion', 
 							'name'	 	=> 'idInstitucion',
 							'value'	 	=> $idInstitucion == 0 ? '' : $idInstitucion,
@@ -64,6 +71,10 @@ if( $idInstitucion > 0 ){
 	$sedesTable	 		= new Sedes();
 	$querySedes	 		= $sedesTable->find()->orderby('descripcion')->where('estado=1');
 	$querySedes->andWhere( 'id_instituciones='.$idInstitucion );
+	if( $idSedes > 0 )
+	{
+		$querySedes->andWhere( 'id='.$idSedes );
+	}
 	$dataSedes	 		= $querySedes->all();
 	$sedes		 		= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
 }
@@ -72,7 +83,7 @@ if( $idInstitucion > 0 ){
 
 //opciones para el select sedes
 $optionsSedes = array( 
-					'prompt' 	=> 'Seleccione...', 
+					// 'prompt' 	=> 'Seleccione...', 
 					'id'	 	=> 'idSedes', 
 					'name'	 	=> 'idSedes',
 					'value'	 	=> $idSedes == 0 ? '' : $idSedes,

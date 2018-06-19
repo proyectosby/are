@@ -1,4 +1,15 @@
 <?php
+/**********
+Versión: 001
+Fecha: 06-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja instición y sede según la SESSION
+---------------------------------------
+**********/
+
 
 namespace app\controllers;
 
@@ -58,8 +69,11 @@ class ParticipacionProyectosIEController extends Controller
      * Lists all ParticipacionProyectosIE models.
      * @return mixed
      */
+    // public function actionIndex( $idInstitucion = 0 )
     public function actionIndex( $idInstitucion = 0 )
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		
 		if( $idInstitucion > 0 )
 		{
 			$searchModel = new ParticipacionProyectosIEBuscar();

@@ -6,6 +6,10 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de Representantes Legales (Estudiantes)
 ---------------------------------------
 Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja instición y sede según la SESSION
+---------------------------------------
 Fecha: 27-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - 
@@ -129,8 +133,11 @@ class ParticipacionProyectosJornadaController extends Controller
      */
 	 
 	//muestra solo los registros activos y de la institucion seleccionada 
-    public function actionIndex($idInstitucion = 0)
+    // public function actionIndex($idInstitucion = 0)
+    public function actionIndex()
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		
 		if( $idInstitucion != 0 )
 		{
 

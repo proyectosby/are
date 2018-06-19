@@ -1,4 +1,15 @@
 <?php
+/**********
+Versión: 001
+Fecha: 06-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja instición y sede según la SESSION
+**********/
+
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -126,21 +137,21 @@ $sedes 		 = Sedes::findOne($idSedes);
 							
 								return Html::a(
 												'<span class="glyphicon glyphicon-eye-open"></span>', 
-												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion']
+												$url."&idSedes=".$_SESSION['sede'][0]."&idInstitucion=".$_SESSION['instituciones'][0]
 											);
 						},
 						'update' => function ($url,$model) {
 							
 								return Html::a(
 												'<span class="glyphicon glyphicon-pencil"></span>', 
-												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion']
+												$url."&idSedes=".$_SESSION['sede'][0]."&idInstitucion=".$_SESSION['instituciones'][0]
 											);
 						},
 						'delete' => function ($url,$model) {
 							
 								return Html::a(
 												'<span class="glyphicon glyphicon-trash"></span>', 
-												$url."&idSedes=".$_GET['idSedes']."&idInstitucion=".$_GET['idInstitucion'],
+												$url."&idSedes=".$_SESSION['sede'][0]."&idInstitucion=".$_SESSION['instituciones'][0],
 												[
 													'data-confirm'  => "¿Está seguro de eliminar este elemento?",
 													'title' 		=> "Eliminar",
