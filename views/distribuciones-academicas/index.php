@@ -11,9 +11,9 @@ else
 }
 
 
-print_r($_SESSION);
+// print_r($_SESSION);
 
-die;
+// die;
 
 /**********
 Versión: 001
