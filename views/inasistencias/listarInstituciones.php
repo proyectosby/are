@@ -1,4 +1,15 @@
 <?php
+/**********
+Versión: 001
+Fecha: 19-06-2018
+---------------------------------------
+Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se corrigen queires
+---------------------------------------
+**********/
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -60,7 +71,7 @@ $sedes = [];
 
 //Si se ha seleccionado una institucion se buscan todas las sedes correspondientes a ese id
 if( $idInstitucion > 0 ){
-	
+
 	//Obterniendo los datos necesarios para Sedes						
 	$sedesTable	 		= new Sedes();
 	$querySedes	 		= $sedesTable->find()->orderby('descripcion')->where('estado=1');
@@ -81,7 +92,8 @@ if( $idSedes > 0 ){
 									->select( "personas.id, ( nombres || apellidos ) as nombres" )
 									->innerJoin( "perfiles_x_personas pp", "pp.id_personas=personas.id" )
 									->innerJoin( "distribuciones_academicas da", "da.id_perfiles_x_personas_docentes=pp.id" )
-									->innerJoin( "aulas a", "a.id=da.id_aulas_x_sedes" )
+									->innerJoin( "aulas_x_paralelos ap", "ap.id_paralelos=da.id_paralelo_sede" )
+									->innerJoin( "aulas a", "a.id=ap.id_aulas" )
 									->innerJoin( "perfiles_x_personas_institucion ppi", "ppi.id_perfiles_x_persona=pp.id" )
 									->where('personas.estado=1')
 									->andWhere( "a.id_sedes=".$idSedes )
@@ -105,7 +117,8 @@ if( $idDocente > 0 ){
 	$aulasTable	 		= new Aulas();
 	$queryAulas 		= $aulasTable->find()
 								->select( "aulas.id, aulas.descripcion" )
-								->innerJoin( "distribuciones_academicas da", "aulas.id=da.id_aulas_x_sedes" )
+								->innerJoin( "aulas_x_paralelos ap", "ap.id_aulas=aulas.id" )
+								->innerJoin( "distribuciones_academicas da", "da.id_paralelo_sede=ap.id_paralelos" )
 								->innerJoin( "perfiles_x_personas pp", "pp.id=da.id_perfiles_x_personas_docentes" )
 								->innerJoin( "personas p", "p.id=pp.id_personas" )
 								->where('aulas.estado=1')
@@ -130,9 +143,11 @@ if( $idGrupo > 0 ){
 								->select( "asignaturas.id, asignaturas.descripcion" )
 								->innerJoin( "asignaturas_x_niveles_sedes ans", "ans.id_asignaturas=asignaturas.id" )
 								->innerJoin( "distribuciones_academicas da", "da.id_asignaturas_x_niveles_sedes=ans.id" )
+								->innerJoin( "aulas_x_paralelos ap", "ap.id_paralelos=da.id_paralelo_sede" )
+								->innerJoin( "aulas a", "a.id=ap.id_aulas" )
 								->where('da.estado=1')
 								->andWhere( "da.id_perfiles_x_personas_docentes=".$idDocente )
-								->andWhere( "da.id_aulas_x_sedes=".$idGrupo )
+								->andWhere( "a.id=".$idGrupo )
 								->orderby('descripcion');
 	// $queryPersonas->andWhere( 'id_instituciones='.$idInstitucion );
 	$dataAulas	 		= $queryAulas->all();

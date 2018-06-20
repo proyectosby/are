@@ -1,4 +1,14 @@
 <?php
+/**********
+Versión: 001
+Fecha: 19-06-2018
+---------------------------------------
+Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja institución y sede por defecto según la session 
+---------------------------------------
+**********/
 
 namespace app\controllers;
 
@@ -44,8 +54,12 @@ class InasistenciasController extends Controller
      * Lists all Inasistencias models.
      * @return mixed
      */
-    public function actionIndex( $idInstitucion = 0, $idSedes = 0, $idDocente = 0, $idGrupo = 0, $idAsignatura = 0, $idPeriodo = 0 )
+    // public function actionIndex( $idInstitucion = 0, $idSedes = 0, $idDocente = 0, $idGrupo = 0, $idAsignatura = 0, $idPeriodo = 0 )
+    public function actionIndex(  $idDocente = 0, $idGrupo = 0, $idAsignatura = 0, $idPeriodo = 0 )
     {
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		$idSedes 		= $_SESSION['sede'][0];
+		
 		if( $idInstitucion == 0 || $idSedes == 0 || $idDocente == 0 || $idGrupo == 0 || $idAsignatura == 0 || $idPeriodo == 0 ){
 			
 			$searchModel = new InasistenciasBuscar();

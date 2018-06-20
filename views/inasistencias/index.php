@@ -1,4 +1,15 @@
 <?php
+/**********
+Versión: 001
+Fecha: 19-06-2018
+---------------------------------------
+Modificaciones:
+Fecha: 18-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se corrigen queires
+---------------------------------------
+**********/
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -36,8 +47,9 @@ $sede 		 			= Sedes::findOne( $idSedes );
 $distribucionAcademica	= DistribucionesAcademicas::find()
 								->innerJoin( 'perfiles_x_personas pp', 'pp.id=distribuciones_academicas.id_perfiles_x_personas_docentes' )
 								->innerJoin( "asignaturas_x_niveles_sedes ans", "ans.id=distribuciones_academicas.id_asignaturas_x_niveles_sedes" )
-								// ->innerJoin( "asignaturas a", "a.id=ans.id_asignaturas" )
-								->where( "distribuciones_academicas.id_aulas_x_sedes=".$idGrupo )
+								->innerJoin( "aulas_x_paralelos ap", "ap.id_paralelos=distribuciones_academicas.id_paralelo_sede" )
+								->innerJoin( "aulas a", "a.id=ap.id_aulas" )
+								->where( "a.id=".$idGrupo )
 								->andWhere( 'distribuciones_academicas.estado=1' )
 								->andWhere( 'ans.id_asignaturas='.$idAsignatura )
 								->andWhere( 'pp.id_personas='.$idDocente )->one();
