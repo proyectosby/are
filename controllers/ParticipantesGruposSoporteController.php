@@ -156,10 +156,19 @@ class ParticipantesGruposSoporteController extends Controller
 		");
 		$result = $command->queryAll();
 		
-		//se formatea para mostrar los datos en el view
-		foreach($result[0] as $r => $v)
+		//si el participantes_grupos_soporte no existe o tiene estado = 2 lo redirecciona al index
+		if (count($result)==0)
 		{
-			$model2[$r] = $v;
+			echo $this->actionIndex($TiposGruposSoporte, $idGruposSoporte,$idJornadas);
+			$model2="";
+		}
+		else
+		{
+			//se formatea para mostrar los datos en el view
+			foreach($result[0] as $r => $v)
+			{
+				$model2[$r] = $v;
+			}
 		}
 		
         return $this->render('view', [
