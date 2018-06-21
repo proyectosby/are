@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									['class' => 'btn btn-success']) ?>
 									
 									
-		<?= Html::a('Tasa de cobertura bruta', 
+		<?= Html::a('Tasa de cobertura neta', 
 									[
 										'reportes',
 										'idReporte'		=> 6,
