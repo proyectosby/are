@@ -9,6 +9,29 @@ Se muestra el código de los indicadores y se mejora la carga y mostrada de las 
 ---------------------------------------
 **********/
 
+$( document ).ready(function(){
+	
+	//Solo números enteros
+	var table = $( "#tbTemas" );
+	var inKids = $( "tbody > tr input:text", table );
+	
+	$( inKids ).keypress(function(e){
+			
+		var tecla = e.keyCode || e.which;
+
+		//Tecla de retroceso para borrar, siempre la permite
+		if ( tecla==8 || tecla == 13 || tecla == 9 ){
+			return true;
+		}
+			
+		// Patron de entrada, en este caso solo acepta numeros
+		var patron=  /^[0-9]+$/
+		tecla_final = String.fromCharCode(tecla);
+		return patron.test(tecla_final);
+	});
+	
+})
+
 $( ".content a" ).click(function(){
 	 
 	// if( idDocente != '' ){
@@ -45,25 +68,19 @@ $( ".content a" ).click(function(){
 			function( data ){
 				
 				try{
-					for( var x in data ){
-						
-						var trEstudiante = $( "[estudiante="+x+"]" );
-						var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
-						
-						$( data[x] ).each(function(y){
-							inIds.eq(y+1).val( this.id );
-						});
-					}
+					$( data ).each(function(x){
+						$( "[name=id]", temas.eq(x) ).val( this.id );
+					});
 					
 					swal({
-						text: "Califiaciones guardadas exitosamente",
+						text: "Datos guardadas correctamente",
 						icon: "success",
 						button: "Cerrar",
 					});
 				}
-				catch(e){
+				catch(e){ console.log(e);
 					swal({
-						text: "Hubo un error al guardar las calificaciones",
+						text: "Hubo un error al guardar los datos",
 						icon: "warning",
 						button: "Cerrar",
 					});

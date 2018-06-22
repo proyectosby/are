@@ -164,13 +164,12 @@ class SedesCoberturaController extends Controller
 		//Devuelo la lista de los ids
 		$val = [];
 		
-		// foreach( $models as $model )
-		// {
-			 // $val[$model->id_perfiles_x_personas_estudiantes][]=[ 
-																	// "id" 				=> $model->id,
-																	// "indicadorDesempeno"=> $model->id_distribuciones_x_indicador_desempeno,
-																// ];
-		// }
+		foreach( $models as $model )
+		{
+			 $val[]=[ 
+						"id" => $model->id,
+					];
+		}
 		
 		echo json_encode( $val );
 		
