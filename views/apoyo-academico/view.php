@@ -55,9 +55,7 @@ $this->params['breadcrumbs'][] =
 		'label' => 'Apoyo Académico', 
 		'url' => [
 					'index',
-					'idInstitucion' => $idInstitucion, 
-					'idSedes' 		=> $idSedes,
-					'AAcademico'	=> $AAcademico,
+					'idEstudiante'=>$model->id_persona_estudiante
 				 ]
 	];	
 $this->params['breadcrumbs'][] = $this->title;
@@ -81,27 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             
-			[
-				'attribute'=>'id_persona_doctor',
-				'value' => function( $model )
-				{
-					/**
-					* Llenar nombre del docente
-					*/
-					//variable con la conexion a la base de datos 
-					$connection = Yii::$app->getDb();
-					$command = $connection->createCommand("
-					SELECT pp.id, concat(pe.nombres,' ',pe.apellidos) as nombres
-					FROM public.perfiles_x_personas as pp, public.personas as pe
-					where pp.id_personas = pe.id
-					and pp.id =$model->id_persona_doctor
-					");
-					$result = $command->queryAll();
-					
-					return $result[0]['nombres'];
-				},
-				
-			],
+			'persona_doctor',
             'registro',
             [
 				'attribute'=>'id_persona_estudiante',

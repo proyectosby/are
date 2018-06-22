@@ -65,37 +65,15 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <!-- <?= $form->field($model, 'id_persona_doctor')->DropDownList($doctores,['prompt'=>'Seleccione...']) ?> -->
+	<?= $form->field($model, 'id_tipo_apoyo')->DropDownList($AAcademico,['prompt'=>'Seleccione']) ?>
 	
-	<?= $form->field($model, 'id_persona_doctor')->widget(
-		Chosen::className(), [
-			'items' => $doctores,
-			'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
-			'placeholder' => 'Seleccione...',
-			'clientOptions' => [
-				'search_contains' => true,
-				'single_backstroke_delete' => false,
-			],
-		])->label('Doctor');
-	?>
-
+    <?= $form->field($model, 'persona_doctor')->textInput() ?>
+	
     <?= $form->field($model, 'registro')->textInput(['maxlength' => true]) ?>
 
-    <!-- <?= $form->field($model, 'id_persona_estudiante')->DropDownList($estudiantes,['prompt'=>'Seleccione...']) ?> -->
+    <?= $form->field($model, 'id_persona_estudiante')->DropDownList($estudiantes) ?>
 	
-	<?= $form->field($model, 'id_persona_estudiante')->widget(
-		Chosen::className(), [
-			'items' => $estudiantes,
-			'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
-			'placeholder' => 'Seleccione...',
-			'clientOptions' => [
-				'search_contains' => true,
-				'single_backstroke_delete' => false,
-			],
-		])->label('Estudiante');
-	?>
-
-    <?= $form->field($model, 'motivo_consulta')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'motivo_consulta')->textarea(['rows' => '6']) ?>
 	
 	<?= $form->field($model, 'fecha_entrada')->widget(
 		DatePicker::className(), [
@@ -152,8 +130,6 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
     <?= $form->field($model, 'observaciones')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'id_sede')->hiddenInput(['value' => $idSedes])->label(false) ?>
-
-    <?= $form->field($model, 'id_tipo_apoyo')->hiddenInput(['value' => $AAcademico])->label(false) ?>
 
     <?= $form->field($model, 'estado')->DropDownList($estados) ?>
 

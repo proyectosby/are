@@ -26,9 +26,7 @@ $this->params['breadcrumbs'][] =
 		'label' => 'Apoyo Academico', 
 		'url' => [
 					'index',
-					'idInstitucion' => $idInstitucion, 
-					'idSedes' 		=> $idSedes,
-					'AAcademico'	=> $AAcademico,
+					'idEstudiante'=>$idEstudiante,
 				 ]
 	];	
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,10 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model'			=> $model,
 		'estudiantes'	=> $estudiantes,
-		'doctores'		=> $doctores,
 		'idSedes' 		=> $idSedes,
 		'idInstitucion' => $idInstitucion,
-		'AAcademico'	=> $AAcademico
+		'AAcademico' 	=> $AAcademico,
     ]) ?>
 
 </div>

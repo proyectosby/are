@@ -22,6 +22,16 @@ Fecha: 7-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se modificar la funcion ActionUpdate
 ---------------------------------------
+Modificaciones:
+Fecha: 21-06-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - reestructuracion del crud
+---------------------------------------
+Modificaciones:
+Fecha: 22-06-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - reestructuracion del crud
+---------------------------------------
 **********/
 namespace app\controllers;
 
@@ -37,12 +47,13 @@ else
 }
 use Yii;
 use app\models\ApoyoAcademico;
+use app\models\TiposApoyoAcademico;
 use app\models\ApoyoAcademicoBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Sedes;
-
+use	yii\helpers\ArrayHelper;
 /**
  * ApoyoAcademicoController implements the CRUD actions for ApoyoAcademico model.
  */
@@ -64,48 +75,40 @@ class ApoyoAcademicoController extends Controller
     }
 	
 	
-	
-	public function actionListarInstituciones( $idInstitucion = 0, $idSedes = 0, $AAcademico = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idSedes' 		=> $idSedes,
-			'idInstitucion' => $idInstitucion,
-			'AAcademico'=>$AAcademico,
-		] );
-    }
-
 
     /**
      * Lists all ApoyoAcademico models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0, $idSedes = 0, $AAcademico = 0)
+    public function actionIndex($idEstudiante = 0)
     {
 		//si alguno es 0 lo regresa a la vista para que seleccione
-		if( $idInstitucion != 0 && $idSedes != 0 && $AAcademico!=0 )
+		if( $idEstudiante!=0 )
 		{
+			$idInstitucion = $_SESSION['instituciones'][0];
+			$idSedes = $_SESSION['sede'][0];
+		
 			//muestra solo los de la sede actual y estado activo
 			$searchModel = new ApoyoAcademicoBuscar();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 			$dataProvider->query->andWhere('id_sede='.$idSedes);
 			$dataProvider->query->andWhere('estado=1');
+			$dataProvider->query->andWhere('id_persona_estudiante='.$idEstudiante);
 
 			return $this->render('index', [
 				'searchModel' 	=> $searchModel,
-				'dataProvider' 	=> $dataProvider,'idSedes' 	=> $idSedes,
+				'dataProvider' 	=> $dataProvider,
 				'idInstitucion' => $idInstitucion,
 				'idSedes' 		=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-				'AAcademico'	=>$AAcademico
+				'idEstudiante'	=>$idEstudiante,
 				]);
 		}
 		else
 		{
-			// Si el id de institucion o de sedes es o de Apoyo Academico es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
-				'idSedes' 		=> $idSedes,
-				'idInstitucion' => $idInstitucion,
-				'AAcademico' 	=>$AAcademico,
+			// Si el idEstudiante es 0 se llama a la vista listarEstudiantes
+			 return $this->render('listarEstudiantes',[
+				'$idEstudiante' => $idEstudiante,
+				
 			] );
 		}
 
@@ -129,28 +132,10 @@ class ApoyoAcademicoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idSedes, $idInstitucion, $AAcademico)
+    public function actionCreate($idEstudiante)
     {
-		
-		/**
-		* Llenar nombre de los doctores
-		*/
-		//variable con la conexion a la base de datos 
-		$connection = Yii::$app->getDb();
-		$command = $connection->createCommand("
-			SELECT pp.id as id, concat(pe.nombres,' ',pe.apellidos) as nombres
-			  FROM public.perfiles_x_personas as pp, public.personas as pe, perfiles_x_personas_institucion ppi
-			 WHERE pp.id_personas = pe.id
-			   AND pp.id_perfiles = 16
-			   AND ppi.id_perfiles_x_persona = pp.id
-			   AND ppi.id_institucion = $idInstitucion
-		");
-		$result = $command->queryAll();
-		$doctores = array();
-		foreach ($result as $r)
-		{
-			$doctores[$r['id']]= $r['nombres'];
-		}
+		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
 				
 		
 		/**
@@ -160,12 +145,14 @@ class ApoyoAcademicoController extends Controller
 		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand("
 			SELECT es.id_perfiles_x_personas as id, concat(pe.nombres,' ',pe.apellidos) as nombres
-			  FROM public.estudiantes as es, public.perfiles_x_personas as pp, public.personas as pe, perfiles_x_personas_institucion ppi
+			  FROM estudiantes as es, perfiles_x_personas as pp, personas as pe, 
+			  perfiles_x_personas_institucion ppi
 			 WHERE es.id_perfiles_x_personas = pp.id
 			   AND pp.id_personas = pe.id
 			   AND pp.id_perfiles = 11
 			   AND ppi.id_perfiles_x_persona = pp.id
 			   AND ppi.id_institucion = $idInstitucion
+			   AND pp.id = $idEstudiante
 		");
 		$result = $command->queryAll();
 		$estudiantes = array();
@@ -174,20 +161,71 @@ class ApoyoAcademicoController extends Controller
 			$estudiantes[$r['id']]= $r['nombres'];
 		}
 		
+		$AAcademico = new TiposApoyoAcademico();
+		$AAcademico = $AAcademico->find()->all();
+		$AAcademico = ArrayHelper::map($AAcademico,'id','descripcion');
+		
 		
         $model = new ApoyoAcademico();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		
+		
+		$datoPost  = Yii::$app->request->post();
+        if ($datoPost)
+		{
+			
+			//el nivel y jornada del estudiante
+			$command = $connection->createCommand("
+			SELECT n.descripcion as paralelo, j.descripcion as jornada
+			FROM estudiantes as e, paralelos as pa, sedes_jornadas as sj, jornadas as j, sedes_niveles as sn, niveles as n
+			where e.id_paralelos = pa.id
+			and e.id_perfiles_x_personas = $idEstudiante
+			and pa.id_sedes_jornadas = sj.id
+			and sj.id_jornadas = j.id
+			and pa.id_sedes_niveles = sn.id
+			and sn.id_niveles = n.id
+			
+			");
+			$nivelJornada = $command->queryAll();
+			
+			
+			//saber que tipo de apoyo academicos 
+			$idTipoApoyo = $datoPost['ApoyoAcademico']['id_tipo_apoyo'];
+			
+			//consecutivo de la consulta psicologica o enfermeria
+			$command = $connection->createCommand("
+			select consecutivo from apoyo_academico
+			where id = (SELECT max(id)	FROM apoyo_academico where id_tipo_apoyo = $idTipoApoyo)
+			");
+			$consecutivo = $command->queryAll();
+			
+			$consecutivo = @$consecutivo[0]['consecutivo'];
+			$consecutivo = substr($consecutivo,4);
+			$consecutivo = str_pad($consecutivo+1,4,"0",STR_PAD_LEFT);
+			
+			//consecutivo a insertar
+			if ($idTipoApoyo == 4 )
+				$consecutivo = "HCP-".$consecutivo;
+			
+			if ($idTipoApoyo == 5 )
+				$consecutivo = "HCE-".$consecutivo;
+		
+			$model->load($datoPost);
+			$model->save();
+			
+			$model->consecutivo = $consecutivo;
+			$model->paralelo = $nivelJornada[0]['paralelo'];
+			$model->jornada  = $nivelJornada[0]['jornada'];
+			$model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' 		=> $model,
 			'estudiantes'	=> $estudiantes,
-			'doctores' 		=> $doctores,
 			'idSedes' 		=> $idSedes,
 			'idInstitucion' => $idInstitucion,
-			'AAcademico'	=> $AAcademico
+			'AAcademico' 	=> $AAcademico,
+			'idEstudiante'	=>$idEstudiante,
         ]);
     }
 
@@ -201,6 +239,10 @@ class ApoyoAcademicoController extends Controller
     public function actionUpdate($id)
     {
 		$model = $this->findModel($id);
+		
+		$AAcademico = new TiposApoyoAcademico();
+		$AAcademico = $AAcademico->find()->all();
+		$AAcademico = ArrayHelper::map($AAcademico,'id','descripcion');
 		
 		$idSedes = $model->id_sede;
 		$institucion = Sedes::findOne($idSedes);
@@ -250,7 +292,7 @@ class ApoyoAcademicoController extends Controller
 			'doctores' 		=> $doctores,
 			'idSedes' 		=> $idSedes,
 			'idInstitucion' => $institucion->id_instituciones,
-			'AAcademico'	=> $model->id_tipo_apoyo,
+			'AAcademico'	=> $AAcademico,
         ]);
     }
 
@@ -270,11 +312,8 @@ class ApoyoAcademicoController extends Controller
 		$model->estado = 2;
 		$model->update(false);
 		
-		$idSedes = $model->id_sede;
-		$idInstitucion = Sedes::find()->where(['id' => $idSedes])->one();
-		$idInstitucion = $idInstitucion->id_instituciones;
 		
-		return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes,'AAcademico'	=> $model->id_tipo_apoyo]);
+		return $this->redirect(['index', 'idEstudiante' => $model->id_persona_estudiante]);
 		
     }
 

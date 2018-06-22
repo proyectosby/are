@@ -21,7 +21,7 @@ use Yii;
  * This is the model class for table "apoyo_academico".
  *
  * @property string $id
- * @property string $id_persona_doctor
+ * @property string $persona_doctor
  * @property string $registro
  * @property string $id_persona_estudiante
  * @property string $motivo_consulta
@@ -59,9 +59,9 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_persona_doctor', 'registro', 'id_persona_estudiante', 'motivo_consulta', 'fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida', 'id_sede', 'id_tipo_apoyo'], 'required'],
-            [['id_persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'default', 'value' => null],
-            [['id_persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
+            [['persona_doctor', 'registro', 'id_persona_estudiante', 'motivo_consulta', 'fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida', 'id_sede', 'id_tipo_apoyo'], 'required'],
+            [['persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'default', 'value' => null],
+            [['id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
             [['fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida'], 'safe'],
             [['incapacidad', 'discapacidad', 'remitido_eps'], 'boolean'],
             [['registro'], 'string', 'max' => 50],
@@ -69,7 +69,6 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
             [['observaciones'], 'string', 'max' => 600],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_persona_estudiante'], 'exist', 'skipOnError' => true, 'targetClass' => Estudiantes::className(), 'targetAttribute' => ['id_persona_estudiante' => 'id_perfiles_x_personas']],
-            [['id_persona_doctor'], 'exist', 'skipOnError' => true, 'targetClass' => PerfilesXPersonas::className(), 'targetAttribute' => ['id_persona_doctor' => 'id']],
             [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
             [['id_tipo_apoyo'], 'exist', 'skipOnError' => true, 'targetClass' => TiposApoyoAcademico::className(), 'targetAttribute' => ['id_tipo_apoyo' => 'id']],
         ];
@@ -82,7 +81,7 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_persona_doctor' => 'Doctor',
+            'persona_doctor' => 'Atendido por',
             'registro' => 'Registro Medico',
             'id_persona_estudiante' => 'Estudiante',
             'motivo_consulta' => 'Motivo Consulta',
@@ -98,6 +97,8 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
             'id_tipo_apoyo' => 'Tipo Apoyo',
             'estado' => 'Estado',
             'remitido_eps' => 'Remitido a EPS',
+			'consecutivo'=> 'Consecutivo',
+			'paralelo'=>'Grupo',
         ];
     }
 
@@ -122,7 +123,7 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
      */
     public function getPersonaDoctor()
     {
-        return $this->hasOne(Personas::className(), ['id' => 'id_persona_doctor']);
+        return $this->hasOne(Personas::className(), ['id' => 'persona_doctor']);
     }
 
     /**

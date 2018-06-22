@@ -18,7 +18,7 @@ class ApoyoAcademicoBuscar extends ApoyoAcademico
     public function rules()
     {
         return [
-            [['id', 'id_persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
+            [['id','id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
             [['registro', 'motivo_consulta', 'fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida', 'observaciones'], 'safe'],
             [['incapacidad', 'discapacidad'], 'boolean'],
         ];
@@ -61,7 +61,7 @@ class ApoyoAcademicoBuscar extends ApoyoAcademico
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_persona_doctor' => $this->id_persona_doctor,
+            'persona_doctor' => $this->persona_doctor,
             'id_persona_estudiante' => $this->id_persona_estudiante,
             'fecha_entrada' => $this->fecha_entrada,
             'hora_entrada' => $this->hora_entrada,
