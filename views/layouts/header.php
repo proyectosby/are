@@ -38,15 +38,15 @@ use app\models\Instituciones;
 			?> 
 			
 				<!-- <i class="fa fa-envelope-o"></i> 
-                        <span class="label label-success">4</span>-->
-                    </a>
+                        <span class="label label-success">4</span>
+                    </a>-->
                     <ul class="dropdown-menu">
-                        <li class="header">You have 4 messages</li>
-                        <li>
+                         <!--<li class="header">You have 4 messages</li>-->
+                       <!-- <li>
                             <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                <li><!-- start message -->
-                                    <a href="#">
+                           <!-- <ul class="menu">
+                                <!--<li><!-- start message -->
+                                     <!--<a href="#">
                                         <div class="pull-left">
                                             <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
                                                  alt="User Image"/>
@@ -57,9 +57,9 @@ use app\models\Instituciones;
                                         </h4>
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
-                                </li>
+                                </li>-->
                                 <!-- end message -->
-                                <li>
+                                 <!--<li>
                                     <a href="#">
                                         <div class="pull-left">
                                             <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle"
@@ -71,8 +71,8 @@ use app\models\Instituciones;
                                         </h4>
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
-                                </li>
-                                <li>
+                                </li>-->
+                               <!--  <li>
                                     <a href="#">
                                         <div class="pull-left">
                                             <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
@@ -97,8 +97,8 @@ use app\models\Instituciones;
                                         </h4>
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
-                                </li>
-                                <li>
+                                </li>-->
+                               <!-- <li>
                                     <a href="#">
                                         <div class="pull-left">
                                             <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
@@ -110,10 +110,10 @@ use app\models\Instituciones;
                                         </h4>
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">See All Messages</a></li>
+                                </li>-->
+                          <!--  </ul>-->
+                       <!-- </li>-->
+                        <li class="footer"><a href="index.php">Cambiar Institucion y sede</a></li>
                     </ul>
                 </li>
                 <li class="dropdown notifications-menu">
