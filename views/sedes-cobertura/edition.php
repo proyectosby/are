@@ -111,8 +111,8 @@ foreach( $categorias as $kCategoria => $vCategoria ){
 			echo $tdCategoria ;
 			echo $tdSubCategoria ;
 			echo "<td>".$vTema."</td>";
-			echo "<td><input type='text' name='ninos' value='".( $registro ? $registro[0]->ninos : '' )."'></td>";
-			echo "<td><input type='text' name='ninas' value='".( $registro ? $registro[0]->ninas : '' )."'></td>";
+			echo "<td><input type='text' name='ninos' value='".( $registro ? $registro[0]->ninos : '0' )."'></td>";
+			echo "<td><input type='text' name='ninas' value='".( $registro ? $registro[0]->ninas : '0' )."'></td>";
 			echo "<td style='display:none;'><input type='hidden' name='id' value='".( $registro ? $registro[0]->id : '' )."'></td>";
 			echo "<td style='display:none;'><input type='hidden' name='tema' value='".$kTema."'></td>";
 			echo "</tr>";
