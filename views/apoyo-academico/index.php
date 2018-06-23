@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] =
     </p>
 	
 	<p>
-	<?= Html::a('Agregar', [
+	<?= Html::a('Agregar Apoyo Academico', [
 									'create',
 									'idEstudiante'	=> $idEstudiante,
 									
