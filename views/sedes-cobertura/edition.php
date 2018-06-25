@@ -16,7 +16,8 @@ use app\models\SedesCobertura;
 // var_dump( $temas );
 // echo "</pre>";
 
-
+$this->title = "Cobertura";
+$this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/sedes-cobertura.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 

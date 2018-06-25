@@ -7,6 +7,11 @@ Desarrollador: Oscar David Lopez
 Descripción: reportes
 ---------------------------------------
 Modificaciones:
+Fecha: 24-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se agrega cantidad de alumnos tanto en el reporte de CANTIDAD DE ESUTIDANTES POR GRADO
+					  como CANTIDAD DE ESTUDIATNES POR GRUPO
+---------------------------------------
 Fecha: 12-04-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: - Se deja institución y sede por defecto las seleccionadas al inicio de SESSION
@@ -344,9 +349,11 @@ class ReportesController extends Controller
 						 FROM distribuciones_academicas da, 
 							  aulas a,
 							  estudiantes e,
-							  paralelos p
-						WHERE a.id 					= da.id_aulas_x_sedes
-						  AND a.estado 				= 1
+							  paralelos p,
+							  aulas_x_paralelos ap
+						WHERE a.estado 				= 1
+						  AND ap.id_paralelos		= da.id_paralelo_sede
+						  AND a.id					= ap.id_aulas
 						  AND da.estado 			= 1
 						  AND da.id_paralelo_sede 	= p.id
 						  AND p.estado			 	= 1

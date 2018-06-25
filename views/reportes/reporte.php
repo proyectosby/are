@@ -16,6 +16,10 @@ Versión: 001
 Fecha: 02-04-2018
 REPORTES VARIOS
 ---------------------------------------
+Fecha: 24-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se corrige query para hallar las aulas en los reportes de OCUPACION CAMAS
+---------------------------------------
 Fecha: 12-04-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: - Se agrega opción Listado de estudiantes por grupo
@@ -145,6 +149,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 					?>
 						<h2><?= Html::encode( "Cantidad de estudiantes por grado" ) ?></h2><br>
+					
+						<div style='text-align:center;font-weight:bold;padding:20px;font-size:12pt;'>Cantidad de Estudiantes: <?= $dataProvider->getTotalCount() ?></div>
+					
 					<?php
 				
 					echo  DataTables::widget([
@@ -248,6 +255,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			case 3:
 				?>
 						<h2><?= Html::encode( "Cantidad de Estudiantes por Grupo" ) ?></h2><br>
+						
+						<div style='text-align:center;font-weight:bold;padding:20px;font-size:12pt;'>Cantidad de Estudiantes: <?= $dataProvider->getTotalCount() ?></div>
 					<?php
 				
 					echo  DataTables::widget([
