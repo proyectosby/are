@@ -24,9 +24,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la descripción' ]) ?> 
 	
-	<?= $form->field($model, 'caracter')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el caracter']) ?>
+	<?= $form->field($model, 'caracter')->textInput(['maxlength' => true, 'placeHolder' => 'Ej: Media Técnica']) ?>
 	
-	<?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Digite la especialidad']) ?>
+	<?= $form->field($model, 'especialidad')->textInput(['maxlength' => true, 'placeHolder' => 'Ej: Sistemas']) ?>
 	
 	<?= $form->field($model, 'rector')->textInput(['maxlength' => true, 'placeHolder' => 'Digite el nombre del rector']) ?>
 
