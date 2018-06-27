@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									], 
 									['class' => 'btn btn-success']) ?>
 									
-		<?= Html::a('Listado de estudiantes por grupos', 
+		<?= Html::a('Listado de estudiantes (grupo-desempeño) puesto', 
 									[
 										'reportes',
 										'idReporte'		=> 7,
@@ -161,20 +161,18 @@ $this->params['breadcrumbs'][] = $this->title;
 								['class' => 'btn btn-success'
 		]) ?> 
 
-		<?= Html::a('Cantidad de estudiantes por Grado - Desempeño', 
-								[
-									'reportes',
-									'idReporte'		=> 9,
-									'idSedes' 		=> $idSedes,
-									'idInstitucion' => $idInstitucion, 
-								], 
-								['class' => 'btn btn-success'
-		]) ?> 
-
-    
+</div>
+<div class="form-group">
+		<?= Html::a('Listado de estudiantes (grado - Desempeño) puesto', 
+										[
+											'reportes',
+											'idReporte'		=> 9,
+											'idSedes' 		=> $idSedes,
+											'idInstitucion' => $idInstitucion, 
+										], 
+										['class' => 'btn btn-success'
+				]) ?> 
 
 </div>
-
-
 </div>
 <?php ActiveForm::end(); ?>

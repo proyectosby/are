@@ -510,7 +510,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				case 7:
 				?>
 					 
-					<h2><?= Html::encode( "Listado de estudiantes por grupos" ) ?></h2><br>
+					<h2><?= Html::encode( "Listado de estudiantes por Grupo - Desempeño (Puesto Ocupado)" ) ?></h2><br>
 					
 					<?php
 					
@@ -699,7 +699,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				case 9:
 				?>
 					 
-					<h2><?= Html::encode( "Cantidad de estudiantes por Grado - Desempeño" ) ?></h2><br>
+					<h2><?= Html::encode( "Listado de estudiantes por Grado - Desempeño (Puesto Ocupado)" ) ?></h2><br>
 					
 					<?php
 					
