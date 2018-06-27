@@ -1,4 +1,16 @@
 <?php
+
+/**********
+Versión: 001
+Fecha: 06-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 26-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se muestra la sede
+---------------------------------------
+**********/
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -71,6 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombres',
             'apellidos',
             'asignatura',
+            'sede',
             
 
             // ['class' => 'yii\grid\ActionColumn'],

@@ -1,5 +1,16 @@
 <?php
 
+/**********
+Versión: 001
+Fecha: 06-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 26-06-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - Se muestra la sede
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 if(@$_SESSION['sesion']=="si")
@@ -59,17 +70,26 @@ class DocenteInstitucionController extends Controller
 		if( $idInstitucion != 0)
 		{
 
-			$sql="SELECT p.identificacion, p.nombres, p.apellidos, asig.descripcion as asignatura
-			FROM personas as p, perfiles_x_personas_institucion as ppi, perfiles_x_personas as pp, 
-			distribuciones_academicas as da, asignaturas_x_niveles_sedes ans, asignaturas as asig
-			WHERE ppi.id_institucion = $idInstitucion
-			AND ppi.id_perfiles_x_persona = pp.id
-			AND	pp.id_personas = p.id
-			AND p.estado = 1
-			AND da.id_perfiles_x_personas_docentes = pp.id
-			AND pp.id_perfiles= 10
-			AND da.id_asignaturas_x_niveles_sedes= ans.id
-			AND ans.id_asignaturas = asig.id";
+			$sql="SELECT p.identificacion, p.nombres, p.apellidos, asig.descripcion as asignatura, s.descripcion as sede
+				    FROM personas as p, 
+						 perfiles_x_personas_institucion as ppi, 
+						 perfiles_x_personas as pp, 
+						 distribuciones_academicas as da, 
+						 asignaturas_x_niveles_sedes ans, 
+						 asignaturas as asig,
+						 sedes_niveles as sn,
+						 sedes as s
+				   WHERE ppi.id_institucion = $idInstitucion
+					 AND ppi.id_perfiles_x_persona = pp.id
+					 AND pp.id_personas = p.id
+					 AND p.estado = 1
+					 AND da.id_perfiles_x_personas_docentes = pp.id
+					 AND pp.id_perfiles= 10
+					 AND da.id_asignaturas_x_niveles_sedes= ans.id
+					 AND ans.id_asignaturas = asig.id
+					 AND sn.id = ans.id_sedes_niveles
+					 AND s.id = sn.id_sedes
+					 ";
 		
 		   $dataProvider = new SqlDataProvider([
 					'sql' => $sql,
