@@ -42,6 +42,7 @@ use yii\filters\VerbFilter;
 use app\models\Estados;
 use app\models\Sectores;
 use app\models\TiposInstituciones;
+use app\models\PerfilesPersonasInstitucion;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -120,8 +121,17 @@ class InstitucionesController extends Controller
 		
 		
         $model = new Instituciones();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		
+		
+		
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+		{
+			$modelPPI = new PerfilesPersonasInstitucion();
+			$modelPPI->id_perfiles_x_persona = $_SESSION['perfilesxpersonas'];
+			$modelPPI->id_institucion = $model->id;
+			$modelPPI->estado = 1;
+			$modelPPI->save(false);
+			
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
