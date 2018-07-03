@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ProyectoAula;
+use app\models\Convocatorias;
 
 /**
- * ProyectoAulaBuscar represents the model behind the search form of `app\models\ProyectoAula`.
+ * ConvocatoriasBuscar represents the model behind the search form of `app\models\Convocatorias`.
  */
-class ProyectoAulaBuscar extends ProyectoAula
+class ConvocatoriasBuscar extends Convocatorias
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ProyectoAulaBuscar extends ProyectoAula
     public function rules()
     {
         return [
-            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'id_sede', 'id'], 'integer'],
-            [['nombre_proyecto', 'correo', 'celular', 'descripcion'], 'safe'],
+            [['id', 'nro_convocatoria'], 'integer'],
+            [['grupo', 'fecha_inicio', 'fecha_final'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProyectoAulaBuscar extends ProyectoAula
      */
     public function search($params)
     {
-        $query = ProyectoAula::find();
+        $query = Convocatorias::find();
 
         // add conditions that should always apply here
 
@@ -59,21 +59,13 @@ class ProyectoAulaBuscar extends ProyectoAula
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_grupo' => $this->id_grupo,
-            'id_jornada' => $this->id_jornada,
-            'id_persona_coordinador' => $this->id_persona_coordinador,
-            'avance_1' => $this->avance_1,
-            'avance_2' => $this->avance_2,
-            'avance_3' => $this->avance_3,
-            'avance_4' => $this->avance_4,
-            'id_sede' => $this->id_sede,
             'id' => $this->id,
+            'nro_convocatoria' => $this->nro_convocatoria,
+            'fecha_inicio' => $this->fecha_inicio,
+            'fecha_final' => $this->fecha_final,
         ]);
 
-        $query->andFilterWhere(['ilike', 'nombre_proyecto', $this->nombre_proyecto])
-            ->andFilterWhere(['ilike', 'correo', $this->correo])
-            ->andFilterWhere(['ilike', 'celular', $this->celular])
-            ->andFilterWhere(['ilike', 'descripcion', $this->descripcion]);
+        $query->andFilterWhere(['ilike', 'grupo', $this->grupo]);
 
         return $dataProvider;
     }

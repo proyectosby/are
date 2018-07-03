@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ProyectoAula;
+use app\models\ProyectosPedagogicosTransversales;
 
 /**
- * ProyectoAulaBuscar represents the model behind the search form of `app\models\ProyectoAula`.
+ * ProyectosPedagogicosTransversalesBuscar represents the model behind the search form of `app\models\ProyectosPedagogicosTransversales`.
  */
-class ProyectoAulaBuscar extends ProyectoAula
+class ProyectosPedagogicosTransversalesBuscar extends ProyectosPedagogicosTransversales
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ProyectoAulaBuscar extends ProyectoAula
     public function rules()
     {
         return [
-            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'id_sede', 'id'], 'integer'],
-            [['nombre_proyecto', 'correo', 'celular', 'descripcion'], 'safe'],
+            [['id', 'codigo_grupo', 'coordinador', 'area', 'estado'], 'integer'],
+            [['nombre_grupo', 'correo', 'celular', 'linea_investigacion_1', 'linea_investigacion_2', 'linea_investigacion_3'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProyectoAulaBuscar extends ProyectoAula
      */
     public function search($params)
     {
-        $query = ProyectoAula::find();
+        $query = ProyectosPedagogicosTransversales::find();
 
         // add conditions that should always apply here
 
@@ -59,21 +59,19 @@ class ProyectoAulaBuscar extends ProyectoAula
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_grupo' => $this->id_grupo,
-            'id_jornada' => $this->id_jornada,
-            'id_persona_coordinador' => $this->id_persona_coordinador,
-            'avance_1' => $this->avance_1,
-            'avance_2' => $this->avance_2,
-            'avance_3' => $this->avance_3,
-            'avance_4' => $this->avance_4,
-            'id_sede' => $this->id_sede,
             'id' => $this->id,
+            'codigo_grupo' => $this->codigo_grupo,
+            'coordinador' => $this->coordinador,
+            'area' => $this->area,
+            'estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['ilike', 'nombre_proyecto', $this->nombre_proyecto])
+        $query->andFilterWhere(['ilike', 'nombre_grupo', $this->nombre_grupo])
             ->andFilterWhere(['ilike', 'correo', $this->correo])
             ->andFilterWhere(['ilike', 'celular', $this->celular])
-            ->andFilterWhere(['ilike', 'descripcion', $this->descripcion]);
+            ->andFilterWhere(['ilike', 'linea_investigacion_1', $this->linea_investigacion_1])
+            ->andFilterWhere(['ilike', 'linea_investigacion_2', $this->linea_investigacion_2])
+            ->andFilterWhere(['ilike', 'linea_investigacion_3', $this->linea_investigacion_3]);
 
         return $dataProvider;
     }

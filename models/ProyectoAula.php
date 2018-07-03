@@ -18,7 +18,7 @@ use Yii;
  * @property int $avance_2
  * @property int $avance_3
  * @property int $avance_4
- * @property string $Id_sede
+ * @property string $id_sede
  * @property string $id
  *
  * @property Jornadas $jornada
@@ -28,6 +28,8 @@ use Yii;
  */
 class ProyectoAula extends \yii\db\ActiveRecord
 {
+	public $file;
+	
     /**
      * @inheritdoc
      */
@@ -42,14 +44,16 @@ class ProyectoAula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_grupo', 'nombre_proyecto', 'id_jornada', 'id_persona_coordinador', 'Id_sede'], 'required'],
-            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'Id_sede'], 'default', 'value' => null],
-            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'Id_sede'], 'integer'],
+			[['file'], 'file', 'maxSize' => 1024*1024*2 ],
+            [['id_grupo', 'nombre_proyecto', 'id_jornada', 'id_persona_coordinador', 'id_sede'], 'required'],
+            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'id_sede'], 'default', 'value' => null],
+            [['id_grupo', 'id_jornada', 'id_persona_coordinador', 'avance_1', 'avance_2', 'avance_3', 'avance_4', 'id_sede'], 'integer'],
             [['nombre_proyecto', 'correo', 'celular', 'descripcion'], 'string'],
             [['id_jornada'], 'exist', 'skipOnError' => true, 'targetClass' => Jornadas::className(), 'targetAttribute' => ['id_jornada' => 'id']],
             [['id_grupo'], 'exist', 'skipOnError' => true, 'targetClass' => Paralelos::className(), 'targetAttribute' => ['id_grupo' => 'id']],
             [['id_persona_coordinador'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_persona_coordinador' => 'id']],
-            [['Id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['Id_sede' => 'id']],
+            [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
+			[['archivo'], 'string', 'max' => 200],
         ];
     }
 
@@ -59,19 +63,20 @@ class ProyectoAula extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_grupo' => 'Grupo',
-            'nombre_proyecto' => 'Nombre Proyecto',
-            'id_jornada' => 'Jornada',
+            'id_grupo' 				 => 'Grupo',
+            'nombre_proyecto' 		 => 'Nombre Proyecto',
+            'id_jornada' 			 => 'Jornada',
             'id_persona_coordinador' => 'Coordinador',
-            'correo' => 'Correo',
-            'celular' => 'Celular',
-            'descripcion' => 'Descripcion',
-            'avance_1' => 'Avance 1',
-            'avance_2' => 'Avance 2',
-            'avance_3' => 'Avance 3',
-            'avance_4' => 'Avance 4',
-            'Id_sede' => 'Sede',
-            'id' => 'ID',
+            'correo' 				 => 'Correo',
+            'celular' 				 => 'Celular',
+            'descripcion' 			 => 'Descripción del proyecto',
+            'avance_1' 				 => 'Avance 1',
+            'avance_2' 				 => 'Avance 2',
+            'avance_3' 				 => 'Avance 3',
+            'avance_4' 				 => 'Avance 4',
+            'id_sede' 				 => 'Sede',
+            'id' 					 => 'ID',
+            'archivo' 				 => 'Documento del proyecto',
         ];
     }
 
@@ -104,6 +109,6 @@ class ProyectoAula extends \yii\db\ActiveRecord
      */
     public function getSede()
     {
-        return $this->hasOne(Sedes::className(), ['id' => 'Id_sede']);
+        return $this->hasOne(Sedes::className(), ['id' => 'id_sede']);
     }
 }

@@ -12,13 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_grupo')->textInput() ?>
+    <?= $form->field($model, 'id_sede')->dropDownList( [ $sede->id => $sede->descripcion ] ) ?>
+	
+    <?= $form->field($model, 'id_grupo')->dropDownList( $paralelos, [ 'prompt' => 'Seleccione...' ] ) ?>
 
     <?= $form->field($model, 'nombre_proyecto')->textInput() ?>
 
-    <?= $form->field($model, 'id_jornada')->textInput() ?>
+    <?= $form->field($model, 'id_jornada')->dropDownList( $jornadas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
-    <?= $form->field($model, 'id_persona_coordinador')->textInput() ?>
+    <?= $form->field($model, 'id_persona_coordinador')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
     <?= $form->field($model, 'correo')->textInput() ?>
 
@@ -26,6 +28,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descripcion')->textInput() ?>
 
+	<?= $form->field($model, 'file')->label('Archivo')->fileInput([ 'accept' => ".doc, .docx, .pdf, .xls" ]) ?>
+	
     <?= $form->field($model, 'avance_1')->textInput() ?>
 
     <?= $form->field($model, 'avance_2')->textInput() ?>
@@ -33,8 +37,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'avance_3')->textInput() ?>
 
     <?= $form->field($model, 'avance_4')->textInput() ?>
-
-    <?= $form->field($model, 'Id_sede')->textInput(['value' => $_SESSION['sede'][0] ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

@@ -3,18 +3,15 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-use yii\helpers\Url;
-
 use fedemotta\datatables\DataTables;
-
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ProyectoAulaBuscar */
+/* @var $searchModel app\models\ConvocatoriasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Proyecto Aulas';
+$this->title = 'Convocatorias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="proyecto-aula-index">
+<div class="convocatorias-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -62,32 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_grupo',
-            'nombre_proyecto',
-            'id_jornada',
-            'id_persona_coordinador',
-            'correo',
-			 [ 
-				'attribute' => 'ruta' ,
-				'format' 	=> 'raw' ,
-				'value'		=> function( $model ){
-					
-					if( $model->archivo ){
-						return Html::a( "Ver archivo", Url::to( "@web/".$model->archivo , true), [ "target"=>"_blank" ] );
-					}
-					else{
-						return 'Sin documento asociado';
-					}
-				},
-			],
-            //'celular',
-            //'descripcion',
-            //'avance_1',
-            //'avance_2',
-            //'avance_3',
-            //'avance_4',
-            //'Id_sede',
-            //'id',
+            'id',
+            'nro_convocatoria',
+            'grupo',
+            'fecha_inicio',
+            'fecha_final',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
