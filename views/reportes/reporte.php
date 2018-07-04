@@ -92,7 +92,15 @@ $nombreInstitucion = ArrayHelper::map($nombreInstitucion,'id','descripcion');
 $nombreInstitucion = $nombreInstitucion[$idInstitucion];
 
 $this->title = $nombreInstitucion;
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = 
+	[
+		'label' => 'Reportes', 
+		'url' => [
+					'index',
+					
+				 ]
+	];						 
+		
 ?>
 <div class="asignaturas-index">
 
@@ -485,47 +493,50 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 					 
 					<h2><?= Html::encode( "Tasa de cobertura Neta" ) ?></h2><br>
-					
-					<?php
-					
-					echo  DataTables::widget([
-						'dataProvider' => $dataProvider,
-						'clientOptions' => [
-							'language'=>[
-									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
-								],
-							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-							"info"=>false,
-							"responsive"=>true,
-							"dom"=> 'lfTrtip',
-							"tableTools"=>[
-								"aButtons"=> [  
-									[
-									"sExtends"=> "csv",
-									"sButtonText"=> Yii::t('app',"CSV")
-									],
-									[
-									"sExtends"=> "xls",
-									"oSelectorOpts"=> ["page"=> 'current']
-									],
-									[
-									"sExtends"=> "pdf",
-									"oSelectorOpts"=> ["page"=> 'current']
-									],
-								],
-							],
-						],
-						'columns' => 
-						[
-							['class' => 'yii\grid\SerialColumn'],
-							'transcision',
-							'primaria',
-							'secundaria',
-							'media',
-						],
-					]);
+					<?php // se extraen la posicion del array en varias partes
+					extract($arrayPEN);	?>
 					
 					
+					<table style="width:50%" border=1>
+				  <tr>
+					<th>NIVEL (n)</th>
+					<th>EDAD OFICIAL(e)</th> 
+					<th>ESTUDIANTES MATRICULADOS O EN EL NIVEL</th>
+					<th>POBLACION CON EDAD TEORICA O EN EL NIVEL</th>
+					<th>TCN n = INDICADOR %</th>
+					
+				  </tr>
+				  <tr>
+					<th>TRANSICIÓN</th>
+					<td>5 A 6 AÑOS</td>
+					<td id="transcision"><?=$transcision?></td>
+					<td><input type="text" id="tcbtranscision" size="5" ></td>
+					<td id="tdtcbtranscision"></td>
+				  </tr>
+				  <tr>
+					<th>PRIMARIA</th>
+					<td>7 A 11 AÑOS</td>
+					<td id="primaria"><?=$primaria?></td>
+					<td><input type="text" id="tcbprimaria" size="5" ></td>
+					<td id="tdtcbprimaria"></td>
+				  </tr>
+				  <tr>
+					<th>SECUNDARÍA</th>
+					<td>12 A 15 AÑOS</td>
+					<td id="secundaria"><?=$secundaria?></td>
+					<td><input type="text" id="tcbsecundaria" size="5" ></td>
+					<td id="tdtcbsecundaria"></td>
+				  </tr>
+				   <tr>
+					<th>MEDIA</th>
+					<td>16 A 17 AÑOS</td>
+					<td id="media"><?=$media?></td>
+					<td><input type="text" id="tcbmedia" size="5" ></td>
+					<td id="tdtcbmedia"></td>
+				  </tr>
+				</table>
+				
+				<?php	
 				break;
 				
 				case 7:
