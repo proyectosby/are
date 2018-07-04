@@ -66,6 +66,9 @@
 												['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
 												['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
 												['label' => 'Sanciones', 'icon' => '', 'url' =>  ['sanciones-estudiantes/index'],],
+												['label' => 'Convocatorias', 'icon' => '', 'url' =>  ['convocatorias/index'],],
+												['label' => 'Proyectos-aula', 'icon' => '', 'url' =>  ['proyectos-aula/index'],],
+												['label' => 'Proyectos-pedgagogicos', 'icon' => '', 'url' =>  ['proyectos-pedgagogicos-transversales/index'],],
 												
 											],						
 											
