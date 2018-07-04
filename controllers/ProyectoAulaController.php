@@ -13,6 +13,7 @@ use app\models\Sedes;
 use app\models\Personas;
 use app\models\Jornadas;
 use app\models\Paralelos;
+use app\models\Estados;
 use app\models\Instituciones;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
@@ -45,6 +46,7 @@ class ProyectoAulaController extends Controller
     {
         $searchModel = new ProyectoAulaBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere( 'estado=1' );
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -110,6 +112,11 @@ class ProyectoAulaController extends Controller
 							->andWhere( 'id_sedes='.$idSede )
 							->all();
 		$paralelos		= ArrayHelper::map( $paralelosData, 'id', 'descripcion' );
+		
+		$estadoData		= Estados::find()
+							->where( 'id=1' )
+							->all();
+		$estados		= ArrayHelper::map( $estadoData, 'id', 'descripcion' );
 
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
         if ($model->load(Yii::$app->request->post()) ){
@@ -149,6 +156,7 @@ class ProyectoAulaController extends Controller
             'personas' 		=> $personas,
             'jornadas' 		=> $jornadas,
             'paralelos' 	=> $paralelos,
+            'estados' 		=> $estados,
         ]);
     }
 
@@ -199,6 +207,10 @@ class ProyectoAulaController extends Controller
 							->andWhere( 'id_sedes='.$idSede )
 							->all();
 		$paralelos		= ArrayHelper::map( $paralelosData, 'id', 'descripcion' );
+		
+		$estadoData		= Estados::find()
+							->all();
+		$estados		= ArrayHelper::map( $estadoData, 'id', 'descripcion' );
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -211,6 +223,7 @@ class ProyectoAulaController extends Controller
             'personas' 		=> $personas,
             'jornadas' 		=> $jornadas,
             'paralelos' 	=> $paralelos,
+            'estados' 		=> $estados,
         ]);
     }
 
@@ -223,7 +236,9 @@ class ProyectoAulaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->estado = 2;
+        $model->update( false );
 
         return $this->redirect(['index']);
     }

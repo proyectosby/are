@@ -54,6 +54,7 @@ class ProyectoAula extends \yii\db\ActiveRecord
             [['id_persona_coordinador'], 'exist', 'skipOnError' => true, 'targetClass' => Personas::className(), 'targetAttribute' => ['id_persona_coordinador' => 'id']],
             [['id_sede'], 'exist', 'skipOnError' => true, 'targetClass' => Sedes::className(), 'targetAttribute' => ['id_sede' => 'id']],
 			[['archivo'], 'string', 'max' => 200],
+			[['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
         ];
     }
 
@@ -77,6 +78,7 @@ class ProyectoAula extends \yii\db\ActiveRecord
             'id_sede' 				 => 'Sede',
             'id' 					 => 'ID',
             'archivo' 				 => 'Documento del proyecto',
+            'estado' 				 => 'Estado',
         ];
     }
 

@@ -37,6 +37,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'avance_3')->textInput() ?>
 
     <?= $form->field($model, 'avance_4')->textInput() ?>
+	
+    <?= $form->field($model, 'estado')->dropDownList($estados) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

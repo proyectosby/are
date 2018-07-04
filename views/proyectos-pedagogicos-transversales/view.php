@@ -3,6 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Personas;
+use app\models\Sedes;
+use app\models\Estados;
+use app\models\AreasTrabajos;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectosPedagogicosTransversales */
 
@@ -31,14 +36,32 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'codigo_grupo',
             'nombre_grupo',
-            'coordinador',
-            'area',
+            [
+				'attribute' => 'coordinador',
+				'value' 	=> function( $model ){
+					$personas = Personas::findOne( $model->coordinador );
+					return $personas ? $personas->nombres.' '.$personas->apellidos : '';
+				},
+			],
+			[
+				'attribute' => 'area',
+				'value' => function( $model ){
+					$area = AreasTrabajos::findOne( $model->area );
+					return $area ? $area->descripcion : '';
+				},
+			],
             'correo',
             'celular',
             'linea_investigacion_1',
             'linea_investigacion_2',
             'linea_investigacion_3',
-            'estado',
+            [
+				'attribute' => 'estado',
+				'value' 	=> function( $model ){
+					$estados = Estados::findOne( $model->estado );
+					return $estados ? $estados->descripcion : '';
+				},
+			],
         ],
     ]) ?>
 

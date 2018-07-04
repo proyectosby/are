@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use app\models\Sedes;
+use app\models\Estados;
+use yii\helpers\ArrayHelper;
 
 /**
  * ConvocatoriasController implements the CRUD actions for Convocatorias model.
@@ -39,6 +41,7 @@ class ConvocatoriasController extends Controller
     {
         $searchModel = new ConvocatoriasBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere( 'estado=1' );
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -72,14 +75,20 @@ class ConvocatoriasController extends Controller
 		$idInstitucion 	= $_SESSION['instituciones'][0];
 		
 		$sede		= Sedes::findOne( $idSede );
+		
+		$estadoData		= Estados::find()
+							->where( 'id=1' )
+							->all();
+		$estados		= ArrayHelper::map( $estadoData, 'id', 'descripcion' );
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
-            'sede' => $sede,
+            'model' 	=> $model,
+            'sede' 		=> $sede,
+            'estados' 	=> $estados,
         ]);
     }
 
@@ -112,7 +121,9 @@ class ConvocatoriasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+		$model->estado = 2;
+		$model->update( false );
 
         return $this->redirect(['index']);
     }

@@ -34,6 +34,7 @@ class Convocatorias extends \yii\db\ActiveRecord
             [['nro_convocatoria'], 'integer'],
             [['grupo'], 'string'],
             [['fecha_inicio', 'fecha_final'], 'safe'],
+			[['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
         ];
     }
 
@@ -43,12 +44,13 @@ class Convocatorias extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'nro_convocatoria' => 'Nro de Convocatoria',
-            'grupo' => 'Grupo',
-            'fecha_inicio' => 'Fecha Inicio',
-            'fecha_final' => 'Fecha Final',
-            'id_sede' => 'Sede',
+            'id' 				=> 'ID',
+            'nro_convocatoria' 	=> 'Nro de Convocatoria',
+            'grupo' 			=> 'Grupo',
+            'fecha_inicio' 		=> 'Fecha Inicio',
+            'fecha_final' 		=> 'Fecha Final',
+            'id_sede' 			=> 'Sede',
+            'estado' 			=> 'Estado',
         ];
     }
 }

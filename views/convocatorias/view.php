@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Estados;
+use app\models\Sedes;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Convocatorias */
 
@@ -29,10 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+			[
+				'attribute' => 'id_sede',
+				'value' 	=> function( $model ){
+					$sede = Sedes::findOne( $model->id_sede );
+					return $sede ? $sede->descripcion : '';
+				},
+			],
             'nro_convocatoria',
             'grupo',
             'fecha_inicio',
             'fecha_final',
+			[
+				'attribute' => 'estado',
+				'value' 	=> function( $model ){
+					$estado = Estados::findOne( $model->estado );
+					return $estado ? $estado->descripcion : '';
+				},
+			],
         ],
     ]) ?>
 

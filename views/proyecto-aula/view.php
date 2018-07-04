@@ -7,6 +7,7 @@ use app\models\Sedes;
 use app\models\Paralelos;
 use app\models\Jornadas;
 use app\models\Personas;
+use app\models\Estados;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAula */
@@ -70,6 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'avance_2',
             'avance_3',
             'avance_4',
+			[
+				'attribute' => 'estado',
+				'value' 	=> function( $model ){
+					$estado = Estados::findOne( $model->estado );
+					return $estado ? $estado->descripcion : '';
+				},
+			],
         ],
     ]) ?>
 

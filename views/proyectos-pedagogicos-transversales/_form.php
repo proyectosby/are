@@ -12,13 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+	<?= $form->field($model, 'id_sede')->dropDownList( [ $sede->id => $sede->descripcion ] ) ?>
+	
     <?= $form->field($model, 'codigo_grupo')->textInput() ?>
 
     <?= $form->field($model, 'nombre_grupo')->textInput() ?>
 
-    <?= $form->field($model, 'coordinador')->textInput() ?>
+    <?= $form->field($model, 'coordinador')->dropDownList( $personas, [ 'prompt' => 'Seleccione...' ] ) ?>
 
-    <?= $form->field($model, 'area')->textInput() ?>
+    <?= $form->field($model, 'area')->dropDownList( $areas, [ 'prompt' => 'Seleccione...' ]) ?>
 
     <?= $form->field($model, 'correo')->textInput() ?>
 
@@ -30,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'linea_investigacion_3')->textInput() ?>
 
-    <?= $form->field($model, 'estado')->textInput() ?>
+    <?= $form->field($model, 'estado')->dropDownList( $estados ) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

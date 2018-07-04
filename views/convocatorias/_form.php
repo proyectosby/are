@@ -13,6 +13,8 @@ use dosamigos\datepicker\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
+	<?= $form->field($model, 'id_sede')->dropDownList([ $sede->id => $sede->descripcion ]) ?>
+	
     <?= $form->field($model, 'nro_convocatoria')->textInput() ?>
 
     <?= $form->field($model, 'grupo')->textInput() ?>
@@ -43,7 +45,7 @@ use dosamigos\datepicker\DatePicker;
 		]);  
 	?>
     
-	<?= $form->field($model, 'id_sede')->dropDownList([ $sede->id => $sede->descripcion ]) ?>
+	<?= $form->field($model, 'estado' )->dropDownList( $estados ) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
