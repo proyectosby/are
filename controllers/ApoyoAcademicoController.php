@@ -208,9 +208,21 @@ class ApoyoAcademicoController extends Controller
 			
 			if ($idTipoApoyo == 5 )
 				$consecutivo = "HCE-".$consecutivo;
-		
+			
+			
+			// echo "<pre>"; print_r($datoPost); echo "</pre>";	
+			// die;
 			$model->load($datoPost);
 			$model->save();
+			
+			//se guarda la hora en que termina la cita
+			date_default_timezone_set('America/Bogota');
+			$hora = date('H:i:s');
+			$horaSalida = date('h:i A', strtotime($hora));
+			
+			$model->hora_salida =$horaSalida;
+			$model->save(false);
+			
 			
 			$model->consecutivo = $consecutivo;
 			$model->paralelo = $nivelJornada[0]['paralelo'];

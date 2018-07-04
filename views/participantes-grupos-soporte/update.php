@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 		'TiposGruposSoporte'=>$TiposGruposSoporte,
 		'idGruposSoporte'=>$idGruposSoporte,
 		'idJornadas'=>$idJornadas,
+		'grupoSoporte'=>$grupoSoporte,
     ]) ?>
 
 </div>

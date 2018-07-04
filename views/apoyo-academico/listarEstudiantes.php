@@ -35,6 +35,7 @@ AND ppi.id_perfiles_x_persona = pp.id
 and pa.id = es.id_paralelos
 and pa.id_sedes_jornadas = sj.id
 and sj.id_sedes = $idSedes
+group by es.id_perfiles_x_personas,pe.nombres,pe.apellidos, pe.identificacion
 			 
 		   ";		
 		$dataProvider = new SqlDataProvider([

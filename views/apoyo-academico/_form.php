@@ -58,7 +58,7 @@ $estados = ArrayHelper::map($estados,'id','descripcion');
 $apoyoAcademico = new TiposApoyoAcademico();
 $apoyoAcademico = $apoyoAcademico->find()->all();
 $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
-
+$fecha= date("Y-m-d");
 ?>
 
 <div class="apoyo-academico-form">
@@ -75,50 +75,23 @@ $apoyoAcademico = ArrayHelper::map($apoyoAcademico,'id','descripcion');
 	
     <?= $form->field($model, 'motivo_consulta')->textarea(['rows' => '6']) ?>
 	
-	<?= $form->field($model, 'fecha_entrada')->widget(
-		DatePicker::className(), [
-			
-				 // modify template for custom rendering
-				'template' 		=> '{addon}{input}',
-				'language' 		=> 'es',
-				'clientOptions' => 
-				[
-					'autoclose' 	=> true,
-					'format' 		=> 'yyyy-mm-dd',
-				]
-	]);?> 
+	<?= $form->field($model, 'fecha_entrada')->textInput(['readOnly' => true,'value'=>$fecha]);?> 
 	
 	<?php 
-	
+	date_default_timezone_set('America/Bogota');
+			$hora = date('H:i:s');
+			$horaEntrada = date('h:i A', strtotime($hora));
 	echo $form->field($model, 'hora_entrada')->widget(TimePicker::classname(), [
 		'options' => 
 		[
-			'readonly' => true,
+			'readOnly' => true,
 			'showMeridian'=>false,
-			'value'=>$model->hora_entrada,
+			'value'=>$horaEntrada,
 			
 		]]);?>
 	
-	<?= $form->field($model, 'fecha_salida')->widget(
-		DatePicker::className(), [
-			
-				 // modify template for custom rendering
-				'template' 		=> '{addon}{input}',
-				'language' 		=> 'es',
-				'clientOptions' => [
-				'autoclose' 	=> true,
-				'format' 		=> 'yyyy-mm-dd',
-			]
-	]);?> 	
-
-   
-	<?php echo $form->field($model, 'hora_salida')->widget(TimePicker::classname(), [
-		'options' => 
-		[
-			'readonly' => true,
-			'showMeridian'=>true,
-			'value'=>$model->hora_salida
-		]]);?>
+	<?= $form->field($model, 'fecha_salida')->textInput(['readOnly' => true,'value'=>$fecha]);?>
+  
     <?= $form->field($model, 'incapacidad')->checkbox() ?>
 
     <?= $form->field($model, 'no_dias_incapaciad')->textInput(['type' => 'number']) ?>

@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] =
 		'url' => [	'index'	 ]
 	];
 	
-	
 ?>
 <div class="apoyo-academico-index">
 

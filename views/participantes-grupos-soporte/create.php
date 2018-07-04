@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'TiposGruposSoporte'=>$TiposGruposSoporte,
 		'idGruposSoporte'=>$idGruposSoporte,
 		'idJornadas'=>$idJornadas,
+		'grupoSoporte'=>$grupoSoporte,
     ]) ?>
 
 </div>

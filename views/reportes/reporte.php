@@ -47,6 +47,8 @@ use yii\helpers\ArrayHelper;
 use app\models\Sedes;
 use app\models\Instituciones;
 use fedemotta\datatables\DataTables;
+use yii\widgets\ActiveForm;
+use yii\console\widgets\Table;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AsginaturasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -63,7 +65,21 @@ Persona encargada: Oscar David Lopez
 Cambios realizados: - se cambia el atributo id_sede para que muestre la descripcion de la sede segun el id_sede
  de la tabla asigaciones
 ---------------------------------------
+Modificaciones:
+Fecha: 29-06-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Reestructuracion al reporte de taza bruta
+ de la tabla asigaciones
+---------------------------------------
+Modificaciones:
+Fecha: 04-07-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Reestructuracion al reporte de taza bruta 
+---------------------------------------
 **********/
+
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/reportes.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $nombreSede = new Sedes();
 $nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
@@ -419,46 +435,51 @@ $this->params['breadcrumbs'][] = $this->title;
 					
 					<h2><?= Html::encode( "Tasa de cobertura bruta" ) ?></h2><br>
 					
-					<?php
 					
-					echo  DataTables::widget([
-						'dataProvider' => $dataProvider,
-						'clientOptions' => [
-							'language'=>[
-									'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
-								],
-							"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-							"info"=>false,
-							"responsive"=>true,
-							"dom"=> 'lfTrtip',
-							"tableTools"=>[
-								"aButtons"=> [  
-									[
-									"sExtends"=> "csv",
-									"sButtonText"=> Yii::t('app',"CSV")
-									],
-									[
-									"sExtends"=> "xls",
-									"oSelectorOpts"=> ["page"=> 'current']
-									],
-									[
-									"sExtends"=> "pdf",
-									"oSelectorOpts"=> ["page"=> 'current']
-									],
-								],
-							],
-						],
-						'columns' => 
-						[
-							['class' => 'yii\grid\SerialColumn'],
-							'transcision',
-							'primaria',
-							'secundaria',
-							'media',
-						],
-					]);
+					<?php // se extraen la posicion del array en varias partes
+					extract($arrayPEN);	?>
 					
 					
+					<table style="width:50%" border=1>
+				  <tr>
+					<th>NIVEL (n)</th>
+					<th>EDAD OFICIAL(e)</th> 
+					<th>ESTUDIANTES MATRICULADOS O EN EL NIVEL</th>
+					<th>POBLACION CON EDAD TEORICA O EN EL NIVEL</th>
+					<th>TCB n = INDICADOR %</th>
+					
+				  </tr>
+				  <tr>
+					<th>TRANSICIÓN</th>
+					<td>5 A 6 AÑOS</td>
+					<td id="transcision"><?=$transcision?></td>
+					<td><input type="text" id="tcbtranscision" size="5" ></td>
+					<td id="tdtcbtranscision"></td>
+				  </tr>
+				  <tr>
+					<th>PRIMARIA</th>
+					<td>7 A 11 AÑOS</td>
+					<td id="primaria"><?=$primaria?></td>
+					<td><input type="text" id="tcbprimaria" size="5" ></td>
+					<td id="tdtcbprimaria"></td>
+				  </tr>
+				  <tr>
+					<th>SECUNDARÍA</th>
+					<td>12 A 15 AÑOS</td>
+					<td id="secundaria"><?=$secundaria?></td>
+					<td><input type="text" id="tcbsecundaria" size="5" ></td>
+					<td id="tdtcbsecundaria"></td>
+				  </tr>
+				   <tr>
+					<th>MEDIA</th>
+					<td>16 A 17 AÑOS</td>
+					<td id="media"><?=$media?></td>
+					<td><input type="text" id="tcbmedia" size="5" ></td>
+					<td id="tdtcbmedia"></td>
+				  </tr>
+				</table>
+					
+				<?php	
 				break;
 				case 6:
 				?>

@@ -377,15 +377,10 @@ class ReportesController extends Controller
 				//edad de los estudiantes
 				$command = $connection->createCommand("
 					SELECT extract(year from age(p.fecha_nacimiento)) as edad
-					FROM estudiantes as e, personas as p, perfiles_x_personas as pp, sedes as s, paralelos as pa,
-					sedes_niveles as sn
+					FROM estudiantes as e, personas as p, perfiles_x_personas as pp
 					WHERE e.id_perfiles_x_personas = pp.id
 					and pp.id_personas = p.id
-					and e.id_paralelos = pa.id
-					and pa.id_sedes_niveles = sn.id
-					and sn.id_sedes = $idSedes
-					and s.id_instituciones = $idInstitucion
-					group by p.fecha_nacimiento,p.id
+					group by p.fecha_nacimiento
 										
 				");
 				$result = $command->queryAll();
@@ -423,103 +418,12 @@ class ReportesController extends Controller
 					}
 				}
 				
-				
-				
-				//estudiantes por edades por niveles
-				$command = $connection->createCommand("
-				SELECT extract(year from age(p.fecha_nacimiento)) as edad, na.descripcion, n.id grado
-				FROM estudiantes as e,personas as p,perfiles_x_personas as pp,sedes as s,paralelos as pa,sedes_niveles as sn,
-				niveles as n, niveles_academicos as na
-				WHERE e.id_perfiles_x_personas = pp.id
-				and pp.id_personas = p.id
-				and e.id_paralelos = pa.id
-				and pa.id_sedes_niveles = sn.id
-				and sn.id_sedes = $idSedes
-				and s.id_instituciones = $idInstitucion
-				and sn.id_niveles = n.id
-				and n.id_niveles_academicos = na.id
-				group by p.fecha_nacimiento,p.id,pa.descripcion,na.descripcion,n.id");
-				$result = $command->queryAll();
-								
-									
-				$contTranscision =0;
-				$contPrimaria =0;
-				$contSecundaria =0;
-				$contMedia =0;
-				$arrayMN=array('transcision'=>0,'primaria'=>0,'secundaria'=>0,'media'=>0);
-				
-				//cantidad de estudiantes por niveles			
-				foreach ($result as $r)
-				{
-					// echo $r['edad'];
-					$descripcion = $r['descripcion'];
-					$grado = $r['grado'];
-					if($grado == "1" )
-					{
-						$arrayMN['transcision']=++$contTranscision;
-					}					
-					elseif($descripcion == "Primaria" )
-					{
-						$arrayMN['primaria']=++$contPrimaria;
-					}					
-					elseif($descripcion == "Secundaria" )
-					{
-						$arrayMN['secundaria']=++$contSecundaria;
-					}					
-					elseif($descripcion == "Media" )
-					{
-						$arrayMN['media']=++$contMedia;
-					}
-				}
-				
-				//por si el nombre cambia se puede cambiar facil
-				$transcision = "transcision";
-				$primaria ="primaria";
-				$secundaria ="secundaria";
-				$media = "media";
-				
-				//***Calculo de la tasa de cobertura bruta
-				//transcision
-				if($arrayMN [$transcision] ==0 or $arrayPEN[$transcision]==0)
-				$TCNTransicion ="No se encontraton datos";
-				else
-					$TCNTransicion 	= (($arrayMN [$transcision] / $arrayPEN[$transcision]) * 100)."%";
-				
-				//primaria
-				if($arrayMN [$primaria] ==0 or $arrayPEN[$primaria]==0)
-				$TCNPrimaria ="No se encontraton datos";
-				else
-					$TCNPrimaria 	= (($arrayMN [$primaria] / $arrayPEN[$primaria]) * 100)."%";
-				
-				//secundaria
-				if($arrayMN [$secundaria] ==0 or $arrayPEN[$secundaria]==0)
-				$TCNSecundaria ="No se encontraton datos";
-				else
-					$TCNSecundaria 	= (($arrayMN [$secundaria] / $arrayPEN[$secundaria]) * 100)."%";
-				
-				//media
-				if($arrayMN [$media] ==0 or $arrayPEN[$media]==0)
-				$TCNMedia ="No se encontraton datos";
-				else
-					$TCNMedia		= (($arrayMN [$media] / $arrayPEN[$media]) * 100)."%";
-				
-				// array para mostrar los datos en el index de reportes
-				
-				$data =[
-				array(
-				$transcision	=>$TCNTransicion,
-				$primaria		=>$TCNPrimaria,
-				$secundaria		=>$TCNSecundaria,
-				$media			=>$TCNMedia)
-				];
-				
-				$dataProvider = new ArrayDataProvider([
-					'allModels' => $data,					
-				]);
-			
-			
-				$dataProviderCantidad = "";
-			
+						return $this->render('reporte', [
+						'arrayPEN'		=> $arrayPEN,
+						'idReporte'			=> $idReporte,
+						'idSedes' 			=> $idSedes,
+						'idInstitucion' 	=> $idInstitucion,
+					]);
 				break;//fin break 5
 				
 				case 6://tasa de cobertura Neta

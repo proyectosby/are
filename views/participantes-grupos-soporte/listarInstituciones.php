@@ -41,10 +41,23 @@ $queryTiposGruposSoporte  	= $institucionesTable->find()->orderby('descripcion')
 $dataTiposGruposSoporte	 	= $queryTiposGruposSoporte->all();
 $tiposGruposSoporte		 		= ArrayHelper::map( $dataTiposGruposSoporte, 'id', 'descripcion' );
 
-$jornadas	= new Jornadas();
-$jornadas	= $jornadas->find()->orderby('descripcion')->where('estado=1');
-$jornadas	= $jornadas->all();
-$jornadas	= ArrayHelper::map( $jornadas, 'id', 'descripcion' );
+$idSedes = $_SESSION['sede'][0];
+
+$connection = Yii::$app->getDb();
+
+$command = $connection->createCommand("
+SELECT sj.id, j.descripcion
+	FROM jornadas as j, sedes_jornadas as sj
+	WHERE sj.id_jornadas =j.id
+	AND sj.id_sedes = $idSedes
+	AND j.estado = 1
+");
+$result = $command->queryAll();
+$jornadas = array();
+		foreach ($result as $r)
+		{
+			$jornadas[$r['id']]= $r['descripcion'];
+		}
 
 $optionsTiposGruposSoporte = array( 
 							'prompt' 	=> 'Seleccione...', 
@@ -60,12 +73,13 @@ $optionsTiposGruposSoporte = array(
 $GruposSoporte = [];
 
 
-if( $TiposGruposSoporte > 0 ){
+if( $TiposGruposSoporte > 0 and $idJornadas > 0){
 	
 	//Obterniendo los datos necesarios para GruposSoporte						
 	$GruposSoporteTable	 		= new GruposSoporte();
 	$queryGruposSoporte	 		= $GruposSoporteTable->find()->orderby('descripcion')->where('estado=1');
 	$queryGruposSoporte->andWhere( 'id_tipo_grupos='.$TiposGruposSoporte );
+	$queryGruposSoporte->andWhere( 'id_jornada_sede='.$idJornadas );
 	$dataGruposSoporte	 		= $queryGruposSoporte->all();
 	$GruposSoporte		 		= ArrayHelper::map( $dataGruposSoporte, 'id', 'descripcion' );
 }
@@ -76,7 +90,7 @@ $optionsGruposSoporte = array(
 					'id'	 	=> 'idGruposSoporte', 
 					'name'	 	=> 'idGruposSoporte',
 					'value'	 	=> $idGruposSoporte == 0 ? '' : $idGruposSoporte,
-					'onchange'	=> 'this.form.submit();'
+					'onChange'	=> '$( "#idGruposSoporte" ).val(); this.form.submit(); ',
 				);
 				
 $optionsjornadas = array( 
@@ -84,6 +98,7 @@ $optionsjornadas = array(
 					'id'	 	=> 'idJornadas', 
 					'name'	 	=> 'idJornadas',
 					'value'	 	=> $idJornadas == 0 ? '' : $idJornadas,
+					'onChange'	=> '$( "#idJornadas" ).val(); this.form.submit(); ',
 				);
 
 ?>

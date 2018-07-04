@@ -59,7 +59,7 @@ class ApoyoAcademico extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['persona_doctor', 'registro', 'id_persona_estudiante', 'motivo_consulta', 'fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida', 'id_sede', 'id_tipo_apoyo'], 'required'],
+            [['persona_doctor', 'id_persona_estudiante', 'motivo_consulta', 'fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida', 'id_sede', 'id_tipo_apoyo'], 'required'],
             [['persona_doctor', 'id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'default', 'value' => null],
             [['id_persona_estudiante', 'no_dias_incapaciad', 'id_sede', 'id_tipo_apoyo', 'estado'], 'integer'],
             [['fecha_entrada', 'hora_entrada', 'fecha_salida', 'hora_salida'], 'safe'],

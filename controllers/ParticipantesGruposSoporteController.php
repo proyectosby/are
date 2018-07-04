@@ -16,6 +16,7 @@ else
 use Yii;
 use app\models\ParticipantesGruposSoporte;
 use app\models\Estados;
+use app\models\GruposSoporte;
 use	yii\helpers\ArrayHelper;
 use yii\data\SqlDataProvider;
 use app\models\ParticipantesGruposSoporteBuscar;
@@ -210,12 +211,17 @@ class ParticipantesGruposSoporteController extends Controller
 		");
 		$result = $command->queryAll();
 		
+		
+		
+		
 		$estudiantes = array();
 		foreach ($result as $r)
 		{
 			$estudiantes[$r['id']]=$r['nombres'];
 		}
 		
+		$grupoSoporte = GruposSoporte::findOne("$idGruposSoporte");
+		$grupoSoporte = $grupoSoporte ? $grupoSoporte->descripcion : '';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id,'TiposGruposSoporte'=>$TiposGruposSoporte,'idGruposSoporte'=>$idGruposSoporte,'idJornadas'=>$idJornadas,]);
         }
@@ -227,6 +233,7 @@ class ParticipantesGruposSoporteController extends Controller
 			'TiposGruposSoporte'=>$TiposGruposSoporte,
 			'idGruposSoporte'=>$idGruposSoporte,
 			'idJornadas'=>$idJornadas,
+			'grupoSoporte'=>$grupoSoporte,
         ]);
     }
 
@@ -260,7 +267,7 @@ class ParticipantesGruposSoporteController extends Controller
 		and extract(year from age(p.fecha_nacimiento)) <= (select edad_maxima from grupos_soporte where id=$idGruposSoporte)
 		
 		");
-		$result = $command->queryAll();
+		$result = $command->queryAll();	
 		
 		$estudiantes = array();
 		foreach ($result as $r)
@@ -272,6 +279,8 @@ class ParticipantesGruposSoporteController extends Controller
             return $this->redirect(['view', 'id' => $model->id,'TiposGruposSoporte'=>$TiposGruposSoporte,'idGruposSoporte'=>$idGruposSoporte,'idJornadas'=>$idJornadas,]);
         }
 		
+		$grupoSoporte = GruposSoporte::findOne("$idGruposSoporte");
+		$grupoSoporte = $grupoSoporte ? $grupoSoporte->descripcion : '';
         return $this->render('update', [
             'model' => $model,
 			'estados'=>$this->obtenerEstados(),
@@ -279,6 +288,7 @@ class ParticipantesGruposSoporteController extends Controller
 			'TiposGruposSoporte'=>$TiposGruposSoporte,
 			'idGruposSoporte'=>$idGruposSoporte,
 			'idJornadas'=>$idJornadas,
+			'grupoSoporte'=>$grupoSoporte,
         ]);
     }
 

@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_sede')->hiddenInput(['value'=>$_SESSION['sede'][0]])->label(false)?>
 
-    <?= $form->field($model, 'nombre_equipo')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nombre_equipo')->textInput(['readOnly'=>true,'value' => $grupoSoporte,]) ?>
 
     <?= $form->field($model, 'id_persona')->DropDownList($estudiantes,['prompt'=>'Seleccione...']) ?>
 	
