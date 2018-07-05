@@ -5,6 +5,11 @@ Fecha: Fecha en formato (09-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Controlador de personas
 ---------------------------------------
+Versión: 001
+Fecha: Fecha en formato (05-06-2018)
+Desarrollador: Oscar David Lopez
+Descripción: Se agrega el campo RH
+---------------------------------------
 
 */
 namespace app\controllers;
@@ -62,6 +67,29 @@ class PersonasController extends Controller
      * Lists all Personas models.
      * @return mixed
      */
+	
+	public function grupoSanguineo(){
+		$arrayGrupoSanguineo =
+		[
+			"A"=>"A",
+			"B"=>"B",
+			"AB"=>"AB",
+			"O"=>"O",
+		]; 
+		return $arrayGrupoSanguineo;
+	}
+	 
+	public function rh()
+	{
+		$arrayRH = 
+		[
+			"-"=>"-",
+			"+"=>"+",		
+		];
+		
+		return $arrayRH;
+	}
+	 
     public function actionIndex()
     {
         $searchModel = new PersonasBuscar();
@@ -156,8 +184,6 @@ class PersonasController extends Controller
 			$_POST['Personas']['psw'] = $psw;
 		}
 		
-		
-		// echo "<pre>";print_r($_POST);echo "</pre>";
 		@$idPerfiles = $_POST['Perfiles']['id'];
 		
 		if ($model->load($_POST) && $model->save()) {
@@ -203,6 +229,8 @@ class PersonasController extends Controller
 			'barriosVeredas'=>$barriosVeredas,
 			'perfiles'=>$perfiles,
 			'perfilesTable'=>$perfilesTable,
+			'arrayGrupoSanguineo'=>$this->grupoSanguineo(),
+			'arrayRH'=>$this->rh(),
 			
         ]);
     }
@@ -413,6 +441,8 @@ class PersonasController extends Controller
 			'perfiles'=>$perfiles,
 			'perfilesTable'=>$perfilesTable,
 			'perfilesSelected'=>$perfilesSelected,
+			'arrayGrupoSanguineo'=>$this->grupoSanguineo(),
+			'arrayRH'=>$this->rh(),
         ]);
     }
 

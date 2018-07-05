@@ -129,6 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			'grupo_sanguineo',
+			'RH',
 				
 			
 			

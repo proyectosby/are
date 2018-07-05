@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'perfiles'=>$perfiles,
 		'perfilesTable'=>$perfilesTable,
 		'perfilesSelected'=>'',
+		'arrayGrupoSanguineo'=>$arrayGrupoSanguineo,
+		'arrayRH'=>$arrayRH,
 		
     ]) ?>
 

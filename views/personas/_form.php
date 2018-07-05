@@ -16,7 +16,6 @@ Fecha: Fecha en formato (08-03-2018)
 Desarrollador: Viviana Rodas
 Descripción: Formulario de personas
 ---------------------------------------
-
 Modificaciones:
 Fecha: Fecha en formato(08-03-2018)
 Persona encargada: Viviana Rodas
@@ -26,6 +25,11 @@ a otros campos como textarea y fechas
 Fecha: Fecha en formato(19-04-2018)
 Persona encargada: Viviana Rodas
 Cambios realizados: Se agrega al formulario el campo perfiles select multiple para guardar en la tabla perfiles por persona.
+---------------------------------------
+Fecha: Fecha en formato(05-06-2018)
+Persona encargada: Oscar David Lopez
+Cambios realizados: Se agrega al formulario el campo RH y se divide el grupo_sanguineo en rh y grupo_sanguineo
+---------------------------------------
 **********/
 
 
@@ -88,8 +92,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 	$ubicacion = utf8_encode('Ubicación');
 	$descripcion = utf8_encode('Descripción');
 	$grupo_sanguineo = utf8_encode('Grupo Sanguíneo');
+	
 	?>
 
+	
 <!-- tabs de boostrarp para orden del formulario-->
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
@@ -119,8 +125,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 
 		<!--<?= $form->field($model, 'fecha_nacimiento')->textInput(['placeholder'=> 'Digite la fecha de nacimiento', 'id' =>'txtFechaNac']) ?>-->
 		
-		<?= $form->field($model, 'grupo_sanguineo')->textInput(['placeholder'=> "Digite el $grupo_sanguineo y rh"])->label($grupo_sanguineo) ?>
 		
+		<?= $form->field($model, 'grupo_sanguineo')->DropDownList($arrayGrupoSanguineo,['prompt'=>'Seleccione...'])->label($grupo_sanguineo) ?>
+		<?= $form->field($model, 'RH')->DropDownList($arrayRH,['prompt'=>'Seleccione...'])->label("RH") ?>
 		<?= $form->field($model, 'fecha_nacimiento')->widget(
     DatePicker::className(), [
         

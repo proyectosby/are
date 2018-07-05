@@ -87,7 +87,7 @@ class Personas extends \yii\db\ActiveRecord
             [['fecha_nacimiento', 'fecha_registro', 'fecha_ultimo_ingreso'], 'safe'],
             [['envio_correo'], 'boolean'],
             [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado'], 'default', 'value' => null],
-            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado','grupo_sanguineo'], 'string'],
+            [['id_municipios', 'id_tipos_identificaciones', 'id_estados_civiles', 'id_generos', 'id_barrios_veredas', 'estado','grupo_sanguineo','RH'], 'string'],
             [['latitud', 'longitud'], 'number'],
             [['usuario'], 'string', 'max' => 60],
             [['psw', 'domicilio'], 'string', 'max' => 200],
@@ -159,6 +159,7 @@ class Personas extends \yii\db\ActiveRecord
             'hobbies' => 'Hobbies',
             'id_barrios_veredas' => 'Barrio - Vereda',
             'grupo_sanguineo' => $grupo_sanguineo,
+			'RH'=>'RH',
             'estado' => 'Estado',
         ];
     }

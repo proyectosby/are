@@ -42,6 +42,8 @@ $this->params['breadcrumbs'][] = 'Modificar';
 		'perfiles'=>$perfiles,
 		'perfilesTable'=>$perfilesTable,
 		'perfilesSelected'=>$perfilesSelected,
+		'arrayGrupoSanguineo'=>$arrayGrupoSanguineo,
+		'arrayRH'=>$arrayRH,
 		
 	]) ?>
 </div>
