@@ -47,7 +47,7 @@
 											'items' => [
 												['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
 												['label' => 'Pruebas saber','icon' => 'circle-o','url' => '#',],
-												['label' => 'Investigación','icon' => 'circle-o','url' => '#',],
+												['label' => 'Infraestructura Educativa','icon' => 'circle-o','url' => [ 'infraestructura-educativa/index'],],
 												['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
 												['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
 												['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
@@ -66,6 +66,18 @@
 												['label' => 'Persona-Institución', 'icon' => '', 'url' =>  ['perfiles-personas-institucion/index'],],
 												['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
 												['label' => 'Sanciones', 'icon' => '', 'url' =>  ['sanciones-estudiantes/index'],],
+												['label' => 'Investigación', 
+												'icon' => 'circle-o',
+												'url' => '#',
+												'items' => [
+																['label' => 'Convocatorias', 'icon' => '', 'url' =>  ['convocatorias/index'],],
+																['label' => 'Proyectos-aula', 'icon' => '', 'url' =>  ['proyecto-aula/index'],],
+																['label' => 'Proyectos-pedagagógicos', 'icon' => '', 'url' =>  ['proyectos-pedagogicos-transversales/index'],],
+																
+															],
+												
+												],
+												
 												
 											],						
 											
