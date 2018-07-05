@@ -39,23 +39,24 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/asignaturasNivelesSedes.j
     <?php $form = ActiveForm::begin(); ?>
     
 	<?php 
+		$idSedes = $_SESSION['sede'][0];
 		$model1 = new Sedes();
 		$model1->id=$idSedes;
-		$sedes = Sedes::find()->orderby('descripcion')->all();
+		$sedes = Sedes::find()->orderby('descripcion')->AndWhere("id=$idSedes")->all();
 		$sedes = ArrayHelper::map($sedes,'id','descripcion');		
-		echo $form->field($model1, 'descripcion')->dropDownList( $sedes, ['prompt'=>'Seleccione...','onchange'=>'llenarListas()','options' => [$model1['id'] => ['selected' => 'selected']]] )->label('Sedes');
+		echo $form->field($model1, 'descripcion')->dropDownList( $sedes, ['onchange'=>'llenarListas()','options' => [$model1['id'] => ['selected' => 'selected']]] )->label('Sedes');
 		
     ?>
 		        
 
-	<?= $form->field($model, 'id_sedes_niveles')->dropDownList(['prompt'=>'Seleccione...'])->label('Niveles') ?>
+	<?= $form->field($model, 'id_sedes_niveles')->dropDownList([])->label('Niveles') ?>
 	
 	<div class="form-group field-asignaturasnivelessedes-id_sedes_niveles">
 		<label class="control-label">Areas de enseñanza</label>
-		<?= HTML::dropDownList( "areas", "", [],['prompt'=>'Seleccione...', "class"=>"form-control",'onchange'=>'llenarListaAsignatura()' ] ) ?>
+		<?= HTML::dropDownList( "areas", "", [],["class"=>"form-control",'onchange'=>'llenarListaAsignatura()' ] ) ?>
 	</div>
 	
-    <?= $form->field($model, 'id_asignaturas')->dropDownList(['prompt'=>'Seleccione...']) ?>
+    <?= $form->field($model, 'id_asignaturas')->dropDownList([]) ?>
 
     <?= $form->field($model, 'intensidad')->textInput() ?>
 

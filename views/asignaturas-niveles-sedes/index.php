@@ -13,12 +13,12 @@ else
 Versión: 001
 Fecha: 14-03-2018
 Desarrollador: Oscar David Lopez
-Descripción: CRUD de AsignaturasNivelesSedes
+Descripción: CRUD de Asignaturas Niveles Sedes
 ---------------------------------------
 Modificaciones:
 Fecha: 14-03-2018
 Persona encargada: Oscar David Lopez
-Cambios realizados: - se modifica lavista para que muestre el valor correspondiente no el id
+Cambios realizados: - se modifica la vista para que muestre el valor correspondiente no el id
 ---------------------------------------
 Fecha: 05-04-2018
 Persona encargada: Viviana Rodas
@@ -37,6 +37,7 @@ use app\models\SedesNiveles;
 use app\models\Niveles;
 use app\models\Sedes;
 use fedemotta\datatables\DataTables;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AsignaturasNivelesSedesBuscar */
@@ -58,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DataTables::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
 		'clientOptions' => [
 		'language'=>[
                 'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
@@ -94,43 +94,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'], 			
-			[
-				'attribute'=>'id_sedes_niveles',
-				'value' => function( $model )
-				{
-					//se buscan los id de los niveles y las sedes para mostrarlos en el index
-					$sedesNiveles = SedesNiveles::find()->where('id='.$model->id_sedes_niveles)->orderBy('id_sedes')->all();
-					
-					$idNiveles = ArrayHelper::getColumn($sedesNiveles, 'id_niveles' );
-					$idSedes = ArrayHelper::getColumn($sedesNiveles, 'id_sedes' );
-					
-					//nombre de la sede segun $idSedes
-					$nombreSede = Sedes::find()->where('id='.$idSedes[0])->all();
-					$nombreSede = ArrayHelper::getColumn($nombreSede, 'descripcion' );
-					
-					//nombre del nivel segun $idNiveles
-					$nombreNivel = Niveles::find()->where('id='.$idNiveles[0])->all();
-					$nombreNivel = ArrayHelper::getColumn($nombreNivel, 'descripcion' );
-										
-					$nombreSede = implode(',',$nombreSede);
-					$nombreNivel = implode(',',$nombreNivel);
-										
-					// echo $nombreNivel;
-					return $nombreSede.'-'.$nombreNivel;
-				},
-				
-			],
-            
-			[
-				'attribute'=>'id_asignaturas',
-				'value' => function( $model )
-				{
-					$asignaturas = Asignaturas::findOne($model->id_asignaturas);
-					return $asignaturas ? $asignaturas->descripcion : '';
-				}, //para buscar por el nombre
-				'filter' 	=> ArrayHelper::map(Asignaturas::find()->all(), 'id', 'descripcion' ),
-				
-			],
+			
+			'sede',
+			'niveles',
+			'asignaturas',
             'intensidad',
 
             ['class' => 'yii\grid\ActionColumn'],

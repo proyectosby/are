@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
 	<?= Html::a('Agregar', [
 									'create',
-									'idInstitucion' => $idInstitucion, 
 								], 
 								['class' => 'btn btn-success'
 		]) ?>

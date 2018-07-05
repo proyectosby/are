@@ -1,5 +1,19 @@
 <?php
 
+
+/**********
+Versión: 001
+Fecha: 27-03-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD infraestructura educativa
+---------------------------------------
+Modificaciones:
+Fecha: 27-03-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - eliminacion de seleccion de institucion
+---------------------------------------
+**********/
+
 namespace app\controllers;
 
 if(@$_SESSION['sesion']=="si")
@@ -47,10 +61,11 @@ class InfraestructuraEducativaController extends Controller
 	
 	
 	
-	public function obtenerSedes($idInstitucion)
+	public function obtenerSedes()
 	{
+		$idInstitucion = $_SESSION['instituciones'][0];
 		$sedes = new Sedes();
-		$sedes = $sedes->find()->where('id_instituciones='.$idInstitucion)->all();
+		$sedes = $sedes->find()->where("id_instituciones=$idInstitucion")->all();
 		$sedes = ArrayHelper::map($sedes,'id','descripcion');
 		
 		return $sedes;
@@ -65,46 +80,33 @@ class InfraestructuraEducativaController extends Controller
 		return $estados;
 	}
 	
-	public function actionListarInstituciones( $idInstitucion = 0 )
-    {
-        return $this->render('listarInstituciones',[
-			'idInstitucion' => $idInstitucion,
-		] );
-    }
+	
 
     /**
      * Lists all InfraestructuraEducativa models.
      * @return mixed
      */
-    public function actionIndex($idInstitucion = 0)
+    public function actionIndex()
     {
-		if( $idInstitucion != 0)
-		{
+		$idInstitucion = $_SESSION['instituciones'][0];
 			
-			//Muestra solo las sedes que tenga esa institucion
-			$searchModel = new InfraestructuraEducativaBuscar();
-			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);			
-			$dataProvider->query->select 	("ie.*");
-			$dataProvider->query->from	 	( 'infraestructura_educativa as ie, sedes as se');
-			$dataProvider->query->andwhere	( " ie.id_sede = se.id
-												AND se.id_instituciones = $idInstitucion
-												AND ie.estado = 1
-											");
-		
+		//Muestra solo las sedes que tenga esa institucion
+		$searchModel = new InfraestructuraEducativaBuscar();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);			
+		$dataProvider->query->select 	("ie.*");
+		$dataProvider->query->from	 	( 'infraestructura_educativa as ie, sedes as se');
+		$dataProvider->query->andwhere	( " ie.id_sede = se.id
+											AND se.id_instituciones = $idInstitucion
+											AND ie.estado = 1
+										");
+	
 
-			return $this->render('index', [
-				'dataProvider' => $dataProvider,
-				'searchModel' => $searchModel,
-				'idInstitucion' => $idInstitucion,
-				]);
-		}
-		else
-		{
-			// Si el id de institucion o de sedes es 0 se llama a la vista listarInstituciones
-			 return $this->render('listarInstituciones',[
-				'idInstitucion' => $idInstitucion,
-			] );
-		}
+		return $this->render('index', [
+			'dataProvider' => $dataProvider,
+			'searchModel' => $searchModel,
+			'idInstitucion' => $idInstitucion,
+			]);
+		
 
     }
 
@@ -126,8 +128,9 @@ class InfraestructuraEducativaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idInstitucion)
+    public function actionCreate()
     {
+		$idInstitucion = $_SESSION['instituciones'][0];
         $model = new InfraestructuraEducativa();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -160,8 +163,7 @@ class InfraestructuraEducativaController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 		
-		$idInstitucion = Sedes::findOne($model->id_sede);
-		$idInstitucion = $idInstitucion ? $idInstitucion->id_instituciones : '';  
+		$idInstitucion = $_SESSION['instituciones'][0]; 
 		
 		
 		$sedes = $this->obtenerSedes($idInstitucion);
@@ -188,8 +190,7 @@ class InfraestructuraEducativaController extends Controller
     {
         $model = $this->findModel($id);
 		
-		$idInstitucion = Sedes::findOne($model->id_sede);
-		$idInstitucion = $idInstitucion ? $idInstitucion->id_instituciones : '';
+		$idInstitucion = $_SESSION['instituciones'][0];
 		
 		$model->estado = 2;
 		$model->update(false);
