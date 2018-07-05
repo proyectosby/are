@@ -133,6 +133,8 @@ class VinculacionDocentesController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
+		
 		$estadosData 	= Estados::find()->all();
 		$estados		= ArrayHelper::map( $estadosData, 'id', 'descripcion' );
 		
@@ -148,7 +150,6 @@ class VinculacionDocentesController extends Controller
 										->all();
 		$personas	 	= ArrayHelper::map( $personasData, 'id', 'nombres' );
 		
-        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

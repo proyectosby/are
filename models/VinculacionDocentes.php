@@ -37,6 +37,7 @@ class VinculacionDocentes extends \yii\db\ActiveRecord
         return [
             [['resolucion_desde'], 'safe'],
             [['id_perfiles_x_personas_docentes', 'id_tipos_contratos', 'estado'], 'default', 'value' => null],
+            [['id_perfiles_x_personas_docentes'], 'required' ],
             [['id_perfiles_x_personas_docentes', 'id_tipos_contratos', 'estado'], 'integer'],
             [['resolucion_numero', 'antiguedad'], 'string', 'max' => 30],
             [['id_perfiles_x_personas_docentes'], 'exist', 'skipOnError' => true, 'targetClass' => Docentes::className(), 'targetAttribute' => ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']],

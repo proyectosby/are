@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 use fedemotta\datatables\DataTables;
+use app\models\Personas;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectosPedagogicosTransversalesBuscar */
@@ -63,7 +64,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'codigo_grupo',
             'nombre_grupo',
-            'coordinador',
+			[
+				'attribute' => 'coordinador',
+				'value' 	=> function( $model ){
+					$persona = Personas::findOne( $model->coordinador );
+					return $persona ? $persona->nombres.' '.$persona->apellidos : '' ;
+				},
+			],
             'area',
             //'correo',
             //'celular',

@@ -106,9 +106,21 @@ class ConvocatoriasController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+		
+		$idSede 		= $_SESSION['sede'][0];
+		$idInstitucion 	= $_SESSION['instituciones'][0];
+		
+		$sede		= Sedes::findOne( $idSede );
+		
+		$estadoData		= Estados::find()
+							->where( 'id=1' )
+							->all();
+		$estados		= ArrayHelper::map( $estadoData, 'id', 'descripcion' );
 
         return $this->render('update', [
-            'model' => $model,
+            'model' 	=> $model,
+            'sede' 		=> $sede,
+            'estados' 	=> $estados,
         ]);
     }
 
