@@ -11,18 +11,7 @@ Cambios realizados: Se agrega filtro por AREAS DE ENSEÑANZA al CRUD
 
 $( document ).ready(function() {
 	
-	
-	var url = window.location.href;
-	if (url.indexOf('update')!=-1) 
-	{
-		llenarListas(idModelo);
-		// setTimeout( function(){ llenarListaAsignatura( idModelo ) }, 1000 );
-		
-	}
-	else
-	{
-		llenarListas();
-	}
+	llenarListas(idModelo);
 });
 
 

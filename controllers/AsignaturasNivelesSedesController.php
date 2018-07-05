@@ -16,6 +16,11 @@ Se agrega método actionAsignaturasXNivelesSedes
 Modificaciones:
 Fecha: 27-03-2018
 Se agrega método actionAsignaturasXNivelesSedes
+---------------------------------------
+Modificaciones:
+Fecha: 05-06-2018
+Persona encargada: Oscar David Lopez Villa
+Cambios realizados:cambio en el ActionIndex por SqlDataProvider
 **********/
 
 namespace app\controllers;
@@ -41,6 +46,7 @@ use yii\filters\VerbFilter;
 use app\models\Asignaturas;
 use	yii\helpers\ArrayHelper;
 use	yii\helpers\Json;
+use yii\data\SqlDataProvider;
 
 /**
  * AsignaturasNivelesSedesController implements the CRUD actions for AsignaturasNivelesSedes model.
@@ -61,6 +67,7 @@ class AsignaturasNivelesSedesController extends Controller
             ],
         ];
     }
+	
 	
 	public function actionAsignaturasXNivelesSedes( $idNivel ){
 		
@@ -83,11 +90,29 @@ class AsignaturasNivelesSedesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AsignaturasNivelesSedesBuscar();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // $searchModel = new AsignaturasNivelesSedesBuscar();
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       
+	   $sql ="
+		SELECT ans.id,s.descripcion as sede,n.descripcion as niveles, a.descripcion as asignaturas, ans.intensidad as intensidad
+		FROM asignaturas_x_niveles_sedes as ans, asignaturas as \"a\", sedes_niveles as sn, sedes as s, niveles as n 
+		WHERE ans.id_asignaturas = a.id
+		AND ans.id_sedes_niveles = sn.id
+		AND sn.id_sedes = s.id
+		AND s.id = 48
+		AND sn.id_niveles = n.id
+		group by ans.id,s.descripcion ,n.descripcion, a.descripcion
+		order by ans.id
+			 
+		   ";		
+		$dataProvider = new SqlDataProvider([
+				'sql' => $sql,
+				'key'=>'id',
+				
+			]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -155,7 +180,7 @@ class AsignaturasNivelesSedesController extends Controller
 		$result = $command->queryAll();
 		
 		
-		$data['areas'][]="<option value='0'>Seleccione..</option>";
+		$data['areas'][]="<option value=''>Seleccione..</option>";
 		foreach ($result as $row) {
 			$id 		 = $row['id'];
 			$descripcion = $row['descripcion'];
@@ -197,7 +222,7 @@ class AsignaturasNivelesSedesController extends Controller
 		$result = $command->queryAll();
 		
 		
-		$data['niveles'][]="<option value='0'>Seleccione..</option>";
+		$data['niveles'][]="<option value=''>Seleccione..</option>";
 		foreach ($result as $row) {
 			$id =  $row['id'];
 			$descripcion = $row['descripcion'];
@@ -215,7 +240,7 @@ class AsignaturasNivelesSedesController extends Controller
 		$result = $command->queryAll();
 		
 		
-		$data['asignaturas'][]="<option value='0'>Seleccione..</option>";
+		$data['asignaturas'][]="<option value=''>Seleccione..</option>";
 		foreach ($result as $row) {
 			$id =  $row['id'];
 			$descripcion = $row['descripcion'];
