@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		'generos'=>$generos, 	 	 	
 		'estadosCiviles'=>$estadosCiviles,
 		'municipios'=>$municipios,
-		'barriosVeredas'=>$barriosVeredas,
 		'clave'=>$clave,
 		'perfiles'=>$perfiles,
 		'perfilesTable'=>$perfilesTable,

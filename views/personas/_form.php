@@ -167,8 +167,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/personas.js',['depends' =
 		<br>
 		<?= $form->field($model, 'id_municipios')->dropDownList($municipios, ['prompt'=>'Seleccione...']) ?>
 		
-		<?= $form->field($model, 'id_barrios_veredas')->dropDownList($barriosVeredas, ['prompt'=>'Seleccione...']) ?>
-
+		<?= $form->field($model, 'comuna')->dropDownList([], ['prompt'=>'Seleccione...']) ?>
+		
+		<?= $form->field($model, 'id_barrios_veredas')->dropDownList([], ['prompt'=>'Seleccione...']) ?>
+		
 		<?= $form->field($model, 'latitud')->textInput(['placeholder'=> 'Digite la latitud', 'id' =>'txtLat']) ?>
 
 		<?= $form->field($model, 'longitud')->textInput(['placeholder'=> 'Digite la longitud', 'id' =>'txtLon']) ?>

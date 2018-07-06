@@ -22,8 +22,15 @@ $this->params['breadcrumbs'][] = 'Modificar';
 // print_r($perfilesSelected);
 // $perfilesSelected = implode(",",$perfilesSelected);
 // echo $perfilesSelected;
+
+
+ 
 ?>
 
+<script>
+	selectIdcomuna = <?php echo $model->comuna; ?>;
+	selectIdBarrios = <?php echo $model->id_barrios_veredas; ?>;
+</script>
 
 <div class="personas-update">
 
@@ -37,7 +44,6 @@ $this->params['breadcrumbs'][] = 'Modificar';
 		'generos'=>$generos, 	 	 	
 		'estadosCiviles'=>$estadosCiviles,
 		'municipios'=>$municipios,
-		'barriosVeredas'=>$barriosVeredas,
 		'clave'=>$clave,
 		'perfiles'=>$perfiles,
 		'perfilesTable'=>$perfilesTable,

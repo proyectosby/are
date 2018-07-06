@@ -1,16 +1,9 @@
 $( document ).ready(function() {
     
-	
 	$( "#datosGenerales-tab" ).trigger( "click" );
+	$( "#personas-id_municipios" ).trigger( "change" );
 	
-	// $("#formaciones-tab").click(function(){ 
-			 // $("#formaciones").load("../web/index.php?r=personas-formaciones"); 
-			 
-			
-		// });
-		
 		llenarPerfilesSelected();
-	
 });
 
 /**
@@ -39,6 +32,44 @@ function llenarPerfilesSelected(){
 
 			} 
 	}
-		
-	
 }
+
+//llenar las comunas segun el municipio que seleccione
+$( "#personas-id_municipios" ).change(function() 
+{
+	
+	idMunicipio = $( "#personas-id_municipios" ).val();
+	
+	if(idMunicipio != "")
+	{
+		$.get( "index.php?r=personas/comunas&idMunicipio="+idMunicipio,
+				function( data )
+					{			
+						$("#personas-comuna").append(data);
+						$("#personas-comuna").val(selectIdcomuna)
+						$( "#personas-comuna" ).trigger( "change" );										
+					},
+			"json");   
+	}
+});
+
+//llenar los barrios segun la comuna que seleccione
+$( "#personas-comuna" ).change(function() 
+{
+	idComunas = $( "#personas-comuna" ).val();
+	alert
+	if(idMunicipio != "")
+	{
+		$.get( "index.php?r=personas/barrios&idComunas="+idComunas,
+				function( data )
+					{	
+						
+						$("#personas-id_barrios_veredas").append(data);
+						$("#personas-id_barrios_veredas").val(selectIdBarrios);
+					},
+			"json");   
+	}
+});
+
+
+

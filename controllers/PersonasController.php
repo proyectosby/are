@@ -38,6 +38,7 @@ use app\models\Generos;
 use app\models\Estados;
 use app\models\Municipios;
 use app\models\BarriosVeredas;
+use app\models\ComunasCorregimientos;
 use app\models\Perfiles;
 use app\models\PerfilesXPersonas;
 
@@ -88,6 +89,35 @@ class PersonasController extends Controller
 		];
 		
 		return $arrayRH;
+	}
+	 
+	public function actionComunas($idMunicipio)
+	{
+		$comunasCorregimientos = new ComunasCorregimientos();
+		$comunasCorregimientos = $comunasCorregimientos->find()->where("id_municipios=$idMunicipio")->all();
+		$comunasCorregimientos = ArrayHelper::map($comunasCorregimientos,'id','descripcion');
+				
+		foreach ($comunasCorregimientos as $c => $v)
+		{
+			$data[]="<option value=$c>$v</option>";
+		}
+		
+		echo json_encode( $data);
+	}
+	
+	public function actionBarrios($idComunas)
+	{
+		$barriosVeredas = new BarriosVeredas();
+		$barriosVeredas = $barriosVeredas->find()->where("id_comunas_corregimientos=$idComunas")->all();
+		$barriosVeredas = ArrayHelper::map($barriosVeredas,'id','descripcion');
+				
+		$data = array();
+		foreach ($barriosVeredas as $c => $v)
+		{
+			$data[]="<option value=$c>$v</option>";
+		}
+		
+		echo json_encode( $data);
 	}
 	 
     public function actionIndex()
@@ -156,17 +186,10 @@ class PersonasController extends Controller
 		
 		//se crea una instancia del modelo municipios
 		$municipiosTable 		 	= new Municipios();
-		//se traen los datos de municipios
+		//se traen los datos de municipios del valle
 		$datamunicipios		 	= $municipiosTable->find()->where( 'id_departamentos = 24' )->all();
 		//se guardan los datos en un array
 		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
-		
-		//se crea una instancia del modelo barriosVeredas
-		$barriosVeredasTable 		 	= new BarriosVeredas();
-		//se traen los datos de barriosVeredas
-		$databarriosVeredas		 	= $barriosVeredasTable->find()->all();
-		//se guardan los datos en un array
-		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
 		
 		//se crea una instancia del modelo perfiles
 		$perfilesTable 		 	= new Perfiles();
@@ -226,7 +249,6 @@ class PersonasController extends Controller
 			'generos'=>$generos,
 			'estados'=>$estados,
 			'municipios'=>$municipios,
-			'barriosVeredas'=>$barriosVeredas,
 			'perfiles'=>$perfiles,
 			'perfilesTable'=>$perfilesTable,
 			'arrayGrupoSanguineo'=>$this->grupoSanguineo(),
@@ -281,12 +303,7 @@ class PersonasController extends Controller
 		//se guardan los datos en un array
 		$municipios	 	 	 	= ArrayHelper::map( $datamunicipios, 'id', 'descripcion' );
 		
-		//se crea una instancia del modelo barriosVeredas
-		$barriosVeredasTable 		 	= new BarriosVeredas();
-		//se traen los datos de barriosVeredas
-		$databarriosVeredas		 	= $barriosVeredasTable->find()->all();
-		//se guardan los datos en un array
-		$barriosVeredas	 	 	 	= ArrayHelper::map( $databarriosVeredas, 'id', 'descripcion' );
+	
 		
 		/**
 		* Se trae el id perfiles por persona //-----------------------------------------
@@ -437,7 +454,6 @@ class PersonasController extends Controller
 			'generos'=>$generos,
 			'estados'=>$estados,
 			'municipios'=>$municipios,
-			'barriosVeredas'=>$barriosVeredas,
 			'perfiles'=>$perfiles,
 			'perfilesTable'=>$perfilesTable,
 			'perfilesSelected'=>$perfilesSelected,
