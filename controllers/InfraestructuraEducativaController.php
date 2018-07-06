@@ -64,8 +64,9 @@ class InfraestructuraEducativaController extends Controller
 	public function obtenerSedes()
 	{
 		$idInstitucion = $_SESSION['instituciones'][0];
+		$idSedes = $_SESSION['sede'][0];
 		$sedes = new Sedes();
-		$sedes = $sedes->find()->where("id_instituciones=$idInstitucion")->all();
+		$sedes = $sedes->find()->where("id_instituciones=$idInstitucion and id =$idSedes ")->all();
 		$sedes = ArrayHelper::map($sedes,'id','descripcion');
 		
 		return $sedes;

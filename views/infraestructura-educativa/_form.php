@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_sede')->DropDownList($sedes,["prompt"=>"Seleccione..."]) ?>
+    <?= $form->field($model, 'id_sede')->DropDownList($sedes) ?>
 
     <?= $form->field($model, 'objeto_intervencion')->checkbox() ?>
 
