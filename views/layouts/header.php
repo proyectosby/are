@@ -113,7 +113,7 @@ use app\models\Instituciones;
                                 </li>-->
                           <!--  </ul>-->
                        <!-- </li>-->
-                        <li class="footer"><a href="index.php">Cambiar Institucion y sede</a></li>
+                        <li class="footer"><a href="index.php">Cambiar Institución y sede</a></li>
                     </ul>
                 </li>
                 <li class="dropdown notifications-menu">
@@ -261,7 +261,7 @@ use app\models\Instituciones;
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-16 text-center">
-                                <a href="index.php"><b>Cambiar Institucion - Sede</b></a>
+                                <a href="index.php"><b>Cambiar Institución y Sede</b></a>
                             </div>
                             <!--<div class="col-xs-4 text-center">
                                 <a href="#">Sales</a>
