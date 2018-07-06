@@ -4,6 +4,10 @@ Versión: 001
 Fecha: 19-06-2018
 ---------------------------------------
 Modificaciones:
+Fecha: 05-07-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: Se deja el Data table en español
+---------------------------------------
 Fecha: 18-06-2018
 Persona encargada: Edwin Molina Grisales
 Cambios realizados: Se corrigen queires
@@ -252,6 +256,39 @@ $dataProvider = new ArrayDataProvider([
     <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'clientOptions' => [
+			'language'=>[
+					'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+				],
+			"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+			"info"=>false,
+			"responsive"=>true,
+			 "dom"=> 'lfTrtip',
+			 "tableTools"=>[
+				 "aButtons"=> [  
+					// [
+					// "sExtends"=> "copy",
+					// "sButtonText"=> Yii::t('app',"Copiar")
+					// ],
+					// [
+					// "sExtends"=> "csv",
+					// "sButtonText"=> Yii::t('app',"CSV")
+					// ],
+					[
+					"sExtends"=> "xls",
+					"oSelectorOpts"=> ["page"=> 'current']
+					],
+					[
+					"sExtends"=> "pdf",
+					"oSelectorOpts"=> ["page"=> 'current']
+					],
+					// [
+					// "sExtends"=> "print",
+					// "sButtonText"=> Yii::t('app',"Imprimir")
+					// ],
+				],
+			 ],
+		],
         'columns' => $columns,
     ]); ?>
 </div>

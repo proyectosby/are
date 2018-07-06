@@ -33,6 +33,7 @@ class DirectorParalelo extends \yii\db\ActiveRecord
     {
         return [
             [['id_paralelo', 'id_perfiles_x_personas_docentes', 'estado'], 'default', 'value' => null],
+            [['id_paralelo'], 'required' ],
             [['id_paralelo', 'id_perfiles_x_personas_docentes', 'estado'], 'integer'],
             [['id_perfiles_x_personas_docentes'], 'exist', 'skipOnError' => true, 'targetClass' => Docentes::className(), 'targetAttribute' => ['id_perfiles_x_personas_docentes' => 'id_perfiles_x_personas']],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],

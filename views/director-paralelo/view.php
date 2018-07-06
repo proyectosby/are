@@ -17,6 +17,10 @@ Descripción: CRUD Director paralelo (grupo)
 ---------------------------------------
 Modificaciones:
 Fecha: 13-04-2018
+Persona encargada: Edwin Molina Grisales
+Cambios realizados: - La institución y la sede se toman de acuerdo a la sessión
+---------------------------------------
+Fecha: 13-04-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - se reemplazan los id por sus nombre correspondientes
 se cambias las etiquetas de los botones
@@ -38,21 +42,24 @@ use	yii\helpers\ArrayHelper;
 
 
 
-$connection = Yii::$app->getDb();
-//la sede y la institucion para la miga de pan
-$command = $connection->createCommand("
-SELECT sj.id_sedes as idsedes, s.id_instituciones as institucion
-FROM director_paralelo  as dp, paralelos as p, sedes_jornadas as sj, sedes as s
-where dp.id_paralelo = p.id
-and p.id_sedes_jornadas = sj.id
-and sj.id_sedes = s.id
-and dp.id = $model->id
-group by sj.id_sedes, s.id_instituciones
-");
-$result = $command->queryAll();
+// $connection = Yii::$app->getDb();
+// //la sede y la institucion para la miga de pan
+// $command = $connection->createCommand("
+// SELECT sj.id_sedes as idsedes, s.id_instituciones as institucion
+// FROM director_paralelo  as dp, paralelos as p, sedes_jornadas as sj, sedes as s
+// where dp.id_paralelo = p.id
+// and p.id_sedes_jornadas = sj.id
+// and sj.id_sedes = s.id
+// and dp.id = $model->id
+// group by sj.id_sedes, s.id_instituciones
+// ");
+// $result = $command->queryAll();
 
-$idSedes = $result[0]['idsedes'];
-$idInstitucion = $result[0]['institucion'];
+// $idSedes = $result[0]['idsedes'];
+// $idInstitucion = $result[0]['institucion'];
+
+$idInstitucion 	= $_SESSION['instituciones'][0];
+$idSedes 		= $_SESSION['sede'][0];
 
 
 $nombreSede = new Sedes();

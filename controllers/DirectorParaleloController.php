@@ -272,28 +272,29 @@ class DirectorParaleloController extends Controller
      */
     public function actionDelete($id)
     {
-		$connection = Yii::$app->getDb();
-		//la sede y la institucion para la miga de pan
-		$command = $connection->createCommand("
-		SELECT sj.id_sedes as idsedes, s.id_instituciones as institucion
-		FROM director_paralelo  as dp, paralelos as p, sedes_jornadas as sj, sedes as s
-		where dp.id_paralelo = p.id
-		and p.id_sedes_jornadas = sj.id
-		and sj.id_sedes = s.id
-		and dp.id = $id
-		group by sj.id_sedes, s.id_instituciones
-		");
-		$result = $command->queryAll();
+		// $connection = Yii::$app->getDb();
+		// //la sede y la institucion para la miga de pan
+		// $command = $connection->createCommand("
+		// SELECT sj.id_sedes as idsedes, s.id_instituciones as institucion
+		// FROM director_paralelo  as dp, paralelos as p, sedes_jornadas as sj, sedes as s
+		// where dp.id_paralelo = p.id
+		// and p.id_sedes_jornadas = sj.id
+		// and sj.id_sedes = s.id
+		// and dp.id = $id
+		// group by sj.id_sedes, s.id_instituciones
+		// ");
+		// $result = $command->queryAll();
 
-		$idSedes = $result[0]['idsedes'];
-		$idInstitucion = $result[0]['institucion'];
+		// $idSedes = $result[0]['idsedes'];
+		// $idInstitucion = $result[0]['institucion'];
 		
 		$model = $this->findModel($id);
 		$model->estado = 2;
 		$model->update(false);
 		
 
-       return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes ]);
+       // return $this->redirect(['index', 'idInstitucion' => $idInstitucion, 'idSedes' => $idSedes ]);
+       return $this->redirect(['index']);
     }
 
     /**
