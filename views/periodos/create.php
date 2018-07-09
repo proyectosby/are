@@ -16,6 +16,11 @@ Desarrollador: Oscar David Lopez
 Descripción: CRUD de AsignaturasNivelesSedes
 ---------------------------------------
 Modificaciones:
+Modificaciones:
+Fecha: 08-07-2018
+Persona encargada: Edwin Molina
+Cambios realizados: - Se revisa el titulo de los breadcrumbs
+---------------------------------------
 Fecha: 16-03-2018
 Persona encargada: Oscar David Lopez
 Cambios realizados: - Miga de pan
@@ -39,7 +44,7 @@ $nombreSede = $nombreSede[$idSedes];
 
 $this->title = 'Agregar';
 $this->params['breadcrumbs'][] = [
-									'label' => 'Asignaturas', 
+									'label' => 'Periodos', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 

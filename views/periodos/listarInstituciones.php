@@ -17,6 +17,10 @@ Desarrollador: Edwin Molina Grisales
 Descripción: CRUD periodos
 ---------------------------------------
 Modificaciones:
+Fecha: 08-07-2018
+Persona encargada: Edwin Molina
+Cambios realizados: - Se revisa el titulo de los breadcrumbs
+---------------------------------------
 Fecha: 16-03-2018
 Persona encargada: Oscar David Lopez Villa
 Cambios realizados: - Se lista las instituciones y las sedes y luego de seleccionar ambas se llama a la vista index por el controlador
