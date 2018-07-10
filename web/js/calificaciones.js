@@ -3,6 +3,10 @@ Versión: 001
 Fecha: 04-04-2018
 ---------------------------------------
 Modificaciones:
+Fecha: 09-07-2018
+Persona encargada: Edwin Molina Grisales
+Se consulta las faltas del estudiante
+---------------------------------------
 Fecha: 04-04-2018
 Persona encargada: Edwin Molina Grisales
 Se muestra el código de los indicadores y se mejora la carga y mostrada de las notas
@@ -32,7 +36,48 @@ $( document ).ready(function() {
 	
 	llenarComboDocentes();
 	
+	$( "#selPeriodo" ).change(function(x){
+			consultarInasistencias();
+	});
 });
+
+/**
+ * Funcion llenar los estudiante por paralelo
+ * 
+ * param Parámetro: id del paralelo
+ * return Tipo de retorno: Los estudiantes que tiene el paralelo seleccionado
+ * author : Oscar David Lopez villa
+ * exception : No tiene excepciones.
+ */
+function consultarInasistencias()
+{	
+	//Dejo todos los campos falta en vacio
+	$( ".falta" ).each( function(){
+		$( this ).val('');
+	})
+
+	//Si los campos no son mayores a 1 no se hace la consulta
+	if( $( "#selDocentes" ).val()*1 < 1 && $( "#selGrupo" ).val()*1 < 1 && $( "#selMateria" ).val()*1 < 1 ){
+		return;
+	}
+	
+	//consulta los estudiantes que tiene ese paralelo 
+	$.get( "index.php?r=calificaciones/consultar-inasitencias&docente="+$( "#selDocentes" ).val()+"&grupo="+$( "#selGrupo" ).val()+"&asignatura="+$( "#selMateria" ).val()+"&periodo="+$( "#selPeriodo" ).val(), 
+			function( data )
+			{
+				$( data ).each(function(x){
+					try{
+						$( "tr[estudiante="+this.id+"] .falta" ).val( this.total );
+					}
+					catch(e){
+						console.log("Error al consultar las inasistencias");
+						console.log(e);
+					}
+				})
+			},
+	"json");
+		
+}
 
 
 function notaFinal(obj)
@@ -729,6 +774,8 @@ $("#selMateria").change(function(){
 					pintarTabla( datosTitulosIndicadores, listaEstudiantes, indicadoresOrdenados );
 					
 					cargarCalificacionAEstudiantes( indicadoresOrdenados );
+					
+					consultarInasistencias();
 				},
 		"json");
 });

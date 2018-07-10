@@ -1,4 +1,16 @@
 <?php
+
+/**********
+Versión: 001
+Fecha: 06-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 08-07-2018
+Persona encargada: Edwin Molina
+Cambios realizados: - Se revisa el titulo de los breadcrumbs
+---------------------------------------
+**********/
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -22,10 +34,10 @@ $nombreSede = $nombreSede->find()->where('id='.$idSedes)->all();
 $nombreSede = ArrayHelper::map($nombreSede,'id','descripcion');
 $nombreSede = $nombreSede[$idSedes];
 
-$this->title = 'Actualizar';
-$this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
+$this->title = 'Modificar periodo:';
+// $this->params['breadcrumbs'][] = ['label' => 'Periodos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = [
-									'label' => 'Asignaturas', 
+									'label' => 'Periodos', 
 									'url' => [
 												'index',
 												'idInstitucion' => $idInstitucion, 
@@ -33,7 +45,7 @@ $this->params['breadcrumbs'][] = [
 											 ]
 								 ];
 
-$this->params['breadcrumbs'][] = 'Actualizar';
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="periodos-update">
 

@@ -1,4 +1,15 @@
 <?php
+/**********
+Versión: 001
+Fecha: 17-03-2018
+---------------------------------------
+Modificaciones:
+Fecha: 08-07-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Se agrega script para validar que la fecha inicial no sea mayor a la fecha final
+---------------------------------------
+**********/
+
 if(@$_SESSION['sesion']=="si")
 { 
 	// echo $_SESSION['nombre'];
@@ -14,6 +25,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\datepicker\DatePicker;
 
+$this->registerJsFile(
+    '@web/js/periodos.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Periodos */
 /* @var $form yii\widgets\ActiveForm */
@@ -28,26 +44,26 @@ use dosamigos\datepicker\DatePicker;
     <?= $form->field($model, 'fecha_inicio')->widget(
     DatePicker::className(), [
         
-         // modify template for custom rendering
-        'template' => '{addon}{input}',
-		    'language' => 'es',
-        'clientOptions' => [
-            'autoclose' => true,
-            'format' => 'yyyy-mm-dd'
-        ]
-]);  ?>
+		 // modify template for custom rendering
+		'template' => '{addon}{input}',
+		'language' => 'es',
+		'clientOptions' => [
+			'autoclose' => true,
+			'format' 	=> 'yyyy-mm-dd',
+		],
+	]);  ?>
 
     <?= $form->field($model, 'fecha_fin')->widget(
     DatePicker::className(), [
         
-         // modify template for custom rendering
-        'template' => '{addon}{input}',
-		    'language' => 'es',
-        'clientOptions' => [
-            'autoclose' => true,
-            'format' => 'yyyy-mm-dd'
-        ]
-]); ?>
+		 // modify template for custom rendering
+		'template' => '{addon}{input}',
+		'language' => 'es',
+		'clientOptions' => [
+			'autoclose' => true,
+			'format' => 'yyyy-mm-dd',
+		]
+	]); ?>
 	
 	<?= $form->field($model, 'estado')->dropDownList($estados) ?>
 	

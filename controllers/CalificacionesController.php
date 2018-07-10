@@ -4,6 +4,10 @@ Versión: 001
 Fecha: 04-04-2018
 ---------------------------------------
 Modificaciones:
+Fecha: 09-07-2018
+Persona encargada: Edwin Molina Grisales
+Se consulta las faltas del estudiante
+---------------------------------------
 Fecha: 27-03-2018
 Persona encargada: Edwin Molina Grisales
 Al guardar una nota se deja la fecha de modificación a la actual
@@ -49,6 +53,67 @@ class CalificacionesController extends Controller
             ],
         ];
     }
+	
+	//retorna todos los docentes de la base de datos
+	public function actionConsultarInasitencias( $docente, $grupo, $asignatura, $periodo )
+	{
+		// echo '-'.$docente, '-'.$grupo, '-'.$asignatura, '-'.$periodo;
+		// exit();
+		
+		if( empty($periodo) || $periodo == 0 ){
+			$sql = "SELECT i.id_perfiles_x_personas_estudiantes, count(*) as total
+					  FROM perfiles_x_personas as pp,
+						   asignaturas_x_niveles_sedes as ans,
+						   distribuciones_academicas as da,
+						   inasistencias as i
+					 WHERE da.id_paralelo_sede=".$grupo."
+					   AND da.estado=1
+					   AND ans.id_asignaturas=".$asignatura."
+					   AND da.id_perfiles_x_personas_docentes=".$docente."
+					   AND pp.id=i.id_perfiles_x_personas_estudiantes
+					   AND ans.id=da.id_asignaturas_x_niveles_sedes
+					   AND i.id_distribuciones_academicas=da.id
+					   AND i.estado=1
+				  GROUP BY i.id_perfiles_x_personas_estudiantes
+				";
+		}
+		else{
+			$sql = "SELECT i.id_perfiles_x_personas_estudiantes, count(*) as total
+					  FROM perfiles_x_personas as pp,
+						   asignaturas_x_niveles_sedes as ans,
+						   distribuciones_academicas as da,
+						   inasistencias as i,
+						   periodos as p
+					 WHERE da.id_paralelo_sede=".$grupo."
+					   AND da.estado=1
+					   AND ans.id_asignaturas=".$asignatura."
+					   AND da.id_perfiles_x_personas_docentes=".$docente."
+					   AND pp.id=i.id_perfiles_x_personas_estudiantes
+					   AND ans.id=da.id_asignaturas_x_niveles_sedes
+					   AND i.id_distribuciones_academicas=da.id
+					   AND i.estado=1
+					   AND p.id=".$periodo."
+					   AND i.fecha_ing::DATE BETWEEN p.fecha_inicio::DATE AND p.fecha_fin::DATE
+				  GROUP BY i.id_perfiles_x_personas_estudiantes
+				";
+		}
+		// echo "<pre>$sql</pre>";
+		$connection = Yii::$app->getDb();
+		//saber el nombre del docente
+		$command = $connection->createCommand($sql);
+		
+		$result = $command->queryAll();
+		
+		$faltas = [];
+		foreach ($result as $value)
+		{
+			$id 		= $value['id_perfiles_x_personas_estudiantes'];
+			$total 		= $value['total'];
+			$faltas[] 	= [ 'id' => $id, 'total' => $total ];
+		}
+		
+		echo json_encode($faltas);
+	}
 	
 	public function actionConsultarCalificaciones( $idDocente, $idIndicadorDesempeno ){
 		
