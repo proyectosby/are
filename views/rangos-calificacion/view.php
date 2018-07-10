@@ -39,7 +39,7 @@ $institucionNombre = $institucionNombre[$model->id_instituciones];
 /* @var $this yii\web\View */
 /* @var $model app\models\RangosCalificacion */
 
-$this->title = $institucionNombre;
+$this->title = 'Detalles';
 $this->params['breadcrumbs'][] = [
 									'label' => 'Rangos Calificaciones', 
 									'url' => [
