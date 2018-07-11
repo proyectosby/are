@@ -51,6 +51,7 @@ class RangosCalificacion extends \yii\db\ActiveRecord
             [['id_tipo_calificacion', 'id_instituciones', 'estado'], 'default', 'value' => null],
             [['id_tipo_calificacion', 'id_instituciones', 'estado'], 'integer'],
             [['valor_minimo', 'valor_maximo'], 'number'],
+            [['valor_minimo', 'valor_maximo'], 'required'],
             [['descripcion'], 'string', 'max' => 100],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
             [['id_instituciones'], 'exist', 'skipOnError' => true, 'targetClass' => Instituciones::className(), 'targetAttribute' => ['id_instituciones' => 'id']],

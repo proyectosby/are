@@ -27,7 +27,7 @@ $nombreinstitucion = $nombreinstitucion[$idInstitucion];
 /* @var $model app\models\RangosCalificacion */
 
 
-$this->title = $nombreinstitucion;
+$this->title = 'Agregar Rangos Calificacion';
 $this->params['breadcrumbs'][] = [
 									'label' => 'Rangos Calificaciones', 
 									'url' => [
