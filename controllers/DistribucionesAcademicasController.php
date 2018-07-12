@@ -219,14 +219,7 @@ class DistribucionesAcademicasController extends Controller
 			");
 			$result 	= $command->queryAll();
 			$horasMateria	= @$result[0]['count'];
-			
-			if($horasMateria+1 > $intensidadHoraria )
-			{
-				$data=array('error'=>1,'mensaje'=>"la materia no pueden superar la insentidad horaria ($intensidadHoraria)");
-				echo json_encode($data);
-				die;
-			}
-			
+					
 			
 			//id del dia del la celda que seleciona en el dataTable
 			$command 	= $connection->createCommand("SELECT id FROM dias WHERE descripcion ='$dia'");
@@ -286,6 +279,16 @@ class DistribucionesAcademicasController extends Controller
 					
 			if(strpos($_POST['informacionCelda'],"</insertar>") > 0)
 			{
+				
+				//intensiad horaria
+				if($horasMateria+1 > $intensidadHoraria )
+				{
+					$data=array('error'=>1,'mensaje'=>"la materia no pueden superar la insentidad horaria ($intensidadHoraria)");
+					echo json_encode($data);
+					die;
+				}
+				
+				
 				//insertar en distribuciones_x_bloques_x_dias
 				$command = $connection->createCommand
 				("
@@ -313,13 +316,41 @@ class DistribucionesAcademicasController extends Controller
 			}
 			elseif(strpos($_POST['informacionCelda'],"</actualizar=") > 0)
 			{
-				/***se valida que una materia no se asigne mas horas de las que se indican en al instensidad horaria*/
 				
-				//instensidad horaria
 				
 				$pos = strpos($_POST['informacionCelda'],"</actualizar=");
 				//id de la distribucion academica
 				$id  = substr($_POST['informacionCelda'],$pos+13);
+				
+				
+				/***se valida que una materia no se asigne mas horas de las que se indican en la instensidad horaria*/		
+
+
+				//Saber que asignatura se esta modificando
+				$command = $connection->createCommand
+				("
+					SELECT asig.descripcion
+					FROM distribuciones_academicas as da, asignaturas_x_niveles_sedes as ans, asignaturas as asig
+					where da.id_asignaturas_x_niveles_sedes = ans.id
+					and ans.id_asignaturas = asig.id
+					and da.id in ($id, $idDistribucion)
+				");
+				$result = $command->queryAll();
+				
+				//saber si las asignaturas son las mismas de ser asi no se comprueba la intensiad horaria
+				if(count ($result) == 1)
+				{}
+				else
+				{
+					//intensiad horaria
+					if($horasMateria+1 > $intensidadHoraria )
+					{
+						$data=array('error'=>1,'mensaje'=>"la materia no pueden superar la insentidad horaria ($intensidadHoraria)");
+						echo json_encode($data);
+						die;
+					}
+				}
+				
 				//borrar el registro
 				$command = $connection->createCommand
 				("
@@ -328,9 +359,6 @@ class DistribucionesAcademicasController extends Controller
 					and id_dias = $idDia
 				");
 				$result = $command->execute();
-				// echo " DELETE FROM distribuciones_x_bloques_x_dias
-				// WHERE id_bloques_sedes = $idBloqueXSede
-					// and id_dias = $idDia";
 					
 				//actualiza distribuciones_x_bloques_x_dias
 				//se ingresa nuevamente 
@@ -354,7 +382,7 @@ class DistribucionesAcademicasController extends Controller
 				echo json_encode($data);
 				die;
 			}
-			// return $this->redirect(['view', 'id' => $model->id]);
+			
 		}
 		
 		
@@ -666,7 +694,7 @@ class DistribucionesAcademicasController extends Controller
 			foreach($result as $r)
 			{
 				
-				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."</actualizar=".$r['id']."";
+				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/Borrar.png' width='20' height='20' onclick='borrarDA();'>"."</actualizar=".$r['id']."";
 			}
 			
 			
@@ -721,11 +749,39 @@ class DistribucionesAcademicasController extends Controller
 		return Json::encode( $result );
 	}
 	
-  public function actionListarBloques($idSede )
+  public function actionBorrarDA($bloque, $dia)
 	{
+		$connection = Yii::$app->getDb();
+		//id del dia del la celda que seleciona en el dataTable
+		$command 	= $connection->createCommand("SELECT id FROM dias WHERE descripcion ='$dia'");
+		$result 	= $command->queryAll();
+		$idDia 		= $result[0]['id'];
 		
+		$idSedes = $_SESSION['sede'][0];
 		
-		return Json::encode( $idSede );
+		//id del bloque del la celda que seleciona en el dataTable
+		$command 	= $connection->createCommand("SELECT sb.id 
+												FROM sedes_x_bloques as sb, bloques as b
+												WHERE sb.id_bloques = b.id
+												and b.descripcion ='$bloque'
+												and sb.id_sedes=$idSedes");
+		$result 	= $command->queryAll();
+		$idBloqueXSede	= $result[0]['id'];
+		
+		// echo "DELETE FROM distribuciones_x_bloques_x_dias
+			// WHERE id_bloques_sedes = $idBloqueXSede
+			// and id_dias = $idDia";
+			// die;
+		//borrar el registro de la distribucion academica seleccionada
+		$command = $connection->createCommand
+		("
+			DELETE FROM distribuciones_x_bloques_x_dias
+			WHERE id_bloques_sedes = $idBloqueXSede
+			and id_dias = $idDia
+		");
+		$borrado = $command->queryAll();
+		
+		return Json::encode( 1 );
 	
 	}
 	

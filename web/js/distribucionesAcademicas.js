@@ -12,8 +12,10 @@ Descripción: Horario con datatables
 
 */
 
-$( document ).ready(function() {
-    
+$( document ).ready(function() 
+{
+	//variable para saber si se borra la districion academica 
+	borrar="";
 	
 	modificar = $("#hidModificar").val();
 	asignaturas_distribucion=$("#hidAsig").val();
@@ -31,6 +33,12 @@ $("#distribucionesacademicas-id_perfiles_x_personas_docentes").change(function()
 {
   listarHorario(); 
 });
+
+//evento del boton de borrar
+function borrarDA()
+{		
+	borrar = "Si";
+}
 
 
 function listarHorario(){
@@ -108,6 +116,7 @@ function cargarInformacionEnTabla(data)
 		
 }
 
+
 //se obtiene el valor de la celda de dia y bloque
 	$('#tablaModulos').on( 'click', 'tbody td', function () 
 	{
@@ -116,7 +125,7 @@ function cargarInformacionEnTabla(data)
 		fila = "";
 		informacion = "";
 		
-		var  dataColumn = table.column( this).data();
+		var dataColumn = table.column( this).data();
 		var idx = table.cell( this ).index().row;
 		var datafila = table.cells( idx, '' ).render( 'display' );
 		
@@ -128,6 +137,26 @@ function cargarInformacionEnTabla(data)
 		
 		//saber que dato tiene la celda
 		informacion = table.cell( this ).data();
+		console.log(informacion);
+		//saber si se borara la distribucion academica borrar == "Si"
+		if (borrar == "Si")
+		{
+			pos  = informacion.indexOf("</actualizar=");
+			idDA = informacion.substr(pos+13);
+			
+			//borrar la DA
+			$.get( "index.php?r=distribuciones-academicas/borrar-d-a&bloque="+bloque+"&dia="+dia,
+				function( data )
+				{
+					listarHorario();
+				},
+			"json");
+
+			
+			borrar = "";
+			return false
+		}
+	
 		nivel = $("#selSedesNivel").val();
 		grupo = $("#distribucionesacademicas-id_paralelo_sede").val();
 		aula  = $("#distribucionesacademicas-id_aulas_x_sedes").val();
