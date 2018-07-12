@@ -6,7 +6,7 @@ Fecha: 04-04-2018
 Modificaciones:
 Fecha: 09-07-2018
 Persona encargada: Edwin Molina Grisales
-Se consulta las faltas del estudiante
+Se consulta las faltas del estudiante y se asocia el perido a las califiaciones
 ---------------------------------------
 Fecha: 27-03-2018
 Persona encargada: Edwin Molina Grisales
@@ -93,7 +93,7 @@ class CalificacionesController extends Controller
 					   AND i.id_distribuciones_academicas=da.id
 					   AND i.estado=1
 					   AND p.id=".$periodo."
-					   AND i.fecha_ing::DATE BETWEEN p.fecha_inicio::DATE AND p.fecha_fin::DATE
+					   AND i.fecha::DATE BETWEEN p.fecha_inicio::DATE AND p.fecha_fin::DATE
 				  GROUP BY i.id_perfiles_x_personas_estudiantes
 				";
 		}
@@ -115,7 +115,7 @@ class CalificacionesController extends Controller
 		echo json_encode($faltas);
 	}
 	
-	public function actionConsultarCalificaciones( $idDocente, $idIndicadorDesempeno ){
+	public function actionConsultarCalificaciones( $idDocente, $idIndicadorDesempeno, $periodo ){
 		
 		$val = [];
 		
@@ -127,19 +127,18 @@ class CalificacionesController extends Controller
 											// ->andWhere( 'calificaciones.id_perfiles_x_personas_docentes='.$idDocente )
 											// ->andWhere( 'calificaciones.id_distribuciones_x_indicador_desempeno='.$idIndicadorDesempeno )
 											// ->all();
-											
-											
-		
+													
 		$connection = Yii::$app->getDb();
 		//saber el nombre del docente
 		$command = $connection->createCommand("
-			SELECT calificaciones.id as id, ( p.nombres || ' ' || p.apellidos ) as nombres, calificaciones.calificacion as calificacion, pp.id as id_personas
-			  FROM calificaciones, perfiles_x_personas pp, personas p
-			 WHERE calificaciones.estado=1
-			   AND calificaciones.id_perfiles_x_personas_docentes=".$idDocente."
-			   AND calificaciones.id_distribuciones_x_indicador_desempeno=".$idIndicadorDesempeno."
-			   AND pp.id = calificaciones.id_perfiles_x_personas_estudiantes
+			SELECT c.id as id, ( p.nombres || ' ' || p.apellidos ) as nombres, c.calificacion as calificacion, pp.id as id_personas
+			  FROM calificaciones c, perfiles_x_personas pp, personas p
+			 WHERE c.estado=1
+			   AND c.id_perfiles_x_personas_docentes=".$idDocente."
+			   AND c.id_distribuciones_x_indicador_desempeno=".$idIndicadorDesempeno."
+			   AND pp.id = c.id_perfiles_x_personas_estudiantes
 			   AND p.id = pp.id_personas
+			   AND c.id_periodo = ".$periodo."
 		");
 		
 		$calificaciones = $command->queryAll();

@@ -5,7 +5,7 @@ Fecha: 04-04-2018
 Modificaciones:
 Fecha: 09-07-2018
 Persona encargada: Edwin Molina Grisales
-Se consulta las faltas del estudiante
+Se consulta las faltas del estudiante y se asocia el periodo a las calificaciones
 ---------------------------------------
 Fecha: 04-04-2018
 Persona encargada: Edwin Molina Grisales
@@ -53,7 +53,7 @@ function consultarInasistencias()
 {	
 	//Dejo todos los campos falta en vacio
 	$( ".falta" ).each( function(){
-		$( this ).val('');
+		$( this ).val(0);
 	})
 
 	//Si los campos no son mayores a 1 no se hace la consulta
@@ -138,7 +138,7 @@ function cargarCalificacionAEstudiantes( indicadoresDesempeno ){
 		
 			//llenar indicadores desempeño
 			
-			$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno, 
+			$.get( "index.php?r=calificaciones/consultar-calificaciones&idDocente="+idDocente+"&idIndicadorDesempeno="+idIndicadorDesempeno+"&periodo="+$( "#selPeriodo" ).val(), 
 					function( data )
 					{
 						try{
@@ -212,6 +212,7 @@ $( ".content a" ).click(function(){
 					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).data("id")*1,
 					fecha_modificacion						: "2018-03-21",
 					estado									: 1,
+					id_periodo								: $( "#selPeriodo" ).val(),
 				});
 			});
 		});
@@ -442,7 +443,7 @@ function llenarEstudiantes()
  * author : Viviana Rodas
  * exception : No tiene excepciones.
  */
-$("#selMateria").change(function(){ 
+$("#selPeriodo").change(function(){ 
 
 
 
@@ -643,7 +644,7 @@ $("#selMateria").change(function(){
 			//Faltas
 			table += "<td>"
 						+"<div class='form-group field-calificacionesbuscar-observaciones'>"
-							+"<input type='text' class='form-control falta'>"
+							+"<input type='text' class='form-control falta' disabled='disabled'>"
 						+"</div>"
 					+"</td>";
 					
