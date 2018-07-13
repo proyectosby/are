@@ -36,6 +36,8 @@ use kartik\editable\Editable;
 /* @var $this yii\web\View */
 /* @var $model app\models\DistribucionesAcademicas */
 /* @var $form yii\widgets\ActiveForm */
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/sweetalert2.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/distribucionesAcademicas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 

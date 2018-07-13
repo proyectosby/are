@@ -35,9 +35,11 @@ $("#distribucionesacademicas-id_perfiles_x_personas_docentes").change(function()
 });
 
 //evento del boton de borrar
-function borrarDA()
-{		
+function borrarDA(obj)
+{	
 	borrar = "Si";
+	
+	
 }
 
 
@@ -137,22 +139,35 @@ function cargarInformacionEnTabla(data)
 		
 		//saber que dato tiene la celda
 		informacion = table.cell( this ).data();
-		console.log(informacion);
-		//saber si se borara la distribucion academica borrar == "Si"
+	
+		
+		//saber si se borrara la distribucion academica borrar == "Si"
 		if (borrar == "Si")
 		{
-			pos  = informacion.indexOf("</actualizar=");
-			idDA = informacion.substr(pos+13);
 			
-			//borrar la DA
-			$.get( "index.php?r=distribuciones-academicas/borrar-d-a&bloque="+bloque+"&dia="+dia,
-				function( data )
-				{
-					listarHorario();
-				},
-			"json");
-
 			
+			swal({
+				  title: '¿Esta seguro?',
+				  text: "¿Realmente desea borrar la distribución académica?",
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText:'Si',
+				  cancelButtonText: 'No',
+				}).then((result) => {
+				  if (result.value) 
+				  {
+						pos  = informacion.indexOf("</actualizar=");
+						idDA = informacion.substr(pos+13);
+						
+						//borrar la DA
+						$.get( "index.php?r=distribuciones-academicas/borrar-d-a&bloque="+bloque+"&dia="+dia,
+							function( data )
+							{
+								listarHorario();
+							},
+						"json");
+				  } 
+				})
 			borrar = "";
 			return false
 		}
@@ -167,7 +182,7 @@ function cargarInformacionEnTabla(data)
 		
 		if (nivel=="" || grupo=="" || aula==""|| asignatura=="")
 		{
-			alert("Debe selecccionar todos los campos");
+			swal("Campos vacios","Debe llenar todo los campos ","info");
 		}
 		else
 		{

@@ -11,7 +11,7 @@ else
 }
 
 use yii\helpers\Html;
-$this->registerJsFile(Yii::$app->request->baseUrl.'/js/distribucionesAcademicas.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DistribucionesAcademicas */

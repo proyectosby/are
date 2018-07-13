@@ -694,7 +694,7 @@ class DistribucionesAcademicasController extends Controller
 			foreach($result as $r)
 			{
 				
-				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/Borrar.png' width='20' height='20' onclick='borrarDA();'>"."</actualizar=".$r['id']."";
+				$arrayHorario[$r['bloques']][$r['dias']]=$r['asignatura']." |".$r['grupo']."|".$r['aula']."&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/Borrar.png' width='20' height='20' onclick='borrarDA(this);'>"."</actualizar=".$r['id']."";
 			}
 			
 			
