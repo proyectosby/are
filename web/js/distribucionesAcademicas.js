@@ -28,8 +28,8 @@ $( document ).ready(function()
 	
 });
 	
-	//se muestra el horario al seleccionar un docente
-$("#distribucionesacademicas-id_perfiles_x_personas_docentes").change(function() 
+	//se muestra el horario al seleccionar un grupo
+$("#distribucionesacademicas-id_paralelo_sede").change(function() 
 {
   listarHorario(); 
 });
@@ -43,19 +43,20 @@ function borrarDA(obj)
 }
 
 
-function listarHorario(){
+function listarHorario()
+{
 		
-	var idDocente = $("#distribucionesacademicas-id_perfiles_x_personas_docentes").val();
+	var idParalelo = $("#distribucionesacademicas-id_paralelo_sede").val();
 	
-	//si no tien ningun docente seleccionado oculat la tabla
-	if(idDocente =="")
+	//si no tien ningun grupo seleccionado se oculta la tabla
+	if(idParalelo =="")
 	{
 		$('#tablaModulos_wrapper').hide();
 		$('#tablaModulosLabel').hide();
 		return false;
 		
 	}
-	$.get( "index.php?r=distribuciones-academicas/horario&idDocente="+idDocente, 
+	$.get( "index.php?r=distribuciones-academicas/horario&idParalelo="+idParalelo, 
 				function( data )
 				{
 					$('#tablaModulosLabel').show();
@@ -179,8 +180,9 @@ function cargarInformacionEnTabla(data)
 		
 		fecha_ingreso = $("#distribucionesacademicas-fecha_ingreso").val();
 		
+		idDocente = $("#distribucionesacademicas-id_perfiles_x_personas_docentes").val();
 		
-		if (nivel=="" || grupo=="" || aula==""|| asignatura=="")
+		if (nivel=="" || idDocente=="" || aula==""|| asignatura=="")
 		{
 			swal("Campos vacios","Debe llenar todo los campos ","info");
 		}
@@ -227,8 +229,13 @@ function llenarListasActualizar()
 	var url = window.location.href; 
 	if (url.indexOf('update')!=-1) 
 	{	
-		$('#selSedesNivel').trigger('change');
-		$('#distribucionesacademicas-id_perfiles_x_personas_docentes').trigger('change');	
+		$('#selSedesNivel').trigger('change');		
+		setTimeout(function()
+		{
+			$('#distribucionesacademicas-id_paralelo_sede').trigger('change');	
+		
+		}, 1000);
+		
 	}
 }
 

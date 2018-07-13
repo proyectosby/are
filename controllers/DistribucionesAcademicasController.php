@@ -632,7 +632,7 @@ class DistribucionesAcademicasController extends Controller
 	}    
 
 	//trae la iformacion del horario con respeto al docente y a la sede
-  public function actionHorario($idDocente)
+  public function actionHorario($idParalelo)
 	{
 		
 		$idSedes = $_SESSION['sede'][0];
@@ -641,6 +641,7 @@ class DistribucionesAcademicasController extends Controller
 		$connection = Yii::$app->getDb();
 		
 		//
+		
 		$command = $connection->createCommand("
 		select dbd.id_distribuciones_academicas as id, d.descripcion as dias, b.descripcion as bloques, a.descripcion as asignatura,
 			pa.descripcion as grupo, au.descripcion as aula
@@ -650,7 +651,7 @@ class DistribucionesAcademicasController extends Controller
 			and dbd.id_dias = d.id
 			and dbd.id_bloques_sedes = sb.id
 			and sb.id_sedes = $idSedes
-			and da.id_perfiles_x_personas_docentes = $idDocente
+			and pa.id = $idParalelo
 			and da.id_asignaturas_x_niveles_sedes = ans.id
 			and ans.id_asignaturas = a.id
 			and ans.id_sedes_niveles = sn.id
