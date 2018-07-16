@@ -108,6 +108,27 @@ class PmiController extends Controller
 							->all();
 		$comunas	= ArrayHelper::map( $dataComunas, 'id', 'descripcion' );
 		
+		$dataAreaGestion= AreaGestion::find()
+							->where( 'estado=1' )
+							->all();
+		$areasGestion	= ArrayHelper::map( $dataAreaGestion, 'id', 'descripcion' );
+		
+		$dataSubProcesoEvaluacion= SubProcesoEvaluacion::find()
+										->select( 'id, descripcion, id_area_gestion' )
+										->where( 'estado=1' )
+										->all();
+		$subProcesoEvaluacion	 = ArrayHelper::map( $dataSubProcesoEvaluacion, 'id', 'descripcion' );
+		
+		$subProcesoEvaluacionData = [];
+		foreach( $dataSubProcesoEvaluacion as $key => $value ){
+			$subProcesoEvaluacionData[ $value->id ] = [ 'data-area' => $value->id_area_gestion ];
+		}
+		
+		$procesosData = [];
+		foreach( $dataProcesos as $key => $value ){
+			$procesosData[ $value->id ] = [ 'data-sub-proceso' => $value->id_sub_proceso ];
+		}
+		
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -120,6 +141,10 @@ class PmiController extends Controller
             'procesos' 		=> $procesos,
             'zonas' 		=> $zonas,
             'comunas' 		=> $comunas,
+            'areasGestion'	=> $areasGestion,
+            'subProcesoEvaluacion'	=> $subProcesoEvaluacion,
+            'subProcesoEvaluacionData'	=> $subProcesoEvaluacionData,
+            'procesosData'	=> $procesosData,
         ]);
     }
 
@@ -157,6 +182,26 @@ class PmiController extends Controller
 							->where( 'estado=1' )
 							->all();
 		$comunas	= ArrayHelper::map( $dataComunas, 'id', 'descripcion' );
+		
+		$dataAreaGestion= AreaGestion::find()
+							->where( 'estado=1' )
+							->all();
+		$areasGestion	= ArrayHelper::map( $dataAreaGestion, 'id', 'descripcion' );
+		
+		$dataSubProcesoEvaluacion= SubProcesoEvaluacion::find()
+										->where( 'estado=1' )
+										->all();
+		$subProcesoEvaluacion	 = ArrayHelper::map( $dataSubProcesoEvaluacion, 'id', 'descripcion' );
+		
+		$subProcesoEvaluacionData = [];
+		foreach( $dataSubProcesoEvaluacion as $key => $value ){
+			$subProcesoEvaluacionData[ $value->id ] = [ 'data-area' => $value->id_area_gestion ];
+		}
+		
+		$procesosData = [];
+		foreach( $dataProcesos as $key => $value ){
+			$procesosData[ $value->id ] = [ 'data-sub-proceso' => $value->id_sub_proceso ];
+		}
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -169,6 +214,10 @@ class PmiController extends Controller
             'procesos' 		=> $procesos,
             'zonas' 		=> $zonas,
             'comunas' 		=> $comunas,
+            'areasGestion'	=> $areasGestion,
+            'subProcesoEvaluacion'	=> $subProcesoEvaluacion,
+            'subProcesoEvaluacionData'	=> $subProcesoEvaluacionData,
+            'procesosData'	=> $procesosData,
         ]);
     }
 

@@ -87,6 +87,13 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $zona ? $zona->descripcion : '';
 				},
 			],
+			[
+				'attribute' => 'id_proceso_especifico',
+				'value' 	=> function( $model ){
+					$proceso = ProcesoEspecifico::findOne( $model->id_proceso_especifico );
+					return $proceso ? $proceso->descripcion : '';
+				},
+			],
             //'id_proceso_especifico',
             //'valor',
             //'id_institucion',

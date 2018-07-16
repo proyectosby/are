@@ -28,6 +28,10 @@ $this->params['breadcrumbs'][] = 'Modificar';
 		'procesos' 		=> $procesos,
 		'zonas' 		=> $zonas,
 		'comunas' 		=> $comunas,
+        'areasGestion'	=> $areasGestion,
+        'subProcesoEvaluacion'	=> $subProcesoEvaluacion,
+		'subProcesoEvaluacionData'	=> $subProcesoEvaluacionData,
+		'procesosData'	=> $procesosData,
     ]) ?>
 
 </div>
