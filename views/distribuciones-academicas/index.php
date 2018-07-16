@@ -37,7 +37,7 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\DistribucionesAcademicasBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Distribuciones Academicas';
+$this->title = 'Distribuciones Académicas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="distribuciones-academicas-index">
