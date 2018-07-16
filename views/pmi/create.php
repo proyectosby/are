@@ -29,6 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		'procesos' 		=> $procesos,
 		'zonas' 		=> $zonas,
 		'comunas' 		=> $comunas,
+        'areasGestion'	=> $areasGestion,
+        'subProcesoEvaluacion'	=> $subProcesoEvaluacion,
+		'subProcesoEvaluacionData'	=> $subProcesoEvaluacionData,
+		'procesosData'	=> $procesosData,
     ]) ?>
 
 </div>
