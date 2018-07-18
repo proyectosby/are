@@ -41,13 +41,12 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel app\models\ApoyoAcademicoBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Apoyo Académico ';
+$this->title = 'Apoyo Académico';
 $this->params['breadcrumbs'][] = 
 	[
 		'label' => $this->title,
 		'url' => [	'index'	 ]
 	];
-	
 ?>
 <div class="apoyo-academico-index">
 
