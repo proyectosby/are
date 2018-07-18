@@ -1,36 +1,21 @@
 <?php
-/**********
-Versión: 001
-Fecha: 27-03-2018
-Desarrollador: Oscar David Lopez
-Descripción: CRUD de Resultados Pruebas Externas
----------------------------------------
-Modificaciones:
-Fecha: 27-03-2018
-Persona encargada: Oscar David Lopez
-Cambios realizados: Creacion del las funciones estado y institucion
-modificaciones en las funciones ActionCreate y ActionUpdate
-Se muestran los resultado de la sede actual
----------------------------------------
-**********/
+
 namespace app\controllers;
 
 use Yii;
-use app\models\ResultadosPruebasExternas;
-use app\models\ResultadosPruebasExternasBuscar;
+use app\models\ResultadosEvaluacionDocente;
+use app\models\ResultadosEvaluacionDocenteBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 use app\models\Estados;
 use app\models\Instituciones;
-
 use	yii\helpers\ArrayHelper;
 
 /**
- * ResultadosPruebasExternasController implements the CRUD actions for ResultadosPruebasExternas model.
+ * ResultadosEvaluacionController implements the CRUD actions for ResultadosEvaluacionDocente model.
  */
-class ResultadosPruebasExternasController extends Controller
+class ResultadosEvaluacionController extends Controller
 {
     /**
      * @inheritdoc
@@ -47,25 +32,8 @@ class ResultadosPruebasExternasController extends Controller
         ];
     }
 
-    /**
-     * Lists all ResultadosPruebasExternas models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-		$idInstitucion = $_SESSION['instituciones'][0];
-		
-        $searchModel = new ResultadosPruebasExternasBuscar();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->query->andWhere("id_institucion=$idInstitucion");
-		$dataProvider->query->andWhere("estado=1");
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 	
+		
 	public function estados()
 	{
 		//se envia la variable estados con los valores de la tabla estado, siempre es activo
@@ -85,9 +53,26 @@ class ResultadosPruebasExternasController extends Controller
 		return $institucion;
 	}
 	
+    /**
+     * Lists all ResultadosEvaluacionDocente models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+		$idInstitucion = $_SESSION['instituciones'][0];
+        $searchModel = new ResultadosEvaluacionDocenteBuscar();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andWhere("id_institucion=$idInstitucion");
+		$dataProvider->query->andWhere("estado=1");
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
-     * Displays a single ResultadosPruebasExternas model.
+     * Displays a single ResultadosEvaluacionDocente model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -96,31 +81,32 @@ class ResultadosPruebasExternasController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+			
         ]);
     }
 
     /**
-     * Creates a new ResultadosPruebasExternas model.
+     * Creates a new ResultadosEvaluacionDocente model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ResultadosPruebasExternas();
+        $model = new ResultadosEvaluacionDocente();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
-            'model' 	=> $model,
+            'model' => $model,
 			'estados'	=> $this->estados(),
 			'institucion'	=> $this->institucion(),
         ]);
     }
 
     /**
-     * Updates an existing ResultadosPruebasExternas model.
+     * Updates an existing ResultadosEvaluacionDocente model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -138,20 +124,19 @@ class ResultadosPruebasExternasController extends Controller
             'model' => $model,
 			'estados'	=> $this->estados(),
 			'institucion'	=> $this->institucion(),
-			
         ]);
     }
 
     /**
-     * Deletes an existing ResultadosPruebasExternas model.
+     * Deletes an existing ResultadosEvaluacionDocente model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {   
-		$model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
 		$model->estado = 2;
 		$model->update(false);	
 		
@@ -159,15 +144,15 @@ class ResultadosPruebasExternasController extends Controller
     }
 
     /**
-     * Finds the ResultadosPruebasExternas model based on its primary key value.
+     * Finds the ResultadosEvaluacionDocente model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return ResultadosPruebasExternas the loaded model
+     * @return ResultadosEvaluacionDocente the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ResultadosPruebasExternas::findOne($id)) !== null) {
+        if (($model = ResultadosEvaluacionDocente::findOne($id)) !== null) {
             return $model;
         }
 
