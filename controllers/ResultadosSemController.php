@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ResultadosEvaluacionDocente;
-use app\models\ResultadosEvaluacionDocenteBuscar;
+use app\models\ResultadosSem;
+use app\models\ResultadosSemBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,10 +12,11 @@ use app\models\Estados;
 use app\models\Instituciones;
 use	yii\helpers\ArrayHelper;
 
+
 /**
- * ResultadosEvaluacionController implements the CRUD actions for ResultadosEvaluacionDocente model.
+ * ResultadosSemController implements the CRUD actions for ResultadosSem model.
  */
-class ResultadosEvaluacionController extends Controller
+class ResultadosSemController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,28 +33,24 @@ class ResultadosEvaluacionController extends Controller
         ];
     }
 
-	
-	
-	
     /**
-     * Lists all ResultadosEvaluacionDocente models.
+     * Lists all ResultadosSem models.
      * @return mixed
      */
     public function actionIndex()
     {
 		$idInstitucion = $_SESSION['instituciones'][0];
-        $searchModel = new ResultadosEvaluacionDocenteBuscar();
+        $searchModel = new ResultadosSemBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->query->andWhere("id_institucion=$idInstitucion");
 		$dataProvider->query->andWhere("estado=1");
-
+		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 	
-		
 	public function estados()
 	{
 		//se envia la variable estados con los valores de la tabla estado, siempre es activo
@@ -72,9 +69,8 @@ class ResultadosEvaluacionController extends Controller
 		$institucion = ArrayHelper::map($institucion,'id','descripcion');
 		return $institucion;
 	}
-
     /**
-     * Displays a single ResultadosEvaluacionDocente model.
+     * Displays a single ResultadosSem model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -83,18 +79,17 @@ class ResultadosEvaluacionController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-			
         ]);
     }
 
     /**
-     * Creates a new ResultadosEvaluacionDocente model.
+     * Creates a new ResultadosSem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ResultadosEvaluacionDocente();
+        $model = new ResultadosSem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -108,7 +103,7 @@ class ResultadosEvaluacionController extends Controller
     }
 
     /**
-     * Updates an existing ResultadosEvaluacionDocente model.
+     * Updates an existing ResultadosSem model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -130,7 +125,7 @@ class ResultadosEvaluacionController extends Controller
     }
 
     /**
-     * Deletes an existing ResultadosEvaluacionDocente model.
+     * Deletes an existing ResultadosSem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -138,7 +133,7 @@ class ResultadosEvaluacionController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+		$model = $this->findModel($id);
 		$model->estado = 2;
 		$model->update(false);	
 		
@@ -146,15 +141,15 @@ class ResultadosEvaluacionController extends Controller
     }
 
     /**
-     * Finds the ResultadosEvaluacionDocente model based on its primary key value.
+     * Finds the ResultadosSem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return ResultadosEvaluacionDocente the loaded model
+     * @return ResultadosSem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ResultadosEvaluacionDocente::findOne($id)) !== null) {
+        if (($model = ResultadosSem::findOne($id)) !== null) {
             return $model;
         }
 

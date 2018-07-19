@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ResultadosEvaluacionDocente */
+/* @var $model app\models\ResultadosSem */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="resultados-evaluacion-docente-form">
+<div class="resultados-sem-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
