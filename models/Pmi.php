@@ -64,7 +64,7 @@ class Pmi extends \yii\db\ActiveRecord
     {
         return [
             'id' 					=> 'ID',
-            'codigo_dane' 			=> 'Codigo Dane',
+            'codigo_dane' 			=> 'Código Dane',
             'anio' 					=> 'Año',
             'comuna' 				=> 'Comuna',
             'zona' 					=> 'Zona',
