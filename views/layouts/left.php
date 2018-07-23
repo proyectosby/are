@@ -77,6 +77,21 @@
 															],
 												
 												],
+												['label' => 'Resultados', 
+												'icon' => 'circle-o',
+												'url' => '#',
+												'items' => [
+																['label' => 'Institución', 'icon' => '', 'url' =>  ['resultados-pruebas-saber-ie/index'],],
+																['label' => 'Cali', 'icon' => '', 'url' =>  ['resultados-pruebas-saber-cali/index'],],
+																['label' => 'PMI', 'icon' => '', 'url' =>  ['pmi/index'],],
+																['label' => 'Sem', 'icon' => '', 'url' =>  ['resultados-sem/index'],],
+																['label' => 'Evaluación Docente', 'icon' => '', 'url' =>  ['resultados-evaluacion/index'],],
+																['label' => 'Pruebas externas', 'icon' => '', 'url' =>  ['resultados-pruebas-externas/index'],],
+																['label' => 'Resultados', 'icon' => '', 'url' =>  ['resultados/index'],],
+																
+															],
+												
+												],
 												
 												
 											],						

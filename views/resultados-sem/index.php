@@ -8,7 +8,7 @@ use app\models\Instituciones;
 /* @var $searchModel app\models\ResultadosSemBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Resultados Sems';
+$this->title = 'Resultados Sem';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="resultados-sem-index">
