@@ -92,6 +92,16 @@
 															],
 												
 												],
+												['label' => 'Investigación', 
+												'icon' => 'circle-o',
+												'url' => '#',
+												'items' => [
+																['label' => 'Proyectos tansversales', 'icon' => '', 'url' =>  ['proyectos-pedagogicos-transversales/index'],],
+																['label' => 'Convocatorias', 'icon' => '', 'url' =>  ['convocatorias/index'],],
+																['label' => 'Proyecto aula', 'icon' => '', 'url' =>  ['proyecto-aula/index'],],
+															],
+												
+												],
 												
 												
 											],						
