@@ -28,13 +28,13 @@ $this->title = 'Horario Docente';
 $this->params['breadcrumbs'][] = $this->title;
 
 
-// $this->registerJsFile(Yii::$app->request->baseUrl.'/js/jquery.dataTables.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-// $this->registerJsFile(Yii::$app->request->baseUrl.'/js/jquery.dataTables.min.css',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 
 ?>
 <script>
 idSede =<?php echo $idSedes ;?>;
 idInstitucion = <?php echo $idInstitucion ;?>;
+idDocente = <?php echo $_SESSION['perfilesxpersonas'];?>;
 
 </script>
 
@@ -51,7 +51,7 @@ idInstitucion = <?php echo $idInstitucion ;?>;
 	
 	$form = ActiveForm::begin(); ?>
 	
-	<?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList($docentes, ['prompt'=>'Seleccione...'])->label('Docente') ?>
+	<?= $form->field($model, 'id_perfiles_x_personas_docentes')->dropDownList($docentes)->label('Docente') ?>
 	
     <?php ActiveForm::end(); ?> 
 

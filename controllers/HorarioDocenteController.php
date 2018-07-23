@@ -60,7 +60,8 @@ class HorarioDocenteController extends Controller
     public function actionIndex($idDocente = 0)
     {
 		
-		
+		// $idDocente = $_SESSION['perfilesxpersonas'];
+		// $idDocente = $_SESSION['perfilesxpersonas'];
 		$idInstitucion = $_SESSION['instituciones'][0];
 		$idSedes = $_SESSION['sede'][0];		
 		
@@ -73,21 +74,15 @@ class HorarioDocenteController extends Controller
 		
 		//modelo para el form
 		$model = new HorarioDocente();
-		
+		 $perfilesxpersonas = $_SESSION['perfilesxpersonas'];
 		//variable con la conexion a la base de datos  pe.id=10 es el perfil docente
 		$connection = Yii::$app->getDb();
 		//llenar los docente
 		$command = $connection->createCommand("
-			select d.id_perfiles_x_personas as id, concat(p.nombres,' ',p.apellidos) as nombres
-			from personas as p, perfiles_x_personas as pp, docentes as d, perfiles as pe,perfiles_x_personas_institucion as ppi
+			select pp.id, concat(p.nombres,' ',p.apellidos) as nombres
+			from personas as p, perfiles_x_personas as pp
 			where p.id= pp.id_personas
-			and p.estado=1
-			and pp.id_perfiles=pe.id
-			and pe.id=10
-			and pe.estado=1
-			and pp.id= d.id_perfiles_x_personas
-			and ppi.id_perfiles_x_persona = pp.id
-			and ppi.id_institucion = $idInstitucion");
+			and pp.id = $perfilesxpersonas");
 		$result = $command->queryAll();
 		//se formatea para que lo reconozca el select
 		$docentes=array();
