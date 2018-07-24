@@ -12,19 +12,19 @@ $( document ).ready(function() {
 	
 	
 	var tabla="";
+	listarHorario(); 
 });
 	
 	//se muestra el horario al seleccionar un docente
-$("#horariodocente-id_perfiles_x_personas_docentes").change(function() 
-{
+
 	
-  listarHorario(); 
-});
+
+
 
 
 function listarHorario(){
 		
-	idDocente = $("#horariodocente-id_perfiles_x_personas_docentes").val();
+	// idDocente = $("#horariodocente-id_perfiles_x_personas_docentes").val();
 	
 	//si no tien ningun docente seleccionado oculat la tabla
 	if(idDocente =="")
@@ -34,6 +34,7 @@ function listarHorario(){
 		return false;
 		
 	}
+	
 	$.get( "index.php?r=horario-docente/index&idDocente="+idDocente, 
 				function( data )
 				{

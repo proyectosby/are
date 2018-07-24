@@ -34,6 +34,16 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+	
+	
+	public function attributeLabels()
+    {
+        return [
+            'username' => 'Usuario',
+            'password' => 'Contraseña',
+            
+        ];
+    }
 
     /**
      * Validates the password.
@@ -64,6 +74,7 @@ class LoginForm extends Model
         }
         return false;
     }
+	
 
     /**
      * Finds user by [[username]]

@@ -79,6 +79,31 @@
 																	],
 														
 														],
+														['label' => 'Resultados', 
+														'icon' => 'circle-o',
+														'url' => '#',
+														'items' => [
+																		['label' => 'Institución', 'icon' => '', 'url' =>  ['resultados-pruebas-saber-ie/index'],],
+																		['label' => 'Cali', 'icon' => '', 'url' =>  ['resultados-pruebas-saber-cali/index'],],
+																		['label' => 'PMI', 'icon' => '', 'url' =>  ['pmi/index'],],
+																		['label' => 'Sem', 'icon' => '', 'url' =>  ['resultados-sem/index'],],
+																		['label' => 'Evaluación Docente', 'icon' => '', 'url' =>  ['resultados-evaluacion/index'],],
+																		['label' => 'Pruebas externas', 'icon' => '', 'url' =>  ['resultados-pruebas-externas/index'],],
+																		['label' => 'Resultados', 'icon' => '', 'url' =>  ['resultados/index'],],
+																		
+																	],
+														
+														],
+														['label' => 'Investigación', 
+														'icon' => 'circle-o',
+														'url' => '#',
+														'items' => [
+																		['label' => 'Proyectos tansversales', 'icon' => '', 'url' =>  ['proyectos-pedagogicos-transversales/index'],],
+																		['label' => 'Convocatorias', 'icon' => '', 'url' =>  ['convocatorias/index'],],
+																		['label' => 'Proyecto aula', 'icon' => '', 'url' =>  ['proyecto-aula/index'],],
+																	],
+														
+														],
 												],//
 											],
 											[
