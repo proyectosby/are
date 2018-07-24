@@ -143,7 +143,7 @@ foreach( $dataValores as $key => $value ){
 
 
 
-<h2 style='text-align:center'>INDICE SINTETICO DE CALIDAD</h2>
+<h2 style='text-align:center'>INDICE SINTÉTICO DE CALIDAD</h2>
 
 <table>
 
@@ -196,7 +196,7 @@ foreach( $iscAnios as $keyAnio => $valueAnio ){
 
 <tr>
 <th rowspan=3>Año</th>
-<th rowspan=3>Codigo DANE</th>
+<th rowspan=3>Código DANE</th>
 <th rowspan=3>Comuna</th>
 <th rowspan=3>Zona</th>
 
