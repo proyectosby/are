@@ -239,6 +239,54 @@ class ResultadosController extends Controller
 			'data'			=> $data,
 		];
 	}
+	
+	public function actionPruebasExternas(){
+		
+		$idInstitucion 			= $_SESSION[ 'instituciones' ][0];
+		
+		$query = (new Query())
+						->select( 'id, descripcion, valor' )
+						->from( "resultados_pruebas_externas rpe" )
+						->where( "rpe.estado=1" )
+						->andWhere( "rpe.id_institucion=".$idInstitucion )
+						->all();
+		
+		return [
+			'data'			=> $query,
+		];
+	}
+	
+	public function actionPruebasDocentres(){
+		
+		$idInstitucion 			= $_SESSION[ 'instituciones' ][0];
+		
+		$query = (new Query())
+						->select( 'id, descripcion, valor' )
+						->from( "resultados_evaluacion_docente red" )
+						->where( "red.estado=1" )
+						->andWhere( "red.id_institucion=".$idInstitucion )
+						->all();
+		
+		return [
+			'data'			=> $query,
+		];
+	}
+	
+	public function actionPruebasSEM(){
+		
+		$idInstitucion 			= $_SESSION[ 'instituciones' ][0];
+		
+		$query = (new Query())
+						->select( 'id, descripcion, valor' )
+						->from( "resultados_sem rs" )
+						->where( "rs.estado=1" )
+						->andWhere( "rs.id_institucion=".$idInstitucion )
+						->all();
+		
+		return [
+			'data'			=> $query,
+		];
+	}
 
     /**
      * Lists all ResultadosPruebasSaberIe models.
@@ -247,15 +295,21 @@ class ResultadosController extends Controller
     public function actionIndex()
     {
 		
-		$data 		= $this->actionGetResultadosPruebasSaber();
-		$dataIndices= $this->actionIndiceSinteticoDeCalidad();
-		$dataPMI 	= $this->actionPMI();
+		$data 				= $this->actionGetResultadosPruebasSaber();
+		$dataIndices		= $this->actionIndiceSinteticoDeCalidad();
+		$dataPMI 			= $this->actionPMI();
+		$dataPruebasExternas= $this->actionPruebasExternas();
+		$dataPruebasDocentes= $this->actionPruebasDocentres();
+		$dataPruebasSEM		= $this->actionPruebasSEM();
 
         return $this->render('index', [
-			'title'			=> 'Resultados',
-			'data'			=> $data,
-			'dataIndices'	=> $dataIndices,
-			'dataPMI'		=> $dataPMI,
+			'title'					=> 'Resultados',
+			'data'					=> $data,
+			'dataIndices'			=> $dataIndices,
+			'dataPMI'				=> $dataPMI,
+			'dataPruebasExternas'	=> $dataPruebasExternas,
+			'dataPruebasDocentes'	=> $dataPruebasDocentes,
+			'dataPruebasSEM'		=> $dataPruebasSEM,
         ]);
     }
 }

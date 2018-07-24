@@ -61,10 +61,16 @@ $pmiSubProcesos			= $dataPMI[ 'subProcesos' ];
 $pmiProcesos			= $dataPMI[ 'procesos' ];
 $pmiValores				= $dataPMI[ 'data' ];
 
+$pruebasExternas		= $dataPruebasExternas['data'];
+
+$pruebasSEM				= $dataPruebasSEM['data'];
+
+$pruebasDocentes		= $dataPruebasDocentes['data'];
+
 // echo "<pre>";
-// var_dump( $dataPMI );
-// echo "</pre>";
-// var_dump( $asignaturasEvaluadas );
+// var_dump( $pruebasExternas );
+// echo "</pre>"; exit();
+// var_dump( $pruebasExternas );
 ?>
 
 <h2 style='text-align:center'>PRUEBAS DEL SABER</h2>
@@ -224,6 +230,8 @@ foreach( $pmiAreas as $keyPmi => $valuePmi ){
 
 </tr>
 
+</thead>
+
 <tr>
 
 <?php 
@@ -247,14 +255,92 @@ foreach( $pmiValores as $keyValores => $valueValores ){
 
 </tr>
 
-</thead>
+
 
 </table>
 
 
 
+
+
 <h2 style='text-align:center'>RESULTADOS DE PRUEBAS EXTERNAS</h2>
+
+<table>
+
+<thead>
+	<tr>
+		<th>Descripción</th>
+		<th>Resultado</th>
+	<tr>
+<thead>
+
+<tr>
+
+<?php 
+foreach( $pruebasExternas as $key => $value ){
+	echo "<tr>";
+	echo "<td>".$value['descripcion']."</td>";
+	echo "<td>".$value['valor']."</td>";
+	echo "</tr>";
+	
+} 
+?>
+</tr>
+
+
+</table>
 
 <h2 style='text-align:center'>OTROS RESULTADOS DE EVALUACIONES CON QUE CUENTE LA SEM</h2>
 
+<table>
+
+<thead>
+	<tr>
+		<th>Descripción</th>
+		<th>Resultado</th>
+	<tr>
+<thead>
+
+<tr>
+
+<?php 
+foreach( $pruebasSEM as $key => $value ){
+	echo "<tr>";
+	echo "<td>".$value['descripcion']."</td>";
+	echo "<td>".$value['valor']."</td>";
+	echo "</tr>";
+	
+} 
+?>
+</tr>
+
+
+</table>
+
+
 <h2 style='text-align:center'>RESULTADOS DE LA EVALUACION A DOCENTES (EN LAS CATEGORIAS QUE TENGA LA SEM)</h2>
+
+<table>
+
+<thead>
+	<tr>
+		<th>Descripción</th>
+		<th>Resultado</th>
+	<tr>
+<thead>
+
+<tr>
+
+<?php 
+foreach( $pruebasDocentes as $key => $value ){
+	echo "<tr>";
+	echo "<td>".$value['descripcion']."</td>";
+	echo "<td>".$value['valor']."</td>";
+	echo "</tr>";
+	
+} 
+?>
+</tr>
+
+
+</table>
