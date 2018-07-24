@@ -57,6 +57,7 @@ if( !empty( $model->id ) ){
 		Chosen::className(), [
 			'items' => $comunas,
 			'disableSearch' => 5, // Search input will be disabled while there are fewer than 5 items
+			'placeholder' => 'Seleccione...',
 			'clientOptions' => [
 				'search_contains' => true,
 				'single_backstroke_delete' => false,
