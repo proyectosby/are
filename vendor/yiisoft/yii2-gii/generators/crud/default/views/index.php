@@ -13,6 +13,8 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
+
+use fedemotta\datatables\DataTables;
 use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
 <?= $generator->enablePjax ? 'use yii\widgets\Pjax;' : '' ?>
 
@@ -32,13 +34,46 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php endif; ?>
 
     <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-success']) ?>
+        <?= "<?= " ?>Html::a(<?= $generator->generateString('Agregar') ?>, ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
-    <?= "<?= " ?>GridView::widget([
+    <?= "<?= " ?>DataTables::widget([
         'dataProvider' => $dataProvider,
-        <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
+		'clientOptions' => [
+		'language'=>[
+                'url' => '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json',
+            ],
+		"lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+		"info"=>false,
+		"responsive"=>true,
+		 "dom"=> 'lfTrtip',
+		 "tableTools"=>[
+			 "aButtons"=> [  
+					// [
+					// "sExtends"=> "copy",
+					// "sButtonText"=> Yii::t('app',"Copiar")
+					// ],
+					// [
+					// "sExtends"=> "csv",
+					// "sButtonText"=> Yii::t('app',"CSV")
+					// ],
+					[
+					"sExtends"=> "xls",
+					"oSelectorOpts"=> ["page"=> 'current']
+					],
+					[
+					"sExtends"=> "pdf",
+					"oSelectorOpts"=> ["page"=> 'current']
+					],
+					// [
+					// "sExtends"=> "print",
+					// "sButtonText"=> Yii::t('app',"Imprimir")
+					// ],
+				],
+			],
+	],
+        <?= !empty($generator->searchModelClass) ? "   'columns' => [\n" : "'columns' => [\n"; ?>
             ['class' => 'yii\grid\SerialColumn'],
 
 <?php
