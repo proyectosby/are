@@ -35,23 +35,32 @@ $( document ).ready(function(){
 	estudiantes.change(function(){
 		try{
 			
-			$.post(
-				"index.php?r=instrumento-poblacion-estudiantes/estudiantes",
-				{
-					estudiante:	estudiantes.val(),
-				},
-				function( data ){
-					
-					try{
-						$( "#dv-estudiante" ).html( data );
-					}
-					catch(e){
-						console.log(e);
-					}
-					
-					mostrarFases();
-				},
-			);
+			$( "#dv-estudiante" ).html( '' );
+			$( "#dv-fases" ).html( '' );
+			
+			if( estudiantes.val() != '' ){
+			
+				$.post(
+					"index.php?r=instrumento-poblacion-estudiantes/estudiantes",
+					{
+						estudiante:	estudiantes.val(),
+					},
+					function( data ){
+						
+						try{
+							$( "#dv-estudiante" ).html( data );
+						}
+						catch(e){
+							console.log(e);
+						}
+						
+						mostrarFases();
+					},
+				);
+			}
+			else{
+				mostrarFases();
+			}
 		}
 		catch(e){
 			mostrarFases();
@@ -61,6 +70,11 @@ $( document ).ready(function(){
 	sedes.change(function(){
 		
 		$( "#dv-estudiante" ).html( '' );
+		estudiantes.html('');
+		estudiantes.val('');
+		estudiantes.trigger("chosen:updated");
+		$( "#dv-institucion-sede" ).html( '' );
+		$( "#dv-fases" ).html( '' );
 		
 		try{
 			$.get(
@@ -72,6 +86,7 @@ $( document ).ready(function(){
 					
 					try{
 						estudiantes.html('');
+						estudiantes.append( "<option>Seleccione...</option>" );
 						for( var x in data ){
 							estudiantes.append( "<option value='"+data[x].id+"'>"+data[x].identificacion+" - "+data[x].nombres+" "+data[x].apellidos+"</option>" );
 						}
@@ -97,6 +112,12 @@ $( document ).ready(function(){
 	institucion.change(function(){
 		
 		$( "#dv-estudiante" ).html( '' );
+		$( "#dv-fases" ).html( '' );
+		sedes.html('');
+		sedes.trigger("chosen:updated");
+		estudiantes.val('');
+		estudiantes.trigger("chosen:updated");
+		$( "#dv-institucion-sede" ).html( '' );
 		
 		try{
 			$.get(
@@ -108,6 +129,7 @@ $( document ).ready(function(){
 					
 					try{
 						sedes.html('');
+						sedes.append( "<option>Seleccione...</option>" );
 						for( var x in data ){
 							sedes.append( "<option value='"+x+"'>"+data[x]+"</option>" );
 						}
@@ -190,10 +212,15 @@ $( document ).ready(function(){
 							spanTotal.html( sum );
 						}
 						
-						inputs.change(function(){
-							calcularTotal();
-							// alert(11111)
-						});
+						inputs
+							.change(function(){
+								calcularTotal();
+							})
+							.keyup(function (){
+								this.value = (this.value + '').replace(/[^0-9]/g, '');
+							});
+						
+						calcularTotal();
 					});
 
 				},

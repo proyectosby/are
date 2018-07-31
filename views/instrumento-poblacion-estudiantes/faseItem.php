@@ -33,11 +33,12 @@ foreach( $sesiones as $keySesion =>$sesion ){
 	}
 	else{
 		$poblacion = PoblacionEstudiantesSesion::findOne([ 
-						'id_poblacion_estudiantes' 	=> $idPE,
+						'id_poblacion_estudiantes' 	=> $idPE->id,
 						'id_sesiones'				=> $sesion->id,
 					]);
 	}
-	// var_dump( $poblacion );
+	// echo "<pre>"; var_dump( $idPE ); echo "</pre>";
+	// echo "<pre>"; var_dump( $poblacion ); echo "</pre>";
 	echo Html::activeHiddenInput( $poblacion, "[$index]id_sesiones", [ 'value' => $sesion->id ] );
 	// echo Html::activeHiddenInput( $poblacion, "[$index]id" );
 	echo $form->field( $poblacion, "[$index]valor" )->label( $sesion->descripcion );
@@ -51,7 +52,7 @@ foreach( $sesiones as $keySesion =>$sesion ){
 	<div>
 		<span></span>
 		<div class="col-sm-8">
-			<span total class='form-control'></span>
+			<span total class='form-control' style='background:#eee;'></span>
 		</div>
 	</div>
 </div>

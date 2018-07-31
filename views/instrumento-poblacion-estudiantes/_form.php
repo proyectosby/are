@@ -71,7 +71,6 @@ $this->registerJsFile(
 		</div>
 		
 		<div id='dv-institucion-sede' class='col-sm-8'>
-			AQUI VA LA INFORMACIÓN DE LA INSTITUCIÓN
 		</div>
 	</div>
 
@@ -92,7 +91,6 @@ $this->registerJsFile(
 		</div>
 		
 		<div id='dv-estudiante' class='col-sm-8'>
-			AQUI VA LA INFORMACIÓN DEl ESTUDIANTE
 		</div>
 		
 	</div>

@@ -98,6 +98,7 @@ class InstrumentoPoblacionEstudiantesController extends Controller
 				
 		$fases	= Fases::find()
 					->where('estado=1')
+					->orderby( 'descripcion' )
 					->all();
 		
 		return $this->renderPartial('fases', [
@@ -113,6 +114,12 @@ class InstrumentoPoblacionEstudiantesController extends Controller
      */
     public function actionIndex()
     {
+		$query = new Query;
+		// // compose the query
+		// $query->select('id, name')
+			// ->from('user')
+			// ->limit(10);
+		
         $searchModel = new InstrumentoPoblacionEstudiantesBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
