@@ -1,37 +1,14 @@
 <?php
-if(@$_SESSION['sesion']=="si")
-{ 
-	// echo $_SESSION['nombre'];
-} 
-//si no tiene sesion se redirecciona al login
-else
-{
-	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
-	die;
-}
 
-use app\models\Sedes;
-use app\models\Instituciones;
-$valInstitucion ="valor";
 //con que institucion y que sede se debe trabajar
 if (@$_GET['instituciones'])
-{	
-	$_SESSION['instituciones'][0]=$_SESSION['instituciones'][0];	
-	
+{
+	$_SESSION['instituciones'][0]=$_GET['instituciones'];
 }
 
 if (@$_GET['sede'])
 {
 	$_SESSION['sede'][0]=$_GET['sede'];
-	
-	$nombreInstitucion = Instituciones::find()->where(['id' => $_SESSION['instituciones'][0]])->one();
-	$nombreInstitucion = $nombreInstitucion->descripcion;
-	
-	$nombreSede = Sedes::find()->where(['id' => $_SESSION['sede'][0]])->one();
-	$nombreSede = $nombreSede->descripcion;
-	
-	die("&nbsp;&nbsp;&nbsp;&nbsp;$nombreInstitucion - $nombreSede");
-	
 }
 
 
@@ -65,14 +42,14 @@ foreach($result as $r)
 	$descripcion = $r['descripcion'];
 	$datos.= "'$id':'$descripcion',";
 }
+
+	
 	$this->registerJs( <<< EOT_JS_CODE
 	
 	//que institucion selecciono
 const {value: institucion} = swal({
   title: 'Seleccione una Institución',
   input: 'select',
-  allowOutsideClick: false,
-  allowEscapeKey: false,
   inputOptions: { $datos
     
   },
@@ -102,8 +79,6 @@ const {value: institucion} = swal({
 				const {valor: sede} = swal({
 			title: 'Seleccione una sede',
 			input: 'select',
-			allowOutsideClick: false,
-			allowEscapeKey: false,
 			inputOptions: (prueba),
 				inputPlaceholder: 'Seleccione...',
 				
@@ -114,13 +89,15 @@ const {value: institucion} = swal({
 						if (valor !== '') 
 						  {
 							  //variable de sesion con la sede que selecciono
-							 var Sedesasda = $.get( "index.php?sede="+valor, function(data) 
+							 var Sedesasda = $.get( "index.php?sede="+valor, function() 
 								{
-									$("#InstitucionSede").html(" ");
-									$("#InstitucionSede").append(data);
+									
 								})
 								
 								
+								
+									
+									
 									
 							resolve()
 						  }
@@ -154,16 +131,26 @@ EOT_JS_CODE
 <?php
 
 
-
+if(@$_SESSION['sesion']=="si")
+{ 
+	// echo $_SESSION['nombre'];
+} 
+//si no tiene sesion se redirecciona al login
+else
+{
+	echo "<script> window.location=\"index.php?r=site%2Flogin\";</script>";
+	die;
+}
 
 /* @var $this yii\web\View */
 
-$this->title = 'Sistema ARE';
+$this->title = 'Sistema de Información MCEE';
 ?>
 
 <div class="site-index">
 
     <div class="jumbotron">
-        <h2>Bienvenido al sistema ARE</h2>
+        <h2>Bienvenido al sistema de información MI COMUNIDAD ES ESCUELA</h2>
+        <img src="../views/site/logo_mcee.png" style="width: 100%; margin: 15px auto;">
 	</div>
 </div>
