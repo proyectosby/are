@@ -19,6 +19,8 @@ use app\models\PoblacionEstudiantesSesion;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
+use yii\db\Query;
+
 
 /**
  * InstrumentoPoblacionEstudiantesController implements the CRUD actions for InstrumentoPoblacionEstudiantes model.
@@ -114,11 +116,32 @@ class InstrumentoPoblacionEstudiantesController extends Controller
      */
     public function actionIndex()
     {
+		$sede 			= $_SESSION['sede'][0];
+		$institucion	= $_SESSION['instituciones'][0];
+		
 		$query = new Query;
-		// // compose the query
-		// $query->select('id, name')
-			// ->from('user')
-			// ->limit(10);
+		// compose the query
+		$query->select('*')
+			  ->from( 'semilleros_tic.instrumento_poblacion_estudiantes	ipe' )
+			  ->innerJoin( 'semilleros_tic.poblacion_estudiantes_sesion pes', 'pes.id_poblacion_estudiantes=ipe.id' )
+			  ->innerJoin( 'semilleros_tic.sesiones s', 's.id=pes.id_sesiones' )
+			  ->innerJoin( 'semilleros_tic.fases f', 'f.id=s.id_fase' )
+			  ->innerJoin( 'personas pe', 'pe.id=ipe.id_persona_estudiante' )
+			  ->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=pe.id' )
+			  ->innerJoin( 'estudiantes e', 'e.id_perfiles_x_personas=pp.id' )
+			  ->innerJoin( 'paralelos p', 'p.id=e.id_paralelos' )
+			  ->innerJoin( 'sedes_niveles sn', 'sn.id=p.id_sedes_niveles' )
+			  ->where( 'sn.id_sedes='.$sede )
+			  ->andWhere( 'ipe.id_institucion='.$institucion )
+			  ->andWhere( 'ipe.id_sede='.$sede )
+			  ->andWhere( 'pp.estado=1' )
+			  ->andWhere( 'e.estado=1' )
+			  ->andWhere( 'p.estado=1' )
+			  ->andWhere( 'pe.estado=1' )
+			  ->andWhere( 'ipe.estado=1' )
+			  ->all();
+		
+		// echo $query->createCommand()->sql;
 		
         $searchModel = new InstrumentoPoblacionEstudiantesBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

@@ -46,7 +46,7 @@ class InstrumentoPoblacionEstudiantes extends \yii\db\ActiveRecord
     {
         return [
             'id' 					=> 'ID',
-            'id_institucion' 		=> 'Institucion',
+            'id_institucion' 		=> 'Institución',
             'id_sede' 				=> 'Sede',
             'id_persona_estudiante' => 'Estudiante',
             'estado' 				=> 'Estado',

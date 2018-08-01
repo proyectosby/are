@@ -33,16 +33,17 @@ if( $persona->fecha_nacimiento && $persona->fecha_nacimiento!= NULL && !empty( $
 	$cumpleanos = new DateTime( $persona->fecha_nacimiento );
 	$hoy 		= new DateTime();
 	$edad 		= $hoy->diff($cumpleanos)->y;
+	$edad 	   .= " años";
 }
 
-$genero = "Genero no registrado";
+$genero = "Género no registrado";
 if( $persona->id_generos && $persona->id_generos!= NULL && !empty( $persona->id_generos ) ){
 	
 	$g = Generos::findOne( $persona->id_generos);
 	$genero = $g->descripcion;
 }
 
-$tipoId = "Sin tipo de identifiacion registrado";
+$tipoId = "Tipo de identifiación no registrado";
 if( $persona->id_tipos_identificaciones && $persona->id_tipos_identificaciones!= NULL && !empty( $persona->id_tipos_identificaciones ) ){
 	
 	$ti = TiposIdentificaciones::findOne( $persona->id_tipos_identificaciones );
@@ -70,7 +71,7 @@ if( $persona->id_tipos_identificaciones && $persona->id_tipos_identificaciones!=
 		
 		
 		<span class='col-sm-2'>
-			<h4><?= $edad ?> años</h4>
+			<h4><?= $edad ?></h4>
 		</span>
 		
 	</div>
@@ -83,7 +84,7 @@ if( $persona->id_tipos_identificaciones && $persona->id_tipos_identificaciones!=
 			<h4>Curso <?= $paralelos->descripcion ?></h4>
 		</div>
 		<div class='col-sm-3' style='text-align:center'>
-			<h4>Jornada <?= $jornada->descripcion ?><h4>
+			<h4>Jornada <?= $jornada ? $jornada->descripcion : ' no registrada' ?><h4>
 		</div>
 	</div>
 	

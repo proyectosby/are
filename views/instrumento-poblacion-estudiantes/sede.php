@@ -29,7 +29,7 @@ $institucion->descripcion;
 		</span>
 		
 		<span class='col-sm-6'>
-			<h4>CODIGO DANE <?= $sede->codigo_dane; ?></h4>
+			<h4>CÓDIGO DANE <?= $sede->codigo_dane; ?></h4>
 		</span>
 	</div>
 </div>
