@@ -21,6 +21,8 @@ use yii\helpers\Json;
 
 use yii\db\Query;
 
+use yii\data\ActiveDataProvider;
+
 
 /**
  * InstrumentoPoblacionEstudiantesController implements the CRUD actions for InstrumentoPoblacionEstudiantes model.
@@ -119,7 +121,32 @@ class InstrumentoPoblacionEstudiantesController extends Controller
 		$sede 			= $_SESSION['sede'][0];
 		$institucion	= $_SESSION['instituciones'][0];
 		
-		$query = new Query;
+		$queryFasesSesiones = new Query();
+		
+		$dataFasesSesiones = $queryFasesSesiones
+								->select( "f.id as fid, f.descripcion as fdesc, s.id as sid, s.descripcion sdesc " )
+								->from( 'semilleros_tic.fases f' )
+								->innerJoin( 'semilleros_tic.sesiones s', 's.id_fase=f.id' )
+								->where( 'f.estado=1' )
+								->andWhere( 's.estado=1' )
+								->orderby( 'f.descripcion, s.descripcion' )
+								->all();
+		
+		$headersFases = [];
+		$headersSesiones = [];
+		
+		foreach( $dataFasesSesiones as $key => $value ){
+			
+			if( !isset( $headersFases[ $value['fdesc'] ] ) )
+			{
+				$headersFases[ $value['fdesc'] ] = 0;
+			}
+			
+			$headersSesiones[ $value['sdesc'] ] = $value['sid'];
+			$headersFases[ $value['fdesc'] ]++;
+		}
+		
+		$query = new Query();
 		// compose the query
 		$query->select('*')
 			  ->from( 'semilleros_tic.instrumento_poblacion_estudiantes	ipe' )
@@ -141,14 +168,16 @@ class InstrumentoPoblacionEstudiantesController extends Controller
 			  ->andWhere( 'ipe.estado=1' )
 			  ->all();
 		
-		// echo $query->createCommand()->sql;
+		// echo "<pre>".$query->createCommand()->sql."</pre>";
 		
         $searchModel = new InstrumentoPoblacionEstudiantesBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel' 	=> $searchModel,
+            'dataProvider' 	=> $dataProvider,
+            'institucion' 	=> $institucion,
+            'sede' 			=> $sede,
         ]);
     }
 
@@ -266,11 +295,11 @@ class InstrumentoPoblacionEstudiantesController extends Controller
 		
 		// $estados			= ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
-		$dataPoblacion 		= PoblacionEstudiantesSesion::find()
-								->where( 'id=1' )
-								->all();
+		// $dataPoblacion 		= PoblacionEstudiantesSesion::find()
+								// ->where( 'id=1' )
+								// ->all();
 		
-		$poblacion			= ArrayHelper::map( $dataPoblacion, 'id', 'descripcion' );
+		// $poblacion			= ArrayHelper::map( $dataPoblacion, 'id', 'descripcion' );
 							
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

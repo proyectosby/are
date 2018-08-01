@@ -7,8 +7,8 @@ use yii\helpers\Html;
 /* @var $model app\models\InstrumentoPoblacionEstudiantes */
 
 $this->title = 'Instrumento Población Estudiantes';
-$this->params['breadcrumbs'][] = ['label' => 'Instrumento Población Estudiantes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Instrumento Población Estudiantes', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="instrumento-poblacion-estudiantes-create">
 
