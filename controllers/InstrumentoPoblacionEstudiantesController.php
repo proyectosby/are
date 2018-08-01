@@ -280,8 +280,8 @@ class InstrumentoPoblacionEstudiantesController extends Controller
         return $this->render('create', [
             'model' 		=> $model,
             'instituciones' => $instituciones,
-            'sedes' 		=> $sedes,
-            'estudiantes'	=> $estudiantes,
+            'sedes' 		=> [],
+            'estudiantes'	=> [],
             'estados'		=> 1,
         ]);
     }
