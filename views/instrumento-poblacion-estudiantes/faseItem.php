@@ -41,7 +41,7 @@ foreach( $sesiones as $keySesion =>$sesion ){
 	// echo "<pre>"; var_dump( $poblacion ); echo "</pre>";
 	echo Html::activeHiddenInput( $poblacion, "[$index]id_sesiones", [ 'value' => $sesion->id ] );
 	// echo Html::activeHiddenInput( $poblacion, "[$index]id" );
-	echo $form->field( $poblacion, "[$index]valor" )->label( $sesion->descripcion );
+	echo $form->field( $poblacion, "[$index]valor" )->textInput( ['autocomplete' => 'ñññ' ])->label( $sesion->descripcion );
 	
 	$index++;
 }
