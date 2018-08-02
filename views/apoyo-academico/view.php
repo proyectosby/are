@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => function( $model )
 				{
 					/**
-					* Llenar nombre del docente
+					* Llenar nombre del estudiante
 					*/
 					//variable con la conexion a la base de datos 
 					$connection = Yii::$app->getDb();

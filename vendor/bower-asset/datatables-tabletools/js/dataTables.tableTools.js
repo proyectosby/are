@@ -300,8 +300,14 @@ ZeroClipboard_TableTools.Client.prototype = {
 
 	setFileName: function(newText) {
 		// set the file name
+		//se cambia para que el nombre del archivo sea lo que contiene la etiqueta title
+		var path_splitted = newText.split('.');
+		var extension = path_splitted.pop();
+		var nombreArchivo = document.getElementsByTagName('title')[0].text;
+		newText = nombreArchivo+"."+extension;
 		this.fileName = newText;
-		if (this.ready) {
+		if (this.ready) { 
+		
 			this.movie.setFileName(newText);
 		}
 	},
@@ -942,7 +948,7 @@ TableTools.prototype = {
 		if ( typeof oConfig.sTitle != 'undefined' && oConfig.sTitle !== "" ) {
 			sTitle = oConfig.sTitle;
 		} else {
-			var anTitle = document.getElementsByTagName('title');
+			var anTitle = document.getElementsByTagName('mietiqueta');
 			if ( anTitle.length > 0 )
 			{
 				sTitle = anTitle[0].innerHTML;
@@ -2853,6 +2859,7 @@ TableTools.BUTTONS = {
 	"xls": $.extend( {}, TableTools.buttonBase, {
 		"sAction": "flash_save",
 		"sCharSet": "utf16le",
+		"sFileName": "*.xls",
 		"bBomInc": true,
 		"sButtonClass": "DTTT_button_xls",
 		"sButtonText": "Excel",

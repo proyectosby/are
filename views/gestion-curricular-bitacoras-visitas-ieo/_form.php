@@ -1,0 +1,267 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+use dosamigos\datepicker\DatePicker;
+use app\models\Sedes;
+use app\models\Instituciones;
+use nex\chosen\Chosen;
+use	yii\helpers\ArrayHelper;
+/**********
+Versión: 001
+Fecha: 30-07-2018
+Desarrollador: Oscar David Lopez
+Descripción: CRUD de Representantes Legales (Estudiantes)
+---------------------------------------
+Modificaciones:
+Fecha: 30-07-2018
+Persona encargada: Oscar David Lopez
+Cambios realizados: - Modificacion de lo campos
+---------------------------------------
+**********/
+
+
+/* @var $this yii\web\View */
+/* @var $model app\models\GestionCurricularBitacorasVisitasIeo */
+/* @var $form yii\widgets\ActiveForm */
+
+$idInstitucion = $_SESSION['instituciones'][0];
+$idSede = $_SESSION['sede'][0];
+$nombreInstitucion = Instituciones::find()->where(['id' => @$idInstitucion])->one();
+$nombreInstitucion = $nombreInstitucion->descripcion;
+$arrayInstitucion[$idInstitucion]= $nombreInstitucion;
+
+$nombreSede = Sedes::find()->where(['id' => @$idSede ])->one();
+$nombreSede = @$nombreSede->descripcion;
+$arraySede[$idSede]= $nombreSede;
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacorasVisitasIeo.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
+ <!-- inicio primer  -->
+	<div id="w3" class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a class="collapse-toggle" data-toggle="collapse" data-target="#infoGeneral">
+	Información General
+	</a></h4></div></div></div>
+  
+<div class="gestion-curricular-bitacoras-visitas-ieo-form">
+<div id="infoGeneral" class="collapse">
+    <?php $form = ActiveForm::begin(); ?>
+	
+	<?= $form->field($model, 'fecha_inicio')->widget(
+			DatePicker::className(), [
+				
+			 // modify template for custom rendering
+			'template' 		=> '{addon}{input}',
+			'language' 		=> 'es',
+			'clientOptions' => [
+				'autoclose' 	=> true,
+				'format' 		=> 'yyyy-mm-dd'
+			],
+		]);  
+	?>
+
+    <?= $form->field($model, 'fecha_fin')->widget(
+			DatePicker::className(), [
+				
+			 // modify template for custom rendering
+			'template' 		=> '{addon}{input}',
+			'language' 		=> 'es',
+			'clientOptions' => [
+				'autoclose' 	=> true,
+				'format' 		=> 'yyyy-mm-dd'
+			],
+		]);  
+	?>
+
+
+	<?= $form->field($model, 'id_persona_docente_tutor')->widget(
+				Chosen::className(), [
+					'items' => $docentes,
+					'disableSearch' => 1, // Search input will be disabled while there are fewer than 5 items
+					'placeholder' => 'Seleccione...',
+					'clientOptions' => [
+						'search_contains' => true,
+						'single_backstroke_delete' => false,
+					],
+			]);?>
+
+    <?= $form->field($model, 'id_institucion')->DropDownList($arrayInstitucion) ?>
+
+    <?= $form->field($model, 'id_sede')->DropDownList($arraySede) ?>
+
+    <?= $form->field($model, 'id_jornada')->DropDownList($jornadas) ?>
+
+    <?= $form->field($model, 'estado')->DropDownList($estados) ?>
+	
+		</div>
+	
+	<div id="w3" class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">
+	<a class="collapse-toggle" data-toggle="collapse" data-target="#semana1">
+		Semana No. 1
+	</a>
+	</h4></div></div></div>
+	
+	<div id="semana1" class="collapse">
+		<?= $form->field($model2, 'descripcion')->hiddenInput(['value'=> "Semana No. 1"])->label(false); ?>
+		
+		<?= $form->field($model2, 'fecha_inicial')->widget(
+				DatePicker::className(), [
+					
+				 // modify template for custom rendering
+				'template' 		=> '{addon}{input}',
+				'language' 		=> 'es',
+				'clientOptions' => [
+					'autoclose' 	=> true,
+					'format' 		=> 'yyyy-mm-dd'
+				],
+			]);  
+		?>
+			
+		<?= $form->field($model2, 'fecha_final')->widget(
+				DatePicker::className(), [
+					
+				 // modify template for custom rendering
+				'template' 		=> '{addon}{input}',
+				'language' 		=> 'es',
+				'clientOptions' => [
+					'autoclose' 	=> true,
+					'format' 		=> 'yyyy-mm-dd'
+				],
+			]);  
+		?>
+		
+	</div>
+	
+	<div id="w3" class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">
+	<a class="collapse-toggle" data-toggle="collapse" data-target="#semana1Momento1">
+		Momento 1. Planeación de la semana 1
+	</a>
+	</h4></div></div></div>
+	<div id="semana1Momento1" class="collapse">
+	
+	<label>Objetivos a trabajar *</label>
+	<br />
+	<label><h6>Seleccione los objetivos que se trabajarán a través de las actividades planteadas para esta semana</h6></label>
+	 <h5><?= Html::checkboxList('list', '', $momento1Sem1) ?></h5>
+	 
+	 
+		<div class="field_wrapper">
+			<label>
+				Actividades Semana No. 1
+			</label>
+			<br />
+			<label>
+			<h6>
+				Describa las actividades que llevará a cabo durante la Semana No. 1, para el avance de los objetivos de la semana.
+			</h6>
+			</label>
+			<?= $form->field($model3, 'titulo')->textInput(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]']); ?>
+			<?= $form->field($model3, 'descripcion')->textarea(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]']) ?>
+				<a href="javascript:void(0);" class="add_button" title="Agregar Campos"><img src="../web/images/agregar.png" height="30" width="30" /></a>
+			
+		</div>
+		
+		
+
+		<div class="field_wrapper1">
+			<label>
+				Resultados esperados semana No. 1
+			</label>
+			<br />
+			<label>
+			<h6>
+				Describa los resultados que se espera obtener de la actividades que se adelantarán en la semana No. 1.
+			</h6>
+			</label>
+			<?= $form->field($model4, 'titulo')->textInput(['name'=>'gestioncurricularresultadosesperados-titulo[]']); ?>
+			<?= $form->field($model4, 'descripcion')->textarea(['name'=>'gestioncurricularresultadosesperados-titulo[]']) ?>
+				<a href="javascript:void(0);" class="add_button1" title="Agregar Campos"><img src="../web/images/agregar.png" height="30" width="30" /></a>
+			
+		</div>
+		
+		
+
+		<div class="field_wrapper2">
+			<label>
+				Productos esperados semana No. 1
+			</label>
+			<br />
+			<label>
+			<h6>
+				Describa los productos que se espera obtener de la actividades que se adelantarán en la semana No. 1.
+			</h6>
+			</label>
+			<?= $form->field($model5, 'titulo')->textInput(['name'=>'gestioncurricularresultadosesperados-titulo[]']); ?>
+			<?= $form->field($model5, 'descripcion')->textarea(['name'=>'gestioncurricularresultadosesperados-titulo[]']) ?>
+				<a href="javascript:void(0);" class="add_button2" title="Agregar Campos"><img src="../web/images/agregar.png" height="30" width="30" /></a>
+			
+		</div>
+		
+	</div>
+	
+	<div id="w3" class="panel-group"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">
+	<a class="collapse-toggle" data-toggle="collapse" data-target="#semana1Momento2">
+		Momento 2. Desarrollo de la agenda semana 1
+	</a>
+	</h4></div></div></div>
+	<div id="semana1Momento2" class="collapse">
+		<label>
+			Visita de acompañamiento día 1 (asistió a la IEO)
+		</label>
+		<br />
+	
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	->label("Fotografía (evidencia) de la visita semana 1 día 1"); ?>
+	
+		<label>
+			Visita de acompañamiento día 2 (asistió a la IEO)
+		</label>
+		<br />
+	
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	->label("Fotografía (evidencia) de la visita semana 1 día 2"); ?>
+	
+		<label>
+			Visita de acompañamiento día 3 (asistió a la IEO)
+		</label>
+		<br />
+	
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]) ?>
+	<?= $form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	->label("Fotografía (evidencia) de la visita semana 1 día 3"); ?>
+	
+	<?= $form->field($model6, 'no_visita')->textarea()
+	->label("En caso de que no haya podido cumplir una o más visitas exponga las razones."); ?>
+	
+	
+
+	<label>Actividades ejecutadas semana 1</label>
+	<br />
+	<label><h6>Describa el desarrollo de cada una de las actividades adelantadas para el cumplimiento del objetivo, según lo planeado en el momento 1.</h6></label>
+	<?= $form->field($model7, 'descripcion_respuesta')->textInput() ?>
+	
+	</div>
+	</div>
+    <div class="form-group">
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+	
+
+
+    
+  
+
+  <div id="demo1" class="collapse">
+    
+  </div>
+	
+	
+	
+
+</div>

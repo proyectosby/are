@@ -35,4 +35,9 @@ $( document ).ready(function()
 			
 		}
     });  
+	
+});
+
+$( "#datatables_w0" ).click(function() {
+  alert( "Handler for .click() called." );
 });
