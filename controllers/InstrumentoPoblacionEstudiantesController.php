@@ -19,6 +19,10 @@ use app\models\PoblacionEstudiantesSesion;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
+use yii\db\Query;
+
+use yii\data\ActiveDataProvider;
+
 
 /**
  * InstrumentoPoblacionEstudiantesController implements the CRUD actions for InstrumentoPoblacionEstudiantes model.
@@ -114,18 +118,66 @@ class InstrumentoPoblacionEstudiantesController extends Controller
      */
     public function actionIndex()
     {
-		$query = new Query;
-		// // compose the query
-		// $query->select('id, name')
-			// ->from('user')
-			// ->limit(10);
+		$sede 			= $_SESSION['sede'][0];
+		$institucion	= $_SESSION['instituciones'][0];
+		
+		$queryFasesSesiones = new Query();
+		
+		$dataFasesSesiones = $queryFasesSesiones
+								->select( "f.id as fid, f.descripcion as fdesc, s.id as sid, s.descripcion sdesc " )
+								->from( 'semilleros_tic.fases f' )
+								->innerJoin( 'semilleros_tic.sesiones s', 's.id_fase=f.id' )
+								->where( 'f.estado=1' )
+								->andWhere( 's.estado=1' )
+								->orderby( 'f.descripcion, s.descripcion' )
+								->all();
+		
+		$headersFases = [];
+		$headersSesiones = [];
+		
+		foreach( $dataFasesSesiones as $key => $value ){
+			
+			if( !isset( $headersFases[ $value['fdesc'] ] ) )
+			{
+				$headersFases[ $value['fdesc'] ] = 0;
+			}
+			
+			$headersSesiones[ $value['sdesc'] ] = $value['sid'];
+			$headersFases[ $value['fdesc'] ]++;
+		}
+		
+		$query = new Query();
+		// compose the query
+		$query->select('*')
+			  ->from( 'semilleros_tic.instrumento_poblacion_estudiantes	ipe' )
+			  ->innerJoin( 'semilleros_tic.poblacion_estudiantes_sesion pes', 'pes.id_poblacion_estudiantes=ipe.id' )
+			  ->innerJoin( 'semilleros_tic.sesiones s', 's.id=pes.id_sesiones' )
+			  ->innerJoin( 'semilleros_tic.fases f', 'f.id=s.id_fase' )
+			  ->innerJoin( 'personas pe', 'pe.id=ipe.id_persona_estudiante' )
+			  ->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=pe.id' )
+			  ->innerJoin( 'estudiantes e', 'e.id_perfiles_x_personas=pp.id' )
+			  ->innerJoin( 'paralelos p', 'p.id=e.id_paralelos' )
+			  ->innerJoin( 'sedes_niveles sn', 'sn.id=p.id_sedes_niveles' )
+			  ->where( 'sn.id_sedes='.$sede )
+			  ->andWhere( 'ipe.id_institucion='.$institucion )
+			  ->andWhere( 'ipe.id_sede='.$sede )
+			  ->andWhere( 'pp.estado=1' )
+			  ->andWhere( 'e.estado=1' )
+			  ->andWhere( 'p.estado=1' )
+			  ->andWhere( 'pe.estado=1' )
+			  ->andWhere( 'ipe.estado=1' )
+			  ->all();
+		
+		// echo "<pre>".$query->createCommand()->sql."</pre>";
 		
         $searchModel = new InstrumentoPoblacionEstudiantesBuscar();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel' 	=> $searchModel,
+            'dataProvider' 	=> $dataProvider,
+            'institucion' 	=> $institucion,
+            'sede' 			=> $sede,
         ]);
     }
 
@@ -243,11 +295,11 @@ class InstrumentoPoblacionEstudiantesController extends Controller
 		
 		// $estados			= ArrayHelper::map( $dataEstados, 'id', 'descripcion' );
 		
-		$dataPoblacion 		= PoblacionEstudiantesSesion::find()
-								->where( 'id=1' )
-								->all();
+		// $dataPoblacion 		= PoblacionEstudiantesSesion::find()
+								// ->where( 'id=1' )
+								// ->all();
 		
-		$poblacion			= ArrayHelper::map( $dataPoblacion, 'id', 'descripcion' );
+		// $poblacion			= ArrayHelper::map( $dataPoblacion, 'id', 'descripcion' );
 							
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -257,8 +309,8 @@ class InstrumentoPoblacionEstudiantesController extends Controller
         return $this->render('create', [
             'model' 		=> $model,
             'instituciones' => $instituciones,
-            'sedes' 		=> $sedes,
-            'estudiantes'	=> $estudiantes,
+            'sedes' 		=> [],
+            'estudiantes'	=> [],
             'estados'		=> 1,
         ]);
     }
