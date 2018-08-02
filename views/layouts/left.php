@@ -153,7 +153,14 @@
 													['label' => 'Proyectos jornada compleentaria', 'icon' => 'circle-o', 'url' => ['participacion-proyectos-jornada/index'],],
 												],
 											],
-											['label' => 'Gestión Curricular', 'icon' => 'circle-o', 'url' => '#'],
+											['label' => 'Gestión Curricular',
+											'icon' => 'circle-o',
+											'url' => '#',
+											'items' => [
+														['label' => 'Instrumento autoevaluación', 'icon' => 'circle-o', 'url' => ['dimension-opciones-seguimiento-docente/index'],],
+														
+														],
+											],
                                         ],// Hoja de vida
                                    
                     ],
