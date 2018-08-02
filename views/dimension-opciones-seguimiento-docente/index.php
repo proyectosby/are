@@ -13,7 +13,8 @@ use yii\bootstrap\Collapse;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Instrumento de autoevaluación al Docente-Tutor en el proceso de acompañamiento';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = "Instrumento autoevaluación";
 
 foreach( $dimensiones as $key => $dimension ){
 	
