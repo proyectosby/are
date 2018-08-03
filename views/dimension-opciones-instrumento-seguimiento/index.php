@@ -16,7 +16,7 @@ use nex\chosen\Chosen;
 /* @var $searchModel app\models\DimensionOpcionesSeguimientoDocenteBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'AUTOEVALUACIÓN PROCESO DE FORMACIÓN CON DOCENTES TUTORES';
+$this->title = 'INSTRUMENTO PARA EL SEGUIMIENTO DEL DOCENTE-TUTOR EN EL PROCESO DE ACOMPAÑAMIENTO';
 // $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs'][] = "Instrumento autoevaluación";
 
@@ -44,9 +44,9 @@ foreach( $dimensiones as $key => $dimension ){
 		
 		<?= DatePicker::widget([
 			// 'model' => $model,
-			'name' => 'Test',
-			'attribute' => 'date',
+			'name' 		=> 'Test',
 			'language' => 'es',
+			'attribute' => 'date',
 			'template' => '{addon}{input}',
 				'clientOptions' => [
 					'autoclose' => true,
@@ -57,10 +57,10 @@ foreach( $dimensiones as $key => $dimension ){
 
 	
 	<div class='form-group'>
-		<label>Docente:</label>
+		<label>Nombres y apellidos del Docente-Tutor</label>
 		
 		<?= Chosen::widget([
-			'name' => 'ChosenTest',
+			'name' => 'ChosenTest2',
 			// 'value' => 3,
 			'items' => $docentes,
 			'allowDeselect' => false,
@@ -74,15 +74,14 @@ foreach( $dimensiones as $key => $dimension ){
 
 	</div>
 	
-	<div style='padding:10px;'>
-		<span>
-			<p>Estimado(a) docente tutor(a)</p>
-			
-			<p>La autoevaluación nos posibilita reflexionar sobre nuestro propio aprendizaje y hacer manifiestos los progresos y aspectos por mejorar, optimizando con ello nuestra capacidad de gestionar la manera como aprendemos.<p>
+	<div class='form-group'>
+		<label>Nombres y apellidos del profesional de acompañamiento</label>
+		
+		<?= Html::textInput( 'acompanamiento','',[ 'class' => 'form-control' ] ); ?>
 
-			<p>Teniendo en cuenta lo anterior, le invitamos a responder estas preguntas.</p>
-		</span>
 	</div>
+	
+	<h3 style='background-color:#ccc;padding:10px;'>Seguimiento del proceso de acompañamiento realizado por el Docente Tutor</h3>
     
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
