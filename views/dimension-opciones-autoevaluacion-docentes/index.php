@@ -1,5 +1,4 @@
 <?php
-
 use yii\models\Parametro;
 use yii\helpers\Html;
 
@@ -11,6 +10,11 @@ use yii\bootstrap\Collapse;
 use yii\bootstrap\ActiveForm;
 use dosamigos\datepicker\DatePicker;
 use nex\chosen\Chosen;
+
+\Yii::$container->set('nex\chosen\Chosen', [
+    'translateCategory' => 'app',
+    'noResultsText' => 'Texto no encontrado ',
+]);
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DimensionOpcionesSeguimientoDocenteBuscar */
@@ -69,6 +73,7 @@ foreach( $dimensiones as $key => $dimension ){
 			'clientOptions' => [
 				'search_contains' => true,
 				'max_selected_options' => 2,
+				'no_results_text' => 'asdfasdfasfd',
 			],
 		]);?>
 

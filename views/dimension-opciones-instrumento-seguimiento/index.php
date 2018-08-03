@@ -12,6 +12,11 @@ use yii\bootstrap\ActiveForm;
 use dosamigos\datepicker\DatePicker;
 use nex\chosen\Chosen;
 
+\Yii::$container->set('nex\chosen\Chosen', [
+    'translateCategory' => 'app',
+    'noResultsText' => 'Texto no encontrado ',
+]);
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DimensionOpcionesSeguimientoDocenteBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
