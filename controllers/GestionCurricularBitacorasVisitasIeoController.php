@@ -29,6 +29,10 @@ use app\models\GestionCurricularResultadosEsperados;
 use app\models\GestionCurricularProductosEsperados;
 use app\models\GestionCurricularVisitasAcompanamiento;
 use app\models\GestionCurricularActividadesEjecutadas;
+use app\models\Parametro;
+use app\models\GestionCurricularInformeMensualAcompanamiento;
+use app\models\GestionCurricularJustificacion;
+use app\models\gestionCurricularOpcionesNivelesAvanceMomento4;
 use	yii\helpers\ArrayHelper;
 
 /**
@@ -139,6 +143,7 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
      */
     public function actionCreate()
     {
+				
         $model  = new GestionCurricularBitacorasVisitasIeo();
 		$model2 = new GestionCurricularSemanas();	
 		$model3 = new GestionCurricularActividadesPlaneadas();
@@ -146,6 +151,25 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 		$model5 = new GestionCurricularProductosEsperados();
 		$model6 = new GestionCurricularVisitasAcompanamiento();
 		$model7 = new GestionCurricularActividadesEjecutadas();
+		$model8 = new GestionCurricularJustificacion();
+		$model9 = new GestionCurricularInformeMensualAcompanamiento();
+		
+		$dataParametros = Parametro::find()
+						->where( 'id_tipo_parametro=2' )
+						->andWhere( 'estado=1' )
+						->orderby( 'id' )
+						->all();
+						
+		$parametro	= ArrayHelper::map( $dataParametros, 'id', 'descripcion' );
+		
+		$titulos = gestionCurricularOpcionesNivelesAvanceMomento4::find()
+						->where( 'id_tipo_opciones=5' )
+						->andWhere( 'estado=1' )
+						->orderby( 'id' )
+						->all();
+						
+		$titulos	= ArrayHelper::map( $titulos, 'id', 'descripcion' );
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -158,6 +182,10 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 			'model5' 	=> $model5,
 			'model6' 	=> $model6,
 			'model7' 	=> $model7,
+			'model8' 	=> $model8,
+			'model9' 	=> $model9,
+			'titulos'	=> $titulos,
+			'parametro'	=> $parametro,
 			'jornadas' 	=>$this->obtenerJornadas(),
 			'estados' 	=>$this->obtenerEstados(),
 			'docentes' 	=>$this->obtenerDocentes(),

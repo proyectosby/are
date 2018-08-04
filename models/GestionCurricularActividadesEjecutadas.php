@@ -49,13 +49,13 @@ class GestionCurricularActividadesEjecutadas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion_respuesta' => 'Descripcion Respuesta',
+            'descripcion_respuesta' => 'Descripción Respuesta',
             'actividad_planeada' => 'Actividad Planeada',
-            'se_realizo' => 'Se Realizo',
-            'descripcion_actividad' => 'Descripcion Actividad',
-            'justificacion' => 'Justificacion',
+            'se_realizo' => 'Se Realizó',
+            'descripcion_actividad' => 'Descripción Actividad',
+            'justificacion' => 'Justificación',
             'id_momento' => 'Id Momento',
-            'estado' => 'Estado',
+			'estado' => 'Estado',
         ];
     }
 }

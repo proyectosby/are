@@ -49,9 +49,47 @@ $(document).ready(function(){
     });
 	
 	
+	addButton3 = $('.add_button3'); //Add button selector
+    wrapper3 = $('.field_wrapper3'); //Input field wrapper
+    // var fieldHTML = '<div><input type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    var fieldHTML3 = '<div>'+wrapper3.html()+'<a href="javascript:void(0);" class="remove_button3" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    
+    $(addButton3).click(function(){ //Once add button is clicked
+            $(wrapper3).append(fieldHTML3); // Add field html
+        
+    });
+    $(wrapper3).on('click', '.remove_button3', function(e){ //Once remove button is clicked
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+    });
 	
+	addButton4 = $('.add_button4'); //Add button selector
+    wrapper4 = $('.field_wrapper4'); //Input field wrapper
+    // var fieldHTML = '<div><input type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    var fieldHTML4 = '<div>'+wrapper4.html()+'<a href="javascript:void(0);" class="remove_button4" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    
+    $(addButton4).click(function(){ //Once add button is clicked
+            $(wrapper4).append(fieldHTML3); // Add field html
+        
+    });
+    $(wrapper4).on('click', '.remove_button4', function(e){ //Once remove button is clicked
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+    });
 	
-	
+	addButton5 = $('.add_button5'); //Add button selector
+    wrapper5 = $('.field_wrapper5'); //Input field wrapper
+    // var fieldHTML = '<div><input type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    var fieldHTML5 = '<div>'+wrapper5.html()+'<a href="javascript:void(0);" class="remove_button5" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
+    
+    $(addButton5).click(function(){ //Once add button is clicked
+            $(wrapper5).append(fieldHTML3); // Add field html
+        
+    });
+    $(wrapper5).on('click', '.remove_button5', function(e){ //Once remove button is clicked
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+    });
 	
 	
 	

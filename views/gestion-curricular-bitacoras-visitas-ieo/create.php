@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\GestionCurricularBitacorasVisitasIeo */
 
-$this->title = 'Agregar Gestion Curricular Bitacoras Visitas Ieo';
+$this->title = 'Agregar Gestion Curricular Bitacoras Visitas ieo';
 $this->params['breadcrumbs'][] = ['label' => 'Gestión Curricular Bitácoras Visitas ieos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Agregar";
 ?>
@@ -22,6 +22,10 @@ $this->params['breadcrumbs'][] = "Agregar";
 		'model5' 	=> $model5,
 		'model6' 	=> $model6,
 		'model7' 	=> $model7,
+		'model8' 	=> $model8,
+		'model9' 	=> $model9,
+		'titulos'	=> $titulos,
+		'parametro'	=> $parametro,
 		'jornadas'	=> $jornadas,
 		'estados'	=> $estados,
 		'docentes'	=> $docentes,

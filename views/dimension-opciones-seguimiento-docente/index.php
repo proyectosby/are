@@ -30,9 +30,11 @@ foreach( $dimensiones as $key => $dimension ){
 	];
 }
 ?>
+
+
 <div class="dimension-opciones-seguimiento-docente-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title)?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= Collapse::widget([
