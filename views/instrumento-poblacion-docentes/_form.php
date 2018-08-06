@@ -88,16 +88,7 @@ $this->registerJsFile(
 						'single_backstroke_delete' => false,
 					],
 			]);?>
-		</div>
-		
-		<div id='dv-estudiante' class='col-sm-8'>
-		</div>
-		
-	</div>
-	
-	<div class='row'>
-		
-		<div class='col-sm-4'>
+			
 			<?= $form->field($model, 'id_niveles')->widget(
 				Chosen::className(), [
 					'items' => $estudiantes,
@@ -108,13 +99,7 @@ $this->registerJsFile(
 						'single_backstroke_delete' => false,
 					],
 			]);?>
-		</div>
 		
-	</div>
-	
-	<div class='row'>
-		
-		<div class='col-sm-4'>
 			<?= $form->field($model, 'id_asignaturas_niveles_sedes')->widget(
 				Chosen::className(), [
 					'items' => $estudiantes,
@@ -125,22 +110,17 @@ $this->registerJsFile(
 						'single_backstroke_delete' => false,
 					],
 			])->label('Asignatura');?>
-		</div>
-		
-	</div>
-	
-	
-	<div class='row'>
-		<div class='col-sm-4'>
+			
 			<?= $form->field($model, 'profesion')->textInput();?>
-		</div>
-	</div>
-		
-	<div class='row'>
-		<div class='col-sm-4'>
+			
 			<?= $form->field($model, 'ultimo_nivel')->textInput();?>
 		</div>
+		
+		<div id='dv-estudiante' class='col-sm-8'>
+		</div>
+		
 	</div>
+	
 
     <?= Html::activeHiddenInput( $model, 'estado', [ 'value' => $estados ] ) ?>
 

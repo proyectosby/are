@@ -179,7 +179,9 @@ $( document ).ready(function(){
 				$.post(
 					"index.php?r=instrumento-poblacion-docentes/docentes",
 					{
-						docente:	docentes.val(),
+						docente	:	docentes.val(),
+						sede	:	sedes.val(),
+						nivel	:	niveles.val(),
 					},
 					function( data ){
 						

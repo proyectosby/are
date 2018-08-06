@@ -273,12 +273,16 @@ class InstrumentoPoblacionDocentesController extends Controller
 	
 	function actionDocentes(){
 		
-		$estudiante = Yii::$app->request->post('docente');
+		$docente= Yii::$app->request->post('docente');
+		$sede 	= Yii::$app->request->post('sede');
+		$nivel 	= Yii::$app->request->post('nivel');
 		
-		$persona = Personas::findOne( $estudiante );
+		$persona = Personas::findOne( $docente );
 		
 		return $this->renderPartial( 'docentes', [
 			'persona' 	=> $persona,
+			'sede' 		=> $sede,
+			'nivel' 	=> $nivel,
         ]);
 	}
 	
