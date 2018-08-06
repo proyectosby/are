@@ -199,6 +199,7 @@
 														'url' => '#',
 														'items' => [
 																['label' => 'Población estudiantes', 'icon' => 'circle-o', 'url' => ['instrumento-poblacion-estudiantes/create'],],
+																['label' => 'Población docentes', 'icon' => 'circle-o', 'url' => ['instrumento-poblacion-docentes/create'],],
 														
 														],
 													],
