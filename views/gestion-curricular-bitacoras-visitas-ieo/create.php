@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\GestionCurricularBitacorasVisitasIeo */
 
 $this->title = 'Agregar Gestion Curricular Bitacoras Visitas ieo';
-$this->params['breadcrumbs'][] = ['label' => 'Gestión Curricular Bitácoras Visitas ieos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Gestión Curricular Bitácoras Visitas ieo', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Agregar";
 ?>
 <div class="gestion-curricular-bitacoras-visitas-ieo-create">
