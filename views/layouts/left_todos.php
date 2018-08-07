@@ -66,12 +66,12 @@
 														['label' => 'Carga Masiva', 'icon' => '', 'url' => ['poblar-tabla/index'],],
 														
 														['label' => 'Matricular Estudiante', 'icon' => 'circle-o', 'url' => ['estudiantes/index'],],
-														
+														['label' => 'Resultados','icon' => 'circle-o','url' => '#',],
 														['label' => 'Infraestructura Educativa','icon' => 'circle-o','url' => ['infraestructura-educativa/index'],],
 														['label' => 'Rangos calificación','icon' => 'circle-o','url' => ['rangos-calificacion/index'],],
 														['label' => 'Ponderación resultados','icon' => 'circle-o','url' => ['ponderacion-resultados/index'],],
-													
-														['label' => 'Reportes-Estadisticas', 'icon' => '', 'url' =>  ['reportes/index'],],
+														['label' => 'Estadisticas','icon' => 'circle-o','url' => '#',],
+														['label' => 'Reportes', 'icon' => '', 'url' =>  ['reportes/index'],],
 														['label' => 'Recursos', 
 														'icon' => 'circle-o',
 														'url' => '#',
@@ -85,8 +85,10 @@
 														],
 														['label' => 'Cobertura', 'icon' => '', 'url' =>  ['cobertura/index'],],
 														['label' => 'Soporte Académico', 'icon' => '', 'url' =>  ['grupos-soporte/index'],],
-														
+														['label' => 'Apoyo Académico', 'icon' => '', 'url' =>  ['apoyo-academico/index'],],
 														['label' => 'Docentes-Institución', 'icon' => '', 'url' =>  ['docente-institucion/index'],],
+														['label' => 'Sanciones', 'icon' => '', 'url' =>  ['sanciones-estudiantes/index'],],
+														
 														['label' => 'Resultados', 
 														'icon' => 'circle-o',
 														'url' => '#',
@@ -102,14 +104,22 @@
 																	],
 														
 														],
+														['label' => 'Investigación', 
+														'icon' => 'circle-o',
+														'url' => '#',
+														'items' => [
+																		['label' => 'Proyectos transversales', 'icon' => '', 'url' =>  ['proyectos-pedagogicos-transversales/index'],],
+																		['label' => 'Convocatorias', 'icon' => '', 'url' =>  ['convocatorias/index'],],
+																		['label' => 'Proyecto aula', 'icon' => '', 'url' =>  ['proyecto-aula/index'],],
+																	],
 														
+														],
 												],//
 											],
 											[
 												'label' => 'Gestión Directiva',
 												'icon' => 'sitemap',
 												'url' => '#',
-												 'items' => [
 													['label' => 'Documentos Institucionales', 'icon' => 'circle-o', 'url' => '#',],
 													['label' => 'Instancias', 'icon' => 'circle-o', 'url' => '#',],
 													['label' => 'Proyectos',
@@ -121,7 +131,6 @@
 															['label' => 'Proyectos jornada complementaria', 'icon' => 'circle-o', 'url' => ['participacion-proyectos-jornada/index'],],
 															],
 													],
-												],
 											],
 											[
 												'label' => 'Gestión Académica',
@@ -179,9 +188,9 @@
 														'icon' => 'circle-o', 
 														'url' => '#',
 														'items' => [
-																['label' => 'Población estudiantes', 'icon' => 'long-arrow-right', 'url' => ['instrumento-poblacion-estudiantes/create'],],
-																['label' => 'Población docentes', 'icon' => 'long-arrow-right', 'url' => ['instrumento-poblacion-docentes/create'],],
-																['label' => 'Estudiantes operativo', 'icon' => 'long-arrow-right', 'url' => ['estudiantes-operativo/create'],],
+																['label' => 'Población estudiantes', 'icon' => 'circle-o', 'url' => ['instrumento-poblacion-estudiantes/create'],],
+																['label' => 'Población docentes', 'icon' => 'circle-o', 'url' => ['instrumento-poblacion-docentes/create'],],
+																['label' => 'Estudiantes operativo', 'icon' => 'circle-o', 'url' => ['estudiantes-operativo/create'],],
 														
 														],
 													],
@@ -198,7 +207,6 @@
 															['label' =>' Autoevaluación docente tutor', 'icon' => 'circle-o', 'url' => ['dimension-opciones-autoevaluacion-docentes/index'],],
 															['label' => 'Instrumento seguimiento', 'icon' => 'circle-o', 'url' => ['dimension-opciones-instrumento-seguimiento/index'],],
 															['label' => 'Seguimiento Directivos', 'icon' => 'circle-o', 'url' => ['dimension-opciones-seguimiento-directivos/index'],],
-															['label' => 'Acompañamiento Docente', 'icon' => 'circle-o', 'url' => ['gestion-curricular-docente-tutor-acompanamiento/index'],],
 														
 														],
 													],
@@ -254,7 +262,13 @@
 														['label' => 'Docentes', 'icon' => 'circle-o', 'url' => ['docentes/index'],],
 														['label' => 'Docentes areas trabajo', 'icon' => 'circle-o', 'url' => ['docentes-x-areas-trabajos/index'],],
 														['label' => 'Evaluación', 'icon' => 'circle-o', 'url' => ['evaluacion-docentes/index'],],
-														['label' => 'Vinculación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
+														['label' => 'Vinulación', 'icon' => 'circle-o', 'url' => ['vinculacion-docentes/index'],],
+														['label' => 'Horario', 'icon' => 'circle-o', 'url' => '#',],
+														['label' => 'Indicadores desempeño', 'icon' => 'circle-o', 'url' => ['indicador-desempeno/index'],],
+														['label' => 'Plan de aula', 'icon' => 'circle-o', 'url' => ['plan-de-aula/index'],],
+														['label' => 'Distribución-indicador', 'icon' => 'circle-o', 'url' => ['distribuciones-indicador-desempeno/index'],],
+														['label' => 'Calificaciones', 'icon' => 'circle-o', 'url' => ['calificaciones/index'],],
+														['label' => 'Asistencias', 'icon' => 'circle-o', 'url' => ['inasistencias/index'],],
 														['label' => 'Documentos Interés', 'icon' => 'circle-o', 'url' => ['documentos/index'],],
 														
 														
@@ -266,6 +280,7 @@
 										'url' => '#',
 										 'items' => [
 														['label' => 'Estudiantes', 'icon' => 'circle-o', 'url' => ['representantes-legales/index'],],
+														['label' => 'Horario', 'icon' => 'circle-o', 'url' => ['horario-estudiante/index'],],
 														['label' => 'Hoja de vida', 'icon' => 'circle-o', 'url' => ['hoja-vida-estudiante/index'],],
 													],
 										
