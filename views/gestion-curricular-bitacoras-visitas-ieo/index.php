@@ -13,7 +13,7 @@ use app\models\Instituciones;
 /* @var $searchModel app\models\GestionCurricularBitacorasVisitasIeoBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Gestión Curricular Bitácoras Visitas ieos';
+$this->title = 'Gestión Curricular Bitácoras Visitas ieo';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gestion-curricular-bitacoras-visitas-ieo-index">
