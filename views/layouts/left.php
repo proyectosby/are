@@ -47,8 +47,8 @@
 												[
 														
 														['label' => 'Instituciones','icon' => 'circle-o','url' => ['instituciones/index'],],
-														['label' => 'Documentos Institucionales','icon' => 'circle-o','url' => ['documentos-oficiales/index'],],
-														['label' => 'Instancias','icon' => 'circle-o','url' => ['documentos-instancias-institucionales/index'],],
+														// ['label' => 'Documentos Institucionales','icon' => 'circle-o','url' => ['documentos-oficiales/index'],],
+														// ['label' => 'Instancias','icon' => 'circle-o','url' => ['documentos-instancias-institucionales/index'],],
 														['label' => 'Sedes','icon' => 'circle-o','url' => ['sedes/index'],],
 														['label' => 'Aulas','icon' => 'circle-o','url' => ['aulas/index'],],
 														['label' => 'Jornadas','icon' => 'circle-o','url' => ['jornadas/index'],],
@@ -110,8 +110,8 @@
 												'icon' => 'sitemap',
 												'url' => '#',
 												 'items' => [
-													['label' => 'Documentos Institucionales', 'icon' => 'circle-o', 'url' => '#',],
-													['label' => 'Instancias', 'icon' => 'circle-o', 'url' => '#',],
+													['label' => 'Documentos Institucionales','icon' => 'circle-o','url' => ['documentos-oficiales/index'],],
+												    ['label' => 'Instancias','icon' => 'circle-o','url' => ['documentos-instancias-institucionales/index'],],
 													['label' => 'Proyectos',
 													'icon' => 'circle-o',
 													'url' => '#',
