@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\GestionCurricularDocenteTutorAcompanamiento */
 
-$this->title = 'Agregar Gestion Curricular Docente Tutor Acompanamiento';
+$this->title = 'Agregar Gestión Curricular Docente Tutor Acompañamientos ';
 $this->params['breadcrumbs'][] = ['label' => 'Gestion Curricular Docente Tutor Acompanamientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Agregar";
 ?>

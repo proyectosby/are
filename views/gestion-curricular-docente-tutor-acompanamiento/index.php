@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\GestionCurricularDocenteTutorAcompanamientoBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Gestion Curricular Docente Tutor Acompanamientos';
+$this->title = 'Gestión Curricular Docente Tutor Acompañamientos ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gestion-curricular-docente-tutor-acompanamiento-index">

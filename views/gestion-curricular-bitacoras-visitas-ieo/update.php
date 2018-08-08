@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\GestionCurricularBitacorasVisitasIeo */
 
-$this->title = 'Actualizar';
+$this->title = 'Actualizar Gestión Curricular Bitácoras Visitas ieo';
 $this->params['breadcrumbs'][] = ['label' => 'Gestión Curricular Bitácoras Visitas ieo', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Actualizar";
 ?>
