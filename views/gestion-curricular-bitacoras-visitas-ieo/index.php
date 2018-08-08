@@ -6,7 +6,7 @@ use fedemotta\datatables\DataTables;
 use yii\grid\GridView;
 
 use app\models\PerfilesXPersonas;
-use app\models\personas;
+use app\models\Personas;
 use app\models\Instituciones;
 
 /* @var $this yii\web\View */
