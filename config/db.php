@@ -12,8 +12,14 @@ return [
 	'class' 	=> 'yii\db\Connection',
 	'dsn' 		=> 'pgsql:host=localhost;port=5432;dbname=sga_aprender',
 	'username' 	=> 'postgres',
-	'password' 	=> 'gestion',
+	'password' 	=> 'root',
 	'charset' 	=> 'utf8',
+	// 'schemaMap' => [
+					  // 'pgsql'=> [
+									// 'class'=>'yii\db\pgsql\Schema',
+									// 'defaultSchema' => 'semilleros_tic' //specify your schema here
+								  // ]
+					// ], // PostgreSQL
 	
 	
 	
