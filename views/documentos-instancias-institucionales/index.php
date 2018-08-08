@@ -31,7 +31,7 @@ if( isset($guardado) && $guardado == 1 ){
 	echo Html::hiddenInput( 'guardado', '1' );
 }
 
-$this->title = 'Documentos de instancias';
+$this->title = 'Instancias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="documentos-index">
