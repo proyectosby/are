@@ -69,7 +69,7 @@ class DocumentosInstanciasInstitucionalesController extends Controller
 							->all();
 		$instituciones 	  = ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		
-		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->andWhere( "categoria='Instancia institucionales'")->all();
 		$tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
 		
 		$dataEstados  = Estados::find()->where( 'id=1' )->all();
@@ -260,7 +260,7 @@ class DocumentosInstanciasInstitucionalesController extends Controller
 								->all();
 		$personas 	  = ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 		
-		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->all();
+		$dataTiposDocumento  = TiposDocumentos::find()->where( 'estado=1' )->andWhere( "categoria='Instancia institucionales'")->all();
 		$tiposDocumento 	 = ArrayHelper::map( $dataTiposDocumento, 'id', 'descripcion' );
 		
 		$dataEstados  = Estados::find()->where( 'id=1' )->all();
