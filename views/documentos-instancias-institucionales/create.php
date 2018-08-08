@@ -16,7 +16,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Documentos */
 
-$this->title = 'Agregar documento de instancias institucionales';
+$this->title = 'Agregar documento de instancia';
 $this->params['breadcrumbs'][] = ['label' => 'Documentos', 'url' => ['index', 'idInstitucion' => $idInstitucion ]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
