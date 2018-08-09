@@ -312,12 +312,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	
 	    <?php 
 		
-		$items[] = 
-				[
-					'label'=> "Momento 4. Niveles de avance en el logro de los objetivos",
-					'content'=>$content,
-					'contentOptions'=> []
-				];
+		
 	
 	$content="Para elegir el nivel de avance en los objetivos planteados para todo el proceso de formación, tenga en cuenta los siguientes criterios:
 	<br />
