@@ -274,6 +274,11 @@ $( document ).ready(function(){
 		asignaturas.val('');
 		asignaturas.trigger("chosen:updated");
 		
+		ultimonivel.val( '' );
+		ultimonivel.change();
+		profesion.val( '' );
+		profesion.change();
+		 
 		try{
 			$.get(
 				"index.php?r=sedes/sedes",
@@ -307,37 +312,50 @@ $( document ).ready(function(){
 	});
 
 	$( "#bt-guardar" ).click(function(){
-		$.post(
-			"index.php?r=instrumento-poblacion-docentes/guardar",
-			$( "#w0" ).serialize(),
-			function( data ){
-				// $( "#dv-fases" ).html( data );
-				
-				if( data['error'] == 0 ){
+		
+		var val = true;
+		$('#w0 [id^=instrumentopoblaciondocentes-]').each(function(x){
+			$( "#w0" ).yiiActiveForm( 'validateAttribute', this.id );
+			
+			if( $( ".field-"+this.id ).hasClass( 'has-error' ) ){
+				val = false;
+			}
+		});
+		
+		if( institucion.val() && sedes.val() && docentes.val() && niveles.val() && asignaturas.val() && profesion.val() && ultimonivel.val() ){
+		
+			$.post(
+				"index.php?r=instrumento-poblacion-docentes/guardar",
+				$( "#w0" ).serialize(),
+				function( data ){
+					// $( "#dv-fases" ).html( data );
 					
-					swal({
-						text: "Registros guardados correctamente",
-						icon: "success",
-						button: "Cerrar",
-					});
-				}
-				else{
-					swal({
-						text: "Hubo un error al guardar los datos",
-						icon: "success",
-						button: "Cerrar",
-					});
-				}
-			},
-			"json",
-		);
+					if( data['error'] == 0 ){
+						
+						swal({
+							text: "Registros guardados correctamente",
+							icon: "success",
+							button: "Cerrar",
+						});
+					}
+					else{
+						swal({
+							text: "Hubo un error al guardar los datos",
+							icon: "success",
+							button: "Cerrar",
+						});
+					}
+				},
+				"json",
+			);
+		}
 	});
 	
 	function mostrarFases(){
 		
 		$( "#dv-fases" ).html( '' );
 		
-		if( institucion.val() && sedes.val() && docentes.val() && niveles.val() && asignaturas.val() && profesion.val() && ultimonivel.val() ){
+		if( institucion.val() && sedes.val() && docentes.val() && niveles.val() && asignaturas.val() ){
 			
 			$.post(
 				"index.php?r=instrumento-poblacion-docentes/view-fases",

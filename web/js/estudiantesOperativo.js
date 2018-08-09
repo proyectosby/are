@@ -68,37 +68,7 @@ $( document ).ready(function(){
 	}
 	
 	niveles.change(function(){
-		
 		mostrarFases();
-		
-		// return;
-		
-		// try{
-			// $.get(
-				// "index.php?r=estudiantes-operativo/asignaturas-por-niveles-sedes-por-docente",
-				// {
-					// institucion	:	institucion.val(),
-					// sede		:	sedes.val(),
-					// docente		:	docentes.val(),
-					// nivel		:	niveles.val(),
-				// },
-				// function( data ){
-					
-					// try{
-						// mostrarFases();
-					// }
-					// catch(e){
-						// console.log(e);
-						// mostrarFases();
-					// }
-				// },
-				// "json",
-			// );
-		// }
-		// catch(e){
-			// mostrarFases();
-		// }
-		
 	});
 	
 	docentes.change(function(){
@@ -198,14 +168,6 @@ $( document ).ready(function(){
 		docentes.val('');
 		docentes.trigger("chosen:updated");
 		$( "#dv-institucion-sede" ).html( '' );
-		
-		// niveles.html('');
-		// niveles.val('');
-		// niveles.trigger("chosen:updated");
-		
-		// asignaturas.html('');
-		// asignaturas.val('');
-		// asignaturas.trigger("chosen:updated");
 		
 		try{
 			$.get(
