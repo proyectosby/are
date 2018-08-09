@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\GestionCurricularDocenteTutorAcompanamiento */
 
-$this->title = 'Actualizar Gestión Curricular Docente Tutor Acompañamientos ';
-$this->params['breadcrumbs'][] = ['label' => 'Gestión Curricular Docente Tutor Acompañamientos ', 'url' => ['index']];
+$this->title = 'Instrumento de autoevaluación al Docente-Tutor en el proceso de acompañamiento';
+$this->params['breadcrumbs'][] = ['label' => 'Docente Tutor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = "Actualizar";
 ?>

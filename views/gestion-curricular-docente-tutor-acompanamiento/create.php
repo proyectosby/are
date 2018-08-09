@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\GestionCurricularDocenteTutorAcompanamiento */
 
-$this->title = 'Agregar Gestión Curricular Docente Tutor Acompañamientos ';
-$this->params['breadcrumbs'][] = ['label' => 'Gestion Curricular Docente Tutor Acompanamientos', 'url' => ['index']];
+$this->title = 'Instrumento de autoevaluación al Docente-Tutor en el proceso de acompañamiento';
+$this->params['breadcrumbs'][] = ['label' => 'Docente Tutor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Agregar";
 ?>
 <div class="gestion-curricular-docente-tutor-acompanamiento-create">
