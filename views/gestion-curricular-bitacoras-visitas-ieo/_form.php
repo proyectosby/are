@@ -57,7 +57,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 				'autoclose' 	=> true,
 				'format' 		=> 'yyyy-mm-dd'
 			],
-		]);  
+		])->label("Fecha de inicio del ciclo");  
 	?>
 
     <?= $form->field($model, 'fecha_fin')->widget(
@@ -70,7 +70,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 				'autoclose' 	=> true,
 				'format' 		=> 'yyyy-mm-dd'
 			],
-		]);  
+		])->label("Fecha final del ciclo");  
 	?>
 
 
@@ -83,15 +83,15 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 						'search_contains' => true,
 						'single_backstroke_delete' => false,
 					],
-			]);?>
+			])->label("Docente tutor a cargo");?>
 
-    <?= $form->field($model, 'id_institucion')->DropDownList($arrayInstitucion) ?>
+    <?= $form->field($model, 'id_institucion')->DropDownList($arrayInstitucion)->label("IEO que acompañará") ?>
 
-    <?= $form->field($model, 'id_sede')->DropDownList($arraySede) ?>
+    <?= $form->field($model, 'id_sede')->DropDownList($arraySede)->label("Sede que acompañará") ?>
 
     <?= $form->field($model, 'id_jornada')->DropDownList($jornadas) ?>
 
-    <?= $form->field($model, 'estado')->DropDownList($estados) ?>
+    <?php  $form->field($model, 'estado')->DropDownList($estados) ?>
 	
 		</div>
 	
@@ -114,7 +114,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 					'autoclose' 	=> true,
 					'format' 		=> 'yyyy-mm-dd'
 				],
-			]);  
+			])->label("Fecha inicial (acompañamiento)");  
 		?>
 			
 		<?= $form->field($model2, 'fecha_final')->widget(
@@ -127,7 +127,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 					'autoclose' 	=> true,
 					'format' 		=> 'yyyy-mm-dd'
 				],
-			]);  
+			])->label("Fecha final (acompañamiento)");  
 		?>
 		
 	</div>
@@ -142,7 +142,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	<label>Objetivos a trabajar *</label>
 	<br />
 	<label><h6>Seleccione los objetivos que se trabajarán a través de las actividades planteadas para esta semana</h6></label>
-	 <h5><?= Html::checkboxList('list', '', $momento1Sem1) ?></h5>
+	 <h6><?= Html::checkboxList('list', '', $momento1Sem1,array( 'separator' => "<br /><br/><br/>")) ?></h6>
 	 
 	 
 		<div class="field_wrapper">
@@ -157,7 +157,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			</label>
 			<?= $form->field($model3, 'titulo')->textInput(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->label("Actividad Planeada"); ?>
 			<?= $form->field($model3, 'descripcion')->textarea(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->Label("Descripción Actividad Planeada") ?>
-				<a href="javascript:void(0);" class="add_button" title="Agregar Campos"><img src="../web/images/agregar.png" height="30" width="30" /></a>
+				Agregar Actividades Semana No. 1<a href="javascript:void(0);" class="add_button" title="Agregar Campos"><img src="../web/images/agregar.png" height="30" width="30" /></a>
 			
 		</div>
 		
@@ -309,7 +309,15 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	</div>
 	
 	
+	
 	    <?php 
+		
+		$items[] = 
+				[
+					'label'=> "Momento 4. Niveles de avance en el logro de los objetivos",
+					'content'=>$content,
+					'contentOptions'=> []
+				];
 	
 	$content="Para elegir el nivel de avance en los objetivos planteados para todo el proceso de formación, tenga en cuenta los siguientes criterios:
 	<br />
@@ -321,7 +329,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	";
 	foreach ($titulos as $titulo)
 	{
-		$content.= $form->field( $model7 , 'actividad_planeada' )->radioList( $parametro )->label(  $titulo );
+		$content.= $form->field( $model7 , 'actividad_planeada' )->radioList( $parametro,array( 'separator' => "<br />") )->label(  $titulo );
 	}
 	$content.= $form->field($model8, 'descripcion_respuesta')->textarea()
 				->label("El espacio siguiente tiene como propósito el que usted pueda ampliar, justificar, argumentar o explicar su nivel de avance en la consecución de cada uno de los objetivos seleccionados durante este ciclo.");
@@ -329,7 +337,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 		
 	// $form->field( $model7 , 'descripcion' )->radioList( $parametros )->label(  "pruebas" );
 			//pendiente modelo para guardar
-	$items[0] = 
+	$items[] = 
 				[
 					'label'=> "Momento 4. Niveles de avance en el logro de los objetivos",
 					'content'=>$content,
@@ -341,7 +349,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 En la primera parte del documento haga un balance acumulativo del cumplimiento de los objetivos trabajados hasta el momento, explicando el nivel de avance alcanzado en cada uno; justifique y argumente su respuesta. En la segunda parte escriba sus reflexiones acerca de las lecciones aprendidas y por último elabore una propuesta que le permita reformular, ajustar, cambiar y/o eliminar las actividades o acciones según su criterio y en función de los objetivos. (descargar plantilla para informe)";
 	$content1 .= $form->field($model9, 'ruta_archivo')->FileInput()->label("");
 	$content1 .= $form->field($model9, 'ruta_archivo')->hiddenInput()->label(false);
-	$items[1] = 
+	$items[] = 
 				[
 					'label'=> "Informe mensual de acompañamiento",
 					'content'=>$content1,
