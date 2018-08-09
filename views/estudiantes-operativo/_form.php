@@ -102,9 +102,9 @@ $this->registerJsFile(
 	
 	<div id='dv-fases' class="form-group" style='padding:5px;'>
 	</div>
-
-    <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+	
+	<div class="form-group">
+		<?= Html::buttonInput('Guardar', [ 'id'=>'bt-guardar', 'class'=>'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

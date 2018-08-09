@@ -33,10 +33,11 @@ foreach( $sesiones as $keySesion =>$sesion ){
 	}
 	else{
 		$poblacion = EstudiantesOperativoSesion::findOne([ 
-						'id_poblacion_docentes' 	=> $idPE->id,
+						'id_estudiantes_operativo' 	=> $idPE->id,
 						'id_sesion'					=> $sesion->id,
 					]);
 	}
+
 
 	echo Html::activeHiddenInput( $poblacion, "[$index]id_sesion", [ 'value' => $sesion->id ] );
 

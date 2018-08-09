@@ -27,7 +27,7 @@ use app\models\Personas;
 use app\models\Estados;
 use app\models\Fases;
 use app\models\Sesiones;
-use app\models\PoblacionDocentesSesion;
+use app\models\EstudiantesOperativoSesion;
 use app\models\Escalafones;
 use app\models\Docentes;
 use app\models\DistribucionesAcademicas;
@@ -70,7 +70,6 @@ class EstudiantesOperativoController extends Controller
 					'id_institucion' 				=> $institucion,
 					'id_sede' 		 				=> $sede,
 					'id_profesional'				=> $docente,
-					// 'id_asignaturas_niveles_sedes'	=> $asignatura,
 					'id_nivel'	 					=> $nivel,
 					'estado' 						=> 1,
 				]);
@@ -217,50 +216,42 @@ class EstudiantesOperativoController extends Controller
 					'html' => '',
 				];
 		
-		$instrumentoPoblacionDocentes = Yii::$app->request->post()['InstrumentoPoblacionDocentes'];
+		$estudiantesOperativo = Yii::$app->request->post()['EstudiantesOperativo'];
 		
-		$model = InstrumentoPoblacionDocentes::findOne([
-						'id_institucion' 				=> $instrumentoPoblacionDocentes[ 'id_institucion' ],
-						'id_sede' 						=> $instrumentoPoblacionDocentes[ 'id_sede' ],
-						'id_persona' 					=> $instrumentoPoblacionDocentes[ 'id_persona' ],
-						'id_asignaturas_niveles_sedes' 	=> $instrumentoPoblacionDocentes[ 'id_asignaturas_niveles_sedes' ],
-						'id_niveles' 					=> $instrumentoPoblacionDocentes[ 'id_niveles' ],
+		$model = EstudiantesOperativo::findOne([
+						'id_institucion' 				=> $estudiantesOperativo[ 'id_institucion' ],
+						'id_sede' 						=> $estudiantesOperativo[ 'id_sede' ],
+						'id_profesional'				=> $estudiantesOperativo[ 'id_profesional' ],
+						'id_nivel' 						=> $estudiantesOperativo[ 'id_nivel' ],
 						'estado' 						=> '1',
 					]);
 					
 		if( !$model ){
-			$model = new InstrumentoPoblacionDocentes();
+			$model = new EstudiantesOperativo();
 		}
 		
 		if( $model->load(Yii::$app->request->post()) )
 		{
-			$docente = Docentes::find()
-							->innerJoin( 'perfiles_x_personas pp', 'pp.id=docentes.id_perfiles_x_personas' )
-							->innerJoin( 'personas p', 'p.id=pp.id_personas' )
-							->where( 'p.estado=1' )
-							->andWhere( 'pp.estado=1' )
-							->andWhere( 'docentes.estado=1' )
-							->one();
-							
-			$model->id_escalafon = $docente->id_escalafones;
-			
 			if( $model->save(false) ){
 				
-				$poblaciones = Yii::$app->request->post()['PoblacionDocentesSesion'];
+				$poblaciones = Yii::$app->request->post()['EstudiantesOperativoSesion'];
 				
 				foreach( $poblaciones as $key => $poblacion ){
-					$modelp	=	PoblacionDocentesSesion::findOne([
-									'id_poblacion_docentes' 	=> $model->id,
+					
+					$modelp	=	EstudiantesOperativoSesion::findOne([
+									'id_estudiantes_operativo' 	=> $model->id,
 									'id_sesion' 				=> $poblacion[ 'id_sesion' ],
 								]);
 					
 					if( !$modelp ){
-						$modelp	=	new PoblacionDocentesSesion();
+						$modelp	=	new EstudiantesOperativoSesion();
 					}
 					
-					$modelp->id_poblacion_docentes	= $model->id;
+					$modelp->id_estudiantes_operativo	= $model->id;
 					$modelp->id_sesion					= $poblacion[ 'id_sesion' ];
-					$modelp->valor						= $poblacion[ 'valor' ];
+					$modelp->asistentes					= $poblacion[ 'asistentes' ];
+					$modelp->dificultades_operativas	= $poblacion[ 'dificultades_operativas' ];
+					$modelp->estado						= 1;
 					$modelp->save( false );
 				}
 			}
@@ -295,23 +286,6 @@ class EstudiantesOperativoController extends Controller
 								->all();
 		
 		$instituciones		= ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
-		
-		// $dataSedes 			= Sedes::find()
-								// ->where( 'estado=1' )
-								// ->all();
-		
-		// $sedes		= ArrayHelper::map( $dataSedes, 'id', 'descripcion' );
-		
-		// $dataPersonas 		= Personas::find()
-								// ->select( "( nombres || ' ' || apellidos ) as nombres, personas.id" )
-								// ->innerJoin( 'perfiles_x_personas pp', 'pp.id_personas=personas.id' )
-								// ->innerJoin( 'docentes d', 'd.id_perfiles_x_personas=pp.id' )
-								// ->innerJoin( 'perfiles_x_personas_institucion ppi', 'ppi.id_perfiles_x_persona=pp.id' )
-								// ->where( 'personas.estado=1' )
-								// ->andWhere( 'id_institucion='.$institucion )
-								// ->all();
-		
-		// $estudiantes		= ArrayHelper::map( $dataPersonas, 'id', 'nombres' );
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
