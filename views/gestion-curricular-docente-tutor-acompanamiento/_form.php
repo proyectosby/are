@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Collapse;
 use dosamigos\datepicker\DatePicker;
+use yii\bootstrap\ActiveField;
 /**********
 Versión: 001
 Fecha: 07-08-2018
@@ -42,71 +43,78 @@ Cambios realizados: - creacion del formulario
 				'format' 		=> 'yyyy-mm-dd'
 			],
 		]). 
-    $form->field($model, 'nombre_profesional_acompanamiento')->textInput(['maxlength' => true]). 
-    $form->field($model, 'id_docente')->dropDownList($docentes,['prompt'=>'Seleccione...']) .
-    $form->field($model, 'id_institucion')->dropDownList($instituciones) . 
-    $form->field($model, 'id_sede')->dropDownList($sedes,['prompt'=>'Seleccione...']) 
+    $form->field($model, 'nombre_profesional_acompanamiento')->textInput(['maxlength' => true])->label("Nombres y apellidos del profesional de acompañamiento asignado"). 
+    $form->field($model, 'id_docente')->dropDownList($docentes,['prompt'=>'Seleccione...'])->label("Nombres y apellidos del Docente-Tutor") .
+    $form->field($model, 'id_institucion')->dropDownList($instituciones)->label("IEO asignada") . 
+    $form->field($model, 'id_sede')->dropDownList($sedes,['prompt'=>'Seleccione...'])->label("Sede o sedes asignadas")
 	;
 	
 	
-	$items[0] = 
+	$items[] = 
 				[
 					'label'=> "Docente Tutor",
 					'content'=>$content,
 					'contentOptions'=> []
 				];
+		
 	$content1="<h2>Dimensión del SER</h2>
 	<br />
 	A continuación encontrará una serie de afirmaciones sobre aspectos relacionados con el SER del Docente-Tutor; califique de 1 a 4 siendo 1 Nunca y 4 Siempre, de acuerdo a la frecuencia en que usted considera que se evidencian estas características.
 	<br />
 	<br />";
+	
 	foreach ($titulos1 as $titulo1)
 	{
-		$content1.= $form->field( $model , 'id' )->radioList( $parametro1 )->label(  $titulo1 );
+		$content1.= $form->field( $model , 'id' )->radioList( $parametro1, array( 'separator' => "<br />"))->label(  $titulo1 );	
 	}
 	
-	$content1.="<h2>Dimensión del HACER</h2>
+	$items[] = 
+				[
+					'label'=> "SER",
+					'content'=>$content1,
+					'contentOptions'=> []
+				];
+				
+	$content2="<h2>Dimensión del HACER</h2>
 	<br />
 	A continuación encontrará una serie de afirmaciones sobre aspectos relacionados con el HACER del Docente-Tutor; califique de 1 a 4 siendo 1 Nunca y 4 Siempre, de acuerdo a la frecuencia en que usted considera que se evidencian estas características.
 	<br />
 	<br />";
+	
+	
+	
 	foreach ($titulos2 as $titulo2)
 	{
-		$content1.= $form->field( $model , 'id' )->radioList( $parametro1 )->label(  $titulo2 );
+		$content2.= $form->field( $model , 'id' )->radioList( $parametro1, array( 'separator' => "<br />"))->label(  $titulo2 );
 	}
-	
-	$content1.="<h2>Dimensión del SABER</h2>
+	$items[] = 
+				[
+					'label'=> "HACER",
+					'content'=>$content2,
+					'contentOptions'=> []
+				];
+	$content3="<h2>Dimensión del SABER</h2>
 	<br />
 	A continuación encontrará una serie de afirmaciones sobre aspectos relacionados con el SABER del Docente-Tutor; califique de 1 a 4 siendo 1 Nunca y 4 Siempre, de acuerdo a la frecuencia en que usted considera que se evidencian estas características.
 	<br />
 	<br />";
 	foreach ($titulos3 as $titulo3)
 	{
-		$content1.= $form->field( $model , 'id' )->radioList( $parametro1 )->label(  $titulo3 );
+		$content3.= $form->field( $model , 'id' )->radioList( $parametro1, array( 'separator' => "<br />") )->label(  $titulo3 );
 	}
 		
-		
-	// $form->field( $model7 , 'descripcion' )->radioList( $parametros )->label(  "pruebas" );
-			
-	// $content1 = "<h3>Informe mensual de acompañamiento</h3>
-// En la primera parte del documento haga un balance acumulativo del cumplimiento de los objetivos trabajados hasta el momento, explicando el nivel de avance alcanzado en cada uno; justifique y argumente su respuesta. En la segunda parte escriba sus reflexiones acerca de las lecciones aprendidas y por último elabore una propuesta que le permita reformular, ajustar, cambiar y/o eliminar las actividades o acciones según su criterio y en función de los objetivos. (descargar plantilla para informe)";
-	// $content1 .= $form->field($model9, 'ruta_archivo')->FileInput()->label("");
-	// $content1 .= $form->field($model9, 'ruta_archivo')->hiddenInput()->label(false);
-	$items[1] = 
+	$items[] = 
 				[
-					'label'=> "Seguimiento del Docente-Tutor",
-					'content'=>$content1,
+					'label'=> "SABER",
+					'content'=>$content3,
 					'contentOptions'=> []
 				];
-		
+	
 		echo Collapse::widget([
 		'items' => $items,
 		]); ?>
 
-  
-
    
-
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
