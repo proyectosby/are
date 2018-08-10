@@ -43,6 +43,7 @@ foreach( $dimensiones as $key => $dimension ){
 <div class="dimension-opciones-seguimiento-docente-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( "DIRECTIVOS" ) ?></h1>
 	
 	<div class='form-group'>
 		<label>Fecha:</label>
