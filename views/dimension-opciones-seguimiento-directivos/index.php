@@ -94,6 +94,24 @@ foreach( $dimensiones as $key => $dimension ){
 
 	</div>
 	
+	<div class='form-group'>
+		<label>IEO</label>
+		
+		<?= Chosen::widget([
+			'name' => 'ChosenTest3',
+			// 'value' => 3,
+			'items' => [ 1 => 'Opcion 1' ],
+			'allowDeselect' => false,
+			'disableSearch' => false, // Search input will be disabled
+			'placeholder' => 'Seleccione...', // Search input will be disabled
+			'clientOptions' => [
+				'search_contains' => true,
+				'max_selected_options' => 2,
+			],
+		]);?>
+
+	</div>
+	
 	<h3 style='background-color:#ccc;padding:10px;'>Instrumento para el seguimiento del Docente-Tutor en el proceso de acompañamiento.</h3>
     
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
