@@ -100,7 +100,8 @@ foreach( $dimensiones as $key => $dimension ){
 		<?= Chosen::widget([
 			'name' => 'ChosenTest3',
 			// 'value' => 3,
-			'items' => [ 1 => 'Opcion 1' ],
+			'items' => $instituciones,
+			'value' => $_SESSION['instituciones'][0],
 			'allowDeselect' => false,
 			'disableSearch' => false, // Search input will be disabled
 			'placeholder' => 'Seleccione...', // Search input will be disabled
