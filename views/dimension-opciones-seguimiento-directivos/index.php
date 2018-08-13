@@ -43,6 +43,7 @@ foreach( $dimensiones as $key => $dimension ){
 <div class="dimension-opciones-seguimiento-docente-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( "DIRECTIVOS" ) ?></h1>
 	
 	<div class='form-group'>
 		<label>Fecha:</label>
@@ -90,6 +91,25 @@ foreach( $dimensiones as $key => $dimension ){
 		<label>Cargo de quien diligencia</label>
 		
 		<?= Html::textInput( 'persona-','',[ 'class' => 'form-control' ] ); ?>
+
+	</div>
+	
+	<div class='form-group'>
+		<label>IEO</label>
+		
+		<?= Chosen::widget([
+			'name' => 'ChosenTest3',
+			// 'value' => 3,
+			'items' => $instituciones,
+			'value' => $_SESSION['instituciones'][0],
+			'allowDeselect' => false,
+			'disableSearch' => false, // Search input will be disabled
+			'placeholder' => 'Seleccione...', // Search input will be disabled
+			'clientOptions' => [
+				'search_contains' => true,
+				'max_selected_options' => 2,
+			],
+		]);?>
 
 	</div>
 	
