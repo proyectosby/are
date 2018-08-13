@@ -13,12 +13,12 @@ use app\models\Instituciones;
 /* @var $searchModel app\models\GestionCurricularBitacorasVisitasIeoBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Gestión Curricular Bitácoras Visitas ieo';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = '';
+$this->params['breadcrumbs'][] = "bitacoras-visitas";
 ?>
 <div class="gestion-curricular-bitacoras-visitas-ieo-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode('Bitácora De Visitas A Las Instituciones Educativas Oficiales') ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
