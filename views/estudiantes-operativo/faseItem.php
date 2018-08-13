@@ -71,7 +71,7 @@ foreach( $sesiones as $keySesion =>$sesion ){
 ?>
 
 <div class="form-group">
-	<?= Html::label( "Total", '', [ 'class'=>'control-label col-sm-2' ] ) ?>
+	<?= Html::label( "Número de estudiantes participantes", '', [ 'class'=>'control-label col-sm-2' ] ) ?>
 	<div>
 		<span></span>
 		<div class="col-sm-8">

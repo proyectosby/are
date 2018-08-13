@@ -249,7 +249,7 @@ $( document ).ready(function(){
 					$( ".panel-body" ).each(function(){
 	
 						var spanTotal 	= $( "[total]", this );
-						var inputs		= $( "input:text", this );
+						var inputs		= $( "input:text[id$=asistentes]", this );
 						var _self = this;
 						
 						function calcularTotal(){
@@ -260,7 +260,7 @@ $( document ).ready(function(){
 								sum += $( this ).val()*1;
 							});
 							
-							spanTotal.html( sum );
+							spanTotal.html( sum/inputs.length );
 						}
 						
 						inputs
