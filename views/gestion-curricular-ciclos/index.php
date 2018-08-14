@@ -5,20 +5,17 @@ use yii\helpers\Html;
 use fedemotta\datatables\DataTables;
 use yii\grid\GridView;
 
-use app\models\PerfilesXPersonas;
-use app\models\Personas;
-use app\models\Instituciones;
-
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\GestionCurricularBitacorasVisitasIeoBuscar */
+/* @var $searchModel app\models\GestionCurricularCiclosBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '';
-$this->params['breadcrumbs'][] = "bitacoras-visitas";
+$titulo = "Gestion Curricular Ciclos";
+$this->params['breadcrumbs'][] = $titulo;
 ?>
-<div class="gestion-curricular-bitacoras-visitas-ieo-index">
+<div class="gestion-curricular-ciclos-index">
 
-    <h1><?= Html::encode('Bitácora De Visitas A Las Instituciones Educativas Oficiales') ?></h1>
+    <h1><?= Html::encode($titulo) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -62,29 +59,9 @@ $this->params['breadcrumbs'][] = "bitacoras-visitas";
 	],
            'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'fecha_inicio',
-            'fecha_fin',
-			[
-				'attribute'=>'id_persona_docente_tutor',
-				'value' => function( $model )
-				{
-					$id = PerfilesXPersonas::findOne($model->id_persona_docente_tutor);
-					$personas = Personas::findOne($id);
-					return $personas ? $personas->nombres." ".$personas->apellidos : '';
-				}, 
-			],	
-			[
-				'attribute'=>'id_institucion',
-				'value' => function( $model )
-				{
-					$institucion = Instituciones::findOne($model->id_institucion);
-					return $institucion ? $institucion->descripcion : '';
-				}, 
-			],
-            // 'id_sede',
-            //'id_jornada',
-            //'estado',
+            'descripcion',
+            'fecha_inicial',
+            'fecha_final',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
