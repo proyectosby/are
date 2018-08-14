@@ -61,7 +61,7 @@ foreach( $dimensiones as $key => $dimension ){
 
 	
 	<div class='form-group'>
-		<label>Docente:</label>
+		<label>Nombres y Apellidos del docente tutor:</label>
 		
 		<?= Chosen::widget([
 			'name' => 'ChosenTest',

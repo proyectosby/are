@@ -22,6 +22,7 @@ use yii\filters\VerbFilter;
 
 use app\models\Parametro;
 use app\models\Personas;
+use app\models\Instituciones;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -59,6 +60,12 @@ class DimensionOpcionesInstrumentoSeguimientoController extends Controller
 		$dataProvider->query
 			->andWhere( 'estado=1' )
 			->orderby( 'id_tipo_dimension' );
+			
+		$dataInstituciones = Instituciones::find()
+								->where( 'id='.$institucion )
+								->all();
+						
+		$instituciones	= ArrayHelper::map( $dataInstituciones, 'id', 'descripcion' );
 		
 		$dataParametros = Parametro::find()
 						->where( 'id_tipo_parametro=4' )
@@ -98,6 +105,7 @@ class DimensionOpcionesInstrumentoSeguimientoController extends Controller
             'parametros' 	=> $parametros,
             'dimensiones' 	=> $dimensiones,
             'docentes' 		=> $docentes,
+            'instituciones'	=> $instituciones,
         ]);
     }
 
