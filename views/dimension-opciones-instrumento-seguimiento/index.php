@@ -79,10 +79,30 @@ foreach( $dimensiones as $key => $dimension ){
 
 	</div>
 	
+	
 	<div class='form-group'>
 		<label>Nombres y apellidos del profesional de acompañamiento</label>
 		
 		<?= Html::textInput( 'acompanamiento','',[ 'class' => 'form-control' ] ); ?>
+
+	</div>
+	
+	<div class='form-group'>
+		<label>IEO</label>
+		
+		<?= Chosen::widget([
+			'name' => 'ChosenTest2',
+			// 'value' => 3,
+			'items' => $instituciones,
+			'value' => $_SESSION['instituciones'][0],
+			'allowDeselect' => false,
+			'disableSearch' => false, // Search input will be disabled
+			'placeholder' => 'Seleccione...', // Search input will be disabled
+			'clientOptions' => [
+				'search_contains' => true,
+				'max_selected_options' => 2,
+			],
+		]);?>
 
 	</div>
 	
