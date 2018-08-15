@@ -39,13 +39,20 @@ $arraySede[$idSede]= $nombreSede;
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacorasVisitasIeo.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
  <!-- inicio primer  -->
-	
 
-    <?php $form = ActiveForm::begin(); ?>
-	
+<script>
+	idVisitasIeo ="<?php echo $_GET['id']; ?>";
+</script>
+ 
+ <?php $form = ActiveForm::begin(); ?>
+   
+   <?= $form->field($model10, 'descripcion')->DropDownList($datosCiclos)->label("Ciclo a modificar") ?>
+   <?= $form->field($model2, 'descripcion')->DropDownList($datosSemanas,['prompt'=>'Seleccione...'])->label("Semana a modificar") ?>
+   
 	<?php 
+	 
 	
-	$infoGeneral = 
+	$informacionGeneral ="<div id='informacionGeneral'>".
 	 $form->field($model, 'fecha_inicio')->widget(
 			DatePicker::className(), [
 				
@@ -88,18 +95,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 
     $form->field($model, 'id_jornada')->DropDownList($jornadas).
 
-    $form->field($model, 'estado')->DropDownList($estados);
-	
-	
+    $form->field($model, 'estado')->DropDownList($estados).
+	"</div>";
+	 
 	$items[] = 
 			[
-				'label'=> "Información General",
-				'content'=>$infoGeneral,
+				'label'=> 'Información General',
+				'content'=>$informacionGeneral,
 				'contentOptions'=> []
 			];
-	
-	
-	
+			
+			
+	 
 	$semana1=
 	
 		$form->field($model2, 'descripcion')->hiddenInput(['value'=> "Semana No. 1"])->label(false).
@@ -141,7 +148,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	$momento1="<label>Objetivos a trabajar *</label>
 	<br />
 	<label><h6>Seleccione los objetivos que se trabajarán a través de las actividades planteadas para esta semana</h6></label>
-	 <h6>". Html::checkboxList('list', '', $momento1Sem1,array( 'separator' => "<br /><br/><br/>"))."</h6>
+	 <h6>". Html::checkboxList('list', '', $momento1Sem1,['separator' => "<br /><br/><br/>",'id' =>'checkboxMomento1Semana1' ]).
+	 "</h6>
 	 
 	 
 		<div class='field_wrapper'>
@@ -350,12 +358,14 @@ En la primera parte del documento haga un balance acumulativo del cumplimiento d
 		'items' => $items,
 		]); ?>
 	
-	
+
 	</div>
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
+    
     <?php ActiveForm::end(); ?>	
+	
 
 </div>

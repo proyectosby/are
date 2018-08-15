@@ -1,6 +1,29 @@
 $(document).ready(function(){
    
-    var addButton = $('.add_button'); //Add button selector
+   idVisitasIeo
+   
+   $('a:contains("Semana No. xxxxxxxx")').click(function()
+	{
+		$(this).parent().parent().parent().remove();
+		alert("semana 1");    
+    });
+});
+
+ $("#gestioncurricularsemanas-descripcion").change(function(){ 
+ 
+	textoSemana = $("#gestioncurricularsemanas-descripcion  option:selected").text();
+        $('a:contains("semana 1")').html(function(buscayreemplaza, reemplaza) {
+        return reemplaza.replace('semana 1', textoSemana);
+    });
+
+	textoTexto = $("#gestioncurricularsemanas-descripcion  option:selected").text();
+        $('label:contains("semana No. 1")').html(function(buscayreemplaza, reemplaza) {
+        return reemplaza.replace('semana 1', 'xxxxxxxxxxxxxxxx');
+    });	
+        
+    });
+
+	var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
     var fieldHTML = '<div>'+wrapper.html()+'<a href="javascript:void(0);" class="remove_button" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
     
@@ -13,9 +36,6 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent('div').remove(); //Remove field html
     });
-});
-
-
 	addButton1 = $('.add_button1'); //Add button selector
     wrapper1 = $('.field_wrapper1'); //Input field wrapper
     
@@ -92,6 +112,34 @@ $(document).ready(function(){
     });
 	
 	
-	
+	//saber si uno o varios checkbox esta seleccionado
+	cont =0;
+   $("#checkboxMomento1Semana1 input[type='checkbox']").click(function()
+   {
+
+		if ($(this).is(':checked'))
+		{
+			cont++;
+		}
+		else
+		{
+			cont--;
+		}
+			alert(cont);
+        
+    });
+
+	$(".btn btn-success").click(function()
+   {
+
+		if(cont >0)
+		{}
+		else
+		{
+			confirm("Debe seleccionar almenos un objetivo");
+			return false;
+		}
+        
+    });
 	
 	
