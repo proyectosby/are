@@ -41,7 +41,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
  <!-- inicio primer  -->
 
 <script>
-	idVisitasIeo ="<?php echo $_GET['id']; ?>";
+	idVisitasIeo ="<?php echo @$_GET['id']; ?>";
 </script>
  
  <?php $form = ActiveForm::begin(); ?>

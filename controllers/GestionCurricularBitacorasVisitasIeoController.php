@@ -156,6 +156,12 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 		$model9 = new GestionCurricularInformeMensualAcompanamiento();
 		$model10 = new GestionCurricularCiclos();
 		
+		$datosCiclos =  GestionCurricularCiclos::find()->orderby( 'id' )->all();		
+		$datosCiclos	= ArrayHelper::map( $datosCiclos, 'id', 'descripcion' );
+		
+		$datosSemanas =  GestionCurricularSemanas::find()->orderby( 'id' )->all();		
+		$datosSemanas	= ArrayHelper::map( $datosSemanas, 'id', 'descripcion' );
+		
 		$dataParametros = Parametro::find()
 						->where( 'id_tipo_parametro=2' )
 						->andWhere( 'estado=1' )
@@ -188,6 +194,8 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 			'model9' 	=> $model9,
 			'model10' 	=> $model10,
 			'titulos'	=> $titulos,
+			'datosCiclos'=> $datosCiclos,
+			'datosSemanas'=> $datosSemanas,
 			'parametro'	=> $parametro,
 			'jornadas' 	=>$this->obtenerJornadas(),
 			'estados' 	=>$this->obtenerEstados(),
