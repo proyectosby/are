@@ -179,9 +179,9 @@
 														'icon' => 'circle-o', 
 														'url' => '#',
 														'items' => [
-																['label' => 'Población estudiantes', 'icon' => 'long-arrow-right', 'url' => ['instrumento-poblacion-estudiantes/create'],],
-																['label' => 'Población docentes', 'icon' => 'long-arrow-right', 'url' => ['instrumento-poblacion-docentes/create'],],
-																['label' => 'Estudiantes operativo', 'icon' => 'long-arrow-right', 'url' => ['estudiantes-operativo/create'],],
+																['label' => 'Conformación semilleros', 'icon' => 'long-arrow-right', 'url' => ['semilleros-datos-ieo/create'],],
+																// ['label' => 'Ejecución fase', 'icon' => 'long-arrow-right', 'url' => ['instrumento-poblacion-docentes/create'],],  //cambiar por el de ejecucion fase
+																['label' => 'Diario de campo', 'icon' => 'long-arrow-right', 'url' => ['semilleros-tic-diario-de-campo/index'],],
 														
 														],
 													],
