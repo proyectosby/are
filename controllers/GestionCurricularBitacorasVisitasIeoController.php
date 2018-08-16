@@ -23,6 +23,7 @@ use yii\filters\VerbFilter;
 use app\models\Jornadas;
 use app\models\Estados;
 use app\models\GestionCurricularSemanas;
+use app\models\GestionCurricularCiclos;
 use app\models\GestionCurricularObjetivos;
 use app\models\GestionCurricularActividadesPlaneadas;
 use app\models\GestionCurricularResultadosEsperados;
@@ -145,7 +146,7 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
     {
 				
         $model  = new GestionCurricularBitacorasVisitasIeo();
-		$model2 = new GestionCurricularSemanas();	
+		$model2 = new GestionCurricularSemanas();		
 		$model3 = new GestionCurricularActividadesPlaneadas();
 		$model4 = new GestionCurricularResultadosEsperados();
 		$model5 = new GestionCurricularProductosEsperados();
@@ -153,6 +154,7 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 		$model7 = new GestionCurricularActividadesEjecutadas();
 		$model8 = new GestionCurricularJustificacion();
 		$model9 = new GestionCurricularInformeMensualAcompanamiento();
+		$model10 = new GestionCurricularCiclos();
 		
 		$dataParametros = Parametro::find()
 						->where( 'id_tipo_parametro=2' )
@@ -184,6 +186,7 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 			'model7' 	=> $model7,
 			'model8' 	=> $model8,
 			'model9' 	=> $model9,
+			'model10' 	=> $model10,
 			'titulos'	=> $titulos,
 			'parametro'	=> $parametro,
 			'jornadas' 	=>$this->obtenerJornadas(),
@@ -203,6 +206,39 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		$model2 = new GestionCurricularSemanas();	
+		$model3 = new GestionCurricularActividadesPlaneadas();
+		$model4 = new GestionCurricularResultadosEsperados();
+		$model5 = new GestionCurricularProductosEsperados();
+		$model6 = new GestionCurricularVisitasAcompanamiento();
+		$model7 = new GestionCurricularActividadesEjecutadas();
+		$model8 = new GestionCurricularJustificacion();
+		$model9 = new GestionCurricularInformeMensualAcompanamiento();
+		$model10 = new GestionCurricularCiclos();
+		
+		$datosCiclos =  GestionCurricularCiclos::find()->orderby( 'id' )->all();		
+		$datosCiclos	= ArrayHelper::map( $datosCiclos, 'id', 'descripcion' );
+		
+		$datosSemanas =  GestionCurricularSemanas::find()->orderby( 'id' )->all();		
+		$datosSemanas	= ArrayHelper::map( $datosSemanas, 'id', 'descripcion' );
+		
+		
+		$dataParametros = Parametro::find()
+						->where( 'id_tipo_parametro=2' )
+						->andWhere( 'estado=1' )
+						->orderby( 'id' )
+						->all();
+						
+		$parametro	= ArrayHelper::map( $dataParametros, 'id', 'descripcion' );
+		
+		$titulos = gestionCurricularOpcionesNivelesAvanceMomento4::find()
+						->where( 'id_tipo_opciones=5' )
+						->andWhere( 'estado=1' )
+						->orderby( 'id' )
+						->all();
+						
+		$titulos	= ArrayHelper::map( $titulos, 'id', 'descripcion' );
+		
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -210,9 +246,23 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+			'model2' 	=> $model2,
+			'model3' 	=> $model3,
+			'model4' 	=> $model4,
+			'model5' 	=> $model5,
+			'model6' 	=> $model6,
+			'model7' 	=> $model7,
+			'model8' 	=> $model8,
+			'model9' 	=> $model9,
+			'model10' 	=> $model10,
+			'titulos'	=> $titulos,
+			'datosCiclos'=> $datosCiclos,
+			'datosSemanas'=> $datosSemanas,
+			'parametro'	=> $parametro,
 			'jornadas' =>$this->obtenerJornadas(),
 			'estados' =>$this->obtenerEstados(),
 			'docentes' =>$this->obtenerDocentes(),
+			'momento1Sem1'	=>$this->obtenerObjetivos(1),
         ]);
     }
 

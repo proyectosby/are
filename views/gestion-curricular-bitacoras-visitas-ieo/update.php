@@ -14,10 +14,24 @@ $this->params['breadcrumbs'][] = "Actualizar";
     <h1><?= Html::encode('Bitácora De Visitas A Las Instituciones Educativas Oficiales') ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
-		'jornadas'=>$jornadas,
-		'estados'=>$estados,
-		'docentes'=>$docentes,
-    ]) ?>
+        'model' 	=> $model,
+        'model2' 	=> $model2,
+		'model3' 	=> $model3,
+		'model4' 	=> $model4,
+		'model5' 	=> $model5,
+		'model6' 	=> $model6,
+		'model7' 	=> $model7,
+		'model8' 	=> $model8,
+		'model9' 	=> $model9,
+		'model10' 	=> $model10,
+		'titulos'	=> $titulos,
+		'datosCiclos'=> $datosCiclos,
+		'datosSemanas'=> $datosSemanas,
+		'parametro'	=> $parametro,
+		'jornadas'	=> $jornadas,
+		'estados'	=> $estados,
+		'docentes'	=> $docentes,
+		'momento1Sem1'	=> $momento1Sem1,
+		]) ?>
 
 </div>
