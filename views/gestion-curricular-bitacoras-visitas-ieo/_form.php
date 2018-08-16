@@ -164,19 +164,19 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			</label>".
 			$form->field($model3, 'titulo')->textInput(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->label("Actividad Planeada").
 			$form->field($model3, 'descripcion')->textarea(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->Label("Descripción Actividad Planeada").
-			"Agregar Actividades Semana No. 1<a href='javascript:void(0);' class='add_button' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+			"<label>Agregar Actividades Semana No. 1</label><a href='javascript:void(0);' class='add_button' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 			
 		</div>
 		
 		
 
 		<div class='field_wrapper1'>
-			<label>
+			<label id='semanaNo>
 				Resultados esperados semana No. 1
 			</label>
 			<br />
 			<label>
-			<h6>
+			<h6 id='semanaNo>
 				Describa los resultados que se espera obtener de la actividades que se adelantarán en la semana No. 1.
 			</h6>
 			</label>".
@@ -189,12 +189,12 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 		
 
 		<div class='field_wrapper2'>
-			<label>
+			<label id='semanaNo>
 				Productos esperados semana No. 1
 			</label>
 			<br />
 			<label>
-			<h6>
+			<h6 id='semanaNo>
 				Describa los productos que se espera obtener de la actividades que se adelantarán en la semana No. 1.
 			</h6>
 			</label>".
@@ -247,7 +247,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 
 	"<label>Actividades ejecutadas semana 1</label>
 	<br />
-	<label><h6>Describa el desarrollo de cada una de las actividades adelantadas para el cumplimiento del objetivo, según lo planeado en el momento 1.</h6></label>".
+	<h6>Describa el desarrollo de cada una de las actividades adelantadas para el cumplimiento del objetivo, según lo planeado en el momento 1.</h6>".
 	$form->field($model7, 'descripcion_respuesta')->textInput()->label(false).
 	"<div class='field_wrapper3'>
 	<br />".

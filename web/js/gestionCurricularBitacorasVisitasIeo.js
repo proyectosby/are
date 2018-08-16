@@ -1,7 +1,7 @@
 $(document).ready(function(){
    
    idVisitasIeo
-   
+   numeroSemana=1;
    $('a:contains("Semana No. xxxxxxxx")').click(function()
 	{
 		$(this).parent().parent().parent().remove();
@@ -9,20 +9,23 @@ $(document).ready(function(){
     });
 });
 
+//Sirve para poner el dia de la semana
  $("#gestioncurricularsemanas-descripcion").change(function(){ 
  
-	textoSemana = $("#gestioncurricularsemanas-descripcion  option:selected").text();
+	textoSemana = $("#gestioncurricularsemanas-descripcion  option:selected");
         $('a:contains("semana 1")').html(function(buscayreemplaza, reemplaza) {
-        return reemplaza.replace('semana 1', textoSemana);
+        return reemplaza.replace('semana 1', textoSemana.text());
     });
 
-	textoTexto = $("#gestioncurricularsemanas-descripcion  option:selected").text();
-        $('label:contains("semana No. 1")').html(function(buscayreemplaza, reemplaza) {
-        return reemplaza.replace('semana 1', 'xxxxxxxxxxxxxxxx');
-    });	
-        
+	$('label:contains("'+numeroSemana+'")').html(function(buscayreemplaza, reemplaza) {
+       
+		return reemplaza.replace(numeroSemana, textoSemana.val());
     });
-
+	numeroSemana = textoSemana.val();
+	// $('#semanaNo').html("");
+	// $('#semanaNo').html(textoSemana.val());
+	
+});
 	var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
     var fieldHTML = '<div>'+wrapper.html()+'<a href="javascript:void(0);" class="remove_button" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
