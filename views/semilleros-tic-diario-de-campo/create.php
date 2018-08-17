@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SemillerosTicDiarioDeCampo */
 
-$this->title = 'Agregar Semilleros Tic Diario De Campo';
+$this->title = 'Semilleros Tic Diario De Campo';
 $this->params['breadcrumbs'][] = ['label' => 'Semilleros Tic Diario De Campos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = "Agregar";
 ?>

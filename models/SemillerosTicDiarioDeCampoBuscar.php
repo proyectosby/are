@@ -18,7 +18,7 @@ class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
     public function rules()
     {
         return [
-            [['id', 'id_ejecucion_fase', 'estado'], 'integer'],
+            [['id', 'id_fase', 'estado'], 'integer'],
             [['descripcion', 'hallazgos'], 'safe'],
         ];
     }
@@ -60,7 +60,7 @@ class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_ejecucion_fase' => $this->id_ejecucion_fase,
+            'id_fase' => $this->id_fase,
             'estado' => $this->estado,
         ]);
 

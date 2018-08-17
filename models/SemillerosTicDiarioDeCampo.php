@@ -29,12 +29,12 @@ class SemillerosTicDiarioDeCampo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_ejecucion_fase', 'descripcion', 'hallazgos', 'estado'], 'required'],
-            [['id_ejecucion_fase', 'estado'], 'default', 'value' => null],
-            [['id_ejecucion_fase', 'estado'], 'integer'],
+            [['id_fase', 'descripcion', 'hallazgos', 'estado'], 'required'],
+            [['id_fase', 'estado'], 'default', 'value' => null],
+            [['id_fase', 'estado'], 'integer'],
             [['descripcion', 'hallazgos'], 'string', 'max' => 5000],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
-            [['id_ejecucion_fase'], 'exist', 'skipOnError' => true, 'targetClass' => SemillerosTicEjecucionFase::className(), 'targetAttribute' => ['id_ejecucion_fase' => 'id']],
+            [['id_fase'], 'exist', 'skipOnError' => true, 'targetClass' => Fases::className(), 'targetAttribute' => ['id_fase' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class SemillerosTicDiarioDeCampo extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ejecucion_fase' => 'Ejecución Fase',
+            'id_fase' => 'Fase',
             'descripcion' => 'Descripción',
             'hallazgos' => 'Hallazgos',
             'estado' => 'Estado',
