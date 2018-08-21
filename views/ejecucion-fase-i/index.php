@@ -6,13 +6,13 @@ use fedemotta\datatables\DataTables;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\SemillerosTicDiarioDeCampoBuscar */
+/* @var $searchModel app\models\EjecucionFaseIBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Semilleros Tic Diario De Campos';
+$this->title = 'Ejecucion Fases';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="semilleros-tic-diario-de-campo-index">
+<div class="ejecucion-fase-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -59,11 +59,22 @@ $this->params['breadcrumbs'][] = $this->title;
            'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
+            'id',
             'id_fase',
-            'descripcion',
-            'hallazgos',
-            // 'estado',
+            'id_datos_sesiones',
+            'docente',
+            'asignaturas',
+            //'especiaidad',
+            //'paricipacion_sesiones',
+            //'numero_apps',
+            //'seiones_empleadas',
+            //'acciones_realiadas',
+            //'temas_problama',
+            //'tipo_conpetencias',
+            //'observaciones',
+            //'id_datos_ieo_profesional',
+            //'estado',
+            //'numero_sesiones_docente',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

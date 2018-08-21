@@ -80,7 +80,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <!--<?= $form->field($model, 'id_ejecucion_fase')->textInput() ?>-->
+    <!--<?= $form->field($model, 'id_fase')->textInput() ?>-->
 
 	<div class="" style='padding:0px;background-color:#ccc;height:30px;text-align:center;'>
 			Espacio de escritura para el profesional

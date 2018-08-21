@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\SemillerosTicDiarioDeCampo;
+use app\models\SemillerosDatosIeoEstudiantes;
 
 /**
- * SemillerosTicDiarioDeCampoBuscar represents the model behind the search form of `app\models\SemillerosTicDiarioDeCampo`.
+ * SemillerosDatosIeoEstudiantesBuscar represents the model behind the search form of `app\models\SemillerosDatosIeoEstudiantes`.
  */
-class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
+class SemillerosDatosIeoEstudiantesBuscar extends SemillerosDatosIeoEstudiantes
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
     public function rules()
     {
         return [
-            [['id', 'id_fase', 'estado'], 'integer'],
-            [['descripcion', 'hallazgos'], 'safe'],
+            [['id', 'id_institucion', 'profecional_a', 'estado', 'id_sede'], 'integer'],
+            [['docente_aliado'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
      */
     public function search($params)
     {
-        $query = SemillerosTicDiarioDeCampo::find();
+        $query = SemillerosDatosIeoEstudiantes::find();
 
         // add conditions that should always apply here
 
@@ -60,12 +60,13 @@ class SemillerosTicDiarioDeCampoBuscar extends SemillerosTicDiarioDeCampo
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_fase' => $this->id_fase,
+            'id_institucion' => $this->id_institucion,
+            'profecional_a' => $this->profecional_a,
             'estado' => $this->estado,
+            'id_sede' => $this->id_sede,
         ]);
 
-        $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
-            ->andFilterWhere(['ilike', 'hallazgos', $this->hallazgos]);
+        $query->andFilterWhere(['ilike', 'docente_aliado', $this->docente_aliado]);
 
         return $dataProvider;
     }
