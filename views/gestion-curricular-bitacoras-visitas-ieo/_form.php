@@ -36,6 +36,7 @@ $arrayInstitucion[$idInstitucion]= $nombreInstitucion;
 $nombreSede = Sedes::find()->where(['id' => @$idSede ])->one();
 $nombreSede = @$nombreSede->descripcion;
 $arraySede[$idSede]= $nombreSede;
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/sweetalert2.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacorasVisitasIeo.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
  <!-- inicio primer  -->
@@ -47,7 +48,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
  <?php $form = ActiveForm::begin(); ?>
    
    <?= $form->field($model10, 'descripcion')->DropDownList($datosCiclos)->label("Ciclo a modificar") ?>
-   <?= $form->field($model2, 'descripcion')->DropDownList($datosSemanas,['prompt'=>'Seleccione...'])->label("Semana a modificar") ?>
+   <?= $form->field($model2, 'descripcion')->DropDownList($datosSemanas)->label("Semana a modificar") ?>
    
 	<?php 
 	 
@@ -102,7 +103,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			[
 				'label'=> 'Información General',
 				'content'=>$informacionGeneral,
-				'contentOptions'=> []
+				'contentOptions'=> ["id"=>"infoGeneral"]
 			];
 			
 			
@@ -164,7 +165,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			</label>".
 			$form->field($model3, 'titulo')->textInput(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->label("Actividad Planeada").
 			$form->field($model3, 'descripcion')->textarea(['name'=>'gestioncurricularactividadesplaneadas-descripcion[]'])->Label("Descripción Actividad Planeada").
-			"<label>Agregar Actividades Semana No. 1</label><a href='javascript:void(0);' class='add_button' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+			"Agregar<a href='javascript:void(0);'name ='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 			
 		</div>
 		
@@ -182,7 +183,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			</label>".
 			$form->field($model4, 'titulo')->textInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])->Label("Resultado Esperado").
 			$form->field($model4, 'descripcion')->textarea(['name'=>'gestioncurricularresultadosesperados-titulo[]'])->Label("Descripción Resultado Esperado").
-				"<a href='javascript:void(0);' class='add_button1' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+				"Agregar<a href='javascript:void(0);' name ='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 			
 		</div>
 		
@@ -200,7 +201,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			</label>".
 			$form->field($model5, 'titulo')->textInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])->Label("Producto Esperado").
 			$form->field($model5, 'descripcion')->textarea(['name'=>'gestioncurricularresultadosesperados-titulo[]'])->Label("Descripción Producto Esperado").
-			"<a href='javascript:void(0);' class='add_button2' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+			"Agregar<a href='javascript:void(0);' name ='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 			
 		</div>";	
 		
@@ -217,9 +218,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 			Visita de acompañamiento día 1 (asistió a la IEO)
 	</label>
 	<br />".	
-	$form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]).
-	$form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]).
-	$form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	$form->field($model6, 'asistio')->radio(['label' => 'Sí', 'uncheck' => null, 'onclick'=>'radioSeleccionado(this);']).
+	$form->field($model6, 'asistio')->radio(['label' => 'No', 'uncheck' => null, 'onclick'=>'radioSeleccionado(this);']).
+	$form->field($model6, 'ruta_archivo')->FileInput()
 	->label("Fotografía (evidencia) de la visita semana 1 día 1").
 	
 	"<label>
@@ -227,9 +228,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	</label>
 	<br />".
 	
-	$form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]).
-	$form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]).
-	$form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	$form->field($model6, 'id')->radio(['label' => 'Sí', 'uncheck' => null]).
+	$form->field($model6, 'id')->radio(['label' => 'No','uncheck' => null, 'onclick'=>'radioSeleccionado(this);']).
+	$form->field($model6, 'ruta_archivo')->FileInput()
 	->label("Fotografía (evidencia) de la visita semana 1 día 2").
 	
 	"<label>
@@ -237,9 +238,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	</label>
 	<br />".
 	
-	$form->field($model6, 'asistio')->radio(['label' => 'Sí', 'value' => true, 'uncheck' => null]).
-	$form->field($model6, 'asistio')->radio(['label' => 'No', 'value' => false, 'uncheck' => null]).
-	$form->field($model6, 'ruta_archivo')->FileInput(['name'=>'gestioncurricularresultadosesperados-titulo[]'])
+	$form->field($model6, 'descripcion')->radio(['label' => 'Sí', 'uncheck' => null]).
+	$form->field($model6, 'descripcion')->radio(['label' => 'No',  'uncheck' => null]).
+	$form->field($model6, 'ruta_archivo')->FileInput()
 	->label("Fotografía (evidencia) de la visita semana 1 día 3").
 	$form->field($model6, 'no_visita')->textarea()->label("En caso de que no haya podido cumplir una o más visitas exponga las razones.").
 	
@@ -260,7 +261,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	"</div>
 	<br />
 	Agregar
-	<a href='javascript:void(0);' class='add_button3' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>";
+	<a href='javascript:void(0);' name ='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>";
 		
 	$items[] = 
 				[
@@ -288,7 +289,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	"</div>
 	<br />
 	Agregar
-	<a href='javascript:void(0);' class='add_button4' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+	<a href='javascript:void(0);' name='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 	
 	<br />
 	<br />
@@ -306,7 +307,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/gestionCurricularBitacora
 	"</div>
 	<br />
 	Agregar
-	<a href='javascript:void(0);' class='add_button5' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
+	<a href='javascript:void(0);' name='agregarCampos' title='Agregar Campos'><img src='../web/images/agregar.png' height='30' width='30' /></a>
 	";
 	
 	

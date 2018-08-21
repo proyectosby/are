@@ -1,148 +1,120 @@
 $(document).ready(function(){
-   
-   idVisitasIeo
    numeroSemana=1;
+
    $('a:contains("Semana No. xxxxxxxx")').click(function()
 	{
 		$(this).parent().parent().parent().remove();
-		alert("semana 1");    
     });
 });
 
-//Sirve para poner el dia de la semana
- $("#gestioncurricularsemanas-descripcion").change(function(){ 
+eliminarAcordeones();
+//para eliminar los acordeones que no se debe llenar
+function eliminarAcordeones()
+{
+ if (idVisitasIeo > 0)
+	{	
+		//mostrar el segundo acordeon
+		var i=3;
+		// i = 7 solo para pruebas
+		i=7;
+    }
+	else
+	{
+		//mostrar el primer acordeon i =2
+		i=2;
+	}
+	
+	//Cuantos acordeones son
+	cantidadAcordeones = $("[href^='#w1-collapse']").length
+		$("[href^='#w1-collapse']").each(function( index ) {
+	});
+	 //elimina los acordeones
+	for (i ; i <= cantidadAcordeones; i++) { 
+		$("[href='#w1-collapse"+i+"']").parent().parent().parent().remove()
+	}
+}   
+	//Sirve para poner el dia de la semana
+	$("#gestioncurricularsemanas-descripcion").change(function()
+	{ 
+		textoSemana = $("#gestioncurricularsemanas-descripcion  option:selected");
+		$('a:contains("semana '+numeroSemana+'")').html(function(buscayreemplaza, reemplaza) {
+			return reemplaza.replace('semana '+numeroSemana, 'semana '+textoSemana.val());
+		});
+			
+		$('a:contains("No. '+numeroSemana+'")').html(function(buscayreemplaza, reemplaza) {
+			return reemplaza.replace('No. '+numeroSemana, 'No. '+textoSemana.val());
+		});
+			
+		$('label:contains("'+numeroSemana+'")').html(function(buscayreemplaza, reemplaza) {
+			return reemplaza.replace(numeroSemana, textoSemana.val());
+		});
+		numeroSemana = textoSemana.val();
+	});
+	
+//agrega campos cuando se le da en el boton agregar
+$("[name='agregarCampos']").click(function(){ //Once add button is clicked
+    
+    var fieldHTML = '<div>Titulo<input type="text" class="form-control">Descripcion<textarea class="form-control"></textarea><a href="javascript:void(0);" onclick="removeCampos(this);" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30"/></a></div>'; //New input field html
+	$(this).parent('div').append(fieldHTML); // Add field html
+ });
+
+contRadiosChecked = 0; 
+function radioSeleccionado(obj)
+{
+	alert($(obj).is( ":checked" ));
+}
  
-	textoSemana = $("#gestioncurricularsemanas-descripcion  option:selected");
-        $('a:contains("semana 1")').html(function(buscayreemplaza, reemplaza) {
-        return reemplaza.replace('semana 1', textoSemana.text());
-    });
+//remover los campos agregeados
+function removeCampos(obj)
+{
+	swal({
+	  title: '¿Esta seguro?',
+	  text: "Esta acción no se puede revertir",
+	  type: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Borrar'
+	}).then((result) => {
+	  if (result.value) 
+	  {
+		$(obj).parent('div').remove();
+	  }
+	})
+	
+	
+} 
 
-	$('label:contains("'+numeroSemana+'")').html(function(buscayreemplaza, reemplaza) {
-       
-		return reemplaza.replace(numeroSemana, textoSemana.val());
-    });
-	numeroSemana = textoSemana.val();
-	// $('#semanaNo').html("");
-	// $('#semanaNo').html(textoSemana.val());
+
+	
+//saber si uno o varios checkbox esta seleccionado
+cont =0;
+$("#checkboxMomento1Semana1 input[type='checkbox']").click(function()
+{
+
+	if ($(this).is(':checked'))
+	{
+		cont++;
+	}
+	else
+	{
+		cont--;
+	}
+		alert(cont);
 	
 });
-	var addButton = $('.add_button'); //Add button selector
-    var wrapper = $('.field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div>'+wrapper.html()+'<a href="javascript:void(0);" class="remove_button" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton).click(function(){ //Once add button is clicked
-        
-            $(wrapper).append(fieldHTML); // Add field html
-        
-    });
-    $(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	addButton1 = $('.add_button1'); //Add button selector
-    wrapper1 = $('.field_wrapper1'); //Input field wrapper
-    
-    var fieldHTML1 = '<div>'+wrapper1.html()+'<a href="javascript:void(0);" class="remove_button1" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton1).click(function(){ //Once add button is clicked
-        
-            $(wrapper1).append(fieldHTML1); // Add field html
-        
-    });
-    $(wrapper1).on('click', '.remove_button1', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	
-	
-	addButton2 = $('.add_button2'); //Add button selector
-    wrapper2 = $('.field_wrapper2'); //Input field wrapper
-    
-     var fieldHTML2 = '<div>'+wrapper2.html()+'<a href="javascript:void(0);" class="remove_button2" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton2).click(function(){ //Once add button is clicked
-        
-            $(wrapper2).append(fieldHTML2); // Add field html
-        
-    });
-    $(wrapper2).on('click', '.remove_button2', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	
-	
-	addButton3 = $('.add_button3'); //Add button selector
-    wrapper3 = $('.field_wrapper3'); //Input field wrapper
-    
-    var fieldHTML3 = '<div>'+wrapper3.html()+'<a href="javascript:void(0);" class="remove_button3" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton3).click(function(){ //Once add button is clicked
-            $(wrapper3).append(fieldHTML3); // Add field html
-        
-    });
-    $(wrapper3).on('click', '.remove_button3', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	
-	
-	addButton4 = $('.add_button4'); //Add button selector
-    wrapper4 = $('.field_wrapper4'); //Input field wrapper
-    
-    var fieldHTML4 = '<div>'+wrapper4.html()+'<a href="javascript:void(0);" class="remove_button4" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton4).click(function(){ //Once add button is clicked
-            $(wrapper4).append(fieldHTML4); // Add field html
-        
-    });
-    $(wrapper4).on('click', '.remove_button4', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	
-	addButton5 = $('.add_button5'); //Add button selector
-    wrapper5 = $('.field_wrapper5'); //Input field wrapper
-    
-    var fieldHTML5 = '<div>'+wrapper5.html()+'<a href="javascript:void(0);" class="remove_button5" title="Eliminar"><img src="../web/images/borrar.png" height="30" width="30" /></a></div>'; //New input field html 
-    
-    $(addButton5).click(function(){ //Once add button is clicked
-            $(wrapper5).append(fieldHTML5); // Add field html
-        
-    });
-    $(wrapper5).on('click', '.remove_button5', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-    });
-	
-	
-	//saber si uno o varios checkbox esta seleccionado
-	cont =0;
-   $("#checkboxMomento1Semana1 input[type='checkbox']").click(function()
-   {
 
-		if ($(this).is(':checked'))
-		{
-			cont++;
-		}
-		else
-		{
-			cont--;
-		}
-			alert(cont);
-        
-    });
+$(".btn btn-success").click(function()
+{
 
-	$(".btn btn-success").click(function()
-   {
-
-		if(cont >0)
-		{}
-		else
-		{
-			confirm("Debe seleccionar almenos un objetivo");
-			return false;
-		}
-        
-    });
+	if(cont >0)
+	{}
+	else
+	{
+		confirm("Debe seleccionar almenos un objetivo");
+		return false;
+	}
+	
+});
 	
 	
