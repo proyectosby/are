@@ -181,6 +181,7 @@
 														'items' => [
 																['label' => 'Semilleros docentes', 'icon' => 'long-arrow-right', 'url' => ['semilleros-datos-ieo/create'],],
 																['label' => 'Semilleros estudiantes', 'icon' => 'long-arrow-right', 'url' => ['semilleros-datos-ieo-estudiantes/create'],],  
+																['label' => 'Ejecución fase I', 'icon' => 'long-arrow-right', 'url' => ['ejecucion-fase-i/create'],],  
 																['label' => 'Diario de campo', 'icon' => 'long-arrow-right', 'url' => ['semilleros-tic-diario-de-campo/index'],],
 														
 														],

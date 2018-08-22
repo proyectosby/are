@@ -1,4 +1,10 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (15-08-2018)
+Desarrollador: Viviana Rodas
+Descripción: diario de campo semilleros tic
+******************/
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -6,20 +12,34 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\SemillerosTicDiarioDeCampo */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile(Yii::$app->request->baseUrl.'/js/diarioCampo.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
+
+<!-- Se inicia el formulario-->
+<?php $form = ActiveForm::begin(); ?>
+
+<!-- Espacio para seleccionar la fase -->
+	<div class="col-sm-4" style='padding:0px;'>
+		<?= $form->field($fasesModel, 'id')->dropDownList($fases, ['prompt'=>'Seleccione...', 'id' =>'selFases'])->label("Fase") ?>
+	</div><br><br>
+	
+ <!--  div contenedor de todo el formulario y los campos que se muestran-->
+ <div id="principal">
+ 
 <!-- Espacio para los datos que se cargan desde la base de datos-->
-<div class="col-sm-9" style='padding:0px;background-color:#ccc;height:30px;text-align:center;'>
-			BITACORA FASE I
-		</div><br><br>
+		<div class="col-sm-9" id='titulo' style='padding:0px;background-color:#ccc;height:30px;text-align:center;'>
+			
+		</div><br>
 		<div class="col-sm-9" style='padding:0px;background-color:#ccc;height:30px;text-align:center;'>
 			RESUMEN CUANTITATIVO DEL RESULTADO
-		</div><br><br>
+		</div><br><br><br><br>
 <div class="container-fluid">
 
 	
-	<div class=row style='text-align:center;'>
-		<div class="col-sm-1" style='padding:0px;'>
+	<div class=row style='text-align:center;' id="encabezado"'>
+		<!--<div class="col-sm-1" style='padding:0px;'>
 			<span total class='form-control' style='background-color:#ccc;height:110px;'>No. de Docentes</span>
 		</div>
 		<div class="col-sm-1" style='padding:0px;'>
@@ -42,11 +62,11 @@ use yii\widgets\ActiveForm;
 		</div>
 		<div class="col-sm-2" style='padding:0px;'>
 			<span total class='form-control' style='background-color:#ccc;height:110px'>Temas problemas tratados</span>
-		</div>
+		</div> -->
 	</div>
 	
-	<div class=row>
-		<div class="col-sm-1" style='padding:0px;background-color:#fff;height:100px'>
+	<div class=row id="contenido">
+		<!--<div class="col-sm-1" style='padding:0px;background-color:#fff;height:100px'>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-sm-1" style='padding:0px;background-color:#fff;height:100px'>
@@ -72,13 +92,13 @@ use yii\widgets\ActiveForm;
 		</div>
 		<div class="col-sm-1" style='padding:0px;background-color:#fff;height:100px'>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-		</div>
+		</div>-->
 	</div>
 	
 	<!-- formulario -->
 	<div class="semilleros-tic-diario-de-campo-form col-sm-9">
 
-    <?php $form = ActiveForm::begin(); ?>
+    
 
     <!--<?= $form->field($model, 'id_fase')->textInput() ?>-->
 
@@ -101,6 +121,8 @@ use yii\widgets\ActiveForm;
 </div>
 	
 	
+</div>
+
 </div>
 
 

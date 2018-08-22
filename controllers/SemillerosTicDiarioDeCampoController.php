@@ -1,4 +1,10 @@
 <?php
+/**********
+Versión: 001
+Fecha: Fecha en formato (15-08-2018)
+Desarrollador: Viviana Rodas
+Descripción: diario de campo semilleros tic
+******************/
 
 namespace app\controllers;
 
@@ -19,6 +25,11 @@ use app\models\SemillerosTicDiarioDeCampoBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Fases;
+use yii\helpers\ArrayHelper;
+use app\models\Parametro;
+
 
 /**
  * SemillerosTicDiarioDeCampoController implements the CRUD actions for SemillerosTicDiarioDeCampo model.
@@ -77,12 +88,22 @@ class SemillerosTicDiarioDeCampoController extends Controller
     {
         $model = new SemillerosTicDiarioDeCampo();
 
+		//se crea una instancia del modelo fases
+		$fasesModel 		 	= new Fases();
+		//se traen los datos de fases
+		$dataFases		 	= $fasesModel->find()->all();
+		//se guardan los datos en un array
+		$fases	 	 	 	= ArrayHelper::map( $dataFases, 'id', 'descripcion' );
+		
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'fases' => $fases,
+            'fasesModel' => $fasesModel,
         ]);
     }
 
@@ -97,12 +118,22 @@ class SemillerosTicDiarioDeCampoController extends Controller
     {
         $model = $this->findModel($id);
 
+		//se crea una instancia del modelo fases
+		$fasesModel 		 	= new Fases();
+		//se traen los datos de fases
+		$dataFases		 	= $fasesModel->find()->all();
+		//se guardan los datos en un array
+		$fases	 	 	 	= ArrayHelper::map( $dataFases, 'id', 'descripcion' );
+		
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'fases' => $fases,
+            'fasesModel' => $fasesModel,
         ]);
     }
 
@@ -134,5 +165,42 @@ class SemillerosTicDiarioDeCampoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+	
+	/**
+     * Esta funcion lista las opciones de la ejecución diario de campo
+     * 
+     * @param Recibe id fase
+     * @return la lista de los campos
+     * @throws no tiene excepciones
+     */	
+	public function actionOpcionesEjecucionDiarioCampo($idFase)
+    {
+       $data = array('mensaje'=>'','html'=>'','contenido'=>'');
+	   
+	   //se crea una instancia del modelo parametro
+		$parametroTable 		 	= new Parametro();
+		//se traen los datos de paramero								  
+		$dataParametro		 	= $parametroTable->find()->where('estado=1 and id_tipo_parametro ='.$idFase)->all();										  
+		//se guardan los datos en un array
+		$opcionesEjecucion	 	 	 = ArrayHelper::map( $dataParametro, 'id', 'descripcion' );
+
+        
+		$data['html']="";
+		$data['contenido']="";
+		foreach ($opcionesEjecucion as $key => $value)
+		{
+			// print_r($key."-".$value);
+			
+			$data['html'].="<div class='col-sm-1' style='padding:0px;'>";
+			$data['html'].="<span total class='form-control' style='background-color:#ccc;height:110px;'>".$value."</span>";
+			$data['html'].="</div>";
+			
+			$data['contenido'].="<div class='col-sm-1' style='padding:0px;background-color:#fff;height:100px'>";
+			$data['contenido'].="&nbsp;&nbsp;&nbsp;&nbsp;";
+			$data['contenido'].="</div>";
+		}
+        
+		echo json_encode( $data );
     }
 }
