@@ -232,7 +232,7 @@ class GestionCurricularBitacorasVisitasIeoController extends Controller
 		
 		
 		$dataParametros = Parametro::find()
-						->where( 'id_tipo_parametro=2' )
+						->where( 'id_tipo_parametro=1' )
 						->andWhere( 'estado=1' )
 						->orderby( 'id' )
 						->all();
