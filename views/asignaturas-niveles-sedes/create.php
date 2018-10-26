@@ -20,6 +20,12 @@ $this->title = 'Agregar Asignaturas Niveles Sedes';
 $this->params['breadcrumbs'][] = ['label' => 'Asignaturas Niveles Sedes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<script>
+
+var idModelo= 0 ;
+
+</script>
 <div class="asignaturas-niveles-sedes-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
