@@ -26,6 +26,8 @@ else
 	header('Location: index.php?r=site%2Flogin');
 	die;
 }
+
+use app\models\ObservacionesCalificaciones;
 use Yii;
 use app\models\Calificaciones;
 use app\models\CalificacionesBuscar;
@@ -580,7 +582,7 @@ class CalificacionesController extends Controller
 			else
 				$models[] = new Calificaciones();
 		}
-		
+
 		
 		if (Calificaciones::loadMultiple($models, Yii::$app->request->post(), 'data' ) && Calificaciones::validateMultiple($models)) {
             foreach ($models as $model) {
@@ -607,6 +609,24 @@ class CalificacionesController extends Controller
 																	"id" 				=> $model->id,
 																	"indicadorDesempeno"=> $model->id_distribuciones_x_indicador_desempeno,
 																];
+
+
+            $observacion = ObservacionesCalificaciones::find()->where([
+                    'id_estudiante' => $model->id_perfiles_x_personas_estudiantes,
+                    'id_asignature' => $model->id_distribuciones_x_indicador_desempeno
+                 ]
+            )->one();
+
+            if (!$observacion){
+                $observacion = new Calificaciones();
+            }
+
+            $observacion->id_estudiante = $model->id_perfiles_x_personas_estudiantes;
+            $observacion->id_sede_jornada = $data[0]['id_sede_jornada'];
+            $observacion->id_paralelo = $data[0]['id_paralelo'];
+            $observacion->id_asignatura = $model->id_distribuciones_x_indicador_desempeno;
+            $observacion->id_periodo = $data[0]['id_periodo'];
+            $observacion->save();
 		}
 		
 		echo json_encode( $val );

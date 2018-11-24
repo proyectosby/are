@@ -101,9 +101,9 @@ function notaFinal(obj)
 
 function cargarCalificacionAEstudiantes( indicadoresDesempeno ){	
 
-	console.log("====================================")
-	console.log("indicadoresDesempeno")
-	console.log(indicadoresDesempeno)
+	//console.log("====================================")
+	//console.log("indicadoresDesempeno")
+	//console.log(indicadoresDesempeno)
 	
 	var idDocente =	$( "#selDocentes" ).val();
 	
@@ -206,13 +206,15 @@ $( ".content a" ).click(function(){
 					id										: $( inIds ).eq(y+1).val()*1,
 					calificacion							: $( this ).val()*1,
 					fecha									: "2018-03-21",
-					observaciones							: "",
+					//observaciones							: "",
 					id_perfiles_x_personas_docentes			: idDocente,
 					id_perfiles_x_personas_estudiantes		: estudiante,
 					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).data("id")*1,
 					fecha_modificacion						: "2018-03-21",
 					estado									: 1,
 					id_periodo								: $( "#selPeriodo" ).val(),
+                    id_sede_jornada							: $( "#selMateria" ).val(),
+					id_paralelo								: $( "#selGrupo" ).val(),
 				});
 			});
 		});
@@ -221,22 +223,21 @@ $( ".content a" ).click(function(){
 		// return;
 		$.post(
 			"index.php?r=calificaciones/create",
-			{ 
-				data: data 
+			{
+				data: data
 			},
 			function( data ){
-				
 				try{
 					for( var x in data ){
-						
+
 						var trEstudiante = $( "[estudiante="+x+"]" );
 						var inIds		 = $( "input:hidden:lt(7)", trEstudiante );
-						
+
 						$( data[x] ).each(function(y){
 							inIds.eq(y+1).val( this.id );
 						});
 					}
-					
+
 					swal({
 						text: "Califiaciones guardadas exitosamente",
 						icon: "success",
@@ -529,11 +530,16 @@ $("#selPeriodo").change(function(){
 					colspan : 1,
 					rowspan : 4,
 				},
-				{
-					html 	: "Co evaluación",
-					colspan : 1,
-					rowspan : 4,
-				},
+                {
+                    html 	: "Co evaluación",
+                    colspan : 1,
+                    rowspan : 4,
+                },
+                {
+                    html 	: "Observaciones",
+                    colspan : 1,
+                    rowspan : 4,
+                },
 			],
 			[
 				celdaConocer, 
@@ -647,15 +653,22 @@ $("#selPeriodo").change(function(){
 							+"<input type='text' class='form-control falta' disabled='disabled'>"
 						+"</div>"
 					+"</td>";
-					
-			//Co evaluación
-			table += "<td>"
-						+"<div class='form-group field-calificacionesbuscar-observaciones'>"
-							+"<input type='text' class='form-control coevaluacion'>"
-						+"</div>"
-					"</td>";
-			
-			table += "</tr>";
+
+            //Co evaluación
+            table += "<td>"
+                +"<div class='form-group field-calificacionesbuscar-observaciones'>"
+                +"<input type='text' class='form-control coevaluacion'>"
+                +"</div>"
+            "</td>";
+
+            //Observaciones
+            table += "<td>"
+                +"<div class='form-group field-calificacionesbuscar-observaciones'>"
+                +"<input type='text' class='form-control observaciones'>"
+                +"</div>"
+            "</td>";
+
+            table += "</tr>";
 		}
 		
 		table += "</tbody>";
