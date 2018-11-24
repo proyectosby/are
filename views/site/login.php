@@ -11,7 +11,7 @@ use	yii\helpers\ArrayHelper;
 
 use nex\chosen\Chosen;
 
-$this->title = 'Ingreso al sistema MCEE';
+$this->title = 'Ingreso al sistema GERMAN';
 $this->params['breadcrumbs'][] = $this->title;
 
 if(isset($_SESSION)) 

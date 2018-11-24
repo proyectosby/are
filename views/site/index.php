@@ -154,13 +154,13 @@ else
 
 /* @var $this yii\web\View */
 
-$this->title = 'Sistema de Información MCEE';
+$this->title = 'Sistema de Información GERMAN';
 ?>
 
 <div class="site-index">
 
     <div class="jumbotron">
-        <h2>Bienvenido al sistema de información MI COMUNIDAD ES ESCUELA</h2>
-        <img src="../views/site/logo_mcee.png" style="width: 100%; margin: 15px auto;">
+        <h2>Bienvenido al sistema de información GERMAN</h2>
+        <!--<img src="../views/site/logo_mcee.png" style="width: 100%; margin: 15px auto;">-->
 	</div>
 </div>
