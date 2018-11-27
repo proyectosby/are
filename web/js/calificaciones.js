@@ -206,17 +206,25 @@ $( ".content a" ).click(function(){
 					id										: $( inIds ).eq(y+1).val()*1,
 					calificacion							: $( this ).val()*1,
 					fecha									: "2018-03-21",
-					//observaciones							: "",
 					id_perfiles_x_personas_docentes			: idDocente,
 					id_perfiles_x_personas_estudiantes		: estudiante,
 					id_distribuciones_x_indicador_desempeno	: codigosDesempeno.eq(y).data("id")*1,
 					fecha_modificacion						: "2018-03-21",
 					estado									: 1,
 					id_periodo								: $( "#selPeriodo" ).val(),
-                    id_sede_jornada							: $( "#selMateria" ).val(),
-					id_paralelo								: $( "#selGrupo" ).val(),
+                    id_sede_jornada							: $( "#selJornada" ).val(),
+                    id_asignatura                    		: $( "#selMateria" ).val(),
+                    id_paralelo								: $( "#selGrupo" ).val()
 				});
 			});
+		});
+
+		observaciones = [];
+
+		observaciones.push({
+            observacion_conocer	: $( ".observaciones_0" ).val(),
+            observacion_hacer	: $( ".observaciones_1" ).val(),
+            observacion_saber	: $( ".observaciones_2" ).val()
 		});
 		
 		
@@ -224,7 +232,8 @@ $( ".content a" ).click(function(){
 		$.post(
 			"index.php?r=calificaciones/create",
 			{
-				data: data
+				data: data,
+				observacion: observaciones
 			},
 			function( data ){
 				try{
@@ -535,11 +544,6 @@ $("#selPeriodo").change(function(){
                     colspan : 1,
                     rowspan : 4,
                 },
-                {
-                    html 	: "Observaciones",
-                    colspan : 1,
-                    rowspan : 4,
-                },
 			],
 			[
 				celdaConocer, 
@@ -592,9 +596,9 @@ $("#selPeriodo").change(function(){
 		
 		//Pinta el encabezado de la tabla reprensentada por titulos
 		var table = "<table>";
-		
+
 		table += "<thead>";
-		
+
 		for( var x in titulos ){
 			table += "<tr>";
 			for( var y in titulos[x] ){
@@ -621,9 +625,9 @@ $("#selPeriodo").change(function(){
 			table += "<tr estudiante='"+listaEstudiantes[x].id+"'>";
 			table += "<td><b>#"+cont+"</b></td>";
 			table += "<td><b>"+listaEstudiantes[x].nombres+"</b><input type='hidden' value='"+listaEstudiantes[x].id+"' name='idPersona'></td>";
-			
+
 			for( var y in indicadoresOrdenados ){
-				
+
 				table += "<td>"
 							+"<div class='form-group field-calificacionesbuscar-observaciones'>"
 								+"<input type='text' class='form-control nota' name='' onkeyup='notaFinal(this)'>"
@@ -661,22 +665,25 @@ $("#selPeriodo").change(function(){
                 +"</div>"
             "</td>";
 
-            //Observaciones
-            table += "<td>"
-                +"<div class='form-group field-calificacionesbuscar-observaciones'>"
-                +"<input type='text' class='form-control observaciones'>"
-                +"</div>"
-            "</td>";
-
             table += "</tr>";
+            //Observaciones
+            $.each(titulos[1], function( index, value ) {
+                table += "<tr>" +
+                    "<td colspan='10'><div class='form-group field-calificacionesbuscar-observacion'>\n" +
+                    "<label style='width: 100%;'>\n" +
+                    "<span style='text-align: left; display: flex;'>Observacion "+ value["html"] +"</span>\n" +
+                    "<textarea class='form-control observaciones_" + index + "'></textarea>\n" +
+                    "</label>\n" +
+                    "</div></td></tr>";
+            });
 		}
 		
 		table += "</tbody>";
 		
 		table += "</table>";
-		
-		$( "#dvEstudiantes" ).append( table );
-		
+
+        $( "#dvEstudiantes" ).append( table );
+
 		$( "#estudiantes input:text.nota" ).on('keyup', function(e) {
 					
 					

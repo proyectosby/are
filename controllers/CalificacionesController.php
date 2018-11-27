@@ -571,7 +571,9 @@ class CalificacionesController extends Controller
     public function actionCreate()
     {		
 		// var_dump( Yii::$app->request->post('data') );
-		$data	=  Yii::$app->request->post('data');
+        $data	=  Yii::$app->request->post('data');
+        $observaciones =  Yii::$app->request->post('observacion');
+
 		$count 	= count(Yii::$app->request->post('data'));
 		
 		$models = [];
@@ -609,28 +611,35 @@ class CalificacionesController extends Controller
 																	"id" 				=> $model->id,
 																	"indicadorDesempeno"=> $model->id_distribuciones_x_indicador_desempeno,
 																];
+			 $estudiante = $model->id_perfiles_x_personas_estudiantes;
+
+		}
 
 
+        foreach ($observaciones as $observacion_data){
             $observacion = ObservacionesCalificaciones::find()->where([
-                    'id_estudiante' => $model->id_perfiles_x_personas_estudiantes,
-                    'id_asignature' => $model->id_distribuciones_x_indicador_desempeno
-                 ]
+                    'id_estudiante' => $estudiante,
+                    'id_asignatura' => $data[0]['id_asignatura']
+                ]
             )->one();
 
-            if (!$observacion){
-                $observacion = new Calificaciones();
+            if (is_null($observacion)){
+                $observacion = new ObservacionesCalificaciones();
             }
 
-            $observacion->id_estudiante = $model->id_perfiles_x_personas_estudiantes;
-            $observacion->id_sede_jornada = $data[0]['id_sede_jornada'];
+            $observacion->id_estudiante = $estudiante;
+            $observacion->id_jornada = $data[0]['id_sede_jornada'];
             $observacion->id_paralelo = $data[0]['id_paralelo'];
-            $observacion->id_asignatura = $model->id_distribuciones_x_indicador_desempeno;
+            $observacion->id_asignatura = $data[0]['id_asignatura'];
             $observacion->id_periodo = $data[0]['id_periodo'];
+            $observacion->observacion_conocer = $observacion_data['observacion_conocer'];
+            $observacion->observacion_hacer = $observacion_data['observacion_hacer'];
+            $observacion->observacion_saber = $observacion_data['observacion_saber'];
+
             $observacion->save();
-		}
-		
-		echo json_encode( $val );
-		
+        }
+
+		return json_encode( $val );
     }
 
     /**

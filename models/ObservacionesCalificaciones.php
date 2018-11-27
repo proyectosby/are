@@ -9,16 +9,19 @@ use Yii;
  *
  * @property string $id
  * @property string $id_estudiante
- * @property string $id_sede_jornada
+ * @property string $id_jornada
  * @property string $id_paralelo
  * @property string $id_asignatura
  * @property string $id_periodo
+ * @property string $observacion_conocer
+ * @property string $observacion_hacer
+ * @property string $observacion_saber
  *
  * @property Asignaturas $asignatura
  * @property Estudiantes $estudiante
+ * @property Jornadas $jornada
  * @property Paralelos $paralelo
  * @property Periodos $periodo
- * @property SedesJornadas $sedeJornada
  */
 class ObservacionesCalificaciones extends \yii\db\ActiveRecord
 {
@@ -36,14 +39,15 @@ class ObservacionesCalificaciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estudiante', 'id_sede_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'required'],
-            [['id_estudiante', 'id_sede_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'default', 'value' => null],
-            [['id_estudiante', 'id_sede_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'integer'],
+            [['id_estudiante', 'id_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'required'],
+            [['id_estudiante', 'id_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'default', 'value' => null],
+            [['id_estudiante', 'id_jornada', 'id_paralelo', 'id_asignatura', 'id_periodo'], 'integer'],
+            [['observacion_conocer', 'observacion_hacer', 'observacion_saber'], 'string'],
             [['id_asignatura'], 'exist', 'skipOnError' => true, 'targetClass' => Asignaturas::className(), 'targetAttribute' => ['id_asignatura' => 'id']],
             [['id_estudiante'], 'exist', 'skipOnError' => true, 'targetClass' => Estudiantes::className(), 'targetAttribute' => ['id_estudiante' => 'id_perfiles_x_personas']],
+            [['id_jornada'], 'exist', 'skipOnError' => true, 'targetClass' => Jornadas::className(), 'targetAttribute' => ['id_jornada' => 'id']],
             [['id_paralelo'], 'exist', 'skipOnError' => true, 'targetClass' => Paralelos::className(), 'targetAttribute' => ['id_paralelo' => 'id']],
             [['id_periodo'], 'exist', 'skipOnError' => true, 'targetClass' => Periodos::className(), 'targetAttribute' => ['id_periodo' => 'id']],
-            [['id_sede_jornada'], 'exist', 'skipOnError' => true, 'targetClass' => SedesJornadas::className(), 'targetAttribute' => ['id_sede_jornada' => 'id']],
         ];
     }
 
@@ -55,10 +59,13 @@ class ObservacionesCalificaciones extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_estudiante' => 'Id Estudiante',
-            'id_sede_jornada' => 'Id Sede Jornada',
+            'id_jornada' => 'Id Jornada',
             'id_paralelo' => 'Id Paralelo',
             'id_asignatura' => 'Id Asignatura',
             'id_periodo' => 'Id Periodo',
+            'observacion_conocer' => 'Observacion Conocer',
+            'observacion_hacer' => 'Observacion Hacer',
+            'observacion_saber' => 'Observacion Saber',
         ];
     }
 
@@ -81,6 +88,14 @@ class ObservacionesCalificaciones extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getJornada()
+    {
+        return $this->hasOne(Jornadas::className(), ['id' => 'id_jornada']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getParalelo()
     {
         return $this->hasOne(Paralelos::className(), ['id' => 'id_paralelo']);
@@ -92,13 +107,5 @@ class ObservacionesCalificaciones extends \yii\db\ActiveRecord
     public function getPeriodo()
     {
         return $this->hasOne(Periodos::className(), ['id' => 'id_periodo']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSedeJornada()
-    {
-        return $this->hasOne(SedesJornadas::className(), ['id' => 'id_sede_jornada']);
     }
 }

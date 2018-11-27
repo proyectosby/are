@@ -130,11 +130,12 @@ $this->params['breadcrumbs'][] = $this->title;
 			</tr>
 			
 		</table>
-		
-	</div>
+    </div>
 	<br>
 	<br>
 	<br>
+
+
 	<div id=dvEstudiantes>
 		<!-- <table>
 			<thead >
@@ -238,9 +239,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 	
 	<?php ActiveForm::end(); ?>
-	
-	
-	
 	
 	
 	
