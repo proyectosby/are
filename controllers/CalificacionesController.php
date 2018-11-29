@@ -27,7 +27,13 @@ else
 	die;
 }
 
+use app\models\Docentes;
 use app\models\ObservacionesCalificaciones;
+use app\models\Paralelos;
+use app\models\Personas;
+use Mpdf\Mpdf;
+use Mpdf\MpdfException;
+use Mpdf\Output\Destination;
 use Yii;
 use app\models\Calificaciones;
 use app\models\CalificacionesBuscar;
@@ -567,6 +573,7 @@ class CalificacionesController extends Controller
      * Creates a new Calificaciones model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws \Mpdf\MpdfException
      */
     public function actionCreate()
     {		
@@ -638,6 +645,10 @@ class CalificacionesController extends Controller
 
             $observacion->save();
         }
+
+        $mpdf = new Mpdf();
+		$mpdf->WriteHTML("html prueba");
+        $mpdf->Output('test.pdf', Destination::DOWNLOAD);
 
 		return json_encode( $val );
     }
@@ -768,5 +779,85 @@ class CalificacionesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGeneratePdf(){
+        try {
+
+            $institucion = Yii::$app->request->post("institucionSede");
+            $idDocente = Yii::$app->request->post("docente");
+            $idParalelo = Yii::$app->request->post("paralelo");
+            $estudiante = Yii::$app->request->post("estudiante");
+            $idsAsignaturas = Yii::$app->request->post("materias");
+
+            $paralelo = Paralelos::findOne($idParalelo);
+            $docente = Docentes::findOne($idDocente);
+            $docente = Personas::findOne($docente->id_perfiles_x_personas);
+
+            unset($idsAsignaturas[0]);
+            $result_array = "";
+
+            foreach ($idsAsignaturas as $each_number) {
+                $result_array = $each_number.",".$result_array;
+            }
+
+            $idsAsignaturas = substr($result_array, 0, -1);
+
+            #Creamos el objeto pdf (con medidas en milímetros):
+            $pdf = new Mpdf();
+
+            //variable con la conexion a la base de datos
+            $connection = Yii::$app->getDb();
+            //traer el id distribucion
+            $command = $connection->createCommand("select da.id
+												from distribuciones_academicas as da, paralelos as p, asignaturas as a, asignaturas_x_niveles_sedes as ans
+												where da.id_perfiles_x_personas_docentes = $idDocente
+												and da.id_paralelo_sede = p.id
+												and p.id = $idParalelo
+												and a.id in($idsAsignaturas)
+												and da.id_asignaturas_x_niveles_sedes = ans.id
+												and ans.id_asignaturas  = a.id");
+            // $result = $command->queryAll();
+            $idDistribucion = $command->queryAll();
+
+            $result_array = "";
+
+            foreach ($idDistribucion as $each_number) {
+                foreach ($each_number as $each) {
+                    $result_array = $each.",".$result_array;
+                }
+            }
+
+            $idDistribucion = substr($result_array, 0, -1);
+
+            //traer indicadores de desempeño de la distribucion
+            $command = $connection->createCommand("select did.id, id.id as codigo
+												from distribuciones_academicas as da, distribuciones_x_indicador_desempeno as did, paralelos as p, indicador_desempeno as id
+												where da.id_perfiles_x_personas_docentes = $idDocente
+												and da.id_paralelo_sede = p.id
+												and p.id = $idParalelo
+												and did.id_distribuciones = da.id
+												and id_distribuciones in($idDistribucion)
+												and id_indicador_desempeno = id.id");
+            $result = $command->queryAll();
+            ;
+            $materiasEstObserv = ObservacionesCalificaciones::find()->where('id_estudiante=:estudiante', [':estudiante'=>$estudiante[0]["id"]])->all();
+
+            $contentend = $this->renderPartial('generatePdf', [
+                'institucion' => $institucion,
+                'docente' => $docente->nombres." ".$docente->apellidos,
+                'estudiante' => $estudiante[0]["nombres"],
+                'paralelo' => $paralelo->descripcion,
+                'asignaturas' => $materiasEstObserv,
+            ]);
+
+            $pdf->WriteHTML($contentend);
+
+            $pdf->Output("../web/prueba.pdf", \Mpdf\Output\Destination::FILE);
+
+            exit();
+        } catch (MpdfException $e) {
+            var_dump($e);
+        }
     }
 }

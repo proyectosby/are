@@ -16,6 +16,7 @@ use yii\widgets\ActiveForm;
 
 use app\models\Personas;
 
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js");
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/calificaciones.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js");
 // <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -237,12 +238,15 @@ $this->params['breadcrumbs'][] = $this->title;
 	 <p>
         <?= Html::a('Guardar', [''], ['class' => 'btn btn-success']) ?>
     </p>
-	
-	<?php ActiveForm::end(); ?>
-	
-	
-	
-	
+
+    <?php ActiveForm::end(); ?>
+
+    <br>
+    <p>
+        <?= Html::button('Generar Pdf', ['class' => 'btn btn-success', 'onclick' => 'generatePdf()']) ?>
+    </p>
+
+    <br>
     <p>
         <!-- <?= Html::a('Create Calificaciones', ['create'], ['class' => 'btn btn-success']) ?> -->
     </p>

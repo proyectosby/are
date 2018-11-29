@@ -759,44 +759,78 @@ $("#selPeriodo").change(function(){
 	$("#thPers").html('').data( 'id', '' );
 	$("#thSoci").html('').data( 'id', '' );
 	$("#thAE").html('').data( 'id', '' );
-	
-	
-	//llenar indicadores desempeño
-	$.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura, 
-				function( data )
-				{
-					datosTitulosIndicadores = obtenerDatosEncabezado();
-					addIndicadores( datosTitulosIndicadores.indicadores, data );
-					
-					
-					//Variable que contiene todos los indicadores en el orden en que so pintados
-					var indicadoresOrdenados = [];
-					
-					//Se agrega las celdas correspondientes a los codigos e ids de indicadores
-					for( var x in datosTitulosIndicadores.indicadores )
-					{
-						//x es uno de los valores conocer, hacer, ser, personal, social, ae
-						//Por cada x agrego las celdas correspondiente
-						if( data && data[x] ){
-							for( var y in data[x] ){
-								
-								indicadoresOrdenados.push( data[x][y] );	//Agrego el indicador pintado
-								
-								datosTitulosIndicadores.titulos[3].push({
-									html 		: data[x][y].codigo,
-									atributos	: "data-id="+data[x][y].id,
-									colspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
-									rowspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
-								})
-							}
-						}
-					}
-					
-					pintarTabla( datosTitulosIndicadores, listaEstudiantes, indicadoresOrdenados );
-					
-					cargarCalificacionAEstudiantes( indicadoresOrdenados );
-					
-					consultarInasistencias();
-				},
-		"json");
+
+
+    //llenar indicadores desempeño
+    $.get( "index.php?r=calificaciones/listar-i&idDocente="+idDocente+"&idParalelo="+idParalelo+"&idAsignatura="+idAsignatura,
+        function( data )
+        {
+            datosTitulosIndicadores = obtenerDatosEncabezado();
+            addIndicadores( datosTitulosIndicadores.indicadores, data );
+
+
+            //Variable que contiene todos los indicadores en el orden en que so pintados
+            var indicadoresOrdenados = [];
+
+            //Se agrega las celdas correspondientes a los codigos e ids de indicadores
+            for( var x in datosTitulosIndicadores.indicadores )
+            {
+                //x es uno de los valores conocer, hacer, ser, personal, social, ae
+                //Por cada x agrego las celdas correspondiente
+                if( data && data[x] ){
+                    for( var y in data[x] ){
+
+                        indicadoresOrdenados.push( data[x][y] );	//Agrego el indicador pintado
+
+                        datosTitulosIndicadores.titulos[3].push({
+                            html 		: data[x][y].codigo,
+                            atributos	: "data-id="+data[x][y].id,
+                            colspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
+                            rowspan 	: 1,	//son celdas individuales por lo tanto siempre es uno
+                        })
+                    }
+                }
+            }
+
+            pintarTabla( datosTitulosIndicadores, listaEstudiantes, indicadoresOrdenados );
+
+            cargarCalificacionAEstudiantes( indicadoresOrdenados );
+
+            consultarInasistencias();
+        },
+        "json");
 });
+
+function generatePdf() {
+
+    idDocente =	$("#selDocentes").val();
+	idParalelo   =	$("#selGrupo").val();
+    idAsignaturas = $("#selMateria").val();
+
+    //consulta los estudiantes que tiene ese paralelo
+     $.get( "index.php?r=calificaciones/personas&idParalelo="+idParalelo,
+        function( data )
+        {
+            /**
+             * Lista de estudiantes en json, contiene el id y nombre del estudiante
+             * Se para listar los estudiantes al seleccionar una asignatura
+             */
+            listaEstudiantes = data;
+        },
+        "json");
+
+    data = {
+        docente : idDocente,
+        paralelo : idParalelo,
+        estudiante : listaEstudiantes,
+        materias : $('#selMateria option').map(function() { return parseInt($(this).val()); }).get(),
+        institucionSede: $("#InstitucionSede").text()
+    };
+
+    console.log(data);
+
+    $.post( "index.php?r=calificaciones/generate-pdf", data, function( data ) {
+        $( ".result" ).html( data );
+    });
+}
+
