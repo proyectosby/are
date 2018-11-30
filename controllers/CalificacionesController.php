@@ -37,6 +37,9 @@ use Mpdf\Output\Destination;
 use Yii;
 use app\models\Calificaciones;
 use app\models\CalificacionesBuscar;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -790,6 +793,7 @@ class CalificacionesController extends Controller
             $estudiante = Yii::$app->request->post("estudiante");
             $idsAsignaturas = Yii::$app->request->post("materias");
 
+            $estudiante_id = $estudiante[0]["id"];
             $paralelo = Paralelos::findOne($idParalelo);
             $docente = Docentes::findOne($idDocente);
             $docente = Personas::findOne($docente->id_perfiles_x_personas);
@@ -840,7 +844,50 @@ class CalificacionesController extends Controller
 												and id_distribuciones in($idDistribucion)
 												and id_indicador_desempeno = id.id");
             $result = $command->queryAll();
-            ;
+
+            $calificaciones = $connection->createCommand("SELECT 
+                  personas.nombres || ' ' || personas.apellidos AS nombre,
+                  avg(\"public\".calificaciones.calificacion) AS calificacion,
+                  \"public\".calificaciones.id_periodo,
+                  \"public\".asignaturas.descripcion AS materia
+                FROM (((((((((calificaciones
+                  JOIN estudiantes ON ((calificaciones.id_perfiles_x_personas_estudiantes = estudiantes.id_perfiles_x_personas)))
+                  JOIN perfiles_x_personas ON ((estudiantes.id_perfiles_x_personas = perfiles_x_personas.id)))
+                  JOIN personas ON ((perfiles_x_personas.id_personas = personas.id)))
+                  JOIN distribuciones_x_indicador_desempeno ON ((calificaciones.id_distribuciones_x_indicador_desempeno = distribuciones_x_indicador_desempeno.id)))
+                  JOIN indicador_desempeno ON ((distribuciones_x_indicador_desempeno.id_indicador_desempeno = indicador_desempeno.id)))
+                  JOIN distribuciones_academicas ON ((distribuciones_x_indicador_desempeno.id_distribuciones = distribuciones_academicas.id)))
+                  JOIN asignaturas_x_niveles_sedes ON ((distribuciones_academicas.id_asignaturas_x_niveles_sedes = asignaturas_x_niveles_sedes.id)))
+                  JOIN asignaturas ON ((asignaturas_x_niveles_sedes.id_asignaturas = asignaturas.id)))
+                  JOIN observaciones_calificaciones ON (((observaciones_calificaciones.id_asignatura = asignaturas.id) AND (observaciones_calificaciones.id_estudiante = estudiantes.id_perfiles_x_personas))))
+                  WHERE estudiantes.id_perfiles_x_personas = $estudiante_id
+                  GROUP BY materia, nombre, \"public\".calificaciones.id_periodo
+                 ORDER BY id_periodo");
+
+            /*$calificaciones = Calificaciones::find()->alias('os')
+                ->select([
+                    'calificaciones.calificacion',
+                    'calificaciones.id_periodo',
+                    'calificaciones.fecha_modificacion',
+                    new Expression("personas.nombres || ' ' || personas.apellidos AS nombre"),
+                    'indicador_desempeno.descripcion AS indicador_desempeno',
+                    'asignaturas.descripcion AS materia'
+                ]);
+
+            $calificaciones->innerJoin('estudiantes', 'estudiantes.id_perfiles_x_personas = perfiles_x_personas.id')
+                ->innerJoin('perfiles_x_personas', 'perfiles_x_personas.id_personas = personas.id')
+                ->leftJoin('personas', 'calificaciones.id_distribuciones_x_indicador_desempeno = distribuciones_x_indicador_desempeno.id')
+                ->leftJoin('distribuciones_x_indicador_desempeno', 'distribuciones_x_indicador_desempeno.id_indicador_desempeno = indicador_desempeno.id')
+                ->innerJoin('indicador_desempeno', 'distribuciones_x_indicador_desempeno.id_distribuciones = distribuciones_academicas.id')
+                ->innerJoin('distribuciones_academicas', 'distribuciones_academicas.id_asignaturas_x_niveles_sedes = asignaturas_x_niveles_sedes.id')
+                ->innerJoin('asignaturas_x_niveles_sedes', 'asignaturas_x_niveles_sedes.id_asignaturas = asignaturas.id')
+                ->innerJoin('asignaturas', 'observaciones_calificaciones.id_asignatura = asignaturas.id')
+                ->innerJoin('observaciones_calificaciones', 'observaciones_calificaciones.id_estudiante = estudiantes.id_perfiles_x_personas')
+                ->where(['estudiantes.id' => $estudiante[0]["id"]])->all();*/
+
+
+            Yii::$app->get('db')->createCommand("COPY (".$calificaciones->getRawSql().") TO 'C:/xampp/htdocs/are/web/prueba.csv' DELIMITER';' NULL '';")->queryAll();
+
             $materiasEstObserv = ObservacionesCalificaciones::find()->where('id_estudiante=:estudiante', [':estudiante'=>$estudiante[0]["id"]])->all();
 
             $contentend = $this->renderPartial('generatePdf', [
@@ -849,7 +896,10 @@ class CalificacionesController extends Controller
                 'estudiante' => $estudiante[0]["nombres"],
                 'paralelo' => $paralelo->descripcion,
                 'asignaturas' => $materiasEstObserv,
+                'calificaciones' => $calificaciones->queryAll()
             ]);
+
+
 
             $pdf->WriteHTML($contentend);
 
@@ -858,6 +908,13 @@ class CalificacionesController extends Controller
             exit();
         } catch (MpdfException $e) {
             var_dump($e);
+            die();
+        } catch (Exception $e) {
+            var_dump($e);
+            die();
+        } catch (InvalidConfigException $e) {
+            var_dump($e);
+            die();
         }
     }
 }

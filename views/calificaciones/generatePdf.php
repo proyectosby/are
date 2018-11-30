@@ -14,9 +14,18 @@
                 width: 100%;
             }
 
-            th, td {
+            .info_calificacion tr,td {
+                text-align: left;
+                padding: 10px;
+                border-bottom: 1px solid #7a7a7a;
+                border-top: 1px solid #7a7a7a;
+            }
+
+            .calificacion tr,
+            .calificacion td{
                 text-align: left;
                 padding: 8px;
+                border: 1.5px solid black;
             }
         </style>
     </head>
@@ -28,7 +37,7 @@
                 <!--<h3 class="panel-title panel-title-lender">Sede:</h3>-->
             </div>
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped info_calificacion">
                     <thead>
                     <tr>
                         <th colspan = 3 >Estudiante: <span><?= $estudiante ?></span></th>
@@ -50,31 +59,77 @@
                             <td>
                                 <?= $nombreM->descripcion ?>
                                 <br>
-                                Doncente de asignatura:
+                                Doncente de asignatura: <?= $docente ?>
 
                             </td>
                             <td>FA: 2 -- IHS: 4 -- 3.0 - Basico</td>
                         </tr>
                         <tr>
-                            <th colspan = 3>Saber Hacer</th>
+                            <td colspan = 3>Saber Hacer</td>
                             <td>2.8 - Bajo</td>
                         </tr>
                         <tr>
                             <td colspan = 4>+ <?= $materia->observacion_hacer ?></td>
                         </tr>
                         <tr>
-                            <th colspan = 3>Saber Ser</th>
+                            <td colspan = 3>Saber Ser</td>
                             <td>2.8 - Bajo</td>
                         </tr>
                         <tr>
                             <td colspan = 4>+ <?= $materia->observacion_saber ?></td>
                         </tr>
                         <tr>
-                            <th colspan = 3>Saber Conocer</th>
+                            <td colspan = 3>Saber Conocer</td>
                             <td>2.8 - Bajo</td>
                         </tr>
                         <tr>
                             <td colspan = 4>+ <?= $materia->observacion_conocer ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+
+                <table class="calificacion">
+                    <tbody>
+                    <tr>
+                        <td rowspan="2">AREA / ASIGNATURA</td>
+                        <td rowspan="2">IHS</td>
+                        <td colspan = "2">P1</td>
+                        <td colspan = "2">P2</td>
+                        <td colspan = "2">P3</td>
+                        <td rowspan="2">FA / RE</td>
+                        <td rowspan="2">DEF</td>
+                    </tr>
+                    <tr>
+                        <td>VAL</td>
+                        <td>SUP</td>
+                        <td>VAL</td>
+                        <td>SUP</td>
+                        <td>VAL</td>
+                        <td>SUP</td>
+                    </tr>
+
+                    <?php foreach ($calificaciones AS $key => $calificacion): ?>
+                        <tr>
+                            <td><?= $calificacion['materia'] ?></td>
+                            <td>0</td>
+                            <?php if($calificacion['id_periodo'] == 1) : ?>
+                                <td><?= substr( $calificacion['calificacion'] , 0, 4);?></td>
+                            <?php endif; ?>
+                            <?php if($calificacion['id_periodo'] == 2) : ?>
+                                <td><?= substr( $calificacion['calificacion'] , 0, 4);?></td>
+                            <?php endif; ?>
+                            <?php if($calificacion['id_periodo'] == 3) : ?>
+                                <td><?= substr( $calificacion['calificacion'] , 0, 4);?></td>
+                            <?php endif; ?>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
